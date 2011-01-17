@@ -9,10 +9,14 @@ INSTALL_PATH = $(CURDIR)/debian/tmp
 PYTHON=$(shell pyversions -d)
 
 %:
-	dh $@
+	dh --buildsystem=python_distutils $@
 
 override_dh_auto_test:
 	: # Do not test just after build, lets install and then test
+
+override_dh_auto_build:
+	dh_auto_build
+	echo "backend : Agg" >| build/matplotlibrc
 
 override_dh_auto_install:
 	dh_auto_install
@@ -20,8 +24,9 @@ override_dh_auto_install:
 	find debian/ -name LICENSE -delete
 	: # Only now lets build docs
 ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
-	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages); \
-	$(MAKE) -C doc html
+	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages) \
+		   MPLCONFIGDIR=$(CURDIR)/build HOME=$(CURDIR)/build; \
+	cd doc; $(MAKE) html
 	-rm doc/_build/html/_static/jquery.js
 	-rm -r doc/_build/html/_sources
 	: # objects inventory is of no use for the package
@@ -44,3 +49,9 @@ endif
 ## and exemplar data (they are small excerpts anyway)
 override_dh_compress:
 	dh_compress -X.py -X.html -X.css -X.jpg -X.txt -X.js -X.json -X.rtc -X.par -X.bin -Xobjects.inv
+
+override_dh_clean:
+	: # I: Custom cleaning
+	rm -rf build doc-stamp
+	$(MAKE) -C doc clean
+	dh_clean
