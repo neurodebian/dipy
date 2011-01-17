@@ -1,0 +1,5 @@
+dipy (0.5.0~dev20110117-1~pre1) unstable; urgency=low
+
+  * Initial release (Closes: #610347)
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Mon, 17 Jan 2011 15:13:17 -0500

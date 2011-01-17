@@ -1,0 +1,9 @@
+Document: dipy
+Title: Dipy Manual
+Author: Dipy Developers
+Abstract: This manual provides Dipy user guide and examples
+Section: Science/Data Analysis
+
+Format: HTML
+Index: /usr/share/doc/python-dipy-doc/html/index.html
+Files: /usr/share/doc/python-dipy-doc/html/*.html

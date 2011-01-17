@@ -1,0 +1,46 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+
+PACKAGE_NAME = python-dipy
+PACKAGE_ROOT_DIR = debian/${PACKAGE_NAME}
+INSTALL_PATH = $(CURDIR)/debian/tmp
+
+# default Python
+PYTHON=$(shell pyversions -d)
+
+%:
+	dh $@
+
+override_dh_auto_test:
+	: # Do not test just after build, lets install and then test
+
+override_dh_auto_install:
+	dh_auto_install
+	: # Prune duplicate LICENSE file
+	find debian/ -name LICENSE -delete
+	: # Only now lets build docs
+ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
+	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages); \
+	$(MAKE) -C doc html
+	-rm doc/_build/html/_static/jquery.js
+	-rm -r doc/_build/html/_sources
+	: # objects inventory is of no use for the package
+	-rm doc/_build/html/objects.inv
+endif
+
+# All tests later on
+# cd build to prevent use of local/not-built source tree
+ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
+	cd build; \
+	for PYTHON in $(shell pyversions -r); do \
+		echo "I: Running Dipy unittests using $$PYTHON"; \
+		PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$$PYTHON/*-packages) \
+		MPLCONFIGDIR=/tmp/ \
+			$$PYTHON /usr/bin/nosetests dipy; \
+	done
+endif
+
+## immediately useable documentation
+## and exemplar data (they are small excerpts anyway)
+override_dh_compress:
+	dh_compress -X.py -X.html -X.css -X.jpg -X.txt -X.js -X.json -X.rtc -X.par -X.bin -Xobjects.inv

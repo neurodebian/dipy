@@ -1,0 +1,4 @@
+version=3
+
+opts="filenamemangle=s/.*\/(.*)/dipy-$1\.tar\.gz/" \
+  http://github.com/Garyfallidis/dipy/downloads .*tarball/([\d\.a-z]+)

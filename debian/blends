@@ -1,0 +1,16 @@
+Format: extended
+Tasks: debian-med/imaging-dev
+Depends: python-dipy
+Language: Python
+Author: Dipy Developers <nipy-devel@neuroimaging.scipy.org>
+License: BSD
+Version: 0.5.0.dev
+Published-Title: Identification of corresponding tracks in diffusion MRI tractographies
+Published-Authors: Garyfallidis E, Brett M, Tsiaras V, Vogiatzis G, Nimmo-Smith I
+Published-In: Proc. Intl. Soc. Mag. Reson. Med. 18
+Published-Year: 2010
+
+Tasks: debian-med/imaging
+Recommends: python-dipy
+Why: Although listed in -dev task, it also has a strong focus on interactive
+ data analysis.

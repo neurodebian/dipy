@@ -1,0 +1,53 @@
+Source: dipy
+Section: python
+Priority: extra
+Maintainer: NeuroDebian Team <team@neuro.debian.net>
+Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <michael.hanke@gmail.com>
+Build-Depends: debhelper (>= 7.0.50~), python-all, python-support,
+			   python-numpy,
+			   python-scipy,
+			   python-matplotlib,
+			   python-sphinx,
+			   python-nose,
+			   python-nibabel
+Standards-Version: 3.9.1
+Homepage: http://nipy.org/dipy
+Vcs-Git: git://github.com/neurodebian/dipy.git
+Vcs-Browser: http://github.com/neurodebian/dipy
+
+Package: python-dipy
+Architecture: all
+Depends: ${Python:depends}, ${shlibs:Depends}, ${misc:Depends},
+		 python-numpy, python-scipy
+Recommends: python-matplotlib,
+			python-vtk,
+			python-nose,
+			python-nibabel,
+			python-tables
+Suggests: ipython
+Description: toolbox for analysis of MR diffusion imaging data
+ Dipy is a toolbox for the analysis of diffusion magnetic resonance
+ imaging data. It features:
+  - Reconstruction algorithms, e.g. GQI, DTI
+  - Tractography generation algorithms, e.g. EuDX
+  - Intelligent downsampling of tracks
+  - Ultra fast tractography clustering
+  - Resampling datasets with anisotropic voxels to isotropic
+  - Visualizing multiple brains simultaneously
+  - Finding track correspondence between different brains
+  - Warping tractographies into another space, e.g. MNI space
+  - Reading many different file formats, e.g. Trackvis or NIfTI
+  - Dealing with huge tractographies without memory restrictions
+  - Playing with datasets interactively without storing
+
+
+Package: python-dipy-doc
+Architecture: all
+Section: doc
+Depends: ${misc:Depends}, libjs-jquery
+Suggests: python-dipy
+Description: toolbox for analysis of MR diffusion imaging data -- documentation
+ Dipy is a toolbox for the analysis of diffusion magnetic resonance
+ imaging data.
+ .
+ This package provides the documentation in HTML format.
