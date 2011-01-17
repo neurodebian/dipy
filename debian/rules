@@ -33,8 +33,8 @@ ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
 	-rm doc/_build/html/objects.inv
 endif
 
-# All tests later on
-# cd build to prevent use of local/not-built source tree
+	: # Run tests later on
+	: # cd build to prevent use of local/not-built source tree
 ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	cd build; \
 	for PYTHON in $(shell pyversions -r); do \
@@ -44,6 +44,16 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 			$$PYTHON /usr/bin/nosetests dipy; \
 	done
 endif
+
+	: # I: Move libraries into the python-nipy-lib and -lib-dbg packages
+	find debian/tmp/ -iname *.so | \
+	  while read so; do \
+	    d=$$(dirname $$so); \
+		if [ $${so%_d.so} = $${so} ]; then suf=""; else suf="-dbg"; fi; \
+	    d=$$(echo $$d | sed -e "s,debian/tmp/,debian/python-dipy-lib$$suf/,g"); \
+	    mkdir -p $$d; echo "Moving $$so under $$d"; mv $$so $$d; \
+	  done
+
 
 ## immediately useable documentation
 ## and exemplar data (they are small excerpts anyway)
