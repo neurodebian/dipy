@@ -3,9 +3,10 @@ Section: python
 Priority: extra
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <michael.hanke@gmail.com>
-Build-Depends: debhelper (>= 7.0.50~), python-all, python-support,
+Build-Depends: debhelper (>= 7.0.50~), python-all-dev, python-support,
 			   python-numpy,
 			   python-scipy,
+			   cython,
 			   python-matplotlib,
 			   python-sphinx,
 			   python-nose,
@@ -18,13 +19,16 @@ Vcs-Browser: http://github.com/neurodebian/dipy
 Package: python-dipy
 Architecture: all
 Depends: ${Python:depends}, ${shlibs:Depends}, ${misc:Depends},
-		 python-numpy, python-scipy
+		 python-numpy, python-scipy,
+		 python-dipy-lib (>= ${source:Version})
 Recommends: python-matplotlib,
 			python-vtk,
 			python-nose,
 			python-nibabel,
 			python-tables
 Suggests: ipython
+Provides: ${python:Provides}
+XB-Python-Version: ${python:Versions}
 Description: toolbox for analysis of MR diffusion imaging data
  Dipy is a toolbox for the analysis of diffusion magnetic resonance
  imaging data. It features:
@@ -39,6 +43,18 @@ Description: toolbox for analysis of MR diffusion imaging data
   - Reading many different file formats, e.g. Trackvis or NIfTI
   - Dealing with huge tractographies without memory restrictions
   - Playing with datasets interactively without storing
+
+
+Package: python-dipy-lib
+Architecture: any
+Depends: ${Python:depends}, ${shlibs:Depends}, ${misc:Depends}
+Provides: ${python:Provides}
+XB-Python-Version: ${python:Versions}
+Description: toolbox for analysis of MR diffusion imaging data -- extensions
+ Dipy is a toolbox for the analysis of diffusion magnetic resonance
+ imaging data.
+ .
+ This package provides architecture-dependent builds of the extensions.
 
 
 Package: python-dipy-doc
