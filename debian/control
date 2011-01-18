@@ -6,7 +6,7 @@ Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <michael.ha
 Build-Depends: debhelper (>= 7.0.50~), python-all-dev, python-support,
 			   python-numpy,
 			   python-scipy,
-			   cython,
+			   cython (>= 0.13),
 			   python-matplotlib,
 			   python-sphinx,
 			   python-nose,
