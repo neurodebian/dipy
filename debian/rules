@@ -73,11 +73,16 @@ override_dh_clean:
 
 get-orig-source:
 	-quilt pop -a
-	@echo "Testing for uncommited changes"
+	: # I Testing for uncommited changes
 	@git diff --quiet HEAD
+	: # I Composing main tarball
+	mkdir -p tarballs
 	git archive --format=tar --prefix=$(srcpkg)-$(upver)/ HEAD \
-	| gzip -9 > $(srcpkg)_$(upver).orig.tar.gz
+	| gzip -9 > ../tarballs/$(srcpkg)_$(upver).orig.tar.gz
+	: # I Building examples figures and tarball
 	python setup.py build
 	export PYTHONPATH=$$(/bin/ls -d $(CURDIR)/build/lib.*$(PYVER)); \
 		cd doc; $(MAKE) examples-tgz
-	mv dist/dipy-*-doc-examples.tar.gz $(srcpkg)_$(upver).orig-doc-examples.tar.gz
+	mv dist/dipy-*-doc-examples.tar.gz ../tarballs/$(srcpkg)_$(upver).orig-doc-examples.tar.gz
+	: # Symlinking back into build-area for git-buildpackage not supporting multi-tarball atm
+	[ -d ../build-area ] && ln -sf ../tarballs/$(srcpkg)_$(upver).orig*.tar.gz ../build-area
