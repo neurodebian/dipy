@@ -1,8 +1,8 @@
 --- a/doc/conf.py
 +++ b/doc/conf.py
-@@ -85,6 +85,9 @@ release = version
+@@ -93,6 +93,9 @@ rst_epilog = open('links_names.inc', 'rt
  # for source files.
- exclude_trees = ['_build']
+ exclude_trees = ['_build', 'examples']
  
 +# If true, the reST sources are included in the HTML build as _sources/<name>.
 +html_copy_source = False
