@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from dipy.tracking.propspeed import eudx_propagation
+from dipy.tracking.propspeed import eudx_both_directions
 from dipy.tracking.metrics import length
 from dipy.data import get_sphere
 
@@ -11,7 +11,7 @@ class EuDX():
     delta function [1]_ and it has similarities with FACT algorithm [2]_ and Basser's method 
     but uses trilinear interpolation.
 
-    Can be used with any reconstruction method as DTI,DSI,QBI,GQI which can
+    Can be used with any reconstruction method as DTI, DSI, QBI, GQI which can
     calculate an orientation distribution function and find the local peaks of
     that function. For example a single tensor model can give you only
     one peak a dual tensor model 2 peaks and quantitative anisotropy
@@ -35,7 +35,7 @@ class EuDX():
     
     '''
 
-    def __init__(self,a,ind,seed_list=None,seed_no=10000,odf_vertices=None,a_low=0.0239,step_sz=0.5,ang_thr=60.,length_thr=0.):
+    def __init__(self,a,ind,seeds=10000,odf_vertices=None,a_low=0.0239,step_sz=0.5,ang_thr=60.,length_thr=0.,total_weight=.5):
         ''' Euler integration with multiple stopping criteria and supporting multiple peaks
         
         Parameters
@@ -45,11 +45,9 @@ class EuDX():
             a different function of shape(x,y,z) e.g FA or GFA.
 
         ind : array, shape(x,y,z,Np), indices of orientations of the scalar anisotropic
-            peaks found on the sampling sphere 
-
-        seed_list : list of seeds
+            peaks found on the resampling sphere 
         
-        seed_no : number of random seeds if seed_list is None
+        seeds : number of random seeds or list of seeds
 
         odf_vertices : sphere points which define a discrete
             representation of orientations for the peaks, the same for all voxels
@@ -61,15 +59,27 @@ class EuDX():
 
         ang_thr : float, if turning angle is bigger than this threshold
             then tracking stops.
+            
+        total_weight : float, total weighting threshold
         
         Examples
         ----------
+        >>> from dipy.data import get_data        
+        >>> fimg,fbvals,fbvecs=get_data('small_101D')
+        >>> img=ni.load(fimg)
+        >>> affine=img.get_affine()
+        >>> bvals=np.loadtxt(fbvals)
+        >>> gradients=np.loadtxt(fbvecs).T    
+        >>> data=img.get_data()
+        >>> ten=Tensor(data,bvals,gradients,thresh=50)
+        >>> eu=EuDX(a=ten.fa(),ind=ten.ind(),seeds=100,a_low=.2)
+        >>> tracks=[e for e in eu]
         
         
         Notes
         -------
         This works as an iterator class because otherwise it could fill your entire RAM if you generate many tracks. 
-        Something very common as you can easily generate millions of tracks.
+        Something very common as you can easily generate millions of tracks if you have many seeds.
 
         '''
         
@@ -79,6 +89,7 @@ class EuDX():
         self.ang_thr=ang_thr
         self.step_sz=step_sz
         self.length_thr=length_thr
+        self.total_weight=total_weight
         
         if len(self.a.shape)==3:            
             self.a.shape=self.a.shape+(1,)
@@ -87,7 +98,8 @@ class EuDX():
         #store number of maximum peacks
         x,y,z,g=self.a.shape
         self.Np=g
-        tlist=[]      
+        tlist=[]
+        
 
         if odf_vertices==None:
             eds=np.load(get_sphere('symmetric362'))
@@ -99,22 +111,15 @@ class EuDX():
         print 'ind',self.ind.shape, self.ind.dtype
         print 'odf_vertices',self.odf_vertices.shape, self.odf_vertices.dtype
         '''
-        
-        self.seed_no=seed_no
-        self.seed_list=seed_list
-        
-        if self.seed_list!=None:
-            self.seed_no=len(seed_list)
-            
-#        if self.seed_list==None:
-#            self.seed_list=[]
-#            #for all seed points    
-#            for i in range(self.seed_no):
-#                rx=(x-1)*np.random.rand()
-#                ry=(y-1)*np.random.rand()
-#                rz=(z-1)*np.random.rand()
-#                self.seed_list.append(np.array([rx,ry,rz]))          
-
+                
+        try:        
+            if len(seeds)>0:            
+                self.seed_list=seeds
+                self.seed_no=len(seeds)
+        except TypeError:
+            self.seed_no=seeds
+            self.seed_list=None
+ 
         self.ind=self.ind.astype(np.double)        
         
     def __iter__(self):
@@ -134,21 +139,15 @@ class EuDX():
             #for all peaks
             for ref in range(self.a.shape[-1]): 
                 #propagate up and down 
-                track =eudx_propagation(seed.copy(),ref,self.a,self.ind,self.odf_vertices,self.a_low,self.ang_thr,self.step_sz)                  
+                track =eudx_both_directions(seed.copy(),ref,self.a,self.ind,self.odf_vertices,self.a_low,self.ang_thr,self.step_sz,self.total_weight)                  
                 if track == None:
                     pass
                 else:        
-                    #tlist.append(track.astype(np.float32))                                        
+                    #return a track from that seed                                        
                     if length(track)>self.length_thr:                        
                         yield track
                         
                         
-    '''           
-    def native(self,affine):        
-        print affine.shape
-        print self.tracks[0].shape
-        self.tracks=[np.transpose(np.dot(affine[:3,:3],np.transpose(t)))+np.transpose(affine[:3,3]) for t in self.tracks]        
-    '''
 
 
 

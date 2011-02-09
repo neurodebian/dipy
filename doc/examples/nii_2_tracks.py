@@ -1,6 +1,4 @@
-
 """ 
-.. include:: ../links_names.txt
 
 ===============================
 From raw data to tractographies
@@ -64,10 +62,13 @@ In order to make this work with your data you should comment out the line below 
 for your nifti file (``*.nii`` or ``*.nii.gz``) and your ``*.bvec`` and ``*.bval files``. 
 
 If you are not using nifti files or you don't know how to create the ``*.bvec`` and ``*.bval`` files 
-from your raw dicom (``*.dcm``) data then you can either try recent module 
+from your raw dicom (``*.dcm``) data then you can either try recent module nibabel.nicom 
 """
 
-from nibabel.nicom.dicomreaders import read_mosaic_dir
+try:
+    from nibabel.nicom.dicomreaders import read_mosaic_dir
+except:
+    print('nicom for dicom is not installed')
 
 """
 or to convert the dicom files to nii, bvec and bval files using ``dcm2nii``. 
@@ -154,7 +155,7 @@ Other important options are
     
 """
 
-eu=EuDX(a=FA,ind=ten.ind(),seed_no=10000,a_low=.2)
+eu=EuDX(a=FA,ind=ten.ind(),seeds=10000,a_low=.2)
 
 """ 
 EuDX returns a generator class which yields a further track each time this class is called. 
@@ -231,7 +232,7 @@ significantly different in shape from the FA array,
 however it too can be directly input to the EuDX class:
 """
 
-eu2=EuDX(a=QA,ind=gqs.ind(),seed_no=10000,a_low=.0239)
+eu2=EuDX(a=QA,ind=gqs.ind(),seeds=10000,a_low=.0239)
 
 """
 This shows one of the advantages of our EuDX algorithm: it can be used with a wide range of model-based methods, such as 
@@ -286,11 +287,34 @@ gqs_tracks2=[t+np.array([10,0,0]) for t in gqs_tracks]
 fvtk.add(r,fvtk.line(gqs_tracks2,fvtk.green,opacity=0.05))
 
 """
-Press 's' to save this beautiful screenshot when you have displayed it with ``fvtk.show``.
+Press 's' to save this screenshot when you have displayed it with ``fvtk.show``.
+Or you can even record a video using ``fvtk.record``.
 
-**Thank you!**
---------------
+You would show the figure with something like::
+
+    fvtk.show(r,png_magnify=1,size=(600,600))
+
+To record a video of 50 frames of png, something like::
+
+    fvtk.record(r,cam_pos=(0,40,-40),cam_focal=(5,0,0),n_frames=50,magnification=1,out_path='nii_2_tracks',size=(600,600),bgr_color=(0,0,0))
+
+.. figure:: nii_2_tracks1000000.png
+   :align: center
+
+   **Same region of interest with different underlying voxel representations generates different tractographies**.
+
 """
 
-#fvtk.show(r,png_magnify=1)
+# Here's how we make the figure.
+print('Saving illustration as nii_2_tracks1000000.png')
+fvtk.record(r, n_frames=1, # single snapshot
+            out_path='nii_2_tracks',
+            bgr_color=(0,0,0),
+            size=(600,600),
+            cam_pos=(26,28,-10),
+            cam_focal=(8, 5, 5),
+            cam_view=(-0.4, -0.2, -0.9),
+           )
+
+
 

@@ -404,10 +404,11 @@ def dots(points,color=(1,0,0),opacity=1):
     return aPolyVertexActor
 
 
-def point(points,colors,opacity=1,point_radius=0.001):
+def point(points,colors,opacity=1,point_radius=0.001,theta=3,phi=3):
     
     if np.array(colors).ndim==1:
-        return dots(points,colors,opacity)
+        #return dots(points,colors,opacity)
+        colors=np.tile(colors,(len(points),1))
     
        
     scalars=vtk.vtkUnsignedCharArray()
@@ -433,8 +434,8 @@ def point(points,colors,opacity=1,point_radius=0.001):
     #src = vtk.vtkPointSource()
     src = vtk.vtkSphereSource()
     src.SetRadius(point_radius)
-    src.SetThetaResolution(3)
-    src.SetPhiResolution(3)
+    src.SetThetaResolution(theta)
+    src.SetPhiResolution(phi)
     
     polyData = vtk.vtkPolyData()
     polyData.SetPoints(pts)
@@ -992,6 +993,8 @@ def colors(v,colormap):
     as an array of shape (N,3) where every row gives the corresponding
     r,g,b value. The colormaps we use are similar with that of pylab.
     
+    Current options for colormaps are 'jet','blues','blue_red', 'accent'
+    
     Notes 
     -------
     If you want to add more colormaps here is what you could do. Go to
@@ -1026,7 +1029,7 @@ def colors(v,colormap):
     
 
     if colormap=='jet':
-        print 'jet'
+        #print 'jet'
         
         red=np.interp(v,[0,0.35,0.66,0.89,1],[0,0,1,1,0.5])
         green=np.interp(v,[0,0.125,0.375,0.64,0.91,1],[0,0,1,1,0,0])
@@ -1034,14 +1037,14 @@ def colors(v,colormap):
     
     if colormap=='blues':
         #cm.datad['Blues']
-        print 'blues'
+        #print 'blues'
 
         red=np.interp(v,[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0],[0.96862745285,0.870588243008,0.776470601559,0.61960786581,0.419607847929,0.258823543787,0.129411771894,0.0313725508749,0.0313725508749])
         green=np.interp(v,[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0],[0.984313726425,0.921568632126,0.858823537827,0.792156875134,0.68235296011,0.572549045086,0.443137258291,0.317647069693,0.188235297799])
         blue=np.interp(v,[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0] , [1.0,0.96862745285,0.937254905701,0.882352948189,0.839215695858,0.776470601559,0.709803938866,0.611764729023,0.419607847929])   
         
     if colormap=='blue_red':
-        print 'blue_red'
+        #print 'blue_red'
         #red=np.interp(v,[],[])
         
         red=np.interp(v,[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0],[0.0,0.125,0.25,0.375,0.5,0.625,0.75,0.875,1.0])        
@@ -1051,7 +1054,7 @@ def colors(v,colormap):
         blue=green
 
     if colormap=='accent':
-        print 'accent'
+        #print 'accent'
         red=np.interp(v,[0.0,  0.14285714285714285,  0.2857142857142857,  0.42857142857142855,  0.5714285714285714,  0.7142857142857143,  0.8571428571428571,1.0],
             [0.49803921580314636, 0.7450980544090271, 0.99215686321258545, 1.0, 0.21960784494876862, 0.94117647409439087, 0.74901962280273438, 0.40000000596046448])
         green=np.interp(v,[0.0,  0.14285714285714285,  0.2857142857142857,  0.42857142857142855,  0.5714285714285714,  0.7142857142857143,  0.8571428571428571,  1.0],
@@ -1127,7 +1130,7 @@ def _closest_track(p,tracks):
     
     return int(d[imin,0])
 
-def crossing(a,ind,sph,scale):
+def crossing(a,ind,sph,scale,orient=False):
     """ visualize a volume of crossings
     
     Examples
@@ -1137,22 +1140,34 @@ def crossing(a,ind,sph,scale):
     """
     
     T=[]
-    
-    if a.ndim == 4 or a.ndim ==3 :
-        
-        for pos in np.ndindex(*ind.shape[:-1]):
+    Tor=[]
+    if a.ndim == 4 or a.ndim ==3:
+        x,y,z=ind.shape[:3]
+        for pos in np.ndindex(x,y,z):
             i,j,k=pos
             pos_=np.array(pos)
             ind_=ind[i,j,k]       
             a_=a[i,j,k] 
+            
+            try:
+                len(ind_)
+            except TypeError:
+                ind_=[ind_]
+                a_=[a_]            
+
             for (i,_i) in enumerate(ind_):        
                 T.append(pos_ + scale*a_[i]*np.vstack((sph[_i],-sph[_i])))
+                if orient:
+                    Tor.append(sph[_i])
                 
     if a.ndim == 1:
         
         for (i,_i) in enumerate(ind):        
                 T.append(scale*a[i]*np.vstack((sph[_i],-sph[_i])))
-                        
+                if orient:
+                    Tor.append(sph[_i])       
+    if orient:
+        return T,Tor
     return T
 
 
@@ -1492,33 +1507,33 @@ def show(ren,title='dipy.viz.fvtk',size=(300,300),png_magnify=1):
     window.Render()
     iren.Start()
     
-def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,outdir=None,n_frames=10, az_ang=10, magnification=1,size=(125,125),bgr_color=(0.1,0.2,0.4)):
+def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,out_path=None,n_frames=10, az_ang=10, magnification=1,size=(125,125),bgr_color=(0.1,0.2,0.4)):
     ''' This will record a video of your scene
-    
-    Records a video as a series of .png files of your scene by rotating the azimuth angle az_angle in every frame      
-        
+
+    Records a video as a series of .png files of your scene by rotating the
+    azimuth angle az_angle in every frame.
+
     Parameters
     -----------
-    ren : vtkRenderer() object 
-            as returned from function ren() 
-    cam_pos : None or sequence (3,) 
+    ren : vtkRenderer() object
+        as returned from function ren()
+    cam_pos : None or sequence (3,), optional
         camera position
-    cam_focal : None or sequence (3,)
+    cam_focal : None or sequence (3,), optional
         camera focal point
-    cam_view : None or sequence (3,)
+    cam_view : None or sequence (3,), optional
         camera view up
-    outdir : str 
-        output directory for the frames 
-    n_frames : int
-        number of frames to save
-    az_ang : float
-        azimuthal angle of camera rotation
-    magnification : int
-        how much to magnify the saved frame 
-    
+    out_path : str, optional
+        output directory for the frames
+    n_frames : int, optional
+        number of frames to save, default 10
+    az_ang : float, optional
+        azimuthal angle of camera rotation.
+    magnification : int, optional
+        how much to magnify the saved frame
+
     Examples
     ---------
-    
     >>> from dipy.viz import fvtk
     >>> r=fvtk.ren()
     >>> a=fvtk.axes()    
@@ -1527,12 +1542,9 @@ def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,outdir=None,n_fram
     >>> fvtk.add(r,fvtk.axes())
     >>> #uncomment below to record
     >>> #fvtk.record(r,cam_pos=(0,0,-10))
-      
     '''
-    
     if ren==None:
         ren = vtk.vtkRenderer()
-   
     ren.SetBackground(bgr_color)
     renWin = vtk.vtkRenderWindow()
     renWin.AddRenderer(ren)
@@ -1570,7 +1582,14 @@ def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,outdir=None,n_fram
     if cam_view!=None:    
         ux,uy,uz=cam_view
         ren.GetActiveCamera().SetViewUp(ux, uy, uz)
-    
+
+    cam=ren.GetActiveCamera()
+    print('------------------------------------')
+    print('Camera Position (%.2f,%.2f,%.2f)' % cam.GetPosition())
+    print('Camera Focal Point (%.2f,%.2f,%.2f)' % cam.GetFocalPoint())
+    print('Camera View Up (%.2f,%.2f,%.2f)' % cam.GetViewUp())
+    print('------------------------------------')
+
     for i in range(n_frames):        
         ren.GetActiveCamera().Azimuth(ang)        
         renderLarge = vtk.vtkRenderLargeImage()
@@ -1579,10 +1598,10 @@ def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,outdir=None,n_fram
         renderLarge.Update()        
         writer.SetInputConnection(renderLarge.GetOutputPort())
         #filename='/tmp/'+str(3000000+i)+'.png'
-        if outdir==None:
+        if out_path==None:
             filename=str(1000000+i)+'.png'
         else:
-            filename=outdir+str(1000000+i)+'.png'
+            filename=out_path+str(1000000+i)+'.png'
         writer.SetFileName(filename)
         writer.Write()               
         

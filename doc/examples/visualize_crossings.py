@@ -1,6 +1,5 @@
 
 """ 
-.. include:: ../links_names.txt
 
 ====================
 Visualize Crossings
@@ -32,14 +31,6 @@ for a voxel from the raw data.
 """
 
 import dipy.reconst.gqi as gqi
-import dipy.reconst.dti as dti
-
-"""
-``dipy.tracking`` is for tractography algorithms which create sets of tracks by integrating 
-  directionality models across voxels.
-"""
-
-from dipy.tracking.propagation import EuDX
 
 """
 ``dipy.data`` is for small datasets we use in tests and examples.
@@ -62,9 +53,10 @@ diffusion weighted MR dataset acquired with 102 gradients (including one for b=0
 In order to make this work with your data you should comment out the line below and add the paths 
 for your nifti file (``*.nii`` or ``*.nii.gz``) and your ``*.bvec`` and ``*.bval files``. 
 
-If you are not using nifti files or you don't know how to create the ``*.bvec`` and ``*.bval`` files 
-from your raw dicom (``*.dcm``) data then you can either try the example called ``dcm_2_tracks.py`` or use _mricron
-to convert the dicom files to nii, bvec and bval files using ``dcm2nii``. 
+If you are not using nifti files or you don't know how to create the ``*.bvec``
+and ``*.bval`` files from your raw dicom (``*.dcm``) data then you can either
+try the example called ``dcm_2_tracks.py`` or use mricron_ to convert the dicom
+files to nii, bvec and bval files using ``dcm2nii``. 
 """
 
 fimg,fbvals,fbvecs=get_data('small_101D')
@@ -227,7 +219,7 @@ cross=fvtk.crossing(QA[3,8,5],IN[3,8,5],verts,1)
 #3,8,6 double crossing
 dcross=fvtk.crossing(QA[3,8,6],IN[3,8,6],verts,1)
 
-all=fvtk.crossing(QA,IN,verts,1)
+all,allo=fvtk.crossing(QA,IN,verts,1,True)
 fvtk.add(r,fvtk.line(all,fvtk.azure,linewidth=1.))
 
 no_cross_shift=[c+np.array([3,8,4]) for c in no_cross]
@@ -247,10 +239,32 @@ colors=np.zeros((len(all),3))
 colors2=np.zeros((len(all),3))
 for (i,a) in enumerate(all):
     #print a[0]
-    colors[i]=cm.boys2rgb(a[0])
-    colors2[i]=cm.orient2rgb(a[0])
+    colors[i]=cm.boys2rgb(allo[i])
+    colors2[i]=cm.orient2rgb(allo[i])
 
 fvtk.add(r,fvtk.line(all_shift,colors,linewidth=1.))
 fvtk.add(r,fvtk.line(all_shift2,colors2,linewidth=2.))
 
-fvtk.show(r)
+
+"""
+
+.. figure:: visualize_cross1000000.png
+   :align: center
+
+   **The crossings of a region of interest shown with one color, or boy2rgb or standard orient2rgb colormap**.
+
+"""
+
+# To show the figure
+# fvtk.show(r,size=(800,800))
+
+# Here's how we make the illustration.
+print('Saving illustration as visualize_cross1000000.png')
+fvtk.record(r, n_frames=1, # single snapshot
+            out_path='visualize_cross',
+            bgr_color=(0,0,0),
+            size=(700,500),
+            cam_pos=(28, 33, -20),
+            cam_focal=(12, 3, 7),
+            cam_view=(-0.4, -0.5, -0.8),
+           )
