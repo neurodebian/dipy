@@ -7,6 +7,11 @@ INSTALL_PATH = $(CURDIR)/debian/tmp
 
 # default Python
 PYTHON=$(shell pyversions -d)
+PYVER=$(shell pyversions -d -v)
+
+srcpkg = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Source:' | cut -d ' ' -f 2,2)
+debver = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Version:' | cut -d ' ' -f 2,2 )
+upver = $(shell echo $(debver) | cut -d '-' -f 1,1 )
 
 %:
 	dh --buildsystem=python_distutils $@
@@ -65,3 +70,11 @@ override_dh_clean:
 	rm -rf build doc-stamp
 	$(MAKE) -C doc clean
 	dh_clean
+
+get-orig-source:
+	git archive --format=tar --prefix=$(srcpkg)-$(upver)/ HEAD \
+	| gzip -9 > $(srcpkg)_$(upver).orig.tar.gz
+	python setup.py build
+	export PYTHONPATH=$$(/bin/ls -d $(CURDIR)/build/lib.*$(PYVER)); \
+		cd doc; $(MAKE) examples-tgz
+	mv dist/dipy-*-doc-examples.tar.gz $(srcpkg)_$(upver).orig-doc-examples.tar.gz
