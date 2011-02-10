@@ -29,9 +29,11 @@ override_dh_auto_install:
 	find debian/ -name LICENSE -delete
 	: # Only now lets build docs
 ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
+	: # Copy pregenerated examples
+	cp -rp doc-examples/doc/examples_built/* doc/examples_built/
 	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages) \
 		   MPLCONFIGDIR=$(CURDIR)/build HOME=$(CURDIR)/build; \
-	cd doc; $(MAKE) html
+	cd doc; $(MAKE) html-after-examples
 	-rm doc/_build/html/_static/jquery.js
 	-rm -r doc/_build/html/_sources
 	: # objects inventory is of no use for the package
@@ -86,3 +88,8 @@ get-orig-source:
 	mv dist/dipy-*-doc-examples.tar.gz ../tarballs/$(srcpkg)_$(upver).orig-doc-examples.tar.gz
 	: # Symlinking back into build-area for git-buildpackage not supporting multi-tarball atm
 	[ -d ../build-area ] && ln -sf ../tarballs/$(srcpkg)_$(upver).orig*.tar.gz ../build-area
+
+inject-doc-examples:
+	mkdir -p doc-examples
+	tar -C doc-examples --strip-components 1 \
+	 -xzvf ../tarballs/$(srcpkg)_$(upver).orig-doc-examples.tar.gz
