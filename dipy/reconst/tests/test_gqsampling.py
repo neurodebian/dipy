@@ -1,16 +1,18 @@
-import os
+import time
+
 import numpy as np
+
+import nibabel as nib
+
+from .. import recspeed as rp
+from .. import gqi as gq
+from .. import dti as dt
+from ...core import meshes
+from ...data import get_data, get_sphere
+
 from nose.tools import assert_true, assert_false, assert_equal, assert_raises
 from numpy.testing import assert_array_equal, assert_array_almost_equal
-import time
-import dipy.reconst.recspeed as rp
-from os.path import join as opj
-import nibabel as nib
-import dipy.reconst.gqi as gq
 
-import dipy.reconst.dti as dt
-import dipy.core.meshes as meshes
-from dipy.data import get_data,get_sphere
 
 def test_gqiodfmask():
 
@@ -26,14 +28,12 @@ def test_gqiodfmask():
     gqs = gq.GeneralizedQSampling(data,bvals,gradients,mask=mask)
 
     assert_equal(np.sum(np.isnan(gqs.QA)),5000) #all voxels should be NULL
-    
-    
 
 
 def test_gqiodf():
 
     #read bvals,gradients and data
-    fimg,fbvals,fbvecs=get_data('small_64D')    
+    fimg,fbvals,fbvecs=get_data('small_64D')
     bvals=np.load(fbvals)
     gradients=np.load(fbvecs)
     data=nib.load(fimg).get_data()
@@ -61,15 +61,10 @@ def test_gqiodf():
     evals = evals.reshape(xyz,3)
     #print evals.shape
 
-    
-
     t2=time.clock()
     #print('GQS in %d' %(t2-t1))
         
-    eds=np.load(get_sphere('symmetric362'))
-    
-    odf_vertices=eds['vertices']
-    odf_faces=eds['faces']
+    odf_vertices, odf_faces = get_sphere('symmetric362')
 
     #Yeh et.al, IEEE TMI, 2010
     #calculate the odf using GQI
@@ -160,12 +155,13 @@ def test_gqiodf():
     assert_equal(np.argmax(summary['0']['odf']), 116)
     assert_equal(np.argmax(summary['10']['odf']), 105)
 
-    
+
 def upper_hemi_map(v):
     '''
     maps a 3-vector into the z-upper hemisphere
     '''
     return np.sign(v[2])*v
+
 
 def equatorial_maximum(vertices, odf, pole, width):
     eqvert = meshes.equatorial_vertices(vertices, pole, width)
@@ -181,7 +177,7 @@ def equatorial_maximum(vertices, odf, pole, width):
     eqvertmax = eqvert[eqargmax]
     eqvalmax = eqvals[eqargmax]
     return eqvertmax, eqvalmax
-  
+
 
 def patch_vertices(vertices,pole, width):
     '''
@@ -205,6 +201,7 @@ def patch_maximum(vertices, odf, pole, width):
     eqvalmax = eqvals[eqargmax]
     return eqvertmax, eqvalmax
 
+
 def triple_odf_maxima(vertices, odf, width):
 
     indmax1 = np.argmax([odf[i] for i,v in enumerate(vertices)])
@@ -213,7 +210,7 @@ def triple_odf_maxima(vertices, odf, width):
     cross12 = np.cross(vertices[indmax1],vertices[indmax2])
     indmax3, odfmax3 = patch_maximum(vertices, odf, cross12, width)
     return [(indmax1, odfmax1),(indmax2, odfmax2),(indmax3, odfmax3)]
-    
+
 
 def test_gqi_small():
 
@@ -233,10 +230,7 @@ def test_gqi_small():
 
     t2=time.clock()
     print('GQS in %d' %(t2-t1))
-    eds=np.load(get_sphere('symmetric362'))   
-   
-    odf_vertices=eds['vertices']
-    odf_faces=eds['faces']
+    odf_vertices, odf_faces = get_sphere('symmetric362')
 
     #Yeh et.al, IEEE TMI, 2010
     #calculate the odf using GQI
@@ -280,11 +274,11 @@ def test_gqi_small():
     assert_equal((gqs.QA-QA).max(),0.,'Frank QA different than dipy QA')
     assert_equal((gqs.QA.shape),QA.shape, 'Frank QA shape is different') 
 
-    
 
 def Q2odf(s,q2odf_params):
     odf=np.dot(s,q2odf_params)
     return odf
+
 
 def peak_finding(odf,odf_faces):
     #proton density already include from the scaling b_table[0][0] and s[0]
@@ -311,11 +305,9 @@ def peak_finding(odf,odf_faces):
     peaks=peak[inds[pinds]][::-1]
     return peaks, inds[pinds][::-1]
 
+
 if __name__ == "__main__":
-
     T=test_gqiodf()
-    
-
 
 
 

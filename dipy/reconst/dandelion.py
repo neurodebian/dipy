@@ -1,43 +1,37 @@
-import numpy as np
-from dipy.reconst.recspeed import peak_finding
-import os
-from os.path import join as opj
-from dipy.data import get_sphere
 import warnings
+
+import numpy as np
+
+from dipy.reconst.recspeed import peak_finding
+from dipy.utils.spheremakers import sphere_vf_from
 
 warnings.warn("This module is most likely to change both as a name and in structure in the future",FutureWarning)
 
-class SphericalDandelion():
-    ''' 
-    HIGHLY EXPERIMENTAL - PLEASE DO NOT USE.    
+class SphericalDandelion(object):
     '''
-    def __init__(self,data,bvals,gradients,smoothing=1.,odfsphere=None,mask=None):
+    HIGHLY EXPERIMENTAL - PLEASE DO NOT USE.
+    '''
+    def __init__(self, data, bvals, gradients, smoothing=1.,
+                 odf_sphere='symmetric362', mask=None):
         '''
         Parameters
         -----------
-        data : array, shape(X,Y,Z,D)        
+        data : array, shape(X,Y,Z,D)
         bvals : array, shape (N,)
         gradients : array, shape (N,3) also known as bvecs
         smoothing : float, smoothing parameter
+        odf_sphere : str or tuple, optional
+            If str, then load sphere of given name using ``get_sphere``.
+            If tuple, gives (vertices, faces) for sphere.
 
         See also
         ----------
         dipy.reconst.dti.Tensor, dipy.reconst.gqi.GeneralizedQSampling
-
         '''
-        
-        if odfsphere == None:            
-            eds=np.load(get_sphere('symmetric362'))#642
-        else:
-            eds=odfsphere
-            # e.g. odfsphere = evenly_distributed_sphere_642.npz
-
-        odf_vertices=eds['vertices']
-        odf_faces=eds['faces']
-
+        odf_vertices, odf_faces = sphere_vf_from(odf_sphere)
         self.odf_vertices=odf_vertices
         self.bvals=bvals
-        
+
         gradients[np.isnan(gradients)] = 0.
         self.gradients=gradients
         self.weighting=np.abs(np.dot(gradients,self.odf_vertices.T))     
@@ -103,10 +97,27 @@ class SphericalDandelion():
         #return (final_sphere-final_sphere.min())/float(len(d))
         return final_sphere/float(len(d))
         '''
+        d=np.zeros(d.shape)
+        d[0]=12
+        #d=12*np.ones(d.shape)
+        o=np.ones(d.shape)
+        
+        finald=self.koukou(d)
+        finalo=self.koukou(o)
+        #print finald.shape,finalo.shape
+        return finald/finalo
+        
+    def koukou(self,d):
+        width=1
         final_sphere=np.zeros((len(d),self.odf_vertices.shape[0]))
         for i in range(len(d)):
-            final_sphere[i]=d[i]*np.abs(np.dot(self.gradients[i+1],self.odf_vertices.T)**(2))
-        return np.max(final_sphere,axis=0)
+            #f=np.abs(np.dot(self.gradients[i+1],self.odf_vertices.T)**(2))
+            cos2=np.dot(self.gradients[i+1],self.odf_vertices.T)**(2)
+            sin2=1-cos2
+            Sinc=np.sinc(width*sin2)**2
+            final_sphere[i]=d[i]*Sinc
+        #return final_sphere
+        return np.sum(final_sphere,axis=0)#/float(len(d))
     
     def xa(self):
         return self.XA

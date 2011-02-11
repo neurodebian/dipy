@@ -1,32 +1,29 @@
 ''' Fvtk module implements simple visualization functions using VTK. Fos means light in Greek.    
-   
-    The main idea is the following:
-    A window can have one or more renderers. A renderer can have none, one or more actors. Examples of actors are a sphere, line, point etc.
-    You basically add actors in a renderer and in that way you can visualize the forementioned objects e.g. sphere, line ...
-    
-    Examples
-    ----------------
-    >>> from dipy.viz import fvtk
-    >>> r=fvtk.ren()    
-    >>> a=fvtk.axes()        
-    >>> fvtk.add(r,a)
-    >>> #fvtk.show(r)
-    
+
+The main idea is the following:
+A window can have one or more renderers. A renderer can have none, one or more actors. Examples of actors are a sphere, line, point etc.
+You basically add actors in a renderer and in that way you can visualize the forementioned objects e.g. sphere, line ...
+
+Examples
+----------------
+>>> from dipy.viz import fvtk
+>>> r=fvtk.ren()
+>>> a=fvtk.axes()
+>>> fvtk.add(r,a)
+>>> #fvtk.show(r)
 '''
 
-try:
-    import vtk      
-except ImportError:
-    raise ImportError('VTK is not installed.')
-    
-try:
-    import numpy as np
-except ImportError:
-    raise ImportError('Numpy is not installed.')
+import types
 
+import numpy as np
 
-import types    
 import scipy as sp
+
+# Conditional import machinery for vtk
+from ..utils.optpkg import optional_package
+
+# Allow import, but disable doctests if we don't have vtk
+vtk, have_vtk, setup_module = optional_package('vtk')
 
 '''
 For more color names see
@@ -42,7 +39,7 @@ azure=np.array([0,0.49,1])
 golden=np.array([1,0.84,0])
 white=np.array([1,1,1])
 black=np.array([0,0,0])
-           	
+
 aquamarine=np.array([0.498,1.,0.83])
 indigo=np.array([ 0.29411765,  0.,  0.50980392])
 lime=np.array([ 0.74901961,  1.,  0.])
@@ -65,19 +62,21 @@ ind_buffer=[]
 #tempory renderer used only with picking tracks
 tmp_ren=None
 
-# Create a text mapper and actor to display the results of picking.
-textMapper = vtk.vtkTextMapper()
-tprop = textMapper.GetTextProperty()
-tprop.SetFontFamilyToArial()
-tprop.SetFontSize(10)
-#tprop.BoldOn()
-#tprop.ShadowOn()
-tprop.SetColor(1, 0, 0)
-textActor = vtk.vtkActor2D()
-textActor.VisibilityOff()
-textActor.SetMapper(textMapper)
-# Create a cell picker.
-picker = vtk.vtkCellPicker()
+if have_vtk:
+    # Create a text mapper and actor to display the results of picking.
+    textMapper = vtk.vtkTextMapper()
+    tprop = textMapper.GetTextProperty()
+    tprop.SetFontFamilyToArial()
+    tprop.SetFontSize(10)
+    #tprop.BoldOn()
+    #tprop.ShadowOn()
+    tprop.SetColor(1, 0, 0)
+    textActor = vtk.vtkActor2D()
+    textActor.VisibilityOff()
+    textActor.SetMapper(textMapper)
+    # Create a cell picker.
+    picker = vtk.vtkCellPicker()
+
 
 def ren():
     ''' Create a renderer
@@ -107,15 +106,18 @@ def add(ren,a):
     else:    
         ren.AddActor(a)
 
+
 def rm(ren,a):
     ''' Remove a specific actor    
     '''    
     ren.RemoveActor(a)
 
+
 def clear(ren):
     ''' Remove all actors from the renderer 
     '''
     ren.RemoveAllViewProps()
+
 
 def rm_all(ren):
     ''' Remove all actors from the renderer 
@@ -139,7 +141,8 @@ def _arrow(pos=(0,0,0),color=(1,0,0),scale=(1,1,1),opacity=1):
     arrowa.SetScale(scale)
     
     return arrowa
-    
+
+
 def axes(scale=(1,1,1),colorx=(1,0,0),colory=(0,1,0),colorz=(0,0,1),opacity=1):
     ''' Create an actor with the coordinate system axes where  red = x, green = y, blue =z.
     '''
@@ -157,6 +160,7 @@ def axes(scale=(1,1,1),colorx=(1,0,0),colory=(0,1,0),colorz=(0,0,1),opacity=1):
     ass.AddPart(arrowz)
            
     return ass
+
 
 def _lookup(colors):
     ''' Internal function
@@ -210,6 +214,7 @@ def _lookup(colors):
         lut.SetTableValue(0,colors[0],colors[1],colors[2],1.0)
             
     return lut
+
 
 def line(lines,colors,opacity=1,linewidth=1):
     ''' Create an actor for one or more lines.    
@@ -477,9 +482,7 @@ def sphere(position=(0,0,0),radius=0.5,thetares=8,phires=8,color=(0,0,1),opacity
     return spherea
 
 
-
 def ellipsoid(R=np.array([[2, 0, 0],[0, 1, 0],[0, 0, 1] ]),position=(0,0,0),thetares=20,phires=20,color=(0,0,1),opacity=1,tessel=0):
-
     ''' Create a ellipsoid actor.    
     Stretch a unit sphere to make it an ellipsoid under a 3x3 translation matrix R 
     
@@ -535,7 +538,7 @@ def ellipsoid(R=np.array([[2, 0, 0],[0, 1, 0],[0, 0, 1] ]),position=(0,0,0),thet
     
     return spherea
 
-    
+
 def label(ren,text='Origin',pos=(0,0,0),scale=(0.2,0.2,0.2),color=(1,1,1)):
     
     ''' Create a label actor 
@@ -578,6 +581,7 @@ def label(ren,text='Origin',pos=(0,0,0),scale=(0.2,0.2,0.2),color=(1,1,1)):
     texta.SetCamera(ren.GetActiveCamera())
         
     return texta
+
 
 def volume(vol,voxsz=(1.0,1.0,1.0),affine=None,center_origin=1,info=0,maptype=0,trilinear=1,iso=0,iso_thr=100,opacitymap=None,colormap=None):    
     ''' Create a volume and return a volumetric actor using volumetric rendering. 
@@ -859,6 +863,7 @@ def volume(vol,voxsz=(1.0,1.0,1.0),affine=None,center_origin=1,info=0,maptype=0,
         
     return volum
 
+
 def contour(vol,voxsz=(1.0,1.0,1.0),affine=None,levels=[50],colors=[np.array([1.0,0.0,0.0])],opacities=[0.5]):
     ''' Take a volume and draw surface contours for any any number of thresholds (levels) where every contour has its own
     color and opacity
@@ -946,7 +951,6 @@ def contour(vol,voxsz=(1.0,1.0,1.0),affine=None,levels=[50],colors=[np.array([1.
     
     return ass
 
-    
 
 def _cm2colors(colormap='Blues'):
     '''
@@ -986,8 +990,9 @@ def _cm2colors(colormap='Blues'):
     green2=[b[1] for b in green]
             
     return red1,red2,green1,green2,blue1,blue2
-    
-def colors(v,colormap):
+
+
+def colors(v,colormap,auto=True):
 
     ''' Create colors from a specific colormap and return it 
     as an array of shape (N,3) where every row gives the corresponding
@@ -1025,8 +1030,11 @@ def colors(v,colormap):
     if v.ndim>1:
         ValueError('This function works only with 1d arrays. Use ravel()')
 
-    v=np.interp(v,[v.min(),v.max()],[0,1])
     
+    if auto:
+        v=np.interp(v,[v.min(),v.max()],[0,1])
+    else:    
+        v=np.interp(v,[0,1],[0,1])
 
     if colormap=='jet':
         #print 'jet'
@@ -1073,8 +1081,6 @@ def tube(point1=(0,0,0),point2=(1,0,0),color=(1,0,0),opacity=1,radius=0.1,capson
     Wrap a tube around a line connecting point1 with point2 with a specific radius
     
     '''
-
-
     points = vtk.vtkPoints()
     points.InsertPoint(0,point1[0],point1[1],point1[2])
     points.InsertPoint(1,point2[0],point2[1],point2[2])
@@ -1112,6 +1118,7 @@ def tube(point1=(0,0,0),point2=(1,0,0),color=(1,0,0),opacity=1,radius=0.1,capson
 
     return profile
 
+
 def _closest_track(p,tracks):
     ''' Return the index of the closest track from tracks to point p
     '''
@@ -1129,6 +1136,7 @@ def _closest_track(p,tracks):
     imin=d[:,1].argmin()
     
     return int(d[imin,0])
+
 
 def crossing(a,ind,sph,scale,orient=False):
     """ visualize a volume of crossings
@@ -1171,7 +1179,6 @@ def crossing(a,ind,sph,scale,orient=False):
     return T
 
 
-    
 def slicer(ren,vol,voxsz=(1.0,1.0,1.0),affine=None,contours=1,planes=1,levels=[20,30,40],opacities=[0.8,0.7,0.3],colors=None,planesx=[20,30],planesy=[30,40],planesz=[20,30]):
     ''' Slicer and contour rendering of 3d volumes
     
@@ -1211,10 +1218,6 @@ def slicer(ren,vol,voxsz=(1.0,1.0,1.0),affine=None,contours=1,planes=1,levels=[2
     >>> s = np.sin(x*y*z)/(x*y*z)
     >>> r=fvtk.ren()    
     >>> #fvtk.slicer(r,s) #does showing too 
-    
-
-    
-    
     '''    
     vol=np.interp(vol,xp=[vol.min(),vol.max()],fp=[0,255])
     vol=vol.astype('uint8')
@@ -1396,6 +1399,7 @@ def slicer(ren,vol,voxsz=(1.0,1.0,1.0),affine=None,contours=1,planes=1,levels=[2
     renWin.Render()
     iren.Start()
 
+
 def annotatePick(object, event):
     ''' Create a Python function to create the text for the 
     text mapper used to display the results of picking.
@@ -1419,7 +1423,6 @@ def annotatePick(object, event):
             label(tmp_ren,text=str(ind_buffer[closest]),pos=(track_buffer[closest][0][0],track_buffer[closest][0][1],track_buffer[closest][0][2]))
             
             tmp_ren.AddActor(line(track_buffer[closest],golden,opacity=1))
-            
 
 
 def show(ren,title='dipy.viz.fvtk',size=(300,300),png_magnify=1):
@@ -1506,8 +1509,9 @@ def show(ren,title='dipy.viz.fvtk',size=(300,300),png_magnify=1):
     picker.Pick(85, 126, 0, ren)    
     window.Render()
     iren.Start()
-    
-def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,out_path=None,n_frames=10, az_ang=10, magnification=1,size=(125,125),bgr_color=(0.1,0.2,0.4)):
+
+
+def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,out_path=None,n_frames=10, az_ang=10, magnification=1,size=(300,300),bgr_color=(0,0,0)):
     ''' This will record a video of your scene
 
     Records a video as a series of .png files of your scene by rotating the
@@ -1564,6 +1568,7 @@ def record(ren=None,cam_pos=None,cam_focal=None,cam_view=None,out_path=None,n_fr
     ren.GetActiveCamera().Dolly(1.4)
     ren.ResetCameraClippingRange()
     '''
+    ren.ResetCamera()
 
     renderLarge = vtk.vtkRenderLargeImage()
     renderLarge.SetInput(ren)

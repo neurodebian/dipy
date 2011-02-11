@@ -155,10 +155,7 @@ the reconstruction was performed.
 """
 
 from dipy.data import get_sphere
-fname=get_sphere('symmetric362')
-sph=np.load(fname)
-verts=sph['vertices']
-faces=sph['faces']
+verts, faces = get_sphere('symmetric362')
 
 from dipy.viz import fvtk
 
@@ -172,7 +169,7 @@ print 'The number of local maxima is', np.sum(ind>0)
 - Vertex 117 is [ 0.54813892  0.76257497  0.34354511]
 - Vertex 1 is [ 0.0566983   0.17449942  0.98302352]
 - The number of local maxima is 2
-""" 
+"""
 
 summary = []
 for i, index in enumerate(np.ndindex(QA.shape[:3])):
@@ -260,11 +257,4 @@ fvtk.add(r,fvtk.line(all_shift2,colors2,linewidth=2.))
 
 # Here's how we make the illustration.
 print('Saving illustration as visualize_cross1000000.png')
-fvtk.record(r, n_frames=1, # single snapshot
-            out_path='visualize_cross',
-            bgr_color=(0,0,0),
-            size=(700,500),
-            cam_pos=(28, 33, -20),
-            cam_focal=(12, 3, 7),
-            cam_view=(-0.4, -0.5, -0.8),
-           )
+fvtk.record(r,n_frames=1,out_path='visualize_cross',size=(600,600))
