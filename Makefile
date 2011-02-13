@@ -39,12 +39,15 @@ distances.so: ${PKGDIR}/tracking/distances.pyx
 
 clean:
 	- find ${PKGDIR} -name "*.so" -print0 | xargs -0 rm
+	- find ${PKGDIR} -name "*.pyd" -print0 | xargs -0 rm
 	- find ${PKGDIR} -name "*.c" -print0 | xargs -0 rm
 	- find ${PKGDIR} -name "*.html" -print0 | xargs -0 rm
 	rm -rf build
-	rm -rf dist
 	rm -rf docs/_build
 	rm -rf docs/dist
+
+distclean: clean
+	rm -rf dist
 
 # Suffix rules
 %.c : %.pyx
@@ -65,10 +68,13 @@ installed-tests:
 sdist-tests:
 	$(PYTHON) -c 'from nisext.testers import sdist_tests; sdist_tests("dipy")'
 
+bdist-egg-tests:
+	$(PYTHON) -c 'from nisext.testers import bdist_egg_tests; bdist_egg_tests("dipy")'
+
 source-release: clean
 	python -m compileall .
 	python setup.py sdist --formats=gztar,zip
 
-binary-release:
+binary-release: clean
 	python setup_egg.py bdist_egg
 

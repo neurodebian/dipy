@@ -9,8 +9,8 @@ docs.  In setup.py in particular, we exec this file, so it cannot import dipy
 _version_major = 0
 _version_minor = 5
 _version_micro = 0
-_version_extra = '.dev'
-# _version_extra = ''
+#_version_extra = '.dev'
+_version_extra = ''
 
 # Format expected by setup.py and doc/source/conf.py: string of form "X.Y.Z"
 __version__ = "%s.%s.%s%s" % (_version_major,
@@ -44,17 +44,13 @@ clinical decisions.
 Website
 =======
 
-Current information can always be found at the NIPY dipy website::
-    http://nipy.org/dipy    
-or directly from the DIPY website::
-    http://dipy.org
+Current information can always be found at the NIPY dipy website -
+http://nipy.org/dipy - or directly from the DIPY website - http://dipy.org
 
 Mailing Lists
 =============
 
-Please see the developer's list here::
-
-    http://mail.scipy.org/mailman/listinfo/nipy-devel
+Please see the developer's list at http://mail.scipy.org/mailman/listinfo/nipy-devel
 
 Code
 ====
@@ -104,4 +100,6 @@ MICRO               = _version_micro
 ISRELEASE           = _version_extra == ''
 VERSION             = __version__
 PROVIDES            = ["dipy"]
-REQUIRES            = ["numpy (>=%s)" % NUMPY_MIN_VERSION]
+REQUIRES            = ["numpy (>=%s)" % NUMPY_MIN_VERSION,
+                       "scipy (>=%s)" % SCIPY_MIN_VERSION,
+                       "nibabel (>=%s)" % NIBABEL_MIN_VERSION]

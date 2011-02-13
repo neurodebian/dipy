@@ -30,29 +30,46 @@ from distutils.extension import Extension
 if not 'extra_setuptools_args' in globals():
     extra_setuptools_args = dict()
 
-from nisext.sexts import get_comrec_build, package_check
+# Import build helpers
+try:
+    from nisext.sexts import package_check, get_comrec_build
+except ImportError:
+    raise RuntimeError('Need nisext package from nibabel installation'
+                       ' - please install nibabel first')
 cmdclass = {'build_py': get_comrec_build('dipy')}
 
 # Get version and release info, which is all stored in dipy/info.py
 ver_file = os.path.join('dipy', 'info.py')
 execfile(ver_file)
 
-# Do dependency checking
+# We're running via setuptools - specify exta setuptools stuff
+if 'setuptools' in sys.modules:
+    extra_setuptools_args['extras_require'] = dict(
+        doc=['Sphinx>=1.0'],
+        test=['nose>=0.10.1'],
+    )
+    # I removed numpy and scipy from install requires because easy_install seems
+    # to want to fetch these if they are already installed, meaning of course
+    # that there's a long fragile and unnecessary compile before the install
+    # finishes.
+    extra_setuptools_args['install_requires'] = [
+        'nibabel>=' + NIBABEL_MIN_VERSION,
+    ]
+
+# Do our own install time dependency checking.  The dependency checks in
+# setuptools above go into the egg so are useful for easy_install. These checks
+# below run whenever we run setup.py - so - install or build via setup.py
 package_check('numpy', NUMPY_MIN_VERSION)
 package_check('scipy', SCIPY_MIN_VERSION)
 package_check('nibabel', NIBABEL_MIN_VERSION)
-# Cython can be a build dependency
+
+# Cython is a build dependency
 def _cython_version(pkg_name):
     from Cython.Compiler.Version import version
     return version
 package_check('cython',
-              CYTHON_MIN_VERSION,
-              version_getter=_cython_version)
-
-if 'setuptools' in sys.modules:
-    extra_setuptools_args['extras_require'] = dict(
-        doc='Sphinx>=1.0',
-        test='nose>=0.10.1')
+            CYTHON_MIN_VERSION,
+            version_getter=_cython_version)
 
 # we use cython to compile the modules
 from Cython.Distutils import build_ext
@@ -64,7 +81,8 @@ for modulename, other_sources in (
     ('dipy.tracking.vox2track', []),
     ('dipy.tracking.propspeed', [])):
     pyx_src = pjoin(*modulename.split('.')) + '.pyx'
-    EXTS.append(Extension(modulename,[pyx_src] + other_sources,include_dirs = [np.get_include()]))
+    EXTS.append(Extension(modulename,[pyx_src] + other_sources,
+                          include_dirs = [np.get_include()]))
 
 
 def main(**extra_args):
@@ -112,7 +130,8 @@ def main(**extra_args):
           package_data = {'dipy':
                           [pjoin('data', '*')
                           ]},
-          data_files=[('share/doc/dipy/examples', glob(pjoin('doc','examples','*.py')))],                                       
+          data_files=[('share/doc/dipy/examples',
+                       glob(pjoin('doc','examples','*.py')))],
           scripts      = glob(pjoin('scripts', '*')),
           cmdclass = cmdclass,
           **extra_args
