@@ -1,4 +1,4 @@
-dipy (0.5.0-1) unstable; urgency=low
+dipy (0.5.0-1) experimental; urgency=low
 
   * Initial release (Closes: #610347)
 
