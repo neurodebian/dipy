@@ -1,7 +1,6 @@
-dipy (0.5.0~dev20110210-1~pre1) unstable; urgency=low
+dipy (0.5.0-1) unstable; urgency=low
 
   * Initial release (Closes: #610347)
-  * Fresh upstream snapshot.
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 09 Feb 2011 17:38:53 -0500
 
