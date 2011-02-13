@@ -1,0 +1,9 @@
+DiPy for Debian
+---------------
+
+Documentation uses snapshots which require rendering on GLX capable X,
+thus are difficult to render during documentation building.  Therefore
+we ship upstream-provided dipy_*.orig-doc-examples.tar.gz with
+renderings of the images.  See get-orig-upstream of debian/rules.
+
+ -- Yaroslav Halchenko <debian@onerussian.com>, Sun, 13 Feb 2011 09:14:08 -0500
