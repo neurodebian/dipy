@@ -1,3 +1,11 @@
+dipy (0.5.0-2) unstable; urgency=low
+
+  * Upload to unstable
+  * Fixed binary-arch build -- extensions were not installed. Thanks Jiří
+    Keller for the report
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Fri, 01 Jul 2011 13:55:03 -0400
+
 dipy (0.5.0-1) experimental; urgency=low
 
   * Initial release (Closes: #610347)

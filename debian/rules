@@ -54,11 +54,12 @@ endif
 
 override_dh_pysupport:
 	: # I: Move libraries into the -lib and -lib-dbg packages
-	find $(PACKAGE_ROOT_DIR)/ -iname *.so | \
+	find $(PACKAGE_ROOT_DIR)/ -iname *.so -delete || :  # remove .so from indep pkg if present
+	find $(INSTALL_PATH)/ -iname *.so | \
 	  while read so; do \
 	    d=$$(dirname $$so); \
 		if [ $${so%_d.so} = $${so} ]; then suf=""; else suf="-dbg"; fi; \
-	    d=$$(echo $$d | sed -e "s,$(PACKAGE_ROOT_DIR)/,$(PACKAGE_ROOT_DIR)-lib$$suf/,g"); \
+	    d=$$(echo $$d | sed -e "s,$(INSTALL_PATH)/,$(PACKAGE_ROOT_DIR)-lib$$suf/,g"); \
 	    mkdir -p $$d; echo "Moving $$so under $$d"; mv $$so $$d; \
 	  done
 	dh_pysupport
