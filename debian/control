@@ -18,7 +18,7 @@ Vcs-Browser: http://github.com/neurodebian/dipy
 
 Package: python-dipy
 Architecture: all
-Depends: ${Python:depends}, ${shlibs:Depends}, ${misc:Depends},
+Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends},
 		 python-numpy, python-scipy,
 		 python-dipy-lib (>= ${source:Version})
 Recommends: python-matplotlib,
@@ -47,7 +47,7 @@ Description: toolbox for analysis of MR diffusion imaging data
 
 Package: python-dipy-lib
 Architecture: any
-Depends: ${Python:depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
 Description: toolbox for analysis of MR diffusion imaging data -- extensions

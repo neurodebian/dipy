@@ -3,6 +3,7 @@ dipy (0.5.0-2) unstable; urgency=low
   * Upload to unstable
   * Fixed binary-arch build -- extensions were not installed. Thanks Jiří
     Keller for the report
+  * Fixed ${Python:depends} -> ${python:Depends} (thanks Lintian)
   * Boosted policy to 3.9.2 (no changes are due)
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Fri, 01 Jul 2011 13:55:03 -0400
