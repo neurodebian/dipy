@@ -1,3 +1,9 @@
+dipy (0.5.0-3) unstable; urgency=low
+
+  * Added patch up_explicit_cdefs_inits to prevent FTBFS with cython >= 0.15
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 20 Sep 2011 15:37:06 -0400
+
 dipy (0.5.0-2) unstable; urgency=low
 
   * Upload to unstable
