@@ -6,6 +6,8 @@ dipy (0.6.0-1) experimental; urgency=low
     - updated to fetch from github's tags
   * debian/changelog
     - updated years
+  * debian/source/options
+    - added to ignore generated COMMIT_INFO.txt
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 02 Apr 2013 11:39:23 -0400
 

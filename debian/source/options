@@ -1,0 +1,1 @@
+extend-diff-ignore = "(^|/)dipy/COMMIT_INFO.txt$"
