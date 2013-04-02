@@ -4,7 +4,7 @@ Maintainer: Eleftherios Garyfallidis <garyfallidis@gmail.com>
 Source: http://github.com/Garyfallidis/dipy
 
 Files: *
-Copyright: 2009-2010, Dipy Developers
+Copyright: 2009-2013, Dipy Developers
 License: BSD-3
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are
@@ -41,5 +41,5 @@ Copyright: 2009, The IPython Development Team
 License: BSD-3
 
 Files: debian/*
-Copyright: 2010, Yaroslav Halchenko <debian@onerussian.com>
+Copyright: 2010-2013, Yaroslav Halchenko <debian@onerussian.com>
 License: BSD-3
