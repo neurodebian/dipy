@@ -1,6 +1,6 @@
 --- a/doc/conf.py
 +++ b/doc/conf.py
-@@ -93,6 +93,9 @@ rst_epilog = open('links_names.inc', 'rt
+@@ -98,6 +98,9 @@ release = version
  # for source files.
  exclude_trees = ['_build', 'examples']
  
