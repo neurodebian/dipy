@@ -5,6 +5,8 @@ PACKAGE_NAME = python-dipy
 PACKAGE_ROOT_DIR = debian/${PACKAGE_NAME}
 INSTALL_PATH = $(CURDIR)/debian/tmp
 
+export  http_proxy=http://127.0.0.1:9/
+
 # default Python
 PYTHON=$(shell pyversions -d)
 PYVER=$(shell pyversions -d -v)
