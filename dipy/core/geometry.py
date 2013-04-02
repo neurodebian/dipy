@@ -1,5 +1,5 @@
 ''' Utility functions for algebra etc '''
-
+from __future__ import division
 import math
 import numpy as np
 import numpy.linalg as npl
@@ -24,7 +24,6 @@ _AXES2TUPLE = {
 _TUPLE2AXES = dict((v, k) for k, v in _AXES2TUPLE.items())
 
 
-
 def sphere2cart(r, theta, phi):
     ''' Spherical to Cartesian coordinates
 
@@ -32,7 +31,7 @@ def sphere2cart(r, theta, phi):
     inclination (polar) angle, and `phi` is the azimuth angle.
 
     Imagine a sphere with center (0,0,0).  Orient it with the z axis
-    running south->north, the y axis running west-east and the x axis
+    running south-north, the y axis running west-east and the x axis
     from posterior to anterior.  `theta` (the inclination angle) is the
     angle to rotate from the z-axis (the zenith) around the y-axis,
     towards the x axis.  Thus the rotation is counter-clockwise from the
@@ -50,11 +49,11 @@ def sphere2cart(r, theta, phi):
 
     Parameters
     ------------
-    r : array-like
+    r : array_like
        radius
-    theta : array-like
+    theta : array_like
        inclination or polar angle
-    phi : array-like
+    phi : array_like
        azimuth angle
 
     Returns
@@ -94,8 +93,8 @@ def sphere2cart(r, theta, phi):
     x = r * np.cos(phi) * sin_theta
     y = r * np.sin(phi) * sin_theta
     z = r * np.cos(theta)
+    x, y, z = np.broadcast_arrays(x, y, z)
     return x, y, z
-
 
 def cart2sphere(x, y, z):
     r''' Return angles for Cartesian 3D coordinates `x`, `y`, and `z`
@@ -103,15 +102,15 @@ def cart2sphere(x, y, z):
     See doc for ``sphere2cart`` for angle conventions and derivation
     of the formulae.
 
-    $0 \le \theta \mathrm{(theta)} \le \pi$ and $0 \le \phi \mathrm{(phi)} \le 2 \pi$
+    $0\le\theta\mathrm{(theta)}\le\pi$ and $-\pi\le\phi\mathrm{(phi)}\le\pi$
 
     Parameters
     ------------
-    x : array-like
-       x coordinate in Cartesion space
-    y : array-like
+    x : array_like
+       x coordinate in Cartesian space
+    y : array_like
        y coordinate in Cartesian space
-    z : array-like
+    z : array_like
        z coordinate
 
     Returns
@@ -126,17 +125,30 @@ def cart2sphere(x, y, z):
     r = np.sqrt(x*x + y*y + z*z)
     theta = np.arccos(z/r)
     phi = np.arctan2(y, x)
+    r, theta, phi = np.broadcast_arrays(r, theta, phi)
     return r, theta, phi
 
 
-def normalized_vector(vec):
+def sph2latlon(theta, phi):
+    """Convert spherical coordinates to latitude and longitude.
+
+    Returns
+    -------
+    lat, lon : ndarray
+        Latitude and longitude.
+
+    """
+    return np.rad2deg(theta - np.pi/2), np.rad2deg(phi - np.pi)
+
+
+def normalized_vector(vec, axis=-1):
     ''' Return vector divided by its Euclidean (L2) norm
 
     See :term:`unit vector` and :term:`Euclidean norm`
 
     Parameters
     ------------
-    vec : array-like shape (3,)
+    vec : array_like shape (3,)
 
     Returns
     ----------
@@ -154,51 +166,127 @@ def normalized_vector(vec):
     >>> vec.shape
     (1, 3)
     >>> normalized_vector(vec).shape
-    (3,)
+    (1, 3)
     '''
-    vec = np.asarray(vec).squeeze()
-    return vec / math.sqrt((vec**2).sum())
+    return vec / vector_norm(vec, axis, keepdims=True)
 
 
-def vector_norm(vec):
-    ''' Return vector Euclidaan (L2) norm
+def vector_norm(vec, axis=-1, keepdims=False):
+    ''' Return vector Euclidean (L2) norm
 
     See :term:`unit vector` and :term:`Euclidean norm`
 
     Parameters
     -------------
-    vec : array-like shape (3,)
+    vec : array_like
+        Vectors to norm.
+    axis : int
+        Axis over which to norm. By default norm over last axis. If `axis` is
+        None, `vec` if flattened then normed.
+    keepdims : bool
+        If True, the output will have the same number of dimensions as `vec`,
+        with shape 1 on `axis`.
 
     Returns
     ---------
-    norm : scalar
+    norm : array
+        Euclidean norms of vectors.
 
     Examples
     --------
     >>> import numpy as np
-    >>> vec = [1, 2, 3]
-    >>> l2n = np.sqrt(np.dot(vec, vec))
-    >>> nvec = vector_norm(vec)
-    >>> np.allclose(nvec, np.sqrt(np.dot(vec, vec)))
-    True
+    >>> vec = [[8, 15, 0], [0, 36, 77]]
+    >>> vector_norm(vec)
+    array([ 17.,  85.])
+    >>> vector_norm(vec, keepdims=True)
+    array([[ 17.],
+           [ 85.]])
+    >>> vector_norm(vec, axis=0)
+    array([  8.,  39.,  77.])
     '''
     vec = np.asarray(vec)
-    return math.sqrt((vec**2).sum())
-    
+    vec_norm = np.sqrt((vec * vec).sum(axis))
+    if keepdims:
+        if axis is None:
+            shape = [1]*vec.ndim
+        else:
+            shape = list(vec.shape)
+            shape[axis] = 1
+        vec_norm = vec_norm.reshape(shape)
+    return vec_norm
+
+
+def rodriguez_axis_rotation(r,theta):
+    """ Rodriguez formula
+
+    Rotation matrix for rotation around axis r for angle theta.
+
+    The rotation matrix is given by the Rodrigues formula:
+
+    R = Id + sin(theta)*Sn + (1-cos(theta))*Sn^2
+
+    with::
+
+             0  -nz  ny
+      Sn =   nz   0 -nx
+            -ny  nx   0
+
+    where n = r / ||r||
+
+    In case the angle ||r|| is very small, the above formula may lead
+    to numerical instabilities. We instead use a Taylor expansion
+    around theta=0:
+
+    R = I + sin(theta)/tetha Sr + (1-cos(theta))/teta2 Sr^2
+
+    leading to:
+
+    R = I + (1-theta2/6)*Sr + (1/2-theta2/24)*Sr^2
+
+    Parameters
+    -----------
+    r :  array_like shape (3,), axis
+    theta : float, angle in degrees
+
+    Returns
+    ----------
+    R : array, shape (3,3), rotation matrix
+
+    Examples
+    ---------
+    >>> import numpy as np
+    >>> from dipy.core.geometry import rodriguez_axis_rotation
+    >>> v=np.array([0,0,1])
+    >>> u=np.array([1,0,0])
+    >>> R=rodriguez_axis_rotation(v,40)
+    >>> ur=np.dot(R,u)
+    >>> np.round(np.rad2deg(np.arccos(np.dot(ur,u))))
+    40.0
+
+
+    """
+    #theta = spl.norm(r)
+    theta=np.deg2rad(theta)
+    if theta > 1e-30:
+        n = r/np.linalg.norm(r)
+        Sn = np.array([[0,-n[2],n[1]],[n[2],0,-n[0]],[-n[1],n[0],0]])
+        R = np.eye(3) + np.sin(theta)*Sn + (1-np.cos(theta))*np.dot(Sn,Sn)
+    else:
+        Sr = np.array([[0,-r[2],r[1]],[r[2],0,-r[0]],[-r[1],r[0],0]])
+        theta2 = theta*theta
+        R = np.eye(3) + (1-theta2/6.)*Sr + (.5-theta2/24.)*np.dot(Sr,Sr)
+    return R
+
+
 
 def nearest_pos_semi_def(B):
     ''' Least squares positive semi-definite tensor estimation
-    
-    Reference: Niethammer M, San Jose Estepar R, Bouix S, Shenton M,
-    Westin CF.  On diffusion tensor estimation. Conf Proc IEEE Eng Med
-    Biol Soc.  2006;1:2622-5. PubMed PMID: 17946125; PubMed Central
-    PMCID: PMC2791793.
- 
+
     Parameters
     ------------
-    B : (3,3) array-like
+    B : (3,3) array_like
        B matrix - symmetric. We do not check the symmetry.
-       
+
     Returns
     ---------
     npds : (3,3) array
@@ -211,6 +299,14 @@ def nearest_pos_semi_def(B):
     array([[ 0.75,  0.  ,  0.  ],
            [ 0.  ,  0.75,  0.  ],
            [ 0.  ,  0.  ,  0.  ]])
+
+    References
+    ----------
+    .. [1] Niethammer M, San Jose Estepar R, Bouix S, Shenton M, Westin CF.
+           On diffusion tensor estimation. Conf Proc IEEE Eng Med Biol Soc.
+           2006;1:2622-5. PubMed PMID: 17946125; PubMed Central PMCID:
+           PMC2791793.
+
     '''
     B = np.asarray(B)
     vals, vecs = npl.eigh(B)
@@ -249,10 +345,10 @@ def sphere_distance(pts1, pts2, radius=None, check_radius=True):
 
     Parameters
     ------------
-    pts1 : (N,R) or (R,) array-like
+    pts1 : (N,R) or (R,) array_like
        where N is the number of points and R is the number of
        coordinates defining a point (``R==3`` for 3D)
-    pts2 : (N,R) or (R,) array-like
+    pts2 : (N,R) or (R,) array_like
        where N is the number of points and R is the number of
        coordinates defining a point (``R==3`` for 3D).  It should be
        possible to broadcast `pts1` against `pts2`
@@ -263,7 +359,7 @@ def sphere_distance(pts1, pts2, radius=None, check_radius=True):
        If True, check if the points are on the sphere surface - i.e
        check if the vector lengths in `pts1` and `pts2` are close to
        `radius`.  Default is True.
-       
+
     Returns
     ---------
     d : (N,) or (0,) array
@@ -274,7 +370,7 @@ def sphere_distance(pts1, pts2, radius=None, check_radius=True):
     ----------
     cart_distance : cartesian distance between points
     vector_cosine : cosine of angle between vectors
-    
+
     Examples
     ----------
     >>> print '%.4f' % sphere_distance([0,1],[1,0])
@@ -305,26 +401,26 @@ def cart_distance(pts1, pts2):
     If either of `pts1` or `pts2` is 2D, then we take the first
     dimension to index points, and the second indexes coordinate.  More
     generally, we take the last dimension to be the coordinate
-    dimension. 
-    
+    dimension.
+
     Parameters
-    ------------
-    pts1 : (N,R) or (R,) array-like
+    ----------
+    pts1 : (N,R) or (R,) array_like
        where N is the number of points and R is the number of
        coordinates defining a point (``R==3`` for 3D)
-    pts2 : (N,R) or (R,) array-like
+    pts2 : (N,R) or (R,) array_like
        where N is the number of points and R is the number of
        coordinates defining a point (``R==3`` for 3D).  It should be
        possible to broadcast `pts1` against `pts2`
 
     Returns
-    ---------
+    -------
     d : (N,) or (0,) array
        Cartesian distances between corresponding points in `pts1` and
        `pts2`
 
     See also
-    ----------
+    --------
     sphere_distance : distance between points on sphere surface
 
     Examples
@@ -348,12 +444,12 @@ def vector_cosine(vecs1, vecs2):
 
     Parameters
     -------------
-    vecs1 : (N, R) or (R,) array-like
+    vecs1 : (N, R) or (R,) array_like
        N vectors (as rows) or single vector.  Vectors have R elements.
-    vecs1 : (N, R) or (R,) array-like
+    vecs1 : (N, R) or (R,) array_like
        N vectors (as rows) or single vector.  Vectors have R elements.
        It should be possible to broadcast `vecs1` against `vecs2`
-    
+
     Returns
     ----------
     vcos : (N,) or (0,) array
@@ -373,33 +469,34 @@ def vector_cosine(vecs1, vecs2):
     return dots / lens
 
 def lambert_equal_area_projection_polar(theta, phi):
-    r''' Lambert Equal Area Projection from polar sphere to plane
+    r""" Lambert Equal Area Projection from polar sphere to plane
 
     Return positions in (y1,y2) plane corresponding to the points
     with polar coordinates (theta, phi) on the unit sphere, under the
     Lambert Equal Area Projection mapping (see Mardia and Jupp (2000),
     Directional Statistics, p. 161).
-    
+
     See doc for ``sphere2cart`` for angle conventions
 
     - $0 \le \theta \le \pi$ and $0 \le \phi \le 2 \pi$
     - $|(y_1,y_2)| \le 2$
-    
-    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1 
+
+    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1
     and the lower hemisphere to the planar annulus between radii 1 and 2,
-    and *vice versa*.  
+    and *vice versa*.
+
     Parameters
     ----------
-    theta : array-like
+    theta : array_like
        theta spherical coordinates
-    phi : array-like
+    phi : array_like
        phi spherical coordinates
 
     Returns
     ---------
     y : (N,2) array
        planar coordinates of points following mapping by Lambert's EAP.
-    '''
+    """
 
     return 2 * np.repeat(np.sin(theta/2),2).reshape((theta.shape[0],2)) * np.column_stack((np.cos(phi), np.sin(phi)))
 
@@ -411,21 +508,22 @@ def lambert_equal_area_projection_cart(x,y,z):
     directions of the vectors with cartesian coordinates xyz under the
     Lambert Equal Area Projection mapping (see Mardia and Jupp (2000),
     Directional Statistics, p. 161).
-    
-    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1 
-    and the lower hemisphere to the planar annulus between radii 1 and 2, 
-    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1 
+
+    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1
+    and the lower hemisphere to the planar annulus between radii 1 and 2,
+    The Lambert EAP maps the upper hemisphere to the planar disc of radius 1
     and the lower hemisphere to the planar annulus between radii 1 and 2.
     and *vice versa*.
+
     See doc for ``sphere2cart`` for angle conventions
 
     Parameters
     ------------
-    x : array-like
+    x : array_like
        x coordinate in Cartesion space
-    y : array-like
+    y : array_like
        y coordinate in Cartesian space
-    z : array-like
+    z : array_like
        z coordinate
 
     Returns
@@ -438,8 +536,6 @@ def lambert_equal_area_projection_cart(x,y,z):
     return lambert_equal_area_projection_polar(theta, phi)
 
 
-
-
 def euler_matrix(ai, aj, ak, axes='sxyz'):
     """Return homogeneous rotation matrix from Euler angles and axis sequence.
 
@@ -447,13 +543,13 @@ def euler_matrix(ai, aj, ak, axes='sxyz'):
     http://www.lfd.uci.edu/~gohlke/code/transformations.py.html
 
     Parameters
-    ------------    
+    ------------
     ai, aj, ak : Euler's roll, pitch and yaw angles
     axes : One of 24 axis sequences as string or encoded tuple
 
     Returns
     ---------
-    matrix: 4x4 numpy array
+    matrix : ndarray (4, 4)
 
     Code modified from the work of Christoph Gohlke link provided here
     http://www.lfd.uci.edu/~gohlke/code/transformations.py.html
@@ -525,20 +621,25 @@ def compose_matrix(scale=None, shear=None, angles=None, translate=None,perspecti
     Code modified from the work of Christoph Gohlke link provided here
     http://www.lfd.uci.edu/~gohlke/code/transformations.py.html
 
-    This is the inverse of the decompose_matrix function.
+    This is the inverse of the ``decompose_matrix`` function.
 
     Parameters
-    -------------    
-    scale : vector of 3 scaling factors
-    shear : list of shear factors for x-y, x-z, y-z axes
-    angles : list of Euler angles about static x, y, z axes
-    translate : translation vector along x, y, z axes
-    perspective : perspective partition of matrix
+    -------------
+    scale : (3,) array_like
+        Scaling factors.
+    shear : array_like
+        Shear factors for x-y, x-z, y-z axes.
+    angles : array_like
+        Euler angles about static x, y, z axes.
+    translate : array_like
+        Translation vector along x, y, z axes.
+    perspective : array_like
+        Perspective partition of matrix.
 
     Returns
     ---------
     matrix : 4x4 array
-    
+
 
     Examples
     ----------
@@ -587,7 +688,7 @@ def decompose_matrix(matrix):
 
     Code modified from the excellent work of Christoph Gohlke link provided here
     http://www.lfd.uci.edu/~gohlke/code/transformations.py.html
-    
+
     Parameters
     ------------
     matrix : array_like
@@ -595,15 +696,21 @@ def decompose_matrix(matrix):
 
     Returns
     ---------
-    tuple of:    
-        scale : vector of 3 scaling factors
-        shear : list of shear factors for x-y, x-z, y-z axes
-        angles : list of Euler angles about static x, y, z axes
-        translate : translation vector along x, y, z axes
-        perspective : perspective partition of matrix
+    scale : (3,) ndarray
+        Three scaling factors.
+    shear : (3,) ndarray
+        Shear factors for x-y, x-z, y-z axes.
+    angles : (3,) ndarray
+        Euler angles about static x, y, z axes.
+    translate : (3,) ndarray
+        Translation vector along x, y, z axes.
+    perspective : ndarray
+        Perspective partition of matrix.
 
-    
-    Raise ValueError if matrix is of wrong type or degenerative.
+    Raises
+    ------
+    ValueError
+        If matrix is of wrong type or degenerative.
 
     Examples
     -----------
@@ -666,50 +773,7 @@ def decompose_matrix(matrix):
 
     return scale, shear, angles, translate, perspective
 
-def vector_norm(data, axis=None, out=None):
-    """Return length, i.e. euclidean norm, of ndarray along axis.
 
-    Examples
-    ----------
-    
-    >>> import numpy
-    >>> v = numpy.random.random(3)
-    >>> n = vector_norm(v)
-    >>> numpy.allclose(n, numpy.linalg.norm(v))
-    True
-    >>> v = numpy.random.rand(6, 5, 3)
-    >>> n = vector_norm(v, axis=-1)
-    >>> numpy.allclose(n, numpy.sqrt(numpy.sum(v*v, axis=2)))
-    True
-    >>> n = vector_norm(v, axis=1)
-    >>> numpy.allclose(n, numpy.sqrt(numpy.sum(v*v, axis=1)))
-    True
-    >>> v = numpy.random.rand(5, 4, 3)
-    >>> n = numpy.empty((5, 3), dtype=numpy.float64)
-    >>> vector_norm(v, axis=1, out=n)
-    >>> numpy.allclose(n, numpy.sqrt(numpy.sum(v*v, axis=1)))
-    True
-    >>> vector_norm([])
-    0.0
-    >>> vector_norm([1.0])
-    1.0
-
-    """
-    data = np.array(data, dtype=np.float64, copy=True)
-    if out is None:
-        if data.ndim == 1:
-            return math.sqrt(np.dot(data, data))
-        data *= data
-        out = np.atleast_1d(np.sum(data, axis=axis))
-        np.sqrt(out, out)
-        return out
-    else:
-        data *= data
-        np.sum(data, axis=axis, out=out)
-        np.sqrt(out, out)
-
-
-        
 def circumradius(a, b, c):
     ''' a, b and c are 3-dimensional vectors which are the vertices of a
     triangle. The function returns the circumradius of the triangle, i.e
@@ -719,9 +783,9 @@ def circumradius(a, b, c):
 
     Parameters
     ----------
-    a, b, c : (3,) arraylike
+    a, b, c : (3,) array_like
        the three vertices of the triangle
-    
+
     Returns
     -------
     circumradius : float
@@ -739,3 +803,64 @@ def circumradius(a, b, c):
         m = np.vstack((x,y,z))
         w = np.dot(np.linalg.inv(m.T),np.array([xx/2.,yy/2.,0]))
         return np.linalg.norm(w)/2.
+
+def vec2vec_rotmat(u,v):
+    r""" rotation matrix from 2 unit vectors
+
+    u,v being unit 3d vectors return a 3x3 rotation matrix R than aligns u to v.
+
+    In general there are many rotations that will map u to v. If S is any
+    rotation using v as an axis then R.S will also map u to v since (S.R)u =
+    S(Ru) = Sv = v.  The rotation R returned by vec2vec_rotmat leaves fixed the
+    perpendicular to the plane spanned by u and v.
+
+    The transpose of R will align v to u.
+
+    Parameters
+    -----------
+    u : array, shape(3,)
+    v : array, shape(3,)
+
+    Returns
+    ---------
+    R : array, shape(3,3)
+
+    Examples
+    ---------
+    >>> import numpy as np
+    >>> from dipy.core.geometry import vec2vec_rotmat
+    >>> u=np.array([1,0,0])
+    >>> v=np.array([0,1,0])
+    >>> R=vec2vec_rotmat(u,v)
+    >>> np.dot(R,u)
+    array([ 0.,  1.,  0.])
+    >>> np.dot(R.T,v)
+    array([ 1.,  0.,  0.])
+
+    """
+
+    # return eye when u is the same with v
+    if np.linalg.norm(u-v) < np.finfo(float).eps:
+        return np.eye(3)
+
+    w=np.cross(u,v)
+    w=w/np.linalg.norm(w)
+
+    # vp is in plane of u,v,  perpendicular to u
+    vp=(v-(np.dot(u,v)*u))
+    vp=vp/np.linalg.norm(vp)
+
+    # (u vp w) is an orthonormal basis
+    P=np.array([u,vp,w])
+    Pt=P.T
+    cosa=np.dot(u,v)
+    sina=np.sqrt(1-cosa**2)
+    R=np.array([[cosa,-sina,0],[sina,cosa,0],[0,0,1]])
+    Rp=np.dot(Pt,np.dot(R,P))
+
+    #make sure that you don't return any Nans
+    if np.sum(np.isnan(Rp))>0:
+        return np.eye(3)
+
+
+    return Rp

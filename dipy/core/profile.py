@@ -24,20 +24,20 @@ class Profiler():
 
     Parameters
     -------------
-    caller: file or function call
-    args: function arguments
+    caller : file or function call
+    args : function arguments
 
     Attributes
     ------------
-    stats: function, stats.print_stats(10) will prin the 10 slower functions
+    stats : function, stats.print_stats(10) will prin the 10 slower functions
     
     Examples
     -----------
-    import dipy.core.profile as p
+    from dipy.core.profile import Profiler
     import numpy as np
-    p.Profiler(np.sum,np.random.rand(1000000,3))
+    p=Profiler(np.sum,np.random.rand(1000000,3))
     fname='test.py'
-    p.Profiler(fname)
+    p=Profiler(fname)
     p.print_stats(10)
     p.print_stats('det')
 

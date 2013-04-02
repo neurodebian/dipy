@@ -11,11 +11,14 @@
 .. _nipy: http://nipy.org
 .. _`Brain Imaging Center`: http://bic.berkeley.edu/
 .. _dipy: http://dipy.org
-.. _`dipy github`: http://github.com/Garyfallidis/dipy
+.. _`dipy github`: http://github.com/nipy/dipy
 .. _dipy pypi: http://pypi.python.org/pypi/dipy
+.. _nipy issues: http://github.com/nipy/nipy/issues
+.. _dipy issues: http://github.com/nipy/dipy/issues
 .. _nibabel: http://nipy.sourceforge.net/nibabel
 .. _nibabel pypi: http://pypi.python.org/pypi/nibabel
 .. _nipy development guidelines: http://nipy.sourceforge.net/devel
+.. _buildbots: http://nipy.bic.berkeley.edu/builders
 
 .. Packaging
 .. _neurodebian: http://neuro.debian.net
@@ -77,7 +80,10 @@
 .. _python: http://www.python.org
 .. _mayavi: http://mayavi.sourceforge.net/
 .. _sympy: http://code.google.com/p/sympy/
+.. _networkx: http://networkx.lanl.gov/
 .. _setuptools: http://pypi.python.org/pypi/setuptools
+.. _distribute: http://packages.python.org/distribute
+.. _datapkg: http://okfn.org/projects/datapkg
 .. _pytables: http://www.pytables.org
 .. _python-vtk: http://www.vtk.org
 
@@ -96,7 +102,7 @@
 .. _FSL: http://www.fmrib.ox.ac.uk/fsl
 .. _FreeSurfer: http://surfer.nmr.mgh.harvard.edu
 .. _voxbo: http://www.voxbo.org
-.. _mricron: http://www.cabiatl.com/mricro/mricron
+.. _mricron: http://www.mccauslandcenter.sc.edu/mricro/mricron/index.html
 .. _slicer: http://www.slicer.org/
 
 .. File formats
@@ -120,6 +126,13 @@
 .. _VTK: http://www.vtk.org/
 .. _ITK: http://www.itk.org/
 .. _swig: http://www.swig.org
+
+.. Windows development
+.. _mingw: http://www.mingw.org/wiki/Getting_Started
+.. _msys: http://www.mingw.org/wiki/MSYS
+.. _powershell: http://www.microsoft.com/powershell
+.. _msysgit: http://code.google.com/p/msysgit
+.. _putty: http://www.chiark.greenend.org.uk/~sgtatham/putty
 
 .. Functional imaging labs
 .. _`functional imaging laboratory`: http://www.fil.ion.ucl.ac.uk

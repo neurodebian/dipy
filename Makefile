@@ -45,6 +45,7 @@ clean:
 	rm -rf build
 	rm -rf docs/_build
 	rm -rf docs/dist
+	rm -rf dipy/dipy.egg-info
 
 distclean: clean
 	rm -rf dist
@@ -55,6 +56,10 @@ distclean: clean
 
 %.html : %.pyx
 	cython -a $<
+
+# Check for files not installed
+check-files:
+	$(PYTHON) -c 'from nisext.testers import check_files; check_files("dipy")'
 
 # Print out info for possible install methods
 check-version-info:

@@ -10,19 +10,16 @@ cimport cython
 import numpy as np
 cimport numpy as cnp
 
-cdef extern from "math.h" nogil:
+cdef extern from "dpy_math.h" nogil:
     double floor(double x)
-    float sqrt(float x)
     float fabs(float x)
-    double log2(double x)
     double cos(double x)
     double sin(double x)
-    float acos(float x )   
-    bint isnan(double x)
+    float acos(float x )
     double sqrt(double x)
-    
-    
-DEF PI=3.1415926535897931
+    double DPY_PI
+
+
 DEF PEAK_NO=5
 
 # initialize numpy runtime
@@ -36,35 +33,35 @@ cdef inline double* asdp(cnp.ndarray pt):
     return <double *>pt.data
 
 @cython.cdivision(True)
-cdef  long offset(long *indices,long *strides,int lenind, int typesize) nogil:
+cdef  cnp.npy_intp offset(cnp.npy_intp *indices,cnp.npy_intp *strides,int lenind, int typesize) nogil:
 
     ''' Very general way to access any element of any ndimensional numpy array
     using cython.
-    
+
     Parameters
     ------------
-    indices : long * (int64 *), indices of the array which we want to
+    indices : cnp.npy_intp * (int64 *), indices of the array which we want to
     find the offset
-    strides : long * strides
+    strides : cnp.npy_intp * strides
     lenind : int, len(indices)
     typesize : int, number of bytes for data type e.g. if double is 8 if
     int32 is 4
 
     Returns
     ----------
-    offset : integer, offset from 0 pointer in memory normalized by dtype
+    offset : integer, element position in array
     '''
  
     cdef int i
-    cdef long summ=0
+    cdef cnp.npy_intp summ=0
     for i from 0<=i<lenind:
         #print('st',strides[i],indices[i])
-        summ+=strides[i]*indices[i]        
-    summ/=<long>typesize
+        summ+=strides[i]*indices[i]
+    summ/=<cnp.npy_intp>typesize
     return summ
 
-def ndarray_offset(cnp.ndarray[long, ndim=1] indices, \
-                 cnp.ndarray[long, ndim=1] strides,int lenind, int typesize):
+def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \
+                 cnp.ndarray[cnp.npy_intp, ndim=1] strides,int lenind, int typesize):
     ''' find offset in an ndarray using strides
 
     Parameters
@@ -75,11 +72,11 @@ def ndarray_offset(cnp.ndarray[long, ndim=1] indices, \
     lenind : int, len(indices)
     typesize : int, number of bytes for data type e.g. if double is 8 if
     int32 is 4
-    
+
     Returns
     -------
-    offset : integer, offset from 0 pointer in memory normalized by dtype
-    
+    offset : integer, element position in array 
+
     Examples
     --------
     >>> import numpy as np
@@ -87,14 +84,58 @@ def ndarray_offset(cnp.ndarray[long, ndim=1] indices, \
     >>> I=np.array([1,1])
     >>> A=np.array([[1,0,0],[0,2,0],[0,0,3]])
     >>> S=np.array(A.strides)
-    >>> ndarray_offset(I,S,2,8)
+    >>> ndarray_offset(I,S,2,A.dtype.itemsize)
     4
     >>> A.ravel()[4]==A[1,1]
     True
     '''
-    return offset(<long*>indices.data,<long*>strides.data,lenind, typesize)
+    return offset(<cnp.npy_intp*>indices.data,<cnp.npy_intp*>strides.data,lenind, typesize)
 
-cdef  void _trilinear_interpolation(double *X, double *W, long *IN) nogil:
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,\
+                                   cnp.ndarray[double, ndim=2] points,\
+                                   cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,\
+                                   cnp.npy_intp len_points,\
+                                   cnp.ndarray[double, ndim=1] result):
+    ''' trilinear interpolation (isotropic voxel size)
+    
+    Has similar behavior with map_coordinates from scipy.ndimage
+    
+    Parameters
+    ----------
+    data: array, shape (X,Y,Z), numpy.float
+    points: array, shape(N,3), numpy.float
+    strides: data.strides as one-dimensional array of dtype i8
+    len_points: cnp.npy_intp, number of points to interpolate
+    result: array, shape(N), numpy.float of interpolated values from A at points 
+        
+    Returns
+    --------
+    result: feeds the result, therefore the result parameter should be initialized before
+        this function is called        
+    '''
+    cdef:
+        double w[8],values[24]
+        cnp.npy_intp index[24],off,i,j
+        double *ds=<double *>data.data       
+        double *ps=<double *>points.data
+        double *rs=<double *>result.data
+        cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data                
+    
+    with nogil:        
+        for i in range(len_points):                        
+            _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
+            rs[i]=0
+            for j in range(8):
+                weight=w[j]   
+                off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)                
+                value=ds[off]
+                rs[i]+=weight*value                    
+    return
+
+cdef  void _trilinear_interpolation_iso(double *X, double *W, cnp.npy_intp *IN) nogil:
 
     ''' interpolate in 3d volumes given point X
     Returns
@@ -103,7 +144,7 @@ cdef  void _trilinear_interpolation(double *X, double *W, long *IN) nogil:
     IN : indices of the volume
     '''
     cdef double Xf[3],d[3],nd[3]
-    cdef long i
+    cdef cnp.npy_intp i
     #define the rectangular box where every corner is a neighboring voxel (assuming center)
     #!!! this needs to change for the affine case
     for i from 0<=i<3:        
@@ -125,19 +166,19 @@ cdef  void _trilinear_interpolation(double *X, double *W, long *IN) nogil:
     W[7]= d[0] *  d[1] *  d[2]
     #indices
     #the indices give you the indices of the neighboring voxels (the corners of the box) e.g. the qa coordinates
-    IN[0] =<long>Xf[0];   IN[1] =<long>Xf[1];    IN[2] =<long>Xf[2]     
-    IN[3] =<long>Xf[0]+1; IN[4] =<long>Xf[1];    IN[5] =<long>Xf[2]
-    IN[6] =<long>Xf[0];   IN[7] =<long>Xf[1]+1;  IN[8] =<long>Xf[2]
-    IN[9] =<long>Xf[0];   IN[10]=<long>Xf[1];    IN[11]=<long>Xf[2]+1    
-    IN[12]=<long>Xf[0]+1; IN[13]=<long>Xf[1]+1;  IN[14]=<long>Xf[2]
-    IN[15]=<long>Xf[0];   IN[16]=<long>Xf[1]+1;  IN[17]=<long>Xf[2]+1
-    IN[18]=<long>Xf[0]+1; IN[19]=<long>Xf[1];    IN[20]=<long>Xf[2]+1
-    IN[21]=<long>Xf[0]+1; IN[22]=<long>Xf[1]+1;  IN[23]=<long>Xf[2]+1
+    IN[0] =<cnp.npy_intp>Xf[0];   IN[1] =<cnp.npy_intp>Xf[1];    IN[2] =<cnp.npy_intp>Xf[2]     
+    IN[3] =<cnp.npy_intp>Xf[0]+1; IN[4] =<cnp.npy_intp>Xf[1];    IN[5] =<cnp.npy_intp>Xf[2]
+    IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]
+    IN[9] =<cnp.npy_intp>Xf[0];   IN[10]=<cnp.npy_intp>Xf[1];    IN[11]=<cnp.npy_intp>Xf[2]+1    
+    IN[12]=<cnp.npy_intp>Xf[0]+1; IN[13]=<cnp.npy_intp>Xf[1]+1;  IN[14]=<cnp.npy_intp>Xf[2]
+    IN[15]=<cnp.npy_intp>Xf[0];   IN[16]=<cnp.npy_intp>Xf[1]+1;  IN[17]=<cnp.npy_intp>Xf[2]+1
+    IN[18]=<cnp.npy_intp>Xf[0]+1; IN[19]=<cnp.npy_intp>Xf[1];    IN[20]=<cnp.npy_intp>Xf[2]+1
+    IN[21]=<cnp.npy_intp>Xf[0]+1; IN[22]=<cnp.npy_intp>Xf[1]+1;  IN[23]=<cnp.npy_intp>Xf[2]+1
 
     return    
     
-cdef  long _nearest_direction(double* dx,double* qa,\
-                                        double *ind,long peaks,double *odf_vertices,\
+cdef  cnp.npy_intp _nearest_direction(double* dx,double* qa,\
+                                        double *ind,cnp.npy_intp peaks,double *odf_vertices,\
                                         double qa_thr, double ang_thr,\
                                         double *direction) nogil:
 
@@ -173,10 +214,10 @@ cdef  long _nearest_direction(double* dx,double* qa,\
         double max_dot=0
         double angl,curr_dot
         double odfv[3]
-        long i,j,max_doti=0
+        cnp.npy_intp i,j,max_doti=0
 
     #calculate the cos with radians 
-    angl=cos((PI*ang_thr)/180.)    
+    angl=cos((DPY_PI*ang_thr)/180.)    
     #if the maximum peak is lower than the threshold then there is no point continuing tracking
     if qa[0] <= qa_thr:
         return 0
@@ -187,7 +228,7 @@ cdef  long _nearest_direction(double* dx,double* qa,\
             break
         #copy odf_vertices
         for j from 0<=j<3:
-            odfv[j]=odf_vertices[3*<long>ind[i]+j]
+            odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[i]+j]
         #calculate the absolute dot product between dx and odf_vertices
         curr_dot = dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2]         
         if curr_dot < 0: #abs check
@@ -202,37 +243,37 @@ cdef  long _nearest_direction(double* dx,double* qa,\
         return 0       
     #copy the odf_vertices for the voxel qa indices which have the smaller angle
     for j from 0<=j<3:
-        odfv[j]=odf_vertices[3*<long>ind[max_doti]+j]        
+        odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]        
     #if the dot product is negative then return the opposite direction otherwise return the same direction
     if dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2] < 0:
         for j from 0<=j<3:
-            direction[j]=-odf_vertices[3*<long>ind[max_doti]+j]
+            direction[j]=-odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
         return 1    
     else:
         for j from 0<=j<3:
-            direction[j]= odf_vertices[3*<long>ind[max_doti]+j]
+            direction[j]= odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
         return 1
            
 
 @cython.cdivision(True)
-cdef long _propagation_direction(double *point,double* dx,double* qa,\
+cdef cnp.npy_intp _propagation_direction(double *point,double* dx,double* qa,\
                                 double *ind, double *odf_vertices,\
                                 double qa_thr, double ang_thr,\
-                                long *qa_shape,long* strides,\
+                                cnp.npy_intp *qa_shape,cnp.npy_intp* strides,\
                                 double *direction,double total_weight) nogil:
     cdef:
         double total_w=0 #total weighting useful for interpolation  
         double delta=0 #store delta function (stopping function) result
         double new_direction[3] #new propagation direction
         double w[8],qa_tmp[PEAK_NO],ind_tmp[PEAK_NO]
-        long index[24],i,j,m,xyz[4]
+        cnp.npy_intp index[24],i,j,m,xyz[4]
         double normd
-        long peaks=qa_shape[3]#number of allowed peaks e.g. for fa is 1 for gqi.qa is 5
+        cnp.npy_intp peaks=qa_shape[3]#number of allowed peaks e.g. for fa is 1 for gqi.qa is 5
         
     #calculate qa & ind of each of the 8 neighboring voxels
     #to do that we use trilinear interpolation and return the weights 
     #and the indices for the weights i.e. xyz in qa[x,y,z]
-    _trilinear_interpolation(point,<double *>w,<long *>index)
+    _trilinear_interpolation_iso(point,<double *>w,<cnp.npy_intp *>index)
     #check if you are outside of the volume
     for i from 0<=i<3:
         new_direction[i]=0
@@ -245,7 +286,7 @@ cdef long _propagation_direction(double *point,double* dx,double* qa,\
         #fill qa_tmp and ind_tmp 
         for j from 0<=j<peaks:
             xyz[3]=j
-            off=offset(<long*>xyz,strides,4,8)
+            off=offset(<cnp.npy_intp*>xyz,strides,4,8)
             qa_tmp[j]=qa[off]
             ind_tmp[j]=ind[off]            
         #return the nearest direction by searching in all peaks
@@ -270,24 +311,24 @@ cdef long _propagation_direction(double *point,double* dx,double* qa,\
     return 1
 
 
-cdef  long _initial_direction(double* seed,double *qa,\
+cdef  cnp.npy_intp _initial_direction(double* seed,double *qa,\
                                         double* ind, double* odf_vertices,\
-                                        double qa_thr, long* strides, long ref,\
+                                        double qa_thr, cnp.npy_intp* strides, cnp.npy_intp ref,\
                                         double* direction) nogil:
     ''' First direction that we get from a seeding point
     '''
     cdef:
-        long point[4],off
-        long i
+        cnp.npy_intp point[4],off
+        cnp.npy_intp i
         double qa_tmp,ind_tmp
     #very tricky/cool addition/flooring that helps create a valid
     #neighborhood (grid) for the trilinear interpolation to run smoothly
     #find the index for qa
     for i from 0<=i<3:
-        point[i]=<long>floor(seed[i]+.5)
+        point[i]=<cnp.npy_intp>floor(seed[i]+.5)
     point[3]=ref
     #find the offcet in memory to access the qa value
-    off=offset(<long*>point,strides,4,8)    
+    off=offset(<cnp.npy_intp*>point,strides,4,8)    
     qa_tmp=qa[off] 
     #check for scalar threshold
     if qa_tmp < qa_thr:
@@ -297,24 +338,24 @@ cdef  long _initial_direction(double* seed,double *qa,\
         ind_tmp=ind[off] #similar to ind[point] in numpy syntax
         #return initial direction through odf_vertices by ind
         for i from 0<=i<3:
-            direction[i]=odf_vertices[3*<long>ind_tmp+i]
+            direction[i]=odf_vertices[3*<cnp.npy_intp>ind_tmp+i]
         return 1
         
 
 def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\
-                    long ref,\
+                    cnp.npy_intp ref,\
                     cnp.ndarray[double,ndim=4] qa,\
                     cnp.ndarray[double,ndim=4] ind,\
                     cnp.ndarray[double,ndim=2] odf_vertices,\
-                    double qa_thr,double ang_thr,double step_sz,double total_weight):
+                    double qa_thr,double ang_thr,double step_sz,double total_weight,cnp.npy_intp max_points):
     '''
     Parameters
     ------------
     seed : array, shape(3,), point where the tracking starts     
-    ref : long int, which peak to follow first
-    qa : array, shape(Np,), float, quantitative anisotropy matrix,
-    where Np the number of peaks, found using self.Np
-    ind : array, shape(Np,), float, index of the track orientation
+    ref : cnp.npy_intp int, which peak to follow first
+    qa : array, shape(X,Y,Z,Np), float64, anisotropy matrix,
+    where Np the number of maximum allowed peaks, found using self.Np
+    ind : array, shape(Np,), float64, index of the track orientation
     total_weight : double 
                 
     Returns
@@ -327,113 +368,84 @@ def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\
         double *pqa=<double*>qa.data
         double *pin=<double*>ind.data
         double *pverts=<double*>odf_vertices.data
-        long *pstr=<long *>qa.strides
-        long *qa_shape=<long *>qa.shape
-        long *pvstr=<long *>odf_vertices.strides
-        long d,i,j
+        cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides
+        cnp.npy_intp *qa_shape=<cnp.npy_intp *>qa.shape
+        cnp.npy_intp *pvstr=<cnp.npy_intp *>odf_vertices.strides
+        cnp.npy_intp d,i,j,cnt
         double direction[3],dx[3],idirection[3],ps2[3],tmp,ftmp
-    
-    
-    """
-    #don't track seeds on the boundaries    
-    for i from 0<=i<3:
-        if seed[i] ==qa_shape[i]-1 or seed[i] == 0:
-            return None
-    """
-    
-    d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)    
+
+    cnt=0
+    d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)
     if d==0:
         return None
-    
     for i from 0<=i<3:
         #store the initial direction
         dx[i]=idirection[i]
         #ps2 is for downwards and ps for upwards propagation
         ps2[i]=ps[i]
-    
     point=seed.copy()
     track = []
-    track.append(point.copy())   
-
+    track.append(point.copy()) 
     #track towards one direction
     while d:
         d= _propagation_direction(ps,dx,pqa,pin,pverts,qa_thr,\
                                    ang_thr,qa_shape,pstr,direction,total_weight)
         if d==0:
             break
-       
+        if cnt>max_points:
+            break
         #update the track
         for i from 0<=i<3:
             dx[i]=direction[i]
-            
             #check for boundaries
             tmp=ps[i]+step_sz*dx[i]
             #ftmp=floor(tmp+.5)
-            
             if ftmp > qa_shape[i]-1 or tmp < 0.:
                  d=0
                  break
-            
             #propagate
-            ps[i]=tmp           
+            ps[i]=tmp
             point[i]=ps[i]
-        
         #print('point up',point)
+
         if d==1:
             track.append(point.copy())
-        
-       
+            cnt+=1
     d=1
-        
     for i from 0<=i<3:
         dx[i]=-idirection[i]
 
+    cnt=0
     #track towards the opposite direction 
     while d:
         d= _propagation_direction(ps2,dx,pqa,pin,pverts,qa_thr,\
                                    ang_thr,qa_shape,pstr,direction,total_weight)
         if d==0:
             break
+        if cnt>max_points:
+            break
         #update the track
         for i from 0<=i<3:
             dx[i]=direction[i]
-            
             #check for boundaries
-            tmp=ps2[i]+step_sz*dx[i]            
-            #ftmp=floor(tmp+.5)            
+            tmp=ps2[i]+step_sz*dx[i]
+            #ftmp=floor(tmp+.5)
             if tmp > qa_shape[i]-1 or tmp < 0.:
                  d=0
                  break
-
             #propagate
-            ps2[i]=tmp        
+            ps2[i]=tmp
             point[i]=ps2[i] #to be changed
-
         #add track point
-        if d==1:               
+        if d==1:
             track.insert(0,point.copy())
-       
-
+            cnt+=1
     #prepare to return final track for the current seed
     tmp_track=np.array(track,dtype=np.float32)
+
     #some times one of the ends takes small negative values
     #needs to be investigated further
 
-    """
-
-    try:
-        if tmp_track[0,0]<0 or tmp_track[0,1] or tmp_track[0,2]:
-            tmp_track=np.delete(tmp_track,0,0)
-    except:
-        pass
-    
-    try:   
-        if tmp_track[-1,0]<0 or tmp_track[-1,1] or tmp_track[-1,2]:
-            tmp_track=np.delete(tmp_track,len(tmp_track)-1,0)
-    except:
-        pass
-
-    """
     #return track for the current seed point and ref
     return tmp_track
 

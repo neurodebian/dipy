@@ -14,26 +14,28 @@ development - at least - we hope so - if we're developing fast enough!
 Note on python versions
 ***********************
 
-Sorry, but dipy_ does not yet work with python 3 - so all the instructions
-following instructions apply to python 2.5 or python 2.6 or python 2.7.
+Dipy needs python 2.6 or above.  Sorry to say, but dipy_ does not yet work with
+python 3 - so all the instructions following instructions apply to python 2.6 or
+python 2.7.
 
 On OSX we always use the python binaries available from the python.org
 downloads, and not the python that comes with the OSX system.  If you don't have
 the python.org python you need to go to http://python.org/downloads, then
-download and install the python version you want (2.7 or 2.6 or 2.5).  Check
+download and install the python version you want (2.7 or 2.6).  Check
 that you have this version on your path (perhaps after ``. ~/.bash_profile``)
 with ``which python``.  This should show something like::
 
     /Library/Frameworks/Python.framework/Versions/2.6/bin/python
 
-We've compiled dipy against this python, and all our testing on OSX too.
+We've compiled and tested dipy against this python.  The OSX system python may
+work, but it will be harder for you to install dipy (and other software).
 
 ********************
 Installing a release
 ********************
 
 If you are on Debian or Ubuntu Linux we recommend you try
-:ref:`install-packages` first. Otherwise please try `install-easy-install`.
+:ref:`install-packages` first. Otherwise please try :ref:`install-easy-install`.
 
 .. _install-easy-install:
 
@@ -277,6 +279,11 @@ To build in the source tree so you can run the code in the source tree
 
     source ~/.bash_profile
 
+  Then::
+
+      git clone git://github.com/nipy/dipy.git
+      git clone git://github.com/nipy/nibabel.git
+
   so that you can have immediate access to dipy_ without needing to
   restart your terminal.
 
@@ -301,4 +308,4 @@ Then change directory to ``<dipy root>`` and::
 
 to make the html documentation.
 
-
+.. include:: links_names.inc

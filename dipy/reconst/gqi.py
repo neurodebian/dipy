@@ -1,228 +1,180 @@
 """ Classes and functions for generalized q-sampling """
 import numpy as np
+from .odf import OdfModel, OdfFit, gfa
+from .cache import Cache
+import warnings
+from .multi_voxel import multi_voxel_model
+from .recspeed import local_maxima, remove_similar_vertices
 
-import dipy.reconst.recspeed as rp
 
-from dipy.utils.spheremakers import sphere_vf_from
+@multi_voxel_model
+class GeneralizedQSamplingModel(OdfModel, Cache):
+
+    def __init__(self,
+                 gtab,
+                 method='gqi2',
+                 sampling_length=1.2,
+                 normalize_peaks=False):
+        r""" Generalized Q-Sampling Imaging [1]_
+
+        This model has the same assumptions as the DSI method i.e. Cartesian
+        grid sampling in q-space and fast gradient switching.
+
+        Implements equations 2.14 from [2]_ for standard GQI and equation 2.16
+        from [2]_ for GQI2. You can think of GQI2 as an analytical solution of
+        the DSI ODF.
+
+        Parameters
+        ----------
+        gtab : object,
+            GradientTable
+        method : str,
+            'standard' or 'gqi2'
+        sampling_length : float,
+            diffusion sampling length (lambda in eq. 2.14 and 2.16)
+
+        References
+        ----------
+        .. [1] Yeh F-C et. al, "Generalized Q-Sampling Imaging", IEEE TMI, 2010
+
+        .. [2] Garyfallidis E, "Towards an accurate brain tractography", PhD
+        thesis, University of Cambridge, 2012.
+
+        Examples
+        --------
+        Here we create an example where we provide the data, a gradient table
+        and a reconstruction sphere and calculate the ODF for the first
+        voxel in the data.
+
+        >>> from dipy.data import dsi_voxels
+        >>> data, gtab = dsi_voxels()
+        >>> from dipy.core.subdivide_octahedron import create_unit_sphere 
+        >>> sphere = create_unit_sphere(5)
+        >>> from dipy.reconst.gqi import GeneralizedQSamplingModel
+        >>> gq = GeneralizedQSamplingModel(gtab, 'gqi2', 1.4)
+        >>> voxel_signal = data[0, 0, 0]
+        >>> odf = gq.fit(voxel_signal).odf(sphere)
+
+        See Also
+        --------
+        dipy.reconst.gqi.DiffusionSpectrumModel
+
+        """
+        bvals = gtab.bvals
+        gradients = gtab.bvecs
+        self.method = method
+        self.Lambda = sampling_length
+        self.normalize_peaks = normalize_peaks
+        # 0.01506 = 6*D where D is the free water diffusion coefficient
+        # l_values sqrt(6 D tau) D free water diffusion coefficient and
+        # tau included in the b-value
+        scaling = np.sqrt(bvals * 0.01506)
+        tmp = np.tile(scaling, (3, 1))
+        #the b vectors might have nan values where they correspond to b
+        #value equals with 0
+        gradients[np.isnan(gradients)] = 0.
+        gradsT = gradients.T
+        b_vector = gradsT * tmp # element-wise product
+        self.b_vector = b_vector.T
+
+    def fit(self, data):
+        return GeneralizedQSamplingFit(self, data)
 
 
-class GeneralizedQSampling(object):
-    """ Implements Generalized Q-Sampling
+class GeneralizedQSamplingFit(OdfFit):
 
-    Generates a model-free description for every voxel that can
-    be used from simple to very complicated configurations like
-    quintuple crossings if your datasets support them.
+    def __init__(self, model, data):
+        """ Calculates PDF and ODF for a single voxel
 
-    You can use this class for every kind of DWI image but it will
-    perform much better when you have a balanced sampling scheme.
+        Parameters
+        ----------
+        model : object,
+            DiffusionSpectrumModel
+        data : 1d ndarray,
+            signal values
 
-    Implements equation [9] from Generalized Q-Sampling as
-    described in Fang-Cheng Yeh, Van J. Wedeen, Wen-Yih Isaac Tseng.
-    Generalized Q-Sampling Imaging. IEEE TMI, 2010.
+        """
+        self.model = model
+        self.data = data
+        self._gfa = None
+        self.npeaks = 5
+        self._peak_values = None
+        self._peak_indices = None
+        self._qa = None
+
+    def odf(self, sphere):
+        """ Calculates the discrete ODF for a given discrete sphere.
+        """
+        self.gqi_vector = self.model.cache_get('gqi_vector', key=sphere)
+        if self.gqi_vector is None:
+            if self.model.method == 'gqi2':
+                H=squared_radial_component
+                #print self.gqi_vector.shape
+                self.gqi_vector = np.real(H(np.dot(self.model.b_vector, 
+                                        sphere.vertices.T) * self.model.Lambda / np.pi))
+            if self.model.method == 'standard':
+                self.gqi_vector = np.real(np.sinc(np.dot(self.model.b_vector, 
+                                        sphere.vertices.T) * self.model.Lambda / np.pi))
+            self.model.cache_set('gqi_vector', sphere, self.gqi_vector)
+
+        return np.dot(self.data, self.gqi_vector)
+
+
+def normalize_qa(qa, max_qa=None):
+    """ Normalize quantitative anisotropy. 
+
+    Used mostly with GQI rather than GQI2.
 
     Parameters
-    -----------
-    data : array,
-        shape(X,Y,Z,D)
-    bvals : array,
-        shape (N,)
-    gradients : array,
-        shape (N,3) also known as bvecs
-    Lambda : float,
-        smoothing parameter - diffusion sampling length
-
-    Properties
     ----------
-    QA : array, shape(X,Y,Z,5), quantitative anisotropy
-    IN : array, shape(X,Y,Z,5), indices of QA, qa unit directions
-    fwd : float, normalization parameter
+    qa : array, shape (X, Y, Z, N)
+        where N is the maximum number of peaks stored
+    max_qa : float,
+        maximum qa value. Usually found in the CSF (corticospinal fluid).
+
+    Returns
+    -------
+    nqa : array, shape (x, Y, Z, N)
+        normalized quantitative anisotropy
 
     Notes
     -----
-    In order to reconstruct the spin distribution function a nice symmetric
-    evenly distributed sphere is provided using 362 or 642 points. This is
-    usually sufficient for most of the datasets.
+    Normalized quantitative anisotropy has the very useful property
+    to be very small near gray matter and background areas. Therefore, 
+    it can be used to mask out white matter areas. 
 
-    See also
-    --------
-    dipy.tracking.propagation.EuDX, dipy.reconst.dti.Tensor, dipy.data.get_sphere
     """
-    def __init__(self, data, bvals, gradients,
-                 Lambda=1.2, odf_sphere='symmetric362', mask=None):
-        """ Generates a model-free description for every voxel that can
-        be used from simple to very complicated configurations like
-        quintuple crossings if your datasets support them.
+    if max_qa is None:
+        return qa / qa.max()
+    return qa / max_qa
 
-        You can use this class for every kind of DWI image but it will
-        perform much better when you have a balanced sampling scheme.
 
-        Implements equation [9] from Generalized Q-Sampling as
-        described in Fang-Cheng Yeh, Van J. Wedeen, Wen-Yih Isaac Tseng.
-        Generalized Q-Sampling Imaging. IEEE TMI, 2010.
+def squared_radial_component(x, tol=0.01):
+    """ Part of the GQI2 integral
 
-        Parameters
-        -----------
-        data: array, shape(X,Y,Z,D)
-        bvals: array, shape (N,)
-        gradients: array, shape (N,3) also known as bvecs
-        Lambda: float, optional
-            smoothing parameter - diffusion sampling length
-        odf_sphere : None or str or tuple, optional
-            input that will result in vertex, face arrays for a sphere.
-        mask : None or ndarray, optional
+    Eq.8 in the referenced paper by Yeh et al. 2010
+    """
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        result = (2 * x * np.cos(x) + (x * x - 2) * np.sin(x)) / (x ** 3)
+    x_near_zero = (x < tol) & (x > -tol)
+    return np.where(x_near_zero, 1./3, result)
 
-        Key Properties
-        ---------------
-        QA : array, shape(X,Y,Z,5), quantitative anisotropy
-        IN : array, shape(X,Y,Z,5), indices of QA, qa unit directions
-        fwd : float, normalization parameter
 
-        Notes
-        -------
-        In order to reconstruct the spin distribution function  a nice symmetric
-        evenly distributed sphere is provided using 362 points. This is usually
-        sufficient for most of the datasets.
+def npa(self, odf, width=5):
+    """ non-parametric anisotropy
 
-        See also
-        --------
-        dipy.tracking.propagation.EuDX, dipy.reconst.dti.Tensor,
-        dipy.data.__init__.get_sphere
-        """
-        odf_vertices, odf_faces = sphere_vf_from(odf_sphere)
-        self.odf_vertices=odf_vertices
+    Nimmo-Smith et. al  ISMRM 2011
+    """
+    #odf = self.odf(s)
+    t0, t1, t2 = triple_odf_maxima(self.odf_vertices, odf, width)
+    psi0 = t0[1] ** 2
+    psi1 = t1[1] ** 2
+    psi2 = t2[1] ** 2
+    npa = np.sqrt((psi0 - psi1) ** 2 + (psi1 - psi2) ** 2 + (psi2 - psi0) ** 2) / np.sqrt(2 * (psi0 ** 2 + psi1 ** 2 + psi2 ** 2))
+    #print 'tom >>>> ',t0,t1,t2,npa
 
-        # 0.01506 = 6*D where D is the free water diffusion coefficient 
-        # l_values sqrt(6 D tau) D free water diffusion coefficient and
-        # tau included in the b-value
-        scaling = np.sqrt(bvals*0.01506)
-        tmp=np.tile(scaling, (3,1))
-
-        #the b vectors might have nan values where they correspond to b
-        #value equals with 0
-        gradients[np.isnan(gradients)]= 0.
-        gradsT = gradients.T
-        b_vector=gradsT*tmp # element-wise also known as the Hadamard product
-
-        #q2odf_params=np.sinc(np.dot(b_vector.T, odf_vertices.T) * Lambda/np.pi)              
-
-        q2odf_params=np.real(np.sinc(np.dot(b_vector.T, odf_vertices.T) * Lambda/np.pi))
-        
-        #q2odf_params[np.isnan(q2odf_params)]= 1.
-
-        #define total mask 
-        #tot_mask = (mask > 0) & (data[...,0] > thresh)
-        
-        S=data
-
-        datashape=S.shape #initial shape
-        msk=None #tmp mask
-
-        if len(datashape)==4:
-
-            x,y,z,g=S.shape        
-            S=S.reshape(x*y*z,g)
-            QA = np.zeros((x*y*z,5))
-            IN = np.zeros((x*y*z,5))
-
-            if mask != None:
-                if mask.shape[:3]==datashape[:3]:
-                    msk=mask.ravel().copy()
-                    #print 'msk.shape',msk.shape
-
-        if len(datashape)==2:
-
-            x,g= S.shape
-            QA = np.zeros((x,5))
-            IN = np.zeros((x,5))  
-            
-        glob_norm_param = 0
-
-        self.q2odf_params=q2odf_params
-
-        #Calculate Quantitative Anisotropy and 
-        #find the peaks and the indices
-        #for every voxel
-        
-        if mask !=None:
-            for (i,s) in enumerate(S):                            
-                if msk[i]>0:
-                    #Q to ODF
-                    odf=np.dot(s,q2odf_params)            
-                    peaks,inds=rp.peak_finding(odf,odf_faces)            
-                    glob_norm_param=max(np.max(odf),glob_norm_param)
-                    #remove the isotropic part
-                    peaks = peaks - np.min(odf)
-                    l=min(len(peaks),5)
-                    QA[i][:l] = peaks[:l]
-                    IN[i][:l] = inds[:l]
-
-        if mask==None:
-            for (i,s) in enumerate(S):                            
-                #Q to ODF
-                odf=np.dot(s,q2odf_params)            
-                peaks,inds=rp.peak_finding(odf,odf_faces)            
-                glob_norm_param=max(np.max(odf),glob_norm_param)
-                #remove the isotropic part
-                peaks = peaks - np.min(odf)
-                l=min(len(peaks),5)
-                QA[i][:l] = peaks[:l]
-                IN[i][:l] = inds[:l]
-
-        #normalize
-        QA/=glob_norm_param
-       
-        if len(datashape) == 4:
-            self.QA=QA.reshape(x,y,z,5)    
-            self.IN=IN.reshape(x,y,z,5)
-            
-        if len(datashape) == 2:
-            self.QA=QA
-            self.IN=IN
-            
-        self.glob_norm_param = glob_norm_param
-        
-
-    def qa(self):
-        """ quantitative anisotropy
-        """
-        return self.QA
-    
-    def ind(self):
-        """ 
-        indices on the sampling sphere
-        """
-        return self.IN
-
-    def odf(self,s):
-        """ spin density orientation distribution function
-         
-        Parameters
-        -----------        
-        s : array, shape(D),
-            diffusion signal for one point in the dataset
-        
-        Returns
-        ---------
-        odf : array, shape(len(odf_vertices)), 
-            spin density orientation distribution function        
-
-        """
-        return np.dot(s,self.q2odf_params)
-
-    def npa(self,s,width=5):
-        """ non-parametric anisotropy
-        
-        Nimmo-Smith et. al  ISMRM 2011
-        """   
-        odf=self.odf(s)
-        t0,t1,t2=triple_odf_maxima(self.odf_vertices, odf, width)
-        psi0 = t0[1]**2
-        psi1 = t1[1]**2
-        psi2 = t2[1]**2
-        npa = np.sqrt((psi0-psi1)**2+(psi1-psi2)**2+(psi2-psi0)**2)/np.sqrt(2*(psi0**2+psi1**2+psi2**2))
-        #print 'tom >>>> ',t0,t1,t2,npa
-
-        return t0,t1,t2,npa
+    return t0,t1,t2,npa
 
 
 def equatorial_zone_vertices(vertices, pole, width=5):
@@ -231,6 +183,7 @@ def equatorial_zone_vertices(vertices, pole, width=5):
     to 'pole' with width half 'width' degrees
     """
     return [i for i,v in enumerate(vertices) if np.abs(np.dot(v,pole)) < np.abs(np.sin(np.pi*width/180))]
+
 
 def polar_zone_vertices(vertices, pole, width=5):
     """
@@ -246,6 +199,7 @@ def upper_hemi_map(v):
     """
     return np.sign(v[2])*v
 
+
 def equatorial_maximum(vertices, odf, pole, width):
     eqvert = equatorial_zone_vertices(vertices, pole, width)
     #need to test for whether eqvert is empty or not
@@ -259,17 +213,17 @@ def equatorial_maximum(vertices, odf, pole, width):
 
     return eqvertmax, eqvalmax
 
-#"""
+
 def patch_vertices(vertices,pole, width):
     """
     find 'vertices' within the cone of 'width' degrees around 'pole'
     """
     return [i for i,v in enumerate(vertices) if np.abs(np.dot(v,pole)) > np.abs(np.cos(np.pi*width/180))]
-#"""
+
 
 def patch_maximum(vertices, odf, pole, width):
-    eqvert = patch_vertices(vertices, pole, width)    
-    #need to test for whether eqvert is empty or not    
+    eqvert = patch_vertices(vertices, pole, width)
+    #need to test for whether eqvert is empty or not
     if len(eqvert) == 0:
         print('empty cone around pole %s with with width %f' % (np.array_str(pole), width))
         return np.Null, np.Null
@@ -278,6 +232,20 @@ def patch_maximum(vertices, odf, pole, width):
     eqvertmax = eqvert[eqargmax]
     eqvalmax = eqvals[eqargmax]
     return eqvertmax, eqvalmax
+
+
+def odf_sum(odf):
+    return np.sum(odf)
+
+
+def patch_sum(vertices, odf, pole, width):
+    eqvert = patch_vertices(vertices, pole, width)
+    #need to test for whether eqvert is empty or not
+    if len(eqvert) == 0:
+        print('empty cone around pole %s with with width %f' % (np.array_str(pole), width))
+        return np.Null
+    return np.sum([odf[i] for i in eqvert])
+
 
 def triple_odf_maxima(vertices, odf, width):
 
@@ -291,9 +259,7 @@ def triple_odf_maxima(vertices, odf, width):
     odfmax3 = odf[indmax3]
     """
     cross12 = np.cross(vertices[indmax1],vertices[indmax2])
-    cross12 = cross12/np.sqrt(np.sum(cross12**2))    
+    cross12 = cross12/np.sqrt(np.sum(cross12**2))
     indmax3, odfmax3 = patch_maximum(vertices, odf, cross12, 2*width)
     """
     return [(indmax1, odfmax1),(indmax2, odfmax2),(indmax3, odfmax3)]
-
-

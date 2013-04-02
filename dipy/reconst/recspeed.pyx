@@ -10,20 +10,17 @@ cimport cython
 import numpy as np
 cimport numpy as cnp
 
+from libc.stdlib cimport malloc, free
+from libc.string cimport memcpy
 
-
-cdef extern from "math.h" nogil:
+cdef extern from "dpy_math.h" nogil:
     double floor(double x)
-    float fabs(float x)
-    double log2(double x)
+    double fabs(double x)
     double cos(double x)
     double sin(double x)
     float acos(float x )
-    bint isnan(double x)
     double sqrt(double x)
-
-
-DEF PI=3.1415926535897931
+    double DPY_PI
 
 
 # initialize numpy runtime
@@ -37,142 +34,405 @@ cdef inline double* asdp(cnp.ndarray pt):
     return <double *>pt.data
 
 
-#@cython.boundscheck(False)
-@cython.wraparound(False)
-def peak_finding_edges(odf, edges_on_sphere):
+cdef void splitoffset(float *offset, size_t *index, size_t shape) nogil:
+    """Splits a global offset into an integer index and a relative offset"""
+    offset[0] -= .5
+    if offset[0] <= 0:
+        index[0] = 0
+        offset[0] = 0.
+    elif offset[0] >= (shape - 1):
+        index[0] = shape - 2
+        offset[0] = 1.
+    else:
+        index[0] = <size_t> offset[0]
+        offset[0] = offset[0] - index[0]
 
-    cdef:
-        cnp.ndarray[cnp.uint16_t, ndim=2] cedges = np.ascontiguousarray(edges_on_sphere)
-        cnp.ndarray[cnp.float64_t, ndim=1] codf = np.ascontiguousarray(odf)
-        cnp.ndarray[cnp.uint8_t, ndim=1] cpeak = np.ones(odf.shape, np.uint8)
-        int i=0
-        int lenedges = len(cedges)
-        int find0,find1
-        double odf0,odf1
-    
-    for i from 0 <= i < lenedges:
-
-        find0 = cedges[i,0]
-        find1 = cedges[i,1]
-
-        odf0 = codf[find0]
-        odf1 = codf[find1]
-
-        if odf0 > odf1:
-            cpeak[find1] = 0
-        elif odf0 < odf1:
-            cpeak[find1] = 0
-
-    cpeak = np.array(cpeak)
-
-    #find local maxima and give fiber orientation (inds) and magnitude
-    #peaks in a descending order
-
-    inds = cpeak.nonzero()[0]
-    pinds = odf[inds].argsort()
-    inds = inds[pinds][::-1]
-    peaks = odf[inds]
-
-    return peaks, inds
 
 @cython.boundscheck(False)
 @cython.wraparound(False)
-def peak_finding(odf, odf_faces):
-    ''' Hemisphere local maxima from sphere values and faces
+@cython.cdivision(True)
+def trilinear_interp(cnp.ndarray[cnp.float32_t, ndim=4, mode='strided'] data,
+                     cnp.ndarray[cnp.float_t, ndim=1, mode='strided'] index,
+                     cnp.ndarray[cnp.float_t, ndim=1, mode='c'] voxel_size):
+    """Interpolates data at index
 
-    Return local maximum values and indices. Local maxima (peaks) are
-    given in descending order.
+    Interpolates data from a 4d volume, first 3 dimensions are x, y, z the
+    last dimension holds data.
+    """
+    cdef:
+        float x = index[0] / voxel_size[0]
+        float y = index[1] / voxel_size[1]
+        float z = index[2] / voxel_size[2]
+        float weight
+        size_t x_ind, y_ind, z_ind, ii, jj, kk, LL
+        size_t last_d = data.shape[3]
+        bint bounds_check
+        cnp.ndarray[cnp.float32_t, ndim=1, mode='c'] result
+    bounds_check = (x < 0 or y < 0 or z < 0 or
+                    x > data.shape[0] or
+                    y > data.shape[1] or
+                    z > data.shape[2])
+    if bounds_check:
+        raise IndexError
 
-    The sphere mesh, as defined by the vertex coordinates ``vertices``
-    and the face indices ``odf_faces``, has to conform to the check in
-    ``dipy.core.meshes.peak_finding_compatible``.  If it does not, then
-    the results from peak finding routine will be unpredictable.
+    splitoffset(&x, &x_ind, data.shape[0])
+    splitoffset(&y, &y_ind, data.shape[1])
+    splitoffset(&z, &z_ind, data.shape[2])
+
+    result = np.zeros(last_d, dtype='float32')
+    for ii from 0 <= ii <= 1:
+        for jj from 0 <= jj <= 1:
+            for kk from 0 <= kk <= 1:
+                weight = wght(ii, x)*wght(jj, y)*wght(kk, z)
+                for LL from 0 <= LL < last_d:
+                    result[LL] += data[x_ind+ii,y_ind+jj,z_ind+kk,LL]*weight
+    return result
+
+
+@cython.profile(False)
+cdef float wght(int i, float r) nogil:
+    if i:
+        return r
+    else:
+        return 1.-r
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def remove_similar_vertices(cnp.ndarray[cnp.float_t, ndim=2, mode='strided'] vertices,
+                            double theta,
+                            bint return_mapping=False,
+                            bint return_index=False):
+    """remove_similar_vertices(vertices, theta)
+
+    Returns vertices that are separated by at least theta degrees from all
+    other vertices. Vertex v and -v are considered the same so if v and -v are
+    both in `vertices` only one is kept. Also if v and w are both in vertices,
+    w must be separated by theta degrees from both v and -v to be unique.
 
     Parameters
-    ------------
-    odf : (N,) array
-       function values on the sphere, where N is the number of vertices
-       on the sphere
-    odf_faces : (M,3) array
-       faces of the triangulation on the sphere, where M is the number
-       of faces on the sphere
+    ----------
+    vertices : (N, 3) ndarray
+        N unit vectors
+    theta : float
+        The minimum separation between vertices in degrees.
 
     Returns
-    ---------
-    peaks : (L,) array, dtype np.float64
-       peak values, shape (L,) where L can vary and is the number of
-       local moximae (peaks).  Values are sorted, largest first
-    inds : (L,) array, dtype np.uint16
-       indices of the peak values on the `odf` array corresponding to
-       the maxima in `peaks`
-    
-    Notes
-    -----
-    In summary this function does the following:
+    -------
+    unique_vertices : (M, 3) ndarray
+        Vertices sufficiently separated from one another.
+    mapping : (N,) ndarray
+        Indices into unique_vertices. For each vertex in `vertices` the index
+        of a vertex in `unique_vertices` that is less than theta degrees away.
 
-    Where the smallest odf values in the vertices of a face put
-    zeros on them. By doing that for the vertices of all faces at the
-    end you only have the peak points with nonzero values.
-
-    For precalculated odf_faces look under
-    dipy/data/evenly*.npz to use them try numpy.load()['faces']
-    
-    Examples
-    ----------
-    This is called from GeneralizedQSampling or QBall and other models with orientation
-    distribution functions.
-
-    See also
-    -----------
-    dipy.core.meshes
-    '''
+    """
+    if vertices.shape[1] != 3:
+        raise ValueError()
     cdef:
-        cnp.ndarray[cnp.uint16_t, ndim=2] cfaces = np.ascontiguousarray(odf_faces)
-        cnp.ndarray[cnp.float64_t, ndim=1] codf = np.ascontiguousarray(odf)
-        cnp.ndarray[cnp.float64_t, ndim=1] cpeak = odf.copy()
-        int i=0
-        int test=0
-        int lenfaces = len(cfaces)
-        double odf0,odf1,odf2
-        int find0,find1,find2
+        cnp.ndarray[cnp.float_t, ndim=2, mode='c'] unique_vertices
+        cnp.ndarray[cnp.uint16_t, ndim=1, mode='c'] mapping
+        cnp.ndarray[cnp.uint16_t, ndim=1, mode='c'] index
+        char pass_all
+        size_t i, j
+        size_t count = 0
+        size_t n = vertices.shape[0]
+        double a, b, c, sim
+        double cos_similarity = cos(DPY_PI/180 * theta)
+    if n > 2**16:
+        raise ValueError("too many vertices")
+    unique_vertices = np.empty((n, 3), dtype=np.float)
+    if return_mapping:
+        mapping = np.empty(n, dtype=np.uint16)
+    else:
+        mapping = None
+    if return_index:
+        index = np.empty(n, dtype=np.uint16)
+    else:
+        index = None
+
+    for i in range(n):
+        pass_all = 1
+        a = vertices[i, 0]
+        b = vertices[i, 1]
+        c = vertices[i, 2]
+        for j in range(count):
+            sim = fabs(a * unique_vertices[j, 0] +
+                       b * unique_vertices[j, 1] +
+                       c * unique_vertices[j, 2])
+            if sim > cos_similarity:
+                pass_all = 0
+                if return_mapping:
+                    mapping[i] = j
+                break
+        if pass_all:
+            unique_vertices[count, 0] = a
+            unique_vertices[count, 1] = b
+            unique_vertices[count, 2] = c
+            if return_mapping:
+                mapping[i] = count
+            if return_index:
+                index[count] = i
+            count += 1
+
+    if return_mapping and return_index:
+        return unique_vertices[:count].copy(), mapping, index[:count].copy()
+    elif return_mapping:
+        return unique_vertices[:count].copy(), mapping
+    elif return_index:
+        return unique_vertices[:count].copy(), index[:count].copy()
+    else:
+        return unique_vertices[:count].copy()
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def search_descending(cnp.ndarray[cnp.float_t, ndim=1, mode='c'] a,
+                       double relative_threshould):
+    """Searches a descending array for the first element smaller than some
+    threshold
+
+    Parameters
+    ----------
+    a : ndarray, ndim=1, c-contiguous
+        Array to be searched.
+    relative_threshold : float
+        Threshold relative to `a[0]`.
+
+    Returns
+    -------
+    i : int
+        The greatest index such that ``all(a[:i] >= relative_threshold *
+        a[0])``.
+
+    Note
+    ----
+    This function will never return 0, 1 is returned if ``a[0] <
+    relative_threshold * a[0]`` or if ``len(a) == 0``.
+
+    """
+    if a.shape[0] == 0:
+        return 1
+
+    cdef:
+        size_t left = 1
+        size_t right = a.shape[0]
+        size_t mid
+        double threshold = relative_threshould * a[0]
+
+    while left != right:
+        mid = (left + right) // 2
+        if a[mid] >= threshold:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+@cython.profile(True)
+def local_maxima(cnp.ndarray odf, cnp.ndarray edges):
+    """local_maxima(odf, edges)
+    Finds the local maxima of a function evaluated on a discrete set of points.
+
+    If a function is evaluated on some set of points where each pair of
+    neighboring points is an edge in edges, find the local maxima.
+
+    Parameters
+    ----------
+    odf : array, 1d, dtype=double
+        The function evaluated on a set of discrete points.
+    edges : array (N, 2)
+        The set of neighbor relations between the points. Every edge, ie
+        `edges[i, :]`, is a pair of neighboring points.
+
+    Returns
+    -------
+    peak_values : ndarray
+        Value of odf at a maximum point. Peak values is sorted in descending
+        order.
+    peak_indices : ndarray
+        Indices of maximum points. Sorted in the same order as `peak_values` so
+        `odf[peak_indices[i]] == peak_values[i]`.
+
+    Note
+    ----
+    A point is a local maximum if it is > at least one neighbor and >= all
+    neighbors. If no points meets the above criteria, 1 maximum is returned
+    such that `odf[maximum] == max(odf)`.
+
+    See Also
+    --------
+    dipy.core.sphere
+    """
+    cdef:
+        cnp.ndarray[cnp.npy_intp] wpeak
+    wpeak = np.zeros((odf.shape[0],), dtype=np.intp)
+    count = _compare_neighbors(odf, edges, &wpeak[0])
+    if count == -1:
+        raise IndexError("Values in edges must be < len(odf)")
+    elif count == -2:
+        raise ValueError("odf can not have nans")
+    indices = wpeak[:count].copy()
+    # Get peak values return
+    values = odf.take(indices)
+    # Sort both values and indices
+    _cosort(values, indices)
+    return values, indices
+
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+cdef void _cosort(double[::1] A, cnp.npy_intp[::1] B) nogil:
+    """Sorts A inplace and applies the same reording to B"""
+    cdef:
+        size_t n = A.shape[0]
+        size_t hole
+        double insert_A
+        long insert_B
+
+    for i in range(1, n):
+        insert_A = A[i]
+        insert_B = B[i]
+        hole = i
+        while hole > 0 and insert_A > A[hole -1]:
+            A[hole] = A[hole - 1]
+            B[hole] = B[hole - 1]
+            hole -= 1
+        A[hole] = insert_A
+        B[hole] = insert_B
+
+
+@cython.wraparound(False)
+@cython.boundscheck(False)
+cdef long _compare_neighbors(double[:] odf, cnp.uint16_t[:, :] edges,
+                             cnp.npy_intp *wpeak_ptr) nogil:
+    """Compares every pair of points in edges
+
+    Parameters
+    ----------
+    odf :
+        values of points on sphere.
+    edges :
+        neighbor relationships on sphere. Every set of neighbors on the sphere
+        should be an edge.
+    wpeak_ptr : pointer
+        pointer to a block of memory which will be updated with the result of
+        the comparisons. This block of memory must be large enough to hold
+        len(odf) longs. The first `count` elements of wpeak will be updated
+        with the indices of the peaks.
+
+    Returns
+    -------
+    count : long
+        Number of maxima in odf. A value < 0 indicates an error:
+            -1 : value in edges too large, >= than len(odf)
+            -2 : odf contains nans
+    """
+    cdef:
+        size_t lenedges = edges.shape[0]
+        size_t lenodf = odf.shape[0]
+        size_t i
+        cnp.uint16_t find0, find1
+        double odf0, odf1
+        long count = 0
+
+    for i in range(lenedges):
+
+        find0 = edges[i, 0]
+        find1 = edges[i, 1]
+        if find0 >= lenodf or find1 >= lenodf:
+            count = -1
+            break
+        odf0 = odf[find0]
+        odf1 = odf[find1]
+
+        """
+        Here `wpeak_ptr` is used as an indicator array that can take one of
+        three values.  If `wpeak_ptr[i]` is:
+        * -1 : point i of the sphere is smaller than at least one neighbor.
+        *  0 : point i is equal to all its neighbors.
+        *  1 : point i is > at least one neighbor and >= all its neighbors.
+
+        Each iteration of the loop is a comparison between neighboring points
+        (the two point of an edge). At each iteration we update wpeak_ptr in the
+        following way::
+
+            wpeak_ptr[smaller_point] = -1
+            if wpeak_ptr[larger_point] == 0:
+                wpeak_ptr[larger_point] = 1
+
+        If the two points are equal, wpeak is left unchanged.
+        """
+        if odf0 < odf1:
+            wpeak_ptr[find0] = -1
+            wpeak_ptr[find1] |= 1
+        elif odf0 > odf1:
+            wpeak_ptr[find0] |= 1
+            wpeak_ptr[find1] = -1
+        elif (odf0 != odf0) or (odf1 != odf1):
+            count = -2
+            break
+
+    if count < 0:
+        return count
+
+    # Count the number of peaks and use first count elements of wpeak_ptr to
+    # hold indices of those peaks
+    for i in range(lenodf):
+        if wpeak_ptr[i] > 0:
+            wpeak_ptr[count] = i
+            count += 1
+
+    # If count == 0, all values of odf are equal, and point 0 is returned as a
+    # peak to satisfy the requirement that peak_values[0] == max(odf).
+    if count == 0:
+        count = 1
+        wpeak_ptr[0] = 0
+
+    return count
+
+
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def le_to_odf(cnp.ndarray[double, ndim=1] odf, \
+                 cnp.ndarray[double, ndim=1] LEs,\
+                 cnp.ndarray[double, ndim=1] radius,\
+                 int odfn,\
+                 int radiusn,\
+                 int anglesn):
+    """ Expecting interpolated laplacian normalized signal and  then calculates the odf for that.
+    """    
+    cdef int m,i,j    
     
-    for i in range(lenfaces):
+    with nogil:    
+        for m in range(odfn):
+            for i in range(radiusn):
+                for j in range(anglesn):
+                    odf[m]=odf[m]-LEs[(m*radiusn+i)*anglesn+j]*radius[i]
 
-        find0 = cfaces[i,0]
-        find1 = cfaces[i,1]
-        find2 = cfaces[i,2]        
-        
-        odf0=codf[find0]
-        odf1=codf[find1]
-        odf2=codf[find2]       
+    return
 
-        if odf0 >= odf1 and odf0 >= odf2:
-            cpeak[find1] = 0
-            cpeak[find2] = 0
-            continue
-
-        if odf1 >= odf0 and odf1 >= odf2:
-            cpeak[find0] = 0
-            cpeak[find2] = 0
-            continue
-
-        if odf2 >= odf0 and odf2 >= odf1:
-            cpeak[find0] = 0
-            cpeak[find1] = 0
-            continue
-
-    peak=np.array(cpeak)
-    peak=peak[0:len(peak)/2]
-
-    #find local maxima and give fiber orientation (inds) and magnitude
-    #peaks in a descending order
-
-    inds=np.where(peak>0)[0]
-    pinds=np.argsort(peak[inds])
-    peaks=peak[inds[pinds]][::-1]
-
-    return peaks, inds[pinds][::-1]
-
+@cython.boundscheck(False)
+@cython.wraparound(False)
+def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,\
+    cnp.ndarray[long, ndim=1] blocks,\
+    cnp.ndarray[double, ndim=1] out,int outn):
+    """ Summations on blocks of 1d array
+    
+    """
+    cdef:
+        int m,i,j
+        double sum    
+	
+    with nogil:
+        j=0
+        for m in range(outn):    		
+            sum=0
+            for i in range(j,j+blocks[m]):
+                sum+=arr[i]
+            out[m]=sum
+            j+=blocks[m]
+    return
 
 def argmax_from_adj(vals, vertex_inds, adj_inds):
     """ Indices of local maxima from `vals` given adjacent points

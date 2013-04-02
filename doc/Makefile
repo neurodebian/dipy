@@ -40,11 +40,16 @@ clean: examples-clean
 examples-clean:
 	-cd examples_built && rm -rf *.py *.rst *.png fig
 
-examples-tgz: examples-clean rstexamples
+examples-clean-tgz: examples-clean examples-tgz
+	../tools/pack_examples.py ../dist
+
+examples-tgz: rstexamples
 	../tools/pack_examples.py ../dist
 
 gitwash-update:
-	python ../tools/gitwash_dumper.py devel dipy --repo-name=dipy --github-user=Garyfallidis
+	python ../tools/gitwash_dumper.py devel dipy --repo-name=dipy --github-user=nipy \
+            --project-url=http://nipy.org/dipy \
+            --project-ml-url=http://mail.scipy.org/mailman/listinfo/nipy-devel
 
 html: rstexamples html-after-examples
 	# build full docs including examples
@@ -123,8 +128,14 @@ pdf-stamp: latex
 # This one udates for the specific user named at the top of the makefile
 upload-website: upload-website-$(SF_USER)
 
-upload-website-%: html
+upload-website-%: html examples-tgz
 	$(RSYNC_SF) _build/html/* _build/latex/*.pdf $*,$(WWW_SF)
+
+# This one udates for the specific user named at the top of the makefile
+upload-examples: upload-examples-$(SF_USER)
+
+upload-examples-%: examples-tgz
+	$(RSYNC_SF) ../dist/*-doc-examples.tar.gz $*,$(WWW_SF)
 
 #upload-website-%: pdf-stamp html
 #	$(RSYNC_SF) _build/html/* _build/latex/*.pdf $*,$(WWW_SF)

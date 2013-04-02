@@ -12,16 +12,21 @@ Publications
 
 [5] Garyfallidis E, Brett M, Amirbekian B, Nguyen C, Yeh F-C, Olivetti E, Halchenko Y, Nimmo-Smith I "Dipy - a novel software library for diffusion MR and tractography", 17th Annual Meeting of the Organization for Human Brain Mapping.
 
-[6] Yeh F-C, Wedeen VJ, Tseng WY,  "Generalized Q-Sampling Imaging"
+[6] Yeh F-C, Wedeen VJ, Tseng WY (2010), "Generalized Q-Sampling Imaging", IEEE Trans. Med. Imaging.
 
-A short note
---------------
+[7] Garyfallidis E, Brett M, Correia M.M, Williams G.B, Nimmo-Smith I. (2012), "QuickBundles, a method for tractography simplification", Frontiers in
+Neuroscience, 6 (175).
 
-* If you are using the Local Skeleton Clustering (LSC) method please cite [1].
 
-* If you are using track correspondence use [2].
+A note on citing our work
+--------------------------
 
-* If you are using Generalized Q-sampling please cite [7].
+* The main reference citation for Dipy is [5].
 
-* For everything else please cite [6].
- 
+* If you are using QuickBundles method please also cite [7].
+
+* If you are using track correspondence also cite [2].
+
+* If you are using Generalized Q-sampling please also cite [6].
+
+

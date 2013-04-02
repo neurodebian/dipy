@@ -7,7 +7,7 @@ docs.  In setup.py in particular, we exec this file, so it cannot import dipy
 # full release.  '.dev' as a _version_extra string means this is a development
 # version
 _version_major = 0
-_version_minor = 5
+_version_minor = 6
 _version_micro = 0
 #_version_extra = '.dev'
 _version_extra = ''
@@ -62,10 +62,10 @@ You can find our sources and single-click downloads:
 * Download as a tar/zip file the `current trunk`_.
 * Downloads of all `available releases`_.
 
-.. _main repository: http://github.com/Garyfallidis/dipy
+.. _main repository: http://github.com/nipy/dipy
 .. _Documentation: http://dipy.org
-.. _current trunk: http://github.com/Garyfallidis/dipy/archives/master
-.. _available releases: http://github.com/Garyfallidis/dipy/downloads
+.. _current trunk: https://github.com/nipy/dipy/archive/master.zip
+.. _available releases: https://pypi.python.org/pypi/dipy
 
 License
 =======
@@ -76,9 +76,9 @@ dipy distribution.
 """
 
 # versions for dependencies
-NUMPY_MIN_VERSION='1.2'
-SCIPY_MIN_VERSION='0.6' # Guessed
-CYTHON_MIN_VERSION='0.13'
+NUMPY_MIN_VERSION='1.3'
+SCIPY_MIN_VERSION='0.7.2'
+CYTHON_MIN_VERSION='0.17'
 NIBABEL_MIN_VERSION='1.0.0'
 
 # Main setup parameters
@@ -88,7 +88,7 @@ MAINTAINER_EMAIL    = "nipy-devel@neuroimaging.scipy.org"
 DESCRIPTION         = description
 LONG_DESCRIPTION    = long_description
 URL                 = "http://dipy.org"
-DOWNLOAD_URL        = "http://github.com/Garyfallidis/dipy/archives/master"
+DOWNLOAD_URL        = "http://github.com/nipy/dipy/archives/master"
 LICENSE             = "BSD license"
 CLASSIFIERS         = CLASSIFIERS
 AUTHOR              = "dipy developers"

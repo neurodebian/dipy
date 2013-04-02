@@ -6,7 +6,6 @@ A guide to making a dipy release
 
 A guide for developers who are doing a dipy release
 
-* Edit :file:`info.py` and bump the version number
 
 .. _release-tools:
 
@@ -19,6 +18,7 @@ in the ``testers`` module of that package.  Dipy has Makefile targets for their
 use.  The relevant targets are::
 
     make check-version-info
+    make check-files
     make sdist-tests
 
 The first installs the code from a git archive, from the repository, and for
@@ -41,22 +41,30 @@ the tests from the resulting directory.
 Release checklist
 =================
 
-* Review the open list of `issues <http://github.com/Garyfallidis/dipy/issues>`_ .
-  Check whether there are outstanding issues that can be closed, and whether
-  there are any issues that should delay the release.  Label them !
+* Review the open list of `dipy issues`_.  Check whether there are
+  outstanding issues that can be closed, and whether there are any issues that
+  should delay the release.  Label them !
 
 * Review and update the release notes.  Review and update the :file:`Changelog`
   file.  Get a partial list of contributors with something like::
 
-      git log 0.4.0.. | grep '^Author' | cut -d' ' -f 2- | sort | uniq
+      git log 0.5.0.. | grep '^Author' | cut -d' ' -f 2- | sort | uniq
 
-  where ``0.4.0`` was the last release tag name.
+  where ``0.5.0`` was the last release tag name.
 
-  Then manually go over the *git log* to make sure the release notes are
-  as complete as possible and that every contributor was recognized.
+  Then manually go over ``git shortlog 0.5.0..`` to make sure the release notes
+  are as complete as possible and that every contributor was recognized.
+
+* Use the opportunity to update the ``.mailmap`` file if there are any duplicate
+  authors listed from ``git shortlog -ns``.
+
+* Add any new authors to the ``AUTHORS`` file.  Add any new entries to the
+  ``THANKS`` file.
+
+* Check the copyright years in ``doc/conf.py`` and ``LICENSE``
 
 * Check the ``long_description`` in ``dipy/info.py``.  Check it matches the
-  ``README`` in the root directory.
+  ``README`` in the root directory, maybe with ``vim`` ``diffthis`` command.
 
 * Clean and compile::
 
@@ -129,9 +137,67 @@ Release checklist
 
   etc.  (``workon`` is a virtualenvwrapper command).
 
-* Repeat binary builds for Linux 32, 64 bit and OS X.
+  For OSX and python 2.5 only, the installation didn't recognize it was doing a fat (i386 + PPC)
+  build, and build with name ``dipy-0.5.0-py2.5-macosx-10.3-i386.egg``.  I tried
+  to tell it to use ``fat`` and ``universal`` in the name, but uploading these
+  tp pypi didn't result in in easy_install finding them.  In the end did the
+  standard::
 
-* Get to a windows machine and do egg and wininst builds::
+    python setup.py bdist_egg upload
+
+  which uploaded the 'i386' egg, followed by::
+
+    python setup.py bdist_egg --plat-name macosx-10.3-ppc upload
+
+  which may or may not work to allow easy_install to find the egg for PPC.  It
+  does work for easy_install on my Intel machine.  I found the default platform
+  name with ``python setup.py bdist_egg --help``.
+
+  When trying to upload in python25, after previously saving my ``~/.pypirc``
+  during the initial ``register`` step, I got a configparser error.  I found
+  `this python 2.5 pypirc page
+  <http://docs.python.org/release/2.5.2/dist/pypirc.html>`_ and so hand edited
+  the ``~/.pypirc`` file to have a new section::
+
+    [server-login]
+    username:my-username
+    password:my-password
+
+  after which python25 upload seemed to go smoothly.
+
+* Building OSX dmgs.  This is a little complicated
+
+  See `MBs OSX setup
+  <http://matthew-brett.github.com/pydagogue/develop_mac.html>`_).
+
+  We have builders building the packages on the buildbots.
+
+  The mpkg packages will appear in http://nipy.bic.berkeley.edu/dipy-dist
+
+  The problem is that the buildbots built the packages as the ``buildslave``
+  user, but we need to make files have root permissions when installed from the
+  installer.
+
+  This can be done using a script ``reown_mpkg`` that is part of the development
+  version of ``bdist_mpkg`` : https://github.com/matthew-brett/bdist_mpkg
+
+  Install the development version, and then you can build correct installers
+  with something like the following (on a machine to which you have ``sudo``
+  permission)::
+
+      mkdir mpkgs
+      cd mpkgs/
+      scp -r buildbot-master:nibotmi/public_html/dipy-dist/*.mpkg .
+      sudo reown_mpkg dipy-0.6.0.dev-py2.6-macosx10.6.mpkg root admin
+      sudo reown_mpkg dipy-0.6.0.dev-py2.7-macosx10.6.mpkg root admin
+      zip -r dipy-0.6.0.dev-py2.6-macosx10.6.mpkg.zip dipy-0.6.0.dev-py2.6-macosx10.6.mpkg
+      zip -r dipy-0.6.0.dev-py2.7-macosx10.6.mpkg.zip dipy-0.6.0.dev-py2.7-macosx10.6.mpkg
+
+* Windows ``.exe`` installers should arrive in the same directory as the mpkg
+  builds.  You may need to trigger the relevant builders from the buildbot web
+  interface.  You should be able to download them and then upload them to pypi.
+
+  If not, the manual way is something like::
 
     make distclean
     c:\Python26\python.exe setup.py bdist_egg upload
@@ -146,7 +212,7 @@ Release checklist
 
 * Now the version number is OK, push the docs to sourceforge with::
 
-    make upload-htmldoc-mysfusername
+    make upload-website-mysfusername
 
   where ``mysfusername`` is obviously your own sourceforge username.
 
@@ -158,7 +224,7 @@ Release checklist
 
   * Branch to maintainance::
 
-      git co -b maint/1.0.x
+      git co -b maint/0.5.x
 
     Set ``_version_extra`` back to ``.dev`` and bump ``_version_micro`` by 1.
     Thus the maintenance series will have version numbers like - say - '0.5.1.dev'
@@ -175,19 +241,20 @@ Release checklist
   If this is just a maintenance release from ``maint/0.5.x`` or similar, just
   tag and set the version number to - say - ``0.5.2.dev``.
 
-* Make a tarball for the examples, for packagers to get away without having vtk
-  or a display on the build machines::
+* Make a tarball for the examples, to allow packagers to bypass the need for
+  having vtk or pytables or a display on the build machines::
 
         cd doc
-        make examples-tgz
+        make upload-examples-mysfusername
 
   The command requires pytables_ and python vtk on your machine. It writes an
   archive named for the dipy version and the docs, e.g::
 
     <dipy root>/dist/dipy-0.5.0.dev-doc-examples.tar.gz
 
-  We need to decide where to put this tarball.
+  and thence writes the archive to the dipy doc directory on sourceforge.
 
-* Announce to the mailing lists.
+* Announce to the mailing lists.  With fear and trembling.
 
 .. _setuptools intro: http://packages.python.org/an_example_pypi_project/setuptools.html
+.. include:: ../links_names.inc
