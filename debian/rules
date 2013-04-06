@@ -50,7 +50,7 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 		echo "I: Running Dipy unittests using $$PYTHON"; \
 		PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$$PYTHON/*-packages) \
 		MPLCONFIGDIR=/tmp/ \
-			$$PYTHON /usr/bin/nosetests dipy; \
+			$$PYTHON /usr/bin/nosetests -sv dipy; \
 	done
 endif
 
