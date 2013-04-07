@@ -50,6 +50,7 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
 	cd build; \
 	for PYTHON in $(shell pyversions -r); do \
 		echo "I: Running Dipy unittests using $$PYTHON"; \
+        PATH=$(INSTALL_PATH)/usr/bin:$$PATH \
 		PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$$PYTHON/*-packages) \
 		MPLCONFIGDIR=/tmp/ \
 			$$PYTHON /usr/bin/nosetests -sv dipy; \
