@@ -11,6 +11,9 @@ dipy (0.6.0-1) experimental; urgency=low
   * debian/rules
     - export http_proxy=http://127.0.0.1:9 to prevent any downloads
     - point PATH to the installed bin/ for tests to test example scripts
+  * debian/control
+    - provide X-Python-Version: >= 2.6 just to avoid warnings
+    - boosted policy to 3.9.4 (no further changes)
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 02 Apr 2013 11:57:30 -0400
 
