@@ -1,0 +1,13 @@
+--- a/setup.py
++++ b/setup.py
+@@ -96,7 +96,9 @@ else: # We have nibabel
+     pybuilder = get_comrec_build('dipy')
+     # Cython is a dependency for building extensions, iff we don't have stamped
+     # up pyx and c files.
+-    extbuilder = cyproc_exts(EXTS, CYTHON_MIN_VERSION, 'pyx-stamps')
++    # Debian: allow for outdated Cython -- pre-generated .c files will be provided
++    # on those systems
++    extbuilder = cyproc_exts(EXTS, '0', 'pyx-stamps')
+ 
+ # Installer that checks for install-time dependencies
+ class installer(install.install):

@@ -11,6 +11,7 @@ dipy (0.6.0-1) experimental; urgency=low
   * debian/rules
     - export http_proxy=http://127.0.0.1:9 to prevent any downloads
     - point PATH to the installed bin/ for tests to test example scripts
+    - added cythonization so we could build backports with cython < 0.17.3
   * debian/control
     - provide X-Python-Version: >= 2.6 just to avoid warnings
     - boosted policy to 3.9.4 (no further changes)
