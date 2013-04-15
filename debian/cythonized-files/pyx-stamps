@@ -1,0 +1,14 @@
+# SHA1 hashes for pyx files and generated c files
+# Auto-generated file, do not edit
+dipy/tracking/distances.pyx, 668206de9ba780548e3f7abb655ac0de6b345e6d
+dipy/tracking/distances.c, 1487a5e158e845b49f6aacea2987f0418b2f9d29
+dipy/tracking/propspeed.pyx, 3b3a2b0a91f1df102f24741e5350c90541c5fc20
+dipy/tracking/propspeed.c, bc223883f2a08732e300665a69cd770057b13e24
+dipy/reconst/quick_squash.pyx, d20c847692748038d30a4d7135d4bf3328674459
+dipy/reconst/quick_squash.c, eec453e7370350f3b308560ce18a0d50ffbb821d
+dipy/reconst/vec_val_sum.pyx, 5b58bb2381ee257dcd113f92f744a26d3b338afe
+dipy/reconst/vec_val_sum.c, 9634606930b5785e580f6462d1382ba6b5a377a7
+dipy/tracking/vox2track.pyx, 9d654b0d26f81c263a2943a012ac542d0a471489
+dipy/tracking/vox2track.c, 057ddf2d4fd742e926d0ad7fc8473be3e5f19b83
+dipy/reconst/recspeed.pyx, a282925954e1787936a9fa3c572f27e150f6ba72
+dipy/reconst/recspeed.c, e88fa97c4dbd1e610db49936c3e37ad8cb075320
