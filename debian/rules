@@ -45,21 +45,21 @@ _cythonize%:
 
 
 _uncythonize%:
+	echo "D: HERE"
 	echo "$*" | grep -q '^3' && PY=3 || PY= ; \
 	CYTHONVER=$$(dpkg -l cython$$PY 2>/dev/null | awk '/^ii/{print $$3;}' || echo 0); \
 	dpkg --compare-versions "$$CYTHONVER" lt "$(MIN_CYTHONVER)" && { \
 		echo "I: Using pre-Cython-ed files for Python $*"; \
 		cd debian/cythonized-files$$PY/ ; \
-		find . -name *.c | while read f; do cp $$f ../../$$f; done; } || :
+		find . -name *.c | while read f; do cp $$f ../../$$f; done; \
+		cp pyx-stamps ../../; } || :
 
 cythonize: _cythonize2 # _cythonize3
 
 override_dh_auto_test:
 	: # Do not test just after build, lets install and then test
 
-python-install%: _uncythonize%
-
-override_dh_auto_build: ${PYVERS:%=python-install%}
+override_dh_auto_build: _uncythonize2
 	dh_auto_build
 	echo "backend : Agg" >| build/matplotlibrc
 
