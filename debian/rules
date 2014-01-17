@@ -119,12 +119,13 @@ override_dh_clean:
 
 get-orig-source:
 	-quilt pop -a
-	: # I Testing for uncommited changes
-	@git diff --quiet HEAD
-	: # I Composing main tarball
-	mkdir -p tarballs
-	git archive --format=tar --prefix=$(srcpkg)-$(upver)/ HEAD \
-	| gzip -9 > ../tarballs/$(srcpkg)_$(upver).orig.tar.gz
+	uscan --verbose --download-current
+#	: # I Testing for uncommited changes
+#	@git diff --quiet HEAD
+#	: # I Composing main tarball
+#	mkdir -p tarballs
+#	git archive --format=tar --prefix=$(srcpkg)-$(upver)/ HEAD \
+#	| gzip -9 > ../tarballs/$(srcpkg)_$(upver).orig.tar.gz
 #	: # I Building examples figures and tarball
 #	python setup.py build
 #	export PYTHONPATH=$$(/bin/ls -d $(CURDIR)/build/lib.*$(PYVER)); \
