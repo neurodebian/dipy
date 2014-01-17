@@ -5,7 +5,7 @@ Diffusion Imaging In Python
 ###########################
 
 Dipy_ is a **free** and **open source** software project for
-**diffusion** *magnetic resonance imaging* (dMRI) **analysis**. 
+**diffusion** *magnetic resonance imaging* (dMRI) **analysis**.
 
 
 **********
@@ -15,7 +15,7 @@ Highlights
 In Dipy_ we care about methods which can solve complex problems efficiently and
 robustly. QuickBundles is one of the many state-of-the art algorithms found
 in Dipy_. It can be used to simplify large datasets of streamlines. See our
-:ref:`gallery <examples_index>` of examples and try QuickBundles with your data. Here is a
+:ref:`gallery <examples>` of examples and try QuickBundles with your data. Here is a
 video of QuickBundles applied on a simple dataset.
 
 .. raw:: html
@@ -26,9 +26,13 @@ video of QuickBundles applied on a simple dataset.
 *************
 Announcements
 *************
-- **Release 0.6.0**, End of March, 2013
-- **Dipy 3rd Sprint**, Berkeley, CA, April 2013
-- **ISBI HARDI challenge 2013 will be based on Dipy**, February 2013
+- **Dipy 0.7.0** Released!, 23 December, 2013.
+- **Spherical Deconvolution** algorithms are now included in the current development version 0.7.0dev. See the examples in :ref:`gallery <examples>`, 24 June 2013.
+- A team of Dipy developers **wins** the `IEEE ISBI HARDI challenge <http://hardi.epfl.ch/static/events/2013_ISBI/workshop.html#results>`_, 7 April, 2013.
+- **Hands on Dipy** seminar took place at the dMRI course of the CREATE-MIA summer school, 5-7 June, McGill, Montreal, 2013.
+- **Dipy 0.6.0** Released!, 30 March, 2013.
+- **Dipy 3rd Sprint**, Berkeley, CA, 8-18 April, 2013.
+- **IEEE ISBI HARDI challenge** 2013 chooses **Dipy**, February, 2013.
 
 
 ***************
@@ -87,5 +91,8 @@ You can learn more about how you to use Dipy_ with  your datasets by reading the
 
    documentation
    stateoftheart
+
+
+
 
 .. include:: links_names.inc

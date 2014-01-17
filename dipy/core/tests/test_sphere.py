@@ -1,6 +1,10 @@
+from __future__ import division, print_function, absolute_import
+
 import numpy as np
 import numpy.testing as nt
 import warnings
+
+from ...utils.six.moves import xrange
 
 from dipy.core.sphere import (Sphere, HemiSphere, unique_edges, unique_sets,
                               faces_from_sphere_vertices, HemiSphere,
@@ -315,9 +319,15 @@ def test_disperse_charges():
     d_sphere, pot = disperse_charges(HemiSphere(xyz=charges), 1000, .2)
     nt.assert_array_almost_equal(expected_charges, d_sphere.vertices)
     for ii in xrange(1, len(pot)):
-        #check that the potential of the system is either going down or
-        #stayting almost the same
-        nt.assert_(pot[ii] - pot[ii-1] < 1e-12)
+        #check that the potential of the system is going down
+        nt.assert_(pot[ii] - pot[ii-1] <= 0)
+
+    # Check that the disperse_charges does not blow up with a large constant
+    d_sphere, pot = disperse_charges(HemiSphere(xyz=charges), 1000, 20.)
+    nt.assert_array_almost_equal(expected_charges, d_sphere.vertices)
+    for ii in xrange(1, len(pot)):
+        #check that the potential of the system is going down
+        nt.assert_(pot[ii] - pot[ii-1] <= 0)
 
     #check that the function seems to work with a larger number of charges
     charges = np.arange(21).reshape(7,3)
@@ -325,9 +335,8 @@ def test_disperse_charges():
     charges = charges / norms[:, None]
     d_sphere, pot = disperse_charges(HemiSphere(xyz=charges), 1000, .05)
     for ii in xrange(1, len(pot)):
-        #check that the potential of the system is either going down or
-        #stayting almost the same
-        nt.assert_(pot[ii] - pot[ii-1] < 1e-12)
+        #check that the potential of the system is going down
+        nt.assert_(pot[ii] - pot[ii-1] <= 0)
     #check that the resulting charges all lie on the unit sphere
     d_charges = d_sphere.vertices
     norms = np.sqrt((d_charges*d_charges).sum(-1))
@@ -343,9 +352,11 @@ def test_interp_rbf():
 
     data = np.cos(s0.theta) + np.sin(s0.phi)
     expected = np.cos(s1.theta) + np.sin(s1.phi)
-    interp_data = interp_rbf(data, s0, s1)
+    interp_data_en = interp_rbf(data, s0, s1, norm = "euclidean_norm")
+    interp_data_a = interp_rbf(data, s0, s1, norm = "angle")
 
-    nt.assert_(np.mean(np.abs(interp_data - expected)) < 0.1)
+    nt.assert_(np.mean(np.abs(interp_data_en - expected)) < 0.1)
+    nt.assert_(np.mean(np.abs(interp_data_a - expected)) < 0.1)
 
 
 if __name__ == "__main__":

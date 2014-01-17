@@ -11,49 +11,26 @@ Examples
 >>> a=fvtk.axes()
 >>> fvtk.add(r,a)
 >>> #fvtk.show(r)
+
+For more information on VTK there many neat examples in
+http://www.vtk.org/Wiki/VTK/Tutorials/External_Tutorials
 '''
+from __future__ import division, print_function, absolute_import
+
+from dipy.utils.six.moves import xrange
 
 import types
 
 import numpy as np
 
-import scipy as sp
+from dipy.core.ndindex import ndindex
 
 # Conditional import machinery for vtk
 from ..utils.optpkg import optional_package
 
 # Allow import, but disable doctests if we don't have vtk
 vtk, have_vtk, setup_module = optional_package('vtk')
-
-'''
-For more color names see
-http://www.colourlovers.com/blog/2007/07/24/32-common-color-names-for-easy-reference/
-'''
-# Some common colors
-red = np.array([1, 0, 0])
-green = np.array([0, 1, 0])
-blue = np.array([0, 0, 1])
-yellow = np.array([1, 1, 0])
-cyan = np.array([0, 1, 1])
-azure = np.array([0, 0.49, 1])
-golden = np.array([1, 0.84, 0])
-white = np.array([1, 1, 1])
-black = np.array([0, 0, 0])
-
-aquamarine = np.array([0.498, 1., 0.83])
-indigo = np.array([0.29411765, 0., 0.50980392])
-lime = np.array([0.74901961, 1., 0.])
-hot_pink = np.array([0.98823529, 0.05882353, 0.75294118])
-
-gray = np.array([0.5, 0.5, 0.5])
-dark_red = np.array([0.5, 0, 0])
-dark_green = np.array([0, 0.5, 0])
-dark_blue = np.array([0, 0, 0.5])
-
-tan = np.array([0.82352941, 0.70588235, 0.54901961])
-chartreuse = np.array([0.49803922, 1., 0.])
-coral = np.array([1., 0.49803922, 0.31372549])
-
+colors, have_vtk_colors, _ = optional_package('vtk.util.colors')
 
 # a track buffer used only with picking tracks
 track_buffer = []
@@ -63,6 +40,10 @@ ind_buffer = []
 tmp_ren = None
 
 if have_vtk:
+
+    version = vtk.vtkVersion.GetVTKSourceVersion().split(' ')[-1]
+    major_version = vtk.vtkVersion.GetVTKMajorVersion()
+
     # Create a text mapper and actor to display the results of picking.
     textMapper = vtk.vtkTextMapper()
     tprop = textMapper.GetTextProperty()
@@ -92,7 +73,7 @@ def ren():
     >>> import numpy as np
     >>> r=fvtk.ren()
     >>> lines=[np.random.rand(10,3)]
-    >>> c=fvtk.line(lines,fvtk.red)
+    >>> c=fvtk.line(lines, fvtk.colors.red)
     >>> fvtk.add(r,c)
     >>> #fvtk.show(r)
     '''
@@ -133,7 +114,11 @@ def _arrow(pos=(0, 0, 0), color=(1, 0, 0), scale=(1, 1, 1), opacity=1):
     # arrow.SetTipLength(length)
 
     arrowm = vtk.vtkPolyDataMapper()
-    arrowm.SetInput(arrow.GetOutput())
+
+    if major_version <= 5:
+        arrowm.SetInput(arrow.GetOutput())
+    else:
+        arrowm.SetInputData(arrow.GetOutput())
 
     arrowa = vtk.vtkActor()
     arrowa.SetMapper(arrowm)
@@ -147,8 +132,25 @@ def _arrow(pos=(0, 0, 0), color=(1, 0, 0), scale=(1, 1, 1), opacity=1):
 
 def axes(scale=(1, 1, 1), colorx=(1, 0, 0), colory=(0, 1, 0), colorz=(0, 0, 1),
          opacity=1):
-    ''' Create an actor with the coordinate system axes where  red = x, green = y, blue =z.
-    '''
+    """ Create an actor with the coordinate's system axes where
+    red = x, green = y, blue =z.
+
+    Parameters
+    ----------
+    scale : tuple (3,)
+        axes size e.g. (100, 100, 100)
+    colorx : tuple (3,)
+        x-axis color. Default red.
+    colory : tuple (3,)
+        y-axis color. Default blue.
+    colorz : tuple (3,)
+        z-axis color. Default green.
+
+    Returns
+    -------
+    vtkAssembly
+
+    """
 
     arrowx = _arrow(color=colorx, scale=scale, opacity=opacity)
     arrowy = _arrow(color=colory, scale=scale, opacity=opacity)
@@ -222,6 +224,109 @@ def _lookup(colors):
     return lut
 
 
+def streamtube(lines, colors, opacity=1, linewidth=0.15, tube_sides=8,
+               lod=True, lod_points=10 ** 4, lod_points_size=5):
+    """ Uses streamtubes to visualize polylines
+
+    Parameters
+    ----------
+    lines : list
+        list of N curves represented as 2D ndarrays
+    colors : array (N, 3) or tuple (3,)
+    opacity : float
+    linewidth : float
+    tube_sides : int
+    lod : bool
+        use vtkLODActor rather than vtkActor
+    lod_points : int
+        number of points to be used when LOD is in effect
+    lod_points_size : int
+        size of points when lod is in effect
+
+    Examples
+    --------
+    >>> from dipy.viz import fvtk
+    >>> r=fvtk.ren()
+    >>> lines=[np.random.rand(10, 3), np.random.rand(20, 3)]
+    >>> colors=np.random.rand(2, 3)
+    >>> c=fvtk.streamtube(lines, colors)
+    >>> fvtk.add(r,c)
+    >>> #fvtk.show(r)
+
+    Notes
+    -----
+    Streamtubes can be heavy on GPU when loading many streamlines and therefore,
+    you may experience slow rendering time depending on system GPU. A solution
+    to this problem is to reduce the number of points in each streamline. In Dipy
+    we provide an algorithm that will reduce the number of points on the straighter
+    parts of the streamline but keep more points on the curvier parts. This can
+    be used in the following way
+
+    from dipy.tracking.distances import approx_polygon_track
+    lines = [approx_polygon_track(line, 0.2) for line in lines]
+    """
+
+    points = vtk.vtkPoints()
+
+    colors = np.asarray(colors)
+    if colors.ndim == 1:
+        colors = np.tile(colors, (len(lines), 1))
+
+    # Create the polyline.
+    streamlines = vtk.vtkCellArray()
+
+    cols = vtk.vtkUnsignedCharArray()
+    cols.SetName("Cols")
+    cols.SetNumberOfComponents(3)
+
+    len_lines = len(lines)
+    prior_line_shape = 0
+    for i in range(len_lines):
+        line = lines[i]
+        streamlines.InsertNextCell(line.shape[0])
+        for j in range(line.shape[0]):
+            points.InsertNextPoint(*line[j])
+            streamlines.InsertCellPoint(j + prior_line_shape)
+            color = (255 * colors[i]).astype('ubyte')
+            cols.InsertNextTuple3(*color)
+        prior_line_shape += line.shape[0]
+
+    profileData = vtk.vtkPolyData()
+    profileData.SetPoints(points)
+    profileData.SetLines(streamlines)
+    profileData.GetPointData().AddArray(cols)
+
+    # Add thickness to the resulting line.
+    profileTubes = vtk.vtkTubeFilter()
+    profileTubes.SetNumberOfSides(tube_sides)
+    profileTubes.SetInput(profileData)
+    profileTubes.SetRadius(linewidth)
+
+    profileMapper = vtk.vtkPolyDataMapper()
+    profileMapper.SetInputConnection(profileTubes.GetOutputPort())
+    profileMapper.ScalarVisibilityOn()
+    profileMapper.SetScalarModeToUsePointFieldData()
+    profileMapper.SelectColorArray("Cols")
+    profileMapper.GlobalImmediateModeRenderingOn()
+
+    if lod:
+        profile = vtk.vtkLODActor()
+        profile.SetNumberOfCloudPoints(lod_points)
+        profile.GetProperty().SetPointSize(lod_points_size)
+    else:
+        profile = vtk.vtkActor()
+    profile.SetMapper(profileMapper)
+
+    profile.GetProperty().SetAmbient(0)  # .3
+    profile.GetProperty().SetSpecular(0)  # .3
+    profile.GetProperty().SetSpecularPower(10)
+    profile.GetProperty().SetInterpolationToGouraud()
+    profile.GetProperty().BackfaceCullingOn()
+    profile.GetProperty().SetOpacity(opacity)
+
+    return profile
+
+
 def line(lines, colors, opacity=1, linewidth=1):
     ''' Create an actor for one or more lines.
 
@@ -260,9 +365,9 @@ def line(lines, colors, opacity=1, linewidth=1):
     ----------
     >>> from dipy.viz import fvtk
     >>> r=fvtk.ren()
-    >>> lines=[np.random.rand(10,3),np.random.rand(20,3)]
+    >>> lines=[np.random.rand(10,3), np.random.rand(20,3)]
     >>> colors=np.random.rand(2,3)
-    >>> c=fvtk.line(lines,colors)
+    >>> c=fvtk.line(lines, colors)
     >>> fvtk.add(r,c)
     >>> #fvtk.show(r)
     '''
@@ -277,6 +382,7 @@ def line(lines, colors, opacity=1, linewidth=1):
     lookuptable = _lookup(colors)
 
     scalarmin = 0
+    colors = np.asarray(colors)
     if colors.ndim == 2:
         scalarmax = colors.shape[0] - 1
     if colors.ndim == 1:
@@ -295,13 +401,13 @@ def line(lines, colors, opacity=1, linewidth=1):
             inw = True
             mit = iter(Line)
             nit = iter(Line)
-            nit.next()
+            next(nit)
 
             while(inw):
 
                 try:
-                    m = mit.next()
-                    n = nit.next()
+                    m = next(mit)
+                    n = next(nit)
 
                     # scalar=sp.rand(1)
 
@@ -328,13 +434,13 @@ def line(lines, colors, opacity=1, linewidth=1):
             inw = True
             mit = iter(Line)
             nit = iter(Line)
-            nit.next()
+            next(nit)
 
             while(inw):
 
                 try:
-                    m = mit.next()
-                    n = nit.next()
+                    m = next(mit)
+                    n = next(nit)
 
                     # scalar=sp.rand(1)
 
@@ -359,7 +465,11 @@ def line(lines, colors, opacity=1, linewidth=1):
     polydata.GetPointData().SetScalars(linescalars)
 
     mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInput(polydata)
+    if major_version <= 5:
+        mapper.SetInput(polydata)
+    else:
+        mapper.SetInputData(polydata)
+
     mapper.SetLookupTable(lookuptable)
 
     mapper.SetColorModeToMapScalars()
@@ -374,10 +484,25 @@ def line(lines, colors, opacity=1, linewidth=1):
     return actor
 
 
-def dots(points, color=(1, 0, 0), opacity=1):
-    '''
-    Create one or more 3d dots(points) returns one actor handling all the points
-    '''
+def dots(points, color=(1, 0, 0), opacity=1, dot_size=5):
+    """ Create one or more 3d points
+
+    Parameters
+    ----------
+    points : ndarray, (N, 3)
+    color : tuple (3,)
+    opacity : float
+    dot_size : int
+
+    Returns
+    --------
+    vtkActor
+
+    See Also
+    ---------
+    dipy.viz.fvtk.point
+
+    """
 
     if points.ndim == 2:
         points_no = points.shape[0]
@@ -402,20 +527,48 @@ def dots(points, color=(1, 0, 0), opacity=1):
 
     aPolyVertexGrid = vtk.vtkUnstructuredGrid()
     aPolyVertexGrid.Allocate(1, 1)
-    aPolyVertexGrid.InsertNextCell(aPolyVertex.GetCellType(), aPolyVertex.GetPointIds())
+    aPolyVertexGrid.InsertNextCell(aPolyVertex.GetCellType(),
+                                   aPolyVertex.GetPointIds())
 
     aPolyVertexGrid.SetPoints(polyVertexPoints)
     aPolyVertexMapper = vtk.vtkDataSetMapper()
-    aPolyVertexMapper.SetInput(aPolyVertexGrid)
+    if major_version <= 5:
+        aPolyVertexMapper.SetInput(aPolyVertexGrid)
+    else:
+        aPolyVertexMapper.SetInputData(aPolyVertexGrid)
     aPolyVertexActor = vtk.vtkActor()
     aPolyVertexActor.SetMapper(aPolyVertexMapper)
 
     aPolyVertexActor.GetProperty().SetColor(color)
     aPolyVertexActor.GetProperty().SetOpacity(opacity)
+    aPolyVertexActor.GetProperty().SetPointSize(dot_size)
     return aPolyVertexActor
 
 
-def point(points, colors, opacity=1, point_radius=0.1, theta=3, phi=3):
+def point(points, colors, opacity=1, point_radius=0.1, theta=8, phi=8):
+    """ Visualize points as sphere glyphs
+
+    Parameters
+    ----------
+    points : ndarray, shape (N, 3)
+    colors : ndarray (N,3) or tuple (3,)
+    point_radius : float
+    theta : int
+    phi : int
+
+    Returns
+    -------
+    vtkActor
+
+    Examples
+    --------
+    >>> from dipy.viz import fvtk
+    >>> ren = fvtk.ren()
+    >>> pts = np.random.rand(5, 3)
+    >>> point_actor = fvtk.point(pts, fvtk.colors.coral)
+    >>> fvtk.add(ren, point_actor)
+    >>> #fvtk.show(ren)
+    """
 
     if np.array(colors).ndim == 1:
         # return dots(points,colors,opacity)
@@ -432,17 +585,8 @@ def point(points, colors, opacity=1, point_radius=0.1, theta=3, phi=3):
         pts.InsertNextPoint(p[0], p[1], p[2])
         scalars.InsertNextTuple3(
             round(255 * colors[cnt_colors][0]), round(255 * colors[cnt_colors][1]), round(255 * colors[cnt_colors][2]))
-        # scalars.InsertNextTuple3(255,255,255)
         cnt_colors += 1
 
-    '''
-    src = vtk.vtkDiskSource()
-    src.SetRadialResolution(1)
-    src.SetCircumferentialResolution(10)
-    src.SetInnerRadius(0.0)
-    src.SetOuterRadius(0.001)
-    '''
-    # src = vtk.vtkPointSource()
     src = vtk.vtkSphereSource()
     src.SetRadius(point_radius)
     src.SetThetaResolution(theta)
@@ -454,105 +598,26 @@ def point(points, colors, opacity=1, point_radius=0.1, theta=3, phi=3):
 
     glyph = vtk.vtkGlyph3D()
     glyph.SetSourceConnection(src.GetOutputPort())
-    glyph.SetInput(polyData)
+    if major_version <= 5:
+        glyph.SetInput(polyData)
+    else:
+        glyph.SetInputData(polyData)
     glyph.SetColorModeToColorByScalar()
     glyph.SetScaleModeToDataScalingOff()
 
     mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInput(glyph.GetOutput())
-
+    if major_version <= 5:
+        mapper.SetInput(glyph.GetOutput())
+    else:
+        mapper.SetInputData(glyph.GetOutput())
     actor = vtk.vtkActor()
     actor.SetMapper(mapper)
 
     return actor
 
 
-def sphere(position=(0, 0, 0), radius=0.5, thetares=8, phires=8,
-           color=(0, 0, 1), opacity=1, tessel=0):
-    ''' Create a sphere actor
-    '''
-    sphere = vtk.vtkSphereSource()
-    sphere.SetRadius(radius)
-    sphere.SetLatLongTessellation(tessel)
-
-    sphere.SetThetaResolution(thetares)
-    sphere.SetPhiResolution(phires)
-
-    spherem = vtk.vtkPolyDataMapper()
-    spherem.SetInput(sphere.GetOutput())
-    spherea = vtk.vtkActor()
-    spherea.SetMapper(spherem)
-    spherea.SetPosition(position)
-    spherea.GetProperty().SetColor(color)
-    spherea.GetProperty().SetOpacity(opacity)
-
-    return spherea
-
-
-def ellipsoid(R=np.array([[2, 0, 0], [0, 1, 0], [0, 0, 1]]),
-              position=(0, 0, 0), thetares=20, phires=20, color=(0, 0, 1),
-              opacity=1, tessel=0):
-    ''' Create a ellipsoid actor.
-
-    Stretch a unit sphere to make it an ellipsoid under a 3x3 translation
-    matrix R.
-
-    R = sp.array([[2, 0, 0],
-                  [0, 1, 0],
-                  [0, 0, 1] ])
-    '''
-
-    Mat = sp.identity(4)
-    Mat[0:3, 0:3] = R
-
-    '''
-    Mat=sp.array([[2, 0, 0, 0],
-                             [0, 1, 0, 0],
-                             [0, 0, 1, 0],
-                             [0, 0, 0,  1]  ])
-    '''
-    mat = vtk.vtkMatrix4x4()
-
-    for i in sp.ndindex(4, 4):
-
-        mat.SetElement(i[0], i[1], Mat[i])
-
-    radius = 1
-    sphere = vtk.vtkSphereSource()
-    sphere.SetRadius(radius)
-    sphere.SetLatLongTessellation(tessel)
-
-    sphere.SetThetaResolution(thetares)
-    sphere.SetPhiResolution(phires)
-
-    trans = vtk.vtkTransform()
-
-    trans.Identity()
-    # trans.Scale(0.3,0.9,0.2)
-    trans.SetMatrix(mat)
-    trans.Update()
-
-    transf = vtk.vtkTransformPolyDataFilter()
-    transf.SetTransform(trans)
-    transf.SetInput(sphere.GetOutput())
-    transf.Update()
-
-    spherem = vtk.vtkPolyDataMapper()
-    spherem.SetInput(transf.GetOutput())
-
-    spherea = vtk.vtkActor()
-    spherea.SetMapper(spherem)
-    spherea.SetPosition(position)
-    spherea.GetProperty().SetColor(color)
-    spherea.GetProperty().SetOpacity(opacity)
-    # spherea.GetProperty().SetRepresentationToWireframe()
-
-    return spherea
-
-
 def label(ren, text='Origin', pos=(0, 0, 0), scale=(0.2, 0.2, 0.2),
           color=(1, 1, 1)):
-
     ''' Create a label actor.
 
     This actor will always face the camera
@@ -571,12 +636,12 @@ def label(ren, text='Origin', pos=(0, 0, 0), scale=(0.2, 0.2, 0.2),
         Label color as ``(r,g,b)`` tuple.
 
     Returns
-    ----------
+    -------
     l : vtkActor object
         Label.
 
     Examples
-    ----------
+    --------
     >>> from dipy.viz import fvtk
     >>> r=fvtk.ren()
     >>> l=fvtk.label(r)
@@ -587,7 +652,10 @@ def label(ren, text='Origin', pos=(0, 0, 0), scale=(0.2, 0.2, 0.2),
     atext.SetText(text)
 
     textm = vtk.vtkPolyDataMapper()
-    textm.SetInput(atext.GetOutput())
+    if major_version <= 5:
+        textm.SetInput(atext.GetOutput())
+    else:
+        textm.SetInputData(atext.GetOutput())
 
     texta = vtk.vtkFollower()
     texta.SetMapper(textm)
@@ -677,8 +745,8 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
     >>> import numpy as np
     >>> vol=100*np.random.rand(100,100,100)
     >>> vol=vol.astype('uint8')
-    >>> print vol.min(), vol.max()
-    0 99
+    >>> vol.min(), vol.max()
+    (0, 99)
     >>> r = fvtk.ren()
     >>> v = fvtk.volume(vol)
     >>> fvtk.add(r,v)
@@ -733,9 +801,9 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
         '''
 
     if info:
-        print 'opacitymap', opacitymap
+        print('opacitymap', opacitymap)
 
-    if colormap == None:
+    if colormap is None:
 
         bin, res = np.histogram(vol.ravel())
         res2 = np.interp(res, [vol.min(), vol.max()], [0, 1])
@@ -752,7 +820,7 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
         '''
 
     if info:
-        print 'colormap', colormap
+        print('colormap', colormap)
 
     im = vtk.vtkImageData()
     im.SetScalarTypeToUnsignedChar()
@@ -767,7 +835,7 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
 
                 im.SetScalarComponentFromFloat(i, j, k, 0, vol[i, j, k])
 
-    if affine != None:
+    if affine is not None:
 
         aff = vtk.vtkMatrix4x4()
         aff.DeepCopy((affine[0, 0], affine[0, 1], affine[0, 2], affine[0, 3], affine[1, 0], affine[1, 1], affine[1, 2], affine[1, 3], affine[2, 0], affine[
@@ -776,7 +844,10 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
         # aff.DeepCopy((affine[0,0],affine[0,1],affine[0,2],127.5,affine[1,0],affine[1,1],affine[1,2],-127.5,affine[2,0],affine[2,1],affine[2,2],-127.5,affine[3,0],affine[3,1],affine[3,2],1))
 
         reslice = vtk.vtkImageReslice()
-        reslice.SetInput(im)
+        if major_version <= 5:
+            reslice.SetInput(im)
+        else:
+            reslice.SetInputData(im)
         # reslice.SetOutputDimensionality(2)
         # reslice.SetOutputOrigin(127,-145,147)
 
@@ -795,11 +866,15 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
         # print 'reslice GetOutputSpacing',reslice.GetOutputSpacing()
 
         changeFilter = vtk.vtkImageChangeInformation()
-        changeFilter.SetInput(reslice.GetOutput())
+        if major_version <= 5:
+            changeFilter.SetInput(reslice.GetOutput())
+        else:
+            changeFilter.SetInputData(reslice.GetOutput())
         # changeFilter.SetInput(im)
         if center_origin:
-            changeFilter.SetOutputOrigin(-vol.shape[0] / 2.0 + 0.5, -vol.shape[1] / 2.0 + 0.5, -vol.shape[2] / 2.0 + 0.5)
-            print 'ChangeFilter ', changeFilter.GetOutputOrigin()
+            changeFilter.SetOutputOrigin(
+                -vol.shape[0] / 2.0 + 0.5, -vol.shape[1] / 2.0 + 0.5, -vol.shape[2] / 2.0 + 0.5)
+            print('ChangeFilter ', changeFilter.GetOutputOrigin())
 
     opacity = vtk.vtkPiecewiseFunction()
     for i in range(opacitymap.shape[0]):
@@ -807,7 +882,8 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
 
     color = vtk.vtkColorTransferFunction()
     for i in range(colormap.shape[0]):
-        color.AddRGBPoint(colormap[i, 0], colormap[i, 1], colormap[i, 2], colormap[i, 3])
+        color.AddRGBPoint(
+            colormap[i, 0], colormap[i, 1], colormap[i, 2], colormap[i, 3])
 
     if(maptype == 0):
 
@@ -823,11 +899,16 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
         if info:
             print('mapper VolumeTextureMapper2D')
         mapper = vtk.vtkVolumeTextureMapper2D()
-        if affine == None:
-            mapper.SetInput(im)
+        if affine is None:
+            if major_version <= 5:
+                mapper.SetInput(im)
+            else:
+                mapper.SetInputData(im)
         else:
-            # mapper.SetInput(reslice.GetOutput())
-            mapper.SetInput(changeFilter.GetOutput())
+            if major_version <= 5:
+                mapper.SetInput(changeFilter.GetOutput())
+            else:
+                mapper.SetInputData(changeFilter.GetOutput())
 
     if (maptype == 1):
 
@@ -861,11 +942,17 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
             if info:
                 print('Composite')
 
-        if affine == None:
-            mapper.SetInput(im)
+        if affine is None:
+            if major_version <= 5:
+                mapper.SetInput(im)
+            else:
+                mapper.SetInputData(im)
         else:
             # mapper.SetInput(reslice.GetOutput())
-            mapper.SetInput(changeFilter.GetOutput())
+            if major_version <= 5:
+                mapper.SetInput(changeFilter.GetOutput())
+            else:
+                mapper.SetInputData(changeFilter.GetOutput())
             # Return mid position in world space
             # im2=reslice.GetOutput()
             # index=im2.FindPoint(vol.shape[0]/2.0,vol.shape[1]/2.0,vol.shape[2]/2.0)
@@ -877,22 +964,22 @@ def volume(vol, voxsz=(1.0, 1.0, 1.0), affine=None, center_origin=1,
 
     if info:
 
-        print 'Origin', volum.GetOrigin()
-        print 'Orientation', volum.GetOrientation()
-        print 'OrientationW', volum.GetOrientationWXYZ()
-        print 'Position', volum.GetPosition()
-        print 'Center', volum.GetCenter()
-        print 'Get XRange', volum.GetXRange()
-        print 'Get YRange', volum.GetYRange()
-        print 'Get ZRange', volum.GetZRange()
-        print 'Volume data type', vol.dtype
+        print('Origin', volum.GetOrigin())
+        print('Orientation', volum.GetOrientation())
+        print('OrientationW', volum.GetOrientationWXYZ())
+        print('Position', volum.GetPosition())
+        print('Center', volum.GetCenter())
+        print('Get XRange', volum.GetXRange())
+        print('Get YRange', volum.GetYRange())
+        print('Get ZRange', volum.GetZRange())
+        print('Volume data type', vol.dtype)
 
     return volum
 
 
 def contour(vol, voxsz=(1.0, 1.0, 1.0), affine=None, levels=[50],
             colors=[np.array([1.0, 0.0, 0.0])], opacities=[0.5]):
-    ''' Take a volume and draw surface contours for any any number of
+    """ Take a volume and draw surface contours for any any number of
     thresholds (levels) where every contour has its own color and opacity
 
     Parameters
@@ -913,12 +1000,11 @@ def contour(vol, voxsz=(1.0, 1.0, 1.0), affine=None, levels=[50],
         Opacities of contours.
 
     Returns
-    -----------
-    ass : assembly of actors
-        Representing the contour surfaces.
+    -------
+    vtkAssembly
 
     Examples
-    -------------
+    --------
     >>> import numpy as np
     >>> from dipy.viz import fvtk
     >>> A=np.zeros((10,10,10))
@@ -927,7 +1013,7 @@ def contour(vol, voxsz=(1.0, 1.0, 1.0), affine=None, levels=[50],
     >>> fvtk.add(r,fvtk.contour(A,levels=[1]))
     >>> #fvtk.show(r)
 
-    '''
+    """
 
     im = vtk.vtkImageData()
     im.SetScalarTypeToUnsignedChar()
@@ -949,7 +1035,10 @@ def contour(vol, voxsz=(1.0, 1.0, 1.0), affine=None, levels=[50],
 
         # print levels
         skinExtractor = vtk.vtkContourFilter()
-        skinExtractor.SetInput(im)
+        if major_version <= 5:
+            skinExtractor.SetInput(im)
+        else:
+            skinExtractor.SetInputData(im)
         skinExtractor.SetValue(0, l)
 
         skinNormals = vtk.vtkPolyDataNormals()
@@ -968,13 +1057,11 @@ def contour(vol, voxsz=(1.0, 1.0, 1.0), affine=None, levels=[50],
         # print colors[i]
         skin.GetProperty().SetColor(colors[i][0], colors[i][1], colors[i][2])
         # skin.Update()
-
         ass.AddPart(skin)
 
         del skin
         del skinMapper
         del skinExtractor
-        # ass=ass+[skin]
 
     return ass
 
@@ -1075,7 +1162,8 @@ def create_colormap(v, name='jet', auto=True):
         # print 'jet'
 
         red = np.interp(v, [0, 0.35, 0.66, 0.89, 1], [0, 0, 1, 1, 0.5])
-        green = np.interp(v, [0, 0.125, 0.375, 0.64, 0.91, 1], [0, 0, 1, 1, 0, 0])
+        green = np.interp(
+            v, [0, 0.125, 0.375, 0.64, 0.91, 1], [0, 0, 1, 1, 0, 0])
         blue = np.interp(v, [0, 0.11, 0.34, 0.65, 1], [0.5, 1, 1, 0, 0])
 
     if name == 'blues':
@@ -1098,11 +1186,13 @@ def create_colormap(v, name='jet', auto=True):
         # print 'blue_red'
         # red=np.interp(v,[],[])
 
-        red = np.interp(v, [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0], [0.0, 0.125, 0.25, 0.375, 0.5,
-                        0.625, 0.75, 0.875, 1.0])
+        red = np.interp(
+            v, [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0], [0.0, 0.125, 0.25, 0.375, 0.5,
+                                                                         0.625, 0.75, 0.875, 1.0])
         green = np.zeros(red.shape)
-        blue = np.interp(v, [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0], [1.0, 0.875, 0.75, 0.625, 0.5,
-                         0.375, 0.25, 0.125, 0.0])
+        blue = np.interp(
+            v, [0.0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1.0], [1.0, 0.875, 0.75, 0.625, 0.5,
+                                                                         0.375, 0.25, 0.125, 0.0])
 
         blue = green
 
@@ -1125,8 +1215,8 @@ def create_colormap(v, name='jet', auto=True):
 
 
 def sphere_funcs(sphere_values, sphere, image=None, colormap='jet',
-                     scale=2.2, norm=True, radial_scale=True):
-    """Plot many morphed spheres simultaneously.
+                 scale=2.2, norm=True, radial_scale=True):
+    """Plot many morphed spherical functions simultaneously.
 
     Parameters
     ----------
@@ -1177,7 +1267,7 @@ def sphere_funcs(sphere_values, sphere, image=None, colormap='jet',
     vertices = sphere.vertices
 
     if sphere_values.shape[-1] != sphere.vertices.shape[0]:
-        msg = 'Sphere.vertice.shape[0] should be the same as the'
+        msg = 'Sphere.vertices.shape[0] should be the same as the '
         msg += 'last dimensions of sphere_values i.e. sphere_values.shape[-1]'
         raise ValueError(msg)
 
@@ -1242,7 +1332,10 @@ def sphere_funcs(sphere_values, sphere, image=None, colormap='jet',
     polydata.Modified()
 
     mapper = vtk.vtkPolyDataMapper()
-    mapper.SetInput(polydata)
+    if major_version <= 5:
+        mapper.SetInput(polydata)
+    else:
+        mapper.SetInputData(polydata)
 
     actor = vtk.vtkActor()
     actor.SetMapper(mapper)
@@ -1250,209 +1343,273 @@ def sphere_funcs(sphere_values, sphere, image=None, colormap='jet',
     return actor
 
 
-def tube(point1=(0, 0, 0), point2=(1, 0, 0), color=(1, 0, 0), opacity=1, radius=0.1, capson=1, specular=1, sides=8):
+def peaks(peaks_dirs, peaks_values=None, scale=2.2, colors=(1, 0, 0)):
+    """ Visualize peak directions as given from ``peaks_from_model``
 
-    ''' Deprecated
+    Parameters
+    ----------
+    peaks_dirs : ndarray
+        Peak directions. The shape of the array can be (M, 3) or (X, M, 3) or
+        (X, Y, M, 3) or (X, Y, Z, M, 3)
+    peaks_values : ndarray
+        Peak values. The shape of the array can be (M, ) or (X, M) or
+        (X, Y, M) or (X, Y, Z, M)
 
-    Wrap a tube around a line connecting point1 with point2 with a specific
-    radius.
+    scale : float
+        Distance between spheres
 
-    '''
-    points = vtk.vtkPoints()
-    points.InsertPoint(0, point1[0], point1[1], point1[2])
-    points.InsertPoint(1, point2[0], point2[1], point2[2])
+    colors : ndarray or tuple
+        Peak colors
 
-    lines = vtk.vtkCellArray()
-    lines.InsertNextCell(2)
+    Returns
+    -------
+    vtkActor
 
-    lines.InsertCellPoint(0)
-    lines.InsertCellPoint(1)
+    See Also
+    --------
+    dipy.viz.fvtk.sphere_funcs
+    """
+    peaks_dirs = np.asarray(peaks_dirs)
+    if peaks_dirs.ndim == 2:
+        peaks_dirs = peaks_dirs[None, None, None, :]
+    if peaks_dirs.ndim == 3:
+        peaks_dirs = peaks_dirs[None, None, :]
+    if peaks_dirs.ndim == 4:
+        peaks_dirs = peaks_dirs[None, :]
+    if peaks_dirs.ndim > 5:
+        raise ValueError("Wrong shape")
 
-    profileData = vtk.vtkPolyData()
-    profileData.SetPoints(points)
-    profileData.SetLines(lines)
+    grid_shape = np.array(peaks_dirs.shape[:3])
 
-    # Add thickness to the resulting line.
-    profileTubes = vtk.vtkTubeFilter()
-    profileTubes.SetNumberOfSides(sides)
-    profileTubes.SetInput(profileData)
-    profileTubes.SetRadius(radius)
+    list_dirs = []
 
-    if capson:
-        profileTubes.SetCapping(1)
-    else:
-        profileTubes.SetCapping(0)
+    for ijk in np.ndindex(*grid_shape):
 
-    profileMapper = vtk.vtkPolyDataMapper()
-    profileMapper.SetInputConnection(profileTubes.GetOutputPort())
+        xyz = scale * (ijk - grid_shape / 2.)[:, None]
 
-    profile = vtk.vtkActor()
-    profile.SetMapper(profileMapper)
-    profile.GetProperty().SetDiffuseColor(color)
-    profile.GetProperty().SetSpecular(specular)
-    profile.GetProperty().SetSpecularPower(30)
-    profile.GetProperty().SetOpacity(opacity)
+        xyz = xyz.T
 
-    return profile
+        for i in range(peaks_dirs.shape[-2]):
 
+            if peaks_values is not None:
 
-def _closest_track(p, tracks):
-    ''' Return the index of the closest track from tracks to point p
-    '''
+                pv = peaks_values[ijk][i]
 
-    d = []
-    # enumt= enumerate(tracks)
+            else:
 
-    for (ind, t) in enumerate(tracks):
-        for i in range(len(t[:-1])):
+                pv = 1.
 
-            d.append(
-                (ind, np.sqrt(np.sum(np.cross((p - t[i]), (p - t[i + 1])) ** 2)) / np.sqrt(np.sum((t[i + 1] - t[i]) ** 2))))
+            symm = np.vstack((-peaks_dirs[ijk][i] * pv + xyz,
+                               peaks_dirs[ijk][i] * pv + xyz))
 
-    d = np.array(d)
+            list_dirs.append(symm)
 
-    imin = d[:, 1].argmin()
-
-    return int(d[imin, 0])
+    return line(list_dirs, colors)
 
 
-def crossing(a, ind, sph, scale, orient=False):
-    """ visualize a volume of crossings
+def tensor(evals, evecs, scalar_colors=None, sphere=None, scale=2.2, norm=True):
+    """Plot many tensors as ellipsoids simultaneously.
+
+    Parameters
+    ----------
+    evals : (3,) or (X, 3) or (X, Y, 3) or (X, Y, Z, 3) ndarray
+        eigenvalues
+    evecs : (3, 3) or (X, 3, 3) or (X, Y, 3, 3) or (X, Y, Z, 3, 3) ndarray
+        eigenvectors
+    scalar_colors : (3,) or (X, 3) or (X, Y, 3) or (X, Y, Z, 3) ndarray
+        RGB colors used to show the tensors
+        Default None, color the ellipsoids using ``color_fa``
+    sphere : Sphere,
+        this sphere will be transformed to the tensor ellipsoid
+        Default is None which uses a symmetric sphere with 724 points.
+    scale : float,
+        distance between ellipsoids.
+    norm : boolean,
+        Normalize `evals`.
+
+    Returns
+    -------
+    actor : vtkActor
+        Ellipsoids
 
     Examples
-    ----------
-    See 'dipy/doc/examples/visualize_crossings.py' at :ref:`examples`
+    --------
+    >>> from dipy.viz import fvtk
+    >>> r = fvtk.ren()
+    >>> evals = np.array([1.4, .35, .35]) * 10 ** (-3)
+    >>> evecs = np.eye(3)
+    >>> from dipy.data import get_sphere
+    >>> sphere = get_sphere('symmetric724')
+    >>> fvtk.add(r, fvtk.tensor(evals, evecs, sphere=sphere))
+    >>> #fvtk.show(r)
 
     """
 
-    T = []
-    Tor = []
-    if a.ndim == 4 or a.ndim == 3:
-        x, y, z = ind.shape[:3]
-        for pos in np.ndindex(x, y, z):
-            i, j, k = pos
-            pos_ = np.array(pos)
-            ind_ = ind[i, j, k]
-            a_ = a[i, j, k]
+    evals = np.asarray(evals)
+    if evals.ndim == 1:
+        evals = evals[None, None, None, :]
+        evecs = evecs[None, None, None, :, :]
+    if evals.ndim == 2:
+        evals = evals[None, None, :]
+        evecs = evecs[None, None, :, :]
+    if evals.ndim == 3:
+        evals = evals[None, :]
+        evecs = evecs[None, :, :]
+    if evals.ndim > 4:
+        raise ValueError("Wrong shape")
 
-            try:
-                len(ind_)
-            except TypeError:
-                ind_ = [ind_]
-                a_ = [a_]
+    grid_shape = np.array(evals.shape[:3])
 
-            for (i, _i) in enumerate(ind_):
-                T.append(pos_ + scale * a_[i] * np.vstack((sph[_i], -sph[_i])))
-                if orient:
-                    Tor.append(sph[_i])
+    if sphere is None:
+        from dipy.data import get_sphere
+        sphere = get_sphere('symmetric724')
+    faces = np.asarray(sphere.faces, dtype=int)
+    vertices = sphere.vertices
 
-    if a.ndim == 1:
+    colors = vtk.vtkUnsignedCharArray()
+    colors.SetNumberOfComponents(3)
+    colors.SetName("Colors")
 
-        for (i, _i) in enumerate(ind):
-                T.append(scale * a[i] * np.vstack((sph[_i], -sph[_i])))
-                if orient:
-                    Tor.append(sph[_i])
-    if orient:
-        return T, Tor
-    return T
+    if scalar_colors is None:
+        from dipy.reconst.dti import color_fa, fractional_anisotropy
+        cfa = color_fa(fractional_anisotropy(evals), evecs)
+    else:
+        cfa = scalar_colors
+
+    list_sq = []
+    list_cols = []
+
+    for ijk in ndindex(grid_shape):
+        ea = evals[ijk]
+        if norm:
+            ea /= ea.max()
+        ea = np.diag(ea.copy())
+
+        ev = evecs[ijk].copy()
+        xyz = np.dot(ev, np.dot(ea, vertices.T))
+
+        xyz += scale * (ijk - grid_shape / 2.)[:, None]
+
+        xyz = xyz.T
+
+        list_sq.append(xyz)
+
+        acolor = np.zeros(xyz.shape)
+        acolor[:, :] = np.interp(cfa[ijk], [0, 1], [0, 255])
+
+        list_cols.append(acolor.astype('ubyte'))
+
+    points = vtk.vtkPoints()
+    triangles = vtk.vtkCellArray()
+
+    for k in xrange(len(list_sq)):
+
+        xyz = list_sq[k]
+
+        cols = list_cols[k]
+
+        for i in xrange(xyz.shape[0]):
+
+            points.InsertNextPoint(*xyz[i])
+            colors.InsertNextTuple3(*cols[i])
+
+        for j in xrange(faces.shape[0]):
+
+            triangle = vtk.vtkTriangle()
+            triangle.GetPointIds().SetId(0, faces[j, 0] + k * xyz.shape[0])
+            triangle.GetPointIds().SetId(1, faces[j, 1] + k * xyz.shape[0])
+            triangle.GetPointIds().SetId(2, faces[j, 2] + k * xyz.shape[0])
+            triangles.InsertNextCell(triangle)
+            del triangle
+
+    polydata = vtk.vtkPolyData()
+    polydata.SetPoints(points)
+    polydata.SetPolys(triangles)
+
+    polydata.GetPointData().SetScalars(colors)
+    polydata.Modified()
+
+    mapper = vtk.vtkPolyDataMapper()
+    if major_version <= 5:
+        mapper.SetInput(polydata)
+    else:
+        mapper.SetInputData(polydata)
+
+    actor = vtk.vtkActor()
+    actor.SetMapper(mapper)
+
+    return actor
 
 
-def slicer(ren, vol, voxsz=(1.0, 1.0, 1.0), affine=None, contours=1,
-           planes=1, levels=[20, 30, 40], opacities=[0.8, 0.7, 0.3],
-           colors=None, planesx=[20, 30], planesy=[30, 40], planesz=[20, 30]):
-    ''' Slicer and contour rendering of 3d volumes
+def slicer(vol, voxsz=(1.0, 1.0, 1.0), plane_i=[0], plane_j=None,
+           plane_k=None, outline=True):
+    """ Slice a 3D volume
 
     Parameters
-    ----------------
-    vol : array, shape (N, M, K), dtype uint8
-        An array representing the volumetric dataset that we want to visualize
-        using volumetric rendering.
+    ----------
+    vol : array, shape (N, M, K)
+        An array representing the volumetric dataset that we want to slice
     voxsz : sequence of 3 floats
         Voxel size.
-    affine : array, shape (4,4), default None
-        As given by ``volumeimages``.
-    contours : bool 1 to show contours
-        Whether to show contours.
-    planes : boolean 1 show planes
-        Whether to show planes.
-    levels : sequence
-        Contour levels.
-    opacities : sequence
-        Opacity for every contour level.
-    colors : None or sequence of 3-tuples
-        Color for each contour level.
-    planesx : (2,) array_like
-        Saggital.
-    planesy : (2,) array_like
-        Coronal.
-    planesz :
-        Axial (2,) array_like
+    plane_i : sequence of ints
+        show plane or planes along the first dimension
+    plane_j : sequence of ints
+        show plane or planes along the second dimension
+    plane_k : sequence of ints
+        show plane or planes along the third(last) dimension
+    outline : bool
+        if True (default) a small outline is drawn around the slices
 
     Examples
-    --------------
+    --------
     >>> import numpy as np
     >>> from dipy.viz import fvtk
     >>> x, y, z = np.ogrid[-10:10:80j, -10:10:80j, -10:10:80j]
-    >>> s = np.sin(x*y*z)/(x*y*z)
-    >>> r=fvtk.ren()
-    >>> #fvtk.slicer(r,s) #does showing too
-    '''
+    >>> s = np.sin(x * y * z) / (x * y * z)
+    >>> r = fvtk.ren()
+    >>> fvtk.add(r, fvtk.slicer(s, plane_i=[0, 5]))
+    >>> #fvtk.show(r)
+    """
+
+    if plane_i is None:
+        plane_i = []
+    if plane_j is None:
+        plane_j = []
+    if plane_k is None:
+        plane_k = []
+
+    if vol.ndim != 3:
+        raise ValueError("vol has to be a 3d array")
+
     vol = np.interp(vol, xp=[vol.min(), vol.max()], fp=[0, 255])
     vol = vol.astype('uint8')
 
     im = vtk.vtkImageData()
     im.SetScalarTypeToUnsignedChar()
-    im.SetDimensions(vol.shape[0], vol.shape[1], vol.shape[2])
+    I, J, K = vol.shape[:3]
+    im.SetDimensions(I, J, K)
     # im.SetOrigin(0,0,0)
     im.SetSpacing(voxsz[2], voxsz[0], voxsz[1])
     im.AllocateScalars()
 
+    # copy data
     for i in range(vol.shape[0]):
         for j in range(vol.shape[1]):
             for k in range(vol.shape[2]):
-
                 im.SetScalarComponentFromFloat(i, j, k, 0, vol[i, j, k])
-
-    Contours = []
-    for le in levels:
-        # An isosurface, or contour value of 500 is known to correspond to the
-        # skin of the patient. Once generated, a vtkPolyDataNormals filter is
-        # is used to create normals for smooth surface shading during rendering.
-        # The triangle stripper is used to create triangle strips from the
-        # isosurface these render much faster on may systems.
-        skinExtractor = vtk.vtkContourFilter()
-        # skinExtractor.SetInputConnection(im.GetOutputPort())
-        skinExtractor.SetInput(im)
-        skinExtractor.SetValue(0, le)
-        skinNormals = vtk.vtkPolyDataNormals()
-        skinNormals.SetInputConnection(skinExtractor.GetOutputPort())
-        skinNormals.SetFeatureAngle(60.0)
-        skinStripper = vtk.vtkStripper()
-        skinStripper.SetInputConnection(skinNormals.GetOutputPort())
-        skinMapper = vtk.vtkPolyDataMapper()
-        skinMapper.SetInputConnection(skinStripper.GetOutputPort())
-        skinMapper.ScalarVisibilityOff()
-        skin = vtk.vtkActor()
-        skin.SetMapper(skinMapper)
-        if colors == None:
-            skin.GetProperty().SetDiffuseColor(1, .49, .25)
-        else:
-            colorskin = colors[le]
-            skin.GetProperty().SetDiffuseColor(colorskin[0], colorskin[1], colorskin[2])
-        skin.GetProperty().SetSpecular(.3)
-        skin.GetProperty().SetSpecularPower(20)
-
-        Contours.append(skin)
 
     # An outline provides context around the data.
     outlineData = vtk.vtkOutlineFilter()
-    # outlineData.SetInputConnection(im.GetOutputPort())
-    outlineData.SetInput(im)
+    if major_version <= 5:
+        outlineData.SetInput(im)
+    else:
+        outlineData.SetInputData(im)
+
     mapOutline = vtk.vtkPolyDataMapper()
     mapOutline.SetInputConnection(outlineData.GetOutputPort())
-    outline = vtk.vtkActor()
-    outline.SetMapper(mapOutline)
-    outline.GetProperty().SetColor(1, 0, 0)
+    outline_ = vtk.vtkActor()
+    outline_.SetMapper(mapOutline)
+    outline_.GetProperty().SetColor(1, 0, 0)
 
     # Now we are creating three orthogonal planes passing through the
     # volume. Each plane uses a different texture map and therefore has
@@ -1482,129 +1639,105 @@ def slicer(ren, vol, voxsz=(1.0, 1.0, 1.0), affine=None, contours=1,
     # processes a slice of data.
     planeColors = vtk.vtkImageMapToColors()
     # saggitalColors.SetInputConnection(im.GetOutputPort())
-    planeColors.SetInput(im)
+    if major_version <= 5:
+        planeColors.SetInput(im)
+    else:
+        planeColors.SetInputData(im)
     planeColors.SetLookupTable(lut)
     planeColors.Update()
 
     saggitals = []
-    for x in planesx:
+    for x in plane_i:
 
         saggital = vtk.vtkImageActor()
-        saggital.SetInput(planeColors.GetOutput())
+        if major_version <= 5:
+            saggital.SetInput(planeColors.GetOutput())
+        else:
+            saggital.SetInputData(planeColors.GetOutput())
         saggital.SetDisplayExtent(x, x, y1, y2, z1, z2)
-
         saggitals.append(saggital)
 
     axials = []
-    for z in planesz:
+    for z in plane_k:
         axial = vtk.vtkImageActor()
-        axial.SetInput(planeColors.GetOutput())
+        if major_version <= 5:
+            axial.SetInput(planeColors.GetOutput())
+        else:
+            axial.SetInputData(planeColors.GetOutput())
         axial.SetDisplayExtent(x1, x2, y1, y2, z, z)
         axials.append(axial)
 
     coronals = []
-    for y in planesy:
+    for y in plane_j:
         coronal = vtk.vtkImageActor()
-        coronal.SetInput(planeColors.GetOutput())
+        if major_version <= 5:
+            coronal.SetInput(planeColors.GetOutput())
+        else:
+            coronal.SetInputData(planeColors.GetOutput())
         coronal.SetDisplayExtent(x1, x2, y, y, z1, z2)
         coronals.append(coronal)
 
-    # It is convenient to create an initial view of the data. The FocalPoint
-    # and Position form a vector direction. Later on (ResetCamera() method)
-    # this vector is used to position the camera to look at the data in
-    # this direction.
-    aCamera = vtk.vtkCamera()
-    aCamera.SetViewUp(0, 0, -1)
-    aCamera.SetPosition(0, 1, 0)
-    aCamera.SetFocalPoint(0, 0, 0)
-    aCamera.ComputeViewPlaneNormal()
+    assem = vtk.vtkAssembly()
 
-    # saggital.SetOpacity(0.1)
+    for sag in saggitals:
+        assem.AddPart(sag)
+    for ax in axials:
+        assem.AddPart(ax)
+    for cor in coronals:
+        assem.AddPart(cor)
 
-    # Actors are added to the renderer.
-    ren.AddActor(outline)
-    if planes:
-        for sag in saggitals:
-            ren.AddActor(sag)
-        for ax in axials:
-            ren.AddActor(ax)
-        for cor in coronals:
-            ren.AddActor(cor)
+    if outline:
+        assem.AddPart(outline_)
 
-    if contours:
-        cnt = 0
-        for actor in Contours:
-            actor.GetProperty().SetOpacity(opacities[cnt])
-            ren.AddActor(actor)
-            cnt += 1
-
-    # Turn off bone for this example.
-    # bone.VisibilityOff()
-
-    # Set skin to semi-transparent.
-
-    # An initial camera view is created.  The Dolly() method moves
-    # the camera towards the FocalPoint, thereby enlarging the image.
-    ren.SetActiveCamera(aCamera)
-    ren.ResetCamera()
-    aCamera.Dolly(1.5)
-
-    # Set a background color for the renderer and set the size of the
-    # render window (expressed in pixels).
-    ren.SetBackground(0, 0, 0)
-    # renWin.SetSize(640, 480)
-
-    # Note that when camera movement occurs (as it does in the Dolly()
-    # method), the clipping planes often need adjusting. Clipping planes
-    # consist of two planes: near and far along the view direction. The
-    # near plane clips out objects in front of the plane the far plane
-    # clips out objects behind the plane. This way only what is drawn
-    # between the planes is actually rendered.
-    # ren.ResetCameraClippingRange()
-
-    # return ren
-
-    renWin = vtk.vtkRenderWindow()
-    renWin.AddRenderer(ren)
-    iren = vtk.vtkRenderWindowInteractor()
-    iren.SetRenderWindow(renWin)
-
-    ren.ResetCameraClippingRange()
-
-    # Interact with the data.
-    iren.Initialize()
-    renWin.Render()
-    iren.Start()
+    return assem
 
 
-def annotatePick(object, event):
-    ''' Create a Python function to create the text for the
-    text mapper used to display the results of picking.
-    '''
-    global picker, textActor, textMapper, track_buffer
+def camera(ren, pos=None, focal=None, viewup=None, verbose=True):
+    """ Change the active camera
 
-    if picker.GetCellId() < 0:
-        textActor.VisibilityOff()
-    else:
-        if len(track_buffer) != 0:
+    Parameters
+    ----------
+    ren : vtkRenderer
+    pos : tuple
+        (x, y, z) position of the camera
+    focal : tuple
+        (x, y, z) focal point
+    viewup : tuple
+        (x, y, z) viewup vector
+    verbose : bool
+        show information about the camera
 
-            selPt = picker.GetSelectionPoint()
-            pickPos = picker.GetPickPosition()
+    Returns
+    -------
+    vtkCamera
+    """
 
-            closest = _closest_track(np.array([pickPos[0], pickPos[1], pickPos[2]]), track_buffer)
+    cam = ren.GetActiveCamera()
+    if verbose:
+        print('Camera Position (%.2f,%.2f,%.2f)' % cam.GetPosition())
+        print('Camera Focal Point (%.2f,%.2f,%.2f)' % cam.GetFocalPoint())
+        print('Camera View Up (%.2f,%.2f,%.2f)' % cam.GetViewUp())
+    if pos is not None:
+        cam = ren.GetActiveCamera().SetPosition(*pos)
+    if focal is not None:
+        ren.GetActiveCamera().SetFocalPoint(*focal)
+    if viewup is not None:
+        ren.GetActiveCamera().SetViewUp(*viewup)
 
-            textMapper.SetInput("(%.6f, %.6f, %.6f)" % pickPos)
-            textActor.SetPosition(selPt[:2])
-            textActor.VisibilityOn()
+    cam = ren.GetActiveCamera()
+    if pos is not None or focal is not None or viewup is not None:
+        if verbose:
+            print('-------------------------------------')
+            print('Camera New Position (%.2f,%.2f,%.2f)' % cam.GetPosition())
+            print('Camera New Focal Point (%.2f,%.2f,%.2f)' %
+                  cam.GetFocalPoint())
+            print('Camera New View Up (%.2f,%.2f,%.2f)' % cam.GetViewUp())
 
-            label(tmp_ren, text=str(ind_buffer[closest]), pos=(track_buffer[closest][0][0], track_buffer[
-                  closest][0][1], track_buffer[closest][0][2]))
-
-            tmp_ren.AddActor(line(track_buffer[closest], golden, opacity=1))
+    return cam
 
 
-def show(ren, title='dipy.viz.fvtk', size=(300, 300), png_magnify=1):
-    ''' Show window
+def show(ren, title='Dipy', size=(300, 300), png_magnify=1):
+    """ Show window
 
     Notes
     -----
@@ -1652,11 +1785,12 @@ def show(ren, title='dipy.viz.fvtk', size=(300, 300), png_magnify=1):
     ----------
     dipy.viz.fvtk.record
 
-    '''
+    """
 
     ren.ResetCamera()
     window = vtk.vtkRenderWindow()
     window.AddRenderer(ren)
+    # window.SetAAFrames(6)
     window.SetWindowName(title)
     window.SetSize(size[0], size[1])
     style = vtk.vtkInteractorStyleTrackballCamera()
@@ -1670,7 +1804,10 @@ def show(ren, title='dipy.viz.fvtk', size=(300, 300), png_magnify=1):
         if key == 's' or key == 'S':
             print('Saving image...')
             renderLarge = vtk.vtkRenderLargeImage()
-            renderLarge.SetInput(ren)
+            if major_version <= 5:
+                renderLarge.SetInput(ren)
+            else:
+                renderLarge.SetInputData(ren)
             renderLarge.SetMagnification(png_magnify)
             renderLarge.Update()
             writer = vtk.vtkPNGWriter()
@@ -1693,9 +1830,8 @@ def show(ren, title='dipy.viz.fvtk', size=(300, 300), png_magnify=1):
 
 
 def record(ren=None, cam_pos=None, cam_focal=None, cam_view=None,
-           out_path=None, path_numbering=False, n_frames=10, az_ang=10,
-           magnification=1, size=(300, 300), bgr_color=(0, 0, 0),
-           verbose=False):
+           out_path=None, path_numbering=False, n_frames=1, az_ang=10,
+           magnification=1, size=(300, 300), verbose=False):
     ''' This will record a video of your scene
 
     Records a video as a series of ``.png`` files of your scene by rotating the
@@ -1716,7 +1852,7 @@ def record(ren=None, cam_pos=None, cam_focal=None, cam_view=None,
     path_numbering : bool
         when recording it changes out_path ot out_path + str(frame number)
     n_frames : int, optional
-        number of frames to save, default 10
+        number of frames to save, default 1
     az_ang : float, optional
         azimuthal angle of camera rotation.
     magnification : int, optional
@@ -1732,9 +1868,9 @@ def record(ren=None, cam_pos=None, cam_focal=None, cam_view=None,
     >>> #fvtk.record(r)
     >>> #check for new images in current directory
     '''
-    if ren == None:
+    if ren is None:
         ren = vtk.vtkRenderer()
-    ren.SetBackground(bgr_color)
+
     renWin = vtk.vtkRenderWindow()
     renWin.AddRenderer(ren)
     renWin.SetSize(size[0], size[1])
@@ -1746,20 +1882,23 @@ def record(ren=None, cam_pos=None, cam_focal=None, cam_view=None,
     ren.ResetCamera()
 
     renderLarge = vtk.vtkRenderLargeImage()
-    renderLarge.SetInput(ren)
+    if major_version <= 5:
+        renderLarge.SetInput(ren)
+    else:
+        renderLarge.SetInputData(ren)
     renderLarge.SetMagnification(magnification)
     renderLarge.Update()
 
     writer = vtk.vtkPNGWriter()
     ang = 0
 
-    if cam_pos != None:
+    if cam_pos is not None:
         cx, cy, cz = cam_pos
         ren.GetActiveCamera().SetPosition(cx, cy, cz)
-    if cam_focal != None:
+    if cam_focal is not None:
         fx, fy, fz = cam_focal
         ren.GetActiveCamera().SetFocalPoint(fx, fy, fz)
-    if cam_view != None:
+    if cam_view is not None:
         ux, uy, uz = cam_view
         ren.GetActiveCamera().SetViewUp(ux, uy, uz)
 
@@ -1778,7 +1917,7 @@ def record(ren=None, cam_pos=None, cam_focal=None, cam_view=None,
         writer.SetInputConnection(renderLarge.GetOutputPort())
         # filename='/tmp/'+str(3000000+i)+'.png'
         if path_numbering:
-            if out_path == None:
+            if out_path is None:
                 filename = str(1000000 + i) + '.png'
             else:
                 filename = out_path + str(1000000 + i) + '.png'

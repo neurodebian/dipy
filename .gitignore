@@ -22,3 +22,4 @@ dist/
 .pc
 *.swp
 dipy.egg-info/
+pyx-stamps

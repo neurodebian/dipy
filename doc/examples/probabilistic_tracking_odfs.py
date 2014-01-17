@@ -37,14 +37,14 @@ Randomly select some seed points from the mask:
 seeds = seeds_from_mask(mask, [1, 1, 1], zooms)
 seeds = seeds[:2000]
 
-interpolator = NearestNeighborInterpolator(data, zooms)
+interpolator = NearestNeighborInterpolator(maskdata, zooms)
 
 pwt = ProbabilisticOdfWeightedTracker(csamodel, interpolator, mask,
                                       stepper, 20, seeds, sphere)
 csa_streamlines = list(pwt)
 
 """
-Now that we have our streamlines in memory we cab save the results in the disk.
+Now that we have our streamlines in memory we can save the results to disk.
 For this purpose we can use the TrackVis format (``*.trk``). First, we need to
 create a header.
 """

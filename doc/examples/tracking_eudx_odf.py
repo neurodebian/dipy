@@ -5,7 +5,7 @@ Deterministic Tracking with EuDX on ODF Peaks
 =============================================
 
 In this example we do deterministic fiber tracking on fields of ODF peaks. EuDX
-(Garyfallidis, PhD thesis, 2012) be used for this.
+[Garyfallidis12]_ will be used for this.
 
 This example requires importing example `reconst_csa.py` in order to run. EuDX was
 primarily made with cpu efficiency in mind. The main idea can be used with any
@@ -16,8 +16,8 @@ model that is a child of OdfModel.
 from reconst_csa import csapeaks, sphere
 
 """
-This time we will not use FA as input to EuDX but we will use GFA (generalized FA)
-which is more suited for ODF functions. Tracking will stop when if GFA is less
+This time we will not use FA as input to EuDX but we will use GFA (generalized FA),
+which is more suited for ODF functions. Tracking will stop when GFA is less
 than 0.2.
 """
 
@@ -31,7 +31,7 @@ eu = EuDX(csapeaks.gfa,
 csa_streamlines = [streamline for streamline in eu]
 
 """
-Now that we have our streamlines in memory we cab save the results in the disk.
+Now that we have our streamlines in memory we can save the results on the disk.
 For this purpose we can use the TrackVis format (``*.trk``). First, we need to
 create a header.
 """
@@ -74,14 +74,15 @@ fvtk.record(r, n_frames=1, out_path='csa_tracking.png', size=(600, 600))
 
    **Deterministic streamlines with EuDX on ODF peaks field modulated by GFA**.
 
-It is also possible to use EuDX with multiple ODF peaks. Which is very helpful when
+It is also possible to use EuDX with multiple ODF peaks, which is very helpful when
 tracking in crossing areas.
 """
 
 eu = EuDX(csapeaks.peak_values,
           csapeaks.peak_indices,
           odf_vertices=sphere.vertices,
-          a_low=0.2)
+          ang_thr=20.,
+          a_low=0.6)
 
 csa_streamlines_mult_peaks = [streamline for streamline in eu]
 
@@ -98,6 +99,8 @@ fvtk.record(r, n_frames=1, out_path='csa_tracking_mpeaks.png', size=(600, 600))
    :align: center
 
    **Deterministic streamlines with EuDX on multiple ODF peaks**.
+
+.. [Garyfallidis12] Garyfallidis E., "Towards an accurate brain tractography", PhD thesis, University of Cambridge, 2012.
 
 .. include:: ../links_names.inc
 """

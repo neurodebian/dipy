@@ -1,7 +1,11 @@
+from __future__ import division, print_function, absolute_import
+
 __all__ = ['Sphere', 'HemiSphere', 'faces_from_sphere_vertices', 'unique_edges']
 
 import numpy as np
 import warnings
+
+from ..utils.six.moves import xrange
 
 from dipy.core.geometry import cart2sphere, sphere2cart, vector_norm
 from dipy.core.onetime import auto_attr
@@ -395,7 +399,8 @@ def _get_forces(charges):
     potential = 2*potential.sum()
     return f_theta, potential
 
-def disperse_charges(hemi, iters, const=.05):
+
+def disperse_charges(hemi, iters, const=.2):
     """Models electrostatic repulsion on the unit sphere
 
     Places charges on a sphere and simulates the repulsive forces felt by each
@@ -406,9 +411,9 @@ def disperse_charges(hemi, iters, const=.05):
     Parameters
     ----------
     hemi : HemiSphere
-        Points on a unit sphere
+        Points on a unit sphere.
     iters : int
-        Number of iterations to run
+        Number of iterations to run.
     const : float
         Using a smaller const could provide a more accurate result, but will
         need more iterations to converge.
@@ -416,7 +421,7 @@ def disperse_charges(hemi, iters, const=.05):
     Returns
     -------
     hemi : HemiSphere
-        distributed points on a unit sphere
+        Distributed points on a unit sphere.
     potential : ndarray
         The electrostatic potential at each iteration. This can be useful to
         check if the repulsion converged to a minimum.
@@ -431,24 +436,32 @@ def disperse_charges(hemi, iters, const=.05):
     """
     if not isinstance(hemi, HemiSphere):
         raise ValueError("expecting HemiSphere")
-    charges = hemi.vertices.copy()
+    charges = hemi.vertices
     forces, v = _get_forces(charges)
     force_mag = np.sqrt((forces*forces).sum())
-    max_force = force_mag.max()
-    if max_force > 1:
-        const = const/max_force
+    const = const / force_mag.max()
     potential = np.empty(iters)
+    v_min = v
 
     for ii in xrange(iters):
-        forces, potential[ii] = _get_forces(charges)
-        charges += forces * const
-        norms = np.sqrt((charges*charges).sum(-1))
-        charges /= norms[:, None]
+        new_charges = charges + forces * const
+        norms = np.sqrt((new_charges**2).sum(-1))
+        new_charges /= norms[:, None]
+        new_forces, v = _get_forces(new_charges)
+        if v <= v_min:
+            charges = new_charges
+            forces = new_forces
+            potential[ii] = v_min = v
+        else:
+            const /= 2.
+            potential[ii] = v_min
+
     return HemiSphere(xyz=charges), potential
 
 
 def interp_rbf(data, sphere_origin, sphere_target,
-               function='multiquadric', epsilon=None, smooth=0):
+               function='multiquadric', epsilon=None, smooth=0,
+               norm = "euclidean_norm"):
     """Interpolate data on the sphere, using radial basis functions.
 
     Parameters
@@ -467,7 +480,12 @@ def interp_rbf(data, sphere_origin, sphere_target,
     smooth : float
         values greater than zero increase the smoothness of the
         approximation with 0 (the default) as pure interpolation.
-
+    norm : str
+        A string indicating the function that returns the
+        "distance" between two points.
+        'angle' - The angle between two vectors
+        'euclidean_norm' - The Euclidean distance
+        
     Returns
     -------
     v : (M,) ndarray
@@ -479,16 +497,31 @@ def interp_rbf(data, sphere_origin, sphere_target,
 
     """
     from scipy.interpolate import Rbf
-
+    
+    def angle(x1, x2):
+        xx = np.arccos((x1 * x2).sum(axis=0))
+        xx[np.isnan(xx)] = 0
+        return xx
+        
+    def euclidean_norm(x1, x2):
+        return np.sqrt(((x1 - x2)**2).sum(axis=0))
+    
+    if norm is "angle":
+        norm = angle
+    elif norm is "euclidean_norm":
+        norm = euclidean_norm
+        
     # Workaround for bug in SciPy that doesn't allow
     # specification of epsilon None
     if epsilon is not None:
         kwargs = {'function': function,
                   'epsilon': epsilon,
-                  'smooth' : smooth}
+                  'smooth' : smooth,
+                  'norm' : norm}
     else:
         kwargs = {'function': function,
-                  'smooth': smooth}
+                  'smooth': smooth,
+                  'norm' : norm}
 
     rbfi = Rbf(sphere_origin.x, sphere_origin.y, sphere_origin.z, data,
                **kwargs)

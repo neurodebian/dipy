@@ -5,7 +5,7 @@ Steps are:
     analyze example index file for example py filenames
     check for any filenames in example directory not included
     do py to rst conversion, writing into build directory
-    run 
+    run
 """
 #-----------------------------------------------------------------------------
 # Library imports
@@ -18,6 +18,7 @@ import sys
 import shutil
 from subprocess import check_call
 from glob import glob
+import numpy as np
 
 # Third-party imports
 
@@ -57,22 +58,44 @@ EG_SRC_DIR = abspath('examples')
 
 # Work in examples directory
 os.chdir('examples_built')
-if not os.getcwd().endswith('doc/examples_built'):
+
+if not os.getcwd().endswith(pjoin('doc','examples_built')):
     raise OSError('This must be run from the doc directory')
 
 # Copy the py files; check they are in the examples list and warn if not
 eg_index_contents = open(EG_INDEX_FNAME, 'rt').read()
 pyfilelist = [fname for fname in os.listdir(EG_SRC_DIR)
               if fname.endswith('.py')]
+
+# Here I am adding an extra step. The list of examples to be executed need
+# also to be added in the following file (valid_examples.txt). This helps
+# with debugging the examples and the documentation only a few examples at
+# the time.
+flist_name = pjoin(os.path.dirname(os.getcwd()), 'examples', 'valid_examples.txt')
+flist = open(flist_name, "r")
+validated_examples = flist.readlines()
+flist.close()
+
+def check_enabled(froot, example):
+    if froot in example:
+        if example.startswith('#'):
+            return False
+        return True
+    return False
+
 for fname in pyfilelist:
-    shutil.copyfile(pjoin(EG_SRC_DIR, fname), fname)
+
     froot, _ = splitext(fname)
-    if froot not in eg_index_contents:
-        print 'Example %s not in index file %s' % (EG_SRC_DIR, EG_INDEX_FNAME)
+    if np.sum([1 for example in validated_examples if check_enabled(froot, example)]) > 0:
+
+        shutil.copyfile(pjoin(EG_SRC_DIR, fname), fname)
+
+        if froot not in eg_index_contents:
+            print 'Example %s not in index file %s' % (EG_SRC_DIR, EG_INDEX_FNAME)
 
 # Run the conversion from .py to rst file
-check_call('../../tools/ex2rst --project dipy --outdir . .',
-           shell=True)
+check_call('python ../../tools/ex2rst --project dipy --outdir . .',
+            shell=True)
 
 #added the path so that scripts can import other scripts on the same directory
 sys.path.insert(0, os.getcwd())

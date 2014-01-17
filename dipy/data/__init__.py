@@ -1,18 +1,46 @@
-""" Read test or example data
 """
+Read test or example data
+"""
+
+from __future__ import division, print_function, absolute_import
+
+
+import sys
+
 from nibabel import load
 from dipy.io.bvectxt import read_bvec_file
 from os.path import join as pjoin, dirname
-import cPickle
+
+if sys.version_info[0] < 3:
+    import cPickle
+
+    def loads_compat(bytes):
+        return cPickle.loads(bytes)
+else:  # Python 3
+    import pickle
+    # Need to load pickles saved in Python 2
+
+    def loads_compat(bytes):
+        return pickle.loads(bytes, encoding='latin1')
+
 import gzip
-from dipy.core.gradients import gradient_table
+import numpy as np
+from dipy.core.gradients import GradientTable, gradient_table
 from dipy.core.sphere import Sphere
 from dipy.sims.voxel import SticksAndBall
 import numpy as np
-from dipy.data.fetcher import (fetch_stanford_hardi,
+from dipy.data.fetcher import (fetch_scil_b0,
+                               read_scil_b0,
+                               fetch_stanford_hardi,
                                read_stanford_hardi,
                                fetch_taiwan_ntu_dsi,
-                               read_taiwan_ntu_dsi)
+                               read_taiwan_ntu_dsi,
+                               fetch_sherbrooke_3shell,
+                               read_sherbrooke_3shell,
+                               fetch_isbi2013_2shell,
+                               read_isbi2013_2shell,
+                               read_stanford_labels)
+
 from ..utils.arrfuncs import as_native_array
 
 THIS_DIR = dirname(__file__)
@@ -70,7 +98,7 @@ def get_sim_voxels(name='fib1'):
         fname = pjoin(THIS_DIR, 'fib1.pkl.gz')
     if name == 'fib2':
         fname = pjoin(THIS_DIR, 'fib2.pkl.gz')
-    return cPickle.loads(gzip.open(fname, 'rb').read())
+    return loads_compat(gzip.open(fname, 'rb').read())
 
 
 def get_skeleton(name='C1'):
@@ -91,14 +119,14 @@ def get_skeleton(name='C1'):
     >>> len(C.keys())
     117
     >>> for c in C: break
-    >>> C[c].keys()
-    ['indices', 'most', 'hidden', 'N']
+    >>> sorted(C[c].keys())
+    ['N', 'hidden', 'indices', 'most']
     """
     if name == 'C1':
         fname = pjoin(THIS_DIR, 'C1.pkl.gz')
     if name == 'C3':
         fname = pjoin(THIS_DIR, 'C3.pkl.gz')
-    return cPickle.loads(gzip.open(fname, 'rb').read())
+    return loads_compat(gzip.open(fname, 'rb').read())
 
 
 def get_sphere(name='symmetric362'):
@@ -126,7 +154,7 @@ def get_sphere(name='symmetric362'):
     (362, 3)
     >>> faces.shape
     (720, 3)
-    >>> verts, faces = get_sphere('not a sphere name')
+    >>> verts, faces = get_sphere('not a sphere name') #doctest: +IGNORE_EXCEPTION_DETAIL
     Traceback (most recent call last):
         ...
     DataError: No sphere called "not a sphere name"
@@ -153,6 +181,7 @@ def get_data(name='small_64D'):
         'aniso_vox' volume with anisotropic voxel size as Nifti
         'fornix' 300 tracks in Trackvis format (from Pittsburgh Brain Competition)
         'gqi_vectors' the scanner wave vectors needed for a GQI acquisitions of 101 directions tested on Siemens 3T Trio
+        'small_25' small ROI (10x8x2) DTI data (b value 2000, 25 directions)
 
     Returns
     -------
@@ -197,8 +226,44 @@ def get_data(name='small_64D'):
         return pjoin(THIS_DIR, 'ScannerVectors_GQI101.txt')
     if name == 'dsi515btable':
         return pjoin(THIS_DIR, 'dsi515_b_table.txt')
+    if name == 'dsi4169btable':
+        return pjoin(THIS_DIR, 'dsi4169_b_table.txt')
     if name == 'grad514':
         return pjoin(THIS_DIR, 'grad_514.txt')
+    if name == "small_25":
+        fbvals = pjoin(THIS_DIR, 'small_25.bval')
+        fbvecs = pjoin(THIS_DIR, 'small_25.bvec')
+        fimg = pjoin(THIS_DIR, 'small_25.nii.gz')
+        return fimg, fbvals, fbvecs
+    if name == "S0_10":
+        fimg = pjoin(THIS_DIR, 'S0_10slices.nii.gz')
+        return fimg
+    if name == 'ISBI_testing_2shells_table':
+        fbvals = pjoin(THIS_DIR, '2shells-1500-2500-N64.bval')
+        fbvecs = pjoin(THIS_DIR, '2shells-1500-2500-N64.bvec')
+        fimg = pjoin(THIS_DIR, 'MS-SNR-30.nii.gz')
+        return fimg, fbvals, fbvecs
+    if name == '3shells_data':
+        fbvals = pjoin(THIS_DIR, '3shells-1000-2000-3500-N193.bval')
+        fbvecs = pjoin(THIS_DIR, '3shells-1000-2000-3500-N193.bvec')
+        fimg = pjoin(THIS_DIR, '3shells-1000-2000-3500-N193.nii.gz')
+        return fimg, fbvals, fbvecs
+
+
+def _gradient_from_file(filename):
+    """Reads a gradient file saved as a text file compatible with np.loadtxt
+    and saved in the dipy data directory"""
+    def gtab_getter():
+        gradfile = pjoin(THIS_DIR, filename)
+        grad = np.loadtxt(gradfile, delimiter=',')
+        gtab = GradientTable(grad)
+        return gtab
+    return gtab_getter
+
+
+get_3shell_gtab = _gradient_from_file("gtab_3shell.txt")
+get_isbi2013_2shell_gtab = _gradient_from_file("gtab_isbi2013_2shell.txt")
+get_gtab_taiwan_dsi = _gradient_from_file("gtab_taiwan_dsi.txt")
 
 
 def dsi_voxels():
@@ -217,11 +282,14 @@ def dsi_deconv_voxels():
     for ix in range(2):
         for iy in range(2):
             for iz in range(2):
-                data[ix,iy,iz], dirs = SticksAndBall(gtab, d=0.0015, S0=100, 
-                                                     angles=[(0, 0), (90, 0)],
-                                                     fractions=[50, 50], 
-                                                     snr=None)
+                data[ix, iy, iz], dirs = SticksAndBall(gtab,
+                                                       d=0.0015,
+                                                       S0=100,
+                                                       angles=[(0, 0), (90, 0)],
+                                                       fractions=[50, 50],
+                                                       snr=None)
     return data, gtab
+
 
 def mrtrix_spherical_functions():
     """Spherical functions represented by spherical harmonic coefficients and
@@ -246,8 +314,37 @@ def mrtrix_spherical_functions():
     func_discrete = load(pjoin(THIS_DIR, "func_discrete.nii.gz")).get_data()
     func_coef = load(pjoin(THIS_DIR, "func_coef.nii.gz")).get_data()
     gradients = np.loadtxt(pjoin(THIS_DIR, "sphere_grad.txt"))
-    # gradients[0] and the first volume of func_discrete, 
+    # gradients[0] and the first volume of func_discrete,
     # func_discrete[..., 0], are associated with the b=0 signal.
     # gradients[:, 3] are the b-values for each gradient/volume.
     sphere = Sphere(xyz=gradients[1:, :3])
     return func_coef, func_discrete[..., 1:], sphere
+
+
+def two_shells_voxels(xmin,xmax,ymin,ymax,zmin,zmax):
+    fimg, fbvals, fbvecs = get_data('ISBI_testing_2shells_table')
+    bvals = np.loadtxt(fbvals)
+    bvecs = np.loadtxt(fbvecs).T
+    gtab = gradient_table(bvals[1:], bvecs[1:,:])
+    img = load(fimg)
+    data = img.get_data()
+    b0 = data[:,:,:,0]
+    data = data[xmin:xmax,ymin:ymax,zmin:zmax,1:]/b0[xmin:xmax,ymin:ymax,zmin:zmax,None]
+    affine = img.get_affine()
+    return data, affine, gtab
+
+
+def three_shells_voxels(xmin,xmax,ymin,ymax,zmin,zmax):
+    fimg, fbvals, fbvecs = get_data('3shells_data')
+    bvals = np.loadtxt(fbvals)
+    bvecs = np.loadtxt(fbvecs).T
+    bvecs[:,0] = -bvecs[:,0]
+    bvecs[:,1] = bvecs[:,1]
+    bvecs[:,2] = bvecs[:,2]
+    gtab = gradient_table(bvals[1:], bvecs[1:,:])
+    img = load(fimg)
+    data = np.double(img.get_data())
+    b0 = np.double(data[:,:,:,0])
+    data = data[xmin:xmax,ymin:ymax,zmin:zmax,1:]/b0[xmin:xmax,ymin:ymax,zmin:zmax,None]
+    affine = img.get_affine()
+    return data, affine, gtab
