@@ -6,10 +6,11 @@ import numpy as np
 import nose
 from dipy.io.bvectxt import orientation_from_string
 from dipy.tracking._utils import _rmi
-from dipy.tracking.utils import (connectivity_matrix, density_map,
-                                 move_streamlines, ndbincount, reduce_labels,
-                                 reorder_voxels_affine, affine_for_trackvis,
-                                 target, length)
+from dipy.tracking.utils import (affine_for_trackvis, connectivity_matrix,
+                                 density_map, length, move_streamlines,
+                                 ndbincount, reduce_labels,
+                                 reorder_voxels_affine, seeds_from_mask,
+                                 target)
 
 import dipy.tracking.metrics as metrix 
 
@@ -340,15 +341,21 @@ def test_rmi():
     except ImportError:
         raise nose.SkipTest()
 
+    # Dtype of random integers is system dependent
     A, B, C, D = np.random.randint(0, 1000, size=[4, 100])
-
     I1 = _rmi([A, B], dims=[1000, 1000])
     I2 = ravel_multi_index([A, B], dims=[1000, 1000])
     assert_array_equal(I1, I2)
-
     I1 = _rmi([A, B, C, D], dims=[1000]*4)
     I2 = ravel_multi_index([A, B, C, D], dims=[1000]*4)
     assert_array_equal(I1, I2)
+    # Check for overflow with small int types
+    indices = np.random.randint(0, 255, size=(2, 100))
+    dims = (1000, 1000)
+    I1 = _rmi(indices, dims=dims)
+    I2 = ravel_multi_index(indices, dims=dims)
+    assert_array_equal(I1, I2)
+
 
 def test_affine_for_trackvis():
 
@@ -379,3 +386,27 @@ def test_length():
     bundle_lengths = length(bundle)
     for idx, this_length in enumerate(bundle_lengths):
         assert_equal(this_length, metrix.length(bundle[idx])) 
+
+
+def test_seeds_from_mask():
+
+    mask = np.random.random_integers(0, 1, size=(10, 10, 10))
+    seeds = seeds_from_mask(mask, density=1)
+    assert_equal(mask.sum(), len(seeds))
+    assert_array_equal(np.argwhere(mask), seeds)
+
+    mask[:] = False
+    mask[3, 3, 3] = True
+    seeds = seeds_from_mask(mask, density=[3, 4, 5])
+    assert_equal(len(seeds), 3 * 4 * 5)
+    assert_true(np.all((seeds > 2.5) & (seeds < 3.5)))
+
+    mask[4, 4, 4] = True
+    seeds = seeds_from_mask(mask, density=[3, 4, 5])
+    assert_equal(len(seeds), 2 * 3 * 4 * 5)
+    assert_true(np.all((seeds > 2.5) & (seeds < 4.5)))
+    in_333 = ((seeds > 2.5) & (seeds < 3.5)).all(1)
+    assert_equal(in_333.sum(), 3 * 4 * 5)
+    in_444 = ((seeds > 3.5) & (seeds < 4.5)).all(1)
+    assert_equal(in_444.sum(), 3 * 4 * 5)
+
