@@ -4,6 +4,7 @@ dipy (0.7.1-1) unstable; urgency=low
   * debian/patches
     - dropping deb_interpreter_for_scripts_tests, changeset* patches --
       adopted upstream
+    - adding up_AE_test_fixup_i386 to overcome test failures on 32bit
   * debian/control
     - boost policy to 3.9.5 (no further changes due)
 
