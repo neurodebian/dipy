@@ -13,8 +13,8 @@ Build-Depends: debhelper (>= 7.0.50~), python-all-dev, python-support,
 			   python-nibabel
 Standards-Version: 3.9.5
 Homepage: http://nipy.org/dipy
-Vcs-Git: git://github.com/neurodebian/dipy.git
-Vcs-Browser: http://github.com/neurodebian/dipy
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-exppsy/dipy.git
+Vcs-Git: git://anonscm.debian.org/pkg-exppsy/dipy.git
 X-Python-Version: >= 2.6
 
 Package: python-dipy
