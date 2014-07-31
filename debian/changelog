@@ -5,6 +5,8 @@ dipy (0.7.1-2) UNRELEASED; urgency=medium
   * debian/control:
      - Set Vcs fields to anonscm.debian.org
      - Priority: optional
+  * debian/blends, debian/upstream/metadata: Move publication data
+    where they belong to
 
  -- Andreas Tille <tille@debian.org>  Thu, 31 Jul 2014 14:22:13 +0200
 
