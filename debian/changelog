@@ -9,7 +9,11 @@ dipy (0.7.1-2) unstable; urgency=medium
   * debian/blends, debian/upstream/metadata: Move publication data
     where they belong to
 
- -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 12 Aug 2014 22:03:08 -0400
+  [ Yaroslav Halchenko ]
+  * Exclude peaksFromModelParallel from testing for now due to obscure
+    permission issue
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 13 Aug 2014 10:18:32 -0400
 
 dipy (0.7.1-1) unstable; urgency=low
 

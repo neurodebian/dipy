@@ -90,7 +90,7 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
         PATH=$(INSTALL_PATH)/usr/bin:$$PATH \
 		PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$$PYTHON/*-packages) \
 		MPLCONFIGDIR=/tmp/ \
-			$$PYTHON /usr/bin/nosetests -sv dipy; \
+			$$PYTHON /usr/bin/nosetests -sv --exclude test_peaksFromModelParallel dipy; \
 	done
 endif
 
