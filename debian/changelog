@@ -1,5 +1,6 @@
-dipy (0.7.1-2) UNRELEASED; urgency=medium
+dipy (0.7.1-2) unstable; urgency=medium
 
+  [ Andreas Tille ]
   * Team upload.
   * Fix DEP5 format specification
   * debian/control:
@@ -8,7 +9,7 @@ dipy (0.7.1-2) UNRELEASED; urgency=medium
   * debian/blends, debian/upstream/metadata: Move publication data
     where they belong to
 
- -- Andreas Tille <tille@debian.org>  Thu, 31 Jul 2014 14:22:13 +0200
+ -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 12 Aug 2014 22:03:08 -0400
 
 dipy (0.7.1-1) unstable; urgency=low
 
