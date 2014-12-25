@@ -2,9 +2,12 @@
 
 '''
 import os
-from os.path import join as pjoin, split as psplit, splitext
+from os.path import join as pjoin, split as psplit, splitext, dirname, exists
+import tempfile
+import shutil
 
 from distutils.command.install_scripts import install_scripts
+from distutils.errors import CompileError, LinkError
 
 from distutils import log
 
@@ -23,6 +26,14 @@ REM quote exe in case of spaces in path name
 set py_exe="%py_exe%"
 call %py_exe% %pyscript% %*
 """
+
+# File to which to write Cython conditional DEF vars
+CONFIG_PXI = pjoin('build', 'config.pxi')
+# File name (no directory) to which to write Python conditional vars
+CONFIG_PY = '__config__.py'
+# Directory to which to write libraries for building
+LIB_DIR_TMP = pjoin('build', 'extra_libs')
+
 
 class install_scripts_bat(install_scripts):
     """ Make scripts executable on Windows
@@ -64,3 +75,179 @@ class install_scripts_bat(install_scripts):
                 continue
             with open(bat_file, 'wt') as fobj:
                 fobj.write(bat_contents)
+
+
+def add_flag_checking(build_ext_class, flag_defines, top_package_dir=''):
+    """ Override input `build_ext_class` to check compiler `flag_defines`
+
+    Parameters
+    ----------
+    build_ext_class : class
+        Class implementing ``distutils.command.build_ext.build_ext`` interface,
+        with a ``build_extensions`` method.
+    flag_defines : sequence
+        A sequence of elements, where the elements are sequences of length 4
+        consisting of (``compile_flags``, ``link_flags``, ``code``,
+        ``defvar``). ``compile_flags`` is a sequence of compiler flags;
+        ``link_flags`` is a sequence of linker flags. We
+        check ``compile_flags`` to see whether a C source string ``code`` will
+        compile, and ``link_flags`` to see whether the resulting object file
+        will link.  If both compile and link works, we add ``compile_flags`` to
+        ``extra_compile_args`` and ``link_flags`` to ``extra_link_args`` of
+        each extension when we build the extensions.  If ``defvar`` is not
+        None, it is the name of Cython variable to be defined in
+        ``build/config.pxi`` with True if the combination of
+        (``compile_flags``, ``link_flags``, ``code``) will compile and link,
+        False otherwise. If None, do not write variable.
+    top_package_dir : str
+        String giving name of top-level package, for writing Python file
+        containing configuration variables.  If empty, do not write this file.
+        Variables written are the same as the Cython variables generated via
+        the `flag_defines` setting.
+
+    Returns
+    -------
+    checker_class : class
+        A class with similar interface to
+        ``distutils.command.build_ext.build_ext``, that adds all working
+        ``compile_flags`` values to the ``extra_compile_args`` and working
+        ``link_flags`` to ``extra_link_args`` attributes of extensions, before
+        compiling.
+    """
+    class Checker(build_ext_class):
+        flag_defs = tuple(flag_defines)
+
+        def can_compile_link(self, compile_flags, link_flags, code):
+            cc = self.compiler
+            fname = 'test.c'
+            cwd = os.getcwd()
+            tmpdir = tempfile.mkdtemp()
+            try:
+                os.chdir(tmpdir)
+                with open(fname, 'wt') as fobj:
+                    fobj.write(code)
+                try:
+                    objects = cc.compile([fname],
+                                         extra_postargs=compile_flags)
+                except CompileError:
+                    return False
+                try:
+                    cc.link_executable(objects, "a.out",
+                                       extra_postargs=link_flags)
+                except (LinkError, TypeError):
+                    return False
+            finally:
+                os.chdir(cwd)
+                shutil.rmtree(tmpdir)
+            return True
+
+        def build_extensions(self):
+            """ Hook into extension building to check compiler flags """
+            def_vars = []
+            good_compile_flags = []
+            good_link_flags = []
+            config_dir = dirname(CONFIG_PXI)
+            for compile_flags, link_flags, code, def_var in self.flag_defs:
+                compile_flags = list(compile_flags)
+                link_flags = list(link_flags)
+                flags_good = self.can_compile_link(compile_flags,
+                                                   link_flags,
+                                                   code)
+                if def_var:
+                    def_vars.append('{0} = {1}'.format(
+                        def_var, flags_good))
+                if flags_good:
+                    good_compile_flags += compile_flags
+                    good_link_flags += link_flags
+                else:
+                    log.warn("Flags {0} omitted because of compile or link "
+                             "error".format(compile_flags + link_flags))
+            if def_vars:  # write config.pxi file
+                if not exists(config_dir):
+                    self.mkpath(config_dir)
+                with open(CONFIG_PXI, 'wt') as fobj:
+                    fobj.write('# Automatically generated; do not edit\n')
+                    fobj.write('# Cython defines from compile checks\n')
+                    for vdef in def_vars:
+                        fobj.write('DEF {0}\n'.format(vdef))
+            if def_vars and top_package_dir:  # write __config__.py file
+                config_py_dir = (top_package_dir if self.inplace else
+                                 pjoin(self.build_lib, top_package_dir))
+                if not exists(config_py_dir):
+                    self.mkpath(config_py_dir)
+                config_py = pjoin(config_py_dir, CONFIG_PY)
+                with open(config_py, 'wt') as fobj:
+                    fobj.write('# Automatically generated; do not edit\n')
+                    fobj.write('# Variables from compile checks\n')
+                    fobj.write('\n'.join(def_vars) + '\n')
+            if def_vars or good_compile_flags or good_link_flags:
+                for ext in self.extensions:
+                    ext.extra_compile_args += good_compile_flags
+                    ext.extra_link_args += good_link_flags
+                    if def_vars:
+                        ext.include_dirs.append(config_dir)
+            build_ext_class.build_extensions(self)
+
+    return Checker
+
+
+def check_npymath(build_ext_class):
+    """ Override input `build_ext_class` to modify ``npymath`` library
+
+    If compilation needs 'npymath.lib' (VC format) library, and it doesn't
+    exist, and the mingw 'libnpymath.a' version does exist, copy the mingw
+    version to a temporary path and add this path to the library directories.
+
+    Parameters
+    ----------
+    build_ext_class : class
+        Class implementing ``distutils.command.build_ext.build_ext`` interface,
+        with a ``build_extensions`` method.
+
+    Returns
+    -------
+    libfixed_class : class
+        A class with similar interface to
+        ``distutils.command.build_ext.build_ext``, that has fixed any
+        references to ``npymath``.
+    """
+
+    class LibModder(build_ext_class):
+        lib_name = 'npymath'
+
+        def _copy_lib(self, lib_dirs):
+            mw_name = 'lib{0}.a'.format(self.lib_name)
+            for lib_dir in lib_dirs:
+                mingw_path = pjoin(lib_dir, mw_name)
+                if exists(mingw_path):
+                    break
+            else:
+                return
+            if not exists(LIB_DIR_TMP):
+                os.makedirs(LIB_DIR_TMP)
+            vc_path = pjoin(LIB_DIR_TMP, self.lib_name + '.lib')
+            shutil.copyfile(mingw_path, vc_path)
+
+        def fix_ext_libs(self):
+            cc = self.compiler
+            lib_name = self.lib_name
+            if cc.library_option(lib_name) != lib_name + '.lib':
+                return # not VC format library name
+            lib_copied = False
+            for ext in self.extensions:
+                if not lib_name in ext.libraries:
+                    continue
+                if cc.find_library_file(ext.library_dirs, lib_name) != None:
+                    continue
+                # Need to copy library and / or fix library paths
+                if not lib_copied:
+                    self._copy_lib(ext.library_dirs)
+                    lib_copied = True
+                ext.library_dirs.append(LIB_DIR_TMP)
+
+        def build_extensions(self):
+            """ Hook into extension building to fix npymath lib """
+            self.fix_ext_libs()
+            build_ext_class.build_extensions(self)
+
+    return LibModder

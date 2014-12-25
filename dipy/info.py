@@ -29,7 +29,7 @@ CLASSIFIERS = ["Development Status :: 3 - Alpha",
 description  = 'Diffusion MRI utilities in python'
 
 # Note: this long_description is actually a copy/paste from the top-level
-# README.txt, so that it shows up nicely on PyPI.  So please remember to edit
+# README.rst, so that it shows up nicely on PyPI.  So please remember to edit
 # it only in one place and sync it correctly.
 long_description = """
 ======
@@ -74,10 +74,10 @@ dipy distribution.
 """
 
 # versions for dependencies
-NUMPY_MIN_VERSION='1.3'
-SCIPY_MIN_VERSION='0.7.2'
-CYTHON_MIN_VERSION='0.17'
-NIBABEL_MIN_VERSION='1.0.0'
+NUMPY_MIN_VERSION='1.6'
+SCIPY_MIN_VERSION='0.9'
+CYTHON_MIN_VERSION='0.18'
+NIBABEL_MIN_VERSION='1.2.0'
 
 # Main setup parameters
 NAME                = 'dipy'

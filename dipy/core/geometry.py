@@ -839,10 +839,13 @@ def vec2vec_rotmat(u, v):
     array([ 1.,  0.,  0.])
 
     """
-
+    norm_u_v = np.linalg.norm(u - v)
     # return eye when u is the same with v
     if np.linalg.norm(u - v) < np.finfo(float).eps:
         return np.eye(3)
+    # This is the case of two antipodal vectors:
+    if norm_u_v == 2.0:
+        return -np.eye(3)
 
     w = np.cross(u, v)
     w = w / np.linalg.norm(w)
@@ -863,4 +866,38 @@ def vec2vec_rotmat(u, v):
     if np.sum(np.isnan(Rp)) > 0:
         return np.eye(3)
 
+    # Everything's fine, up to a sign reversal:
+    rot_back = np.dot(Rp, v)
+    sign_reverser = np.sign((np.sign(rot_back) == np.sign(u)) - 0.5).squeeze()
+    # Multiply each line by it's reverser and reassemble the matrix:
+    Rp = Rp * sign_reverser[:, np.newaxis]
+
     return Rp
+
+
+def compose_transformations(*mats):
+    """ Compose multiple 4x4 affine transformations in one 4x4 matrix
+
+    Parameters
+    -----------
+
+    mat1 : array, (4, 4)
+    mat2 : array, (4, 4)
+    ...
+    matN : array, (4, 4)
+
+    Returns
+    -------
+    matN x ... x mat2 x mat1 : array, (4, 4)
+    """
+
+    prev = mats[0]
+    if len(mats) < 2:
+        raise ValueError('At least two or more matrices are needed')
+
+    for mat in mats[1:]:
+
+        prev = np.dot(mat, prev)
+
+    return prev
+

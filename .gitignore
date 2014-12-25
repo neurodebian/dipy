@@ -2,6 +2,7 @@
 *.pyd
 *.so
 *.c
+*.cpp
 *.png
 *.gz
 *.dpy
@@ -24,3 +25,4 @@ dist/
 dipy.egg-info/
 nibabel*egg/
 pyx-stamps
+__config__.py
