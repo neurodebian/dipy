@@ -1,3 +1,12 @@
+dipy (0.7.1+git1225-gb048445-1) experimental; urgency=medium
+
+  * Fresh upstream snapshot
+  * debian/control
+    - added libgomp1 to b-depends to facilitate build/testing OPENMP code
+    - policy boost to 3.9.6
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Mon, 29 Dec 2014 22:34:46 -0500
+
 dipy (0.7.1-2) unstable; urgency=medium
 
   [ Andreas Tille ]

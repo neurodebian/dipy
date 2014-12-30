@@ -20,7 +20,7 @@ srcpkg = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Source:' | cut -d ' ' -f 
 debver = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Version:' | cut -d ' ' -f 2,2 )
 upver = $(shell echo $(debver) | cut -d '-' -f 1,1 )
 
-MIN_CYTHONVER = 0.17.3
+MIN_CYTHONVER = 0.21
 
 %:
 	dh --buildsystem=python_distutils $@
