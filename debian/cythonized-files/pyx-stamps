@@ -1,7 +1,7 @@
 # SHA1 hashes for pyx files and generated c files
 # Auto-generated file, do not edit
-dipy/tracking/propspeed.pyx, 5fea09d5b1f110f8142dfc7503261168da0bbb10
-dipy/tracking/propspeed.c, 3f7133cc66c8c58abc195666cf2cdf61b7115047
+dipy/tracking/propspeed.pyx, 6ab24ddafa53a5aa82d4228148417fee098049cb
+dipy/tracking/propspeed.c, 374e49a91d38ebb8273162c9a1ae5f470b37f23d
 dipy/tracking/distances.pyx, 2b0ef84b7ba684a755bf389e2300a2e4af5dc9fc
 dipy/tracking/distances.c, a8bfcd8f22f0766423664e14aa36c5bf3118c804
 dipy/tracking/local/interpolation.pyx, 01760c3a7429e018d1329542ab420c75c873089d
@@ -23,7 +23,7 @@ dipy/tracking/local/direction_getter.c, 5d7bcfeca2d58f6a05b0af9636dbc4afeee1d86d
 dipy/reconst/peak_direction_getter.pyx, 98233d1eba0c0fbecb85a1e849cf2421587120ba
 dipy/reconst/peak_direction_getter.c, b7ec69cb707de7a3f9cac0a645913337aa62c9d5
 dipy/align/bundlemin.pyx, fcf330219f0e1f3f90c97ac807340be77c87a8b9
-dipy/align/bundlemin.c, 653a7b3f30f20ad085118409062749e99b9dd0e4
+dipy/align/bundlemin.c, a4ee36a9ff61691a4586e77c809e7e586f0a8dc0
 dipy/tracking/local/tissue_classifier.pyx, 5c9b4c34abb76fd642a44c688160dd627f7e7338
 dipy/tracking/local/tissue_classifier.c, d3c2191627753e9b2743c25f7e1b24cc7353477c
 dipy/tracking/streamlinespeed.pyx, 1d24a012b7457e8fa47012283e4891d2c416dba9
@@ -31,7 +31,7 @@ dipy/tracking/streamlinespeed.c, 18e55f82ce9a86857805082736f89c30ff05107f
 dipy/align/vector_fields.pyx, 5ac420c196b6c2c81cc717f280a731fdfe90aa42
 dipy/align/vector_fields.c, e73336423c6e1bb7e14b7534fb52fb87875ce18f
 dipy/denoise/denspeed.pyx, 039930f512e80a08d21578df3e6f5834e8b29ccf
-dipy/denoise/denspeed.c, bc8e1db63ab88f416d3a56e65a900617953500e4
+dipy/denoise/denspeed.c, cf26a2d6df11fa35f1d56dd29e4c13d47671832c
 dipy/reconst/recspeed.pyx, 19e9c710842addcfe1236b92fa99454887aefdc1
 dipy/reconst/recspeed.c, 22784eb08e618d6dceb10ad5d3a63365fe7720f3
 dipy/align/sumsqdiff.pyx, ea022aec548e94b9c25eb2a271199867ea666903

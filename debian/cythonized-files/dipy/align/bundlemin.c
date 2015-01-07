@@ -2223,7 +2223,7 @@ static PyObject *__pyx_pf_4dipy_5align_9bundlemin__bundle_minimum_distance_matri
                 #endif /* _OPENMP */
                 {
                     #ifdef _OPENMP
-                    #pragma omp for lastprivate(__pyx_v_j) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i)
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) lastprivate(__pyx_v_j)
                     #endif /* _OPENMP */
                     for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_3; __pyx_t_2++){
                         {
@@ -2245,7 +2245,7 @@ static PyObject *__pyx_pf_4dipy_5align_9bundlemin__bundle_minimum_distance_matri
                                 if (__pyx_t_6 > 0)
                                 {
                                     #if 0
-                                    #pragma omp parallel private(__pyx_t_12, __pyx_t_11, __pyx_t_10, __pyx_t_8, __pyx_t_9, __pyx_t_7)
+                                    #pragma omp parallel private(__pyx_t_10, __pyx_t_11, __pyx_t_8, __pyx_t_7, __pyx_t_12, __pyx_t_9)
                                     #endif /* _OPENMP */
                                     {
                                         #if 0
@@ -2689,11 +2689,11 @@ static PyObject *__pyx_pf_4dipy_5align_9bundlemin_2_bundle_minimum_distance(CYTH
             if (__pyx_t_7 > 0)
             {
                 #ifdef _OPENMP
-                #pragma omp parallel private(__pyx_t_10, __pyx_t_12, __pyx_t_9, __pyx_t_8, __pyx_t_4, __pyx_t_11, __pyx_t_13)
+                #pragma omp parallel private(__pyx_t_8, __pyx_t_11, __pyx_t_4, __pyx_t_12, __pyx_t_10, __pyx_t_13, __pyx_t_9)
                 #endif /* _OPENMP */
                 {
                     #ifdef _OPENMP
-                    #pragma omp for lastprivate(__pyx_v_j) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) lastprivate(__pyx_v_tmp)
+                    #pragma omp for firstprivate(__pyx_v_i) lastprivate(__pyx_v_i) lastprivate(__pyx_v_j) lastprivate(__pyx_v_tmp)
                     #endif /* _OPENMP */
                     for (__pyx_t_6 = 0; __pyx_t_6 < __pyx_t_7; __pyx_t_6++){
                         {

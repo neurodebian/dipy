@@ -823,14 +823,16 @@ static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* o
     __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
 static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
 
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
-
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
+
+static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
+static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
+
+static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
@@ -870,8 +872,6 @@ static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObje
                                                int is_list, int wraparound, int boundscheck);
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
-
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
@@ -1099,8 +1099,8 @@ static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), 
 int __pyx_module_is_main_dipy__tracking__propspeed = 0;
 
 /* Implementation of 'dipy.tracking.propspeed' */
-static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_ValueError;
+static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_RuntimeError;
 static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_ndarray_offset(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_indices, PyArrayObject *__pyx_v_strides, int __pyx_v_lenind, int __pyx_v_typesize); /* proto */
 static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_iso(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, PyArrayObject *__pyx_v_points, PyArrayObject *__pyx_v_data_strides, npy_intp __pyx_v_len_points, PyArrayObject *__pyx_v_result); /* proto */
@@ -1183,18 +1183,29 @@ static char __pyx_k_odf_vertices[] = "odf_vertices";
 static char __pyx_k_total_weight[] = "total_weight";
 static char __pyx_k_ndarray_offset[] = "ndarray_offset";
 static char __pyx_k_eudx_both_directions[] = "eudx_both_directions";
-static char __pyx_k_ndarray_offset_line_63[] = "ndarray_offset (line 63)";
+static char __pyx_k_ndarray_offset_line_57[] = "ndarray_offset (line 57)";
+static char __pyx_k_qa_is_not_C_contiguous[] = "qa is not C contiguous";
 static char __pyx_k_dipy_tracking_propspeed[] = "dipy.tracking.propspeed";
+static char __pyx_k_ind_is_not_C_contiguous[] = "ind is not C contiguous";
+static char __pyx_k_data_is_not_C_contiguous[] = "data is not C contiguous";
+static char __pyx_k_seed_is_not_C_contiguous[] = "seed is not C contiguous";
+static char __pyx_k_points_is_not_C_contiguous[] = "points is not C contiguous";
+static char __pyx_k_result_is_not_C_contiguous[] = "result is not C contiguous";
+static char __pyx_k_indices_is_not_C_contiguous[] = "indices is not C contiguous";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
+static char __pyx_k_strides_is_not_C_contiguous[] = "strides is not C contiguous";
 static char __pyx_k_map_coordinates_trilinear_iso[] = "map_coordinates_trilinear_iso";
+static char __pyx_k_Find_offset_in_an_N_dimensional[] = " Find offset in an N-dimensional ndarray using strides\n\n    Parameters\n    ----------\n    indices : array, npy_intp shape (N,)\n        Indices of the array which we want to find the offset.\n    strides : array, shape (N,)\n        Strides of array.\n    lenind : int\n        len of the `indices` array.\n    typesize : int\n        Number of bytes for data type e.g. if 8 for double, 4 for int32\n\n    Returns\n    -------\n    offset : integer\n        Index position in flattened array\n\n    Examples\n    --------\n    >>> import numpy as np\n    >>> from dipy.tracking.propspeed import ndarray_offset\n    >>> I=np.array([1,1])\n    >>> A=np.array([[1,0,0],[0,2,0],[0,0,3]])\n    >>> S=np.array(A.strides)\n    >>> ndarray_offset(I,S,2,A.dtype.itemsize)\n    4\n    >>> A.ravel()[4]==A[1,1]\n    True\n    ";
 static char __pyx_k_Track_propagation_performance_f[] = " Track propagation performance functions\n";
-static char __pyx_k_find_offset_in_an_ndarray_using[] = " find offset in an ndarray using strides\n\n    Parameters\n    ----------\n    indices : array, shape(N,), indices of the array which we want to\n    find the offset\n    strides : array, shape(N,), strides\n    lenind : int, len(indices)\n    typesize : int, number of bytes for data type e.g. if double is 8 if\n    int32 is 4\n\n    Returns\n    -------\n    offset : integer, element position in array\n\n    Examples\n    --------\n    >>> import numpy as np\n    >>> from dipy.tracking.propspeed import ndarray_offset\n    >>> I=np.array([1,1])\n    >>> A=np.array([[1,0,0],[0,2,0],[0,0,3]])\n    >>> S=np.array(A.strides)\n    >>> ndarray_offset(I,S,2,A.dtype.itemsize)\n    4\n    >>> A.ravel()[4]==A[1,1]\n    True\n    ";
 static char __pyx_k_home_yoh_proj_nipy_nipy_suite_d[] = "/home/yoh/proj/nipy/nipy-suite/dipy/dipy/tracking/propspeed.pyx";
 static char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
+static char __pyx_k_data_strides_is_not_C_contiguous[] = "data_strides is not C contiguous";
 static char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
+static char __pyx_k_odf_vertices_is_not_C_contiguous[] = "odf_vertices is not C contiguous";
 static char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
+static PyObject *__pyx_kp_u_Find_offset_in_an_N_dimensional;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor;
 static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
@@ -1206,14 +1217,15 @@ static PyObject *__pyx_n_s_cnt;
 static PyObject *__pyx_n_s_copy;
 static PyObject *__pyx_n_s_d;
 static PyObject *__pyx_n_s_data;
+static PyObject *__pyx_kp_u_data_is_not_C_contiguous;
 static PyObject *__pyx_n_s_data_strides;
+static PyObject *__pyx_kp_u_data_strides_is_not_C_contiguous;
 static PyObject *__pyx_n_s_dipy_tracking_propspeed;
 static PyObject *__pyx_n_s_direction;
 static PyObject *__pyx_n_s_ds;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_dx;
 static PyObject *__pyx_n_s_eudx_both_directions;
-static PyObject *__pyx_kp_u_find_offset_in_an_ndarray_using;
 static PyObject *__pyx_n_s_float32;
 static PyObject *__pyx_n_s_ftmp;
 static PyObject *__pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d;
@@ -1221,8 +1233,10 @@ static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_idirection;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_ind;
+static PyObject *__pyx_kp_u_ind_is_not_C_contiguous;
 static PyObject *__pyx_n_s_index;
 static PyObject *__pyx_n_s_indices;
+static PyObject *__pyx_kp_u_indices_is_not_C_contiguous;
 static PyObject *__pyx_n_s_j;
 static PyObject *__pyx_n_s_len_points;
 static PyObject *__pyx_n_s_lenind;
@@ -1232,14 +1246,16 @@ static PyObject *__pyx_n_s_max_points;
 static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_ndarray_offset;
-static PyObject *__pyx_kp_u_ndarray_offset_line_63;
+static PyObject *__pyx_kp_u_ndarray_offset_line_57;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_odf_vertices;
+static PyObject *__pyx_kp_u_odf_vertices_is_not_C_contiguous;
 static PyObject *__pyx_n_s_off;
 static PyObject *__pyx_n_s_pin;
 static PyObject *__pyx_n_s_point;
 static PyObject *__pyx_n_s_points;
+static PyObject *__pyx_kp_u_points_is_not_C_contiguous;
 static PyObject *__pyx_n_s_pqa;
 static PyObject *__pyx_n_s_ps;
 static PyObject *__pyx_n_s_ps2;
@@ -1247,15 +1263,19 @@ static PyObject *__pyx_n_s_pstr;
 static PyObject *__pyx_n_s_pverts;
 static PyObject *__pyx_n_s_pvstr;
 static PyObject *__pyx_n_s_qa;
+static PyObject *__pyx_kp_u_qa_is_not_C_contiguous;
 static PyObject *__pyx_n_s_qa_shape;
 static PyObject *__pyx_n_s_qa_thr;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_ref;
 static PyObject *__pyx_n_s_result;
+static PyObject *__pyx_kp_u_result_is_not_C_contiguous;
 static PyObject *__pyx_n_s_rs;
 static PyObject *__pyx_n_s_seed;
+static PyObject *__pyx_kp_u_seed_is_not_C_contiguous;
 static PyObject *__pyx_n_s_step_sz;
 static PyObject *__pyx_n_s_strides;
+static PyObject *__pyx_kp_u_strides_is_not_C_contiguous;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_tmp;
 static PyObject *__pyx_n_s_tmp_track;
@@ -1274,92 +1294,28 @@ static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_codeobj__8;
-static PyObject *__pyx_codeobj__10;
-static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_tuple__12;
+static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
 
 /* "dipy/tracking/propspeed.pyx":29
  * 
- * #numpy pointers
- * cdef inline float* asfp(cnp.ndarray pt):             # <<<<<<<<<<<<<<
- *     return <float *>pt.data
- * 
- */
-
-static CYTHON_INLINE float *__pyx_f_4dipy_8tracking_9propspeed_asfp(PyArrayObject *__pyx_v_pt) {
-  float *__pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("asfp", 0);
-
-  /* "dipy/tracking/propspeed.pyx":30
- * #numpy pointers
- * cdef inline float* asfp(cnp.ndarray pt):
- *     return <float *>pt.data             # <<<<<<<<<<<<<<
- * 
- * cdef inline double* asdp(cnp.ndarray pt):
- */
-  __pyx_r = ((float *)__pyx_v_pt->data);
-  goto __pyx_L0;
-
-  /* "dipy/tracking/propspeed.pyx":29
- * 
- * #numpy pointers
- * cdef inline float* asfp(cnp.ndarray pt):             # <<<<<<<<<<<<<<
- *     return <float *>pt.data
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/tracking/propspeed.pyx":32
- *     return <float *>pt.data
- * 
- * cdef inline double* asdp(cnp.ndarray pt):             # <<<<<<<<<<<<<<
- *     return <double *>pt.data
- * 
- */
-
-static CYTHON_INLINE double *__pyx_f_4dipy_8tracking_9propspeed_asdp(PyArrayObject *__pyx_v_pt) {
-  double *__pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("asdp", 0);
-
-  /* "dipy/tracking/propspeed.pyx":33
- * 
- * cdef inline double* asdp(cnp.ndarray pt):
- *     return <double *>pt.data             # <<<<<<<<<<<<<<
- * 
  * @cython.cdivision(True)
- */
-  __pyx_r = ((double *)__pyx_v_pt->data);
-  goto __pyx_L0;
-
-  /* "dipy/tracking/propspeed.pyx":32
- *     return <float *>pt.data
- * 
- * cdef inline double* asdp(cnp.ndarray pt):             # <<<<<<<<<<<<<<
- *     return <double *>pt.data
- * 
- */
-
-  /* function exit code */
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/tracking/propspeed.pyx":36
- * 
- * @cython.cdivision(True)
- * cdef  cnp.npy_intp offset(cnp.npy_intp *indices,cnp.npy_intp *strides,int lenind, int typesize) nogil:             # <<<<<<<<<<<<<<
- * 
- *     ''' Very general way to access any element of any ndimensional numpy array
+ * cdef cnp.npy_intp offset(cnp.npy_intp *indices,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp *strides,
+ *                          int lenind,
  */
 
 static npy_intp __pyx_f_4dipy_8tracking_9propspeed_offset(npy_intp *__pyx_v_indices, npy_intp *__pyx_v_strides, int __pyx_v_lenind, int __pyx_v_typesize) {
@@ -1368,60 +1324,60 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed_offset(npy_intp *__pyx_v_indi
   npy_intp __pyx_r;
   int __pyx_t_1;
 
-  /* "dipy/tracking/propspeed.pyx":56
- * 
+  /* "dipy/tracking/propspeed.pyx":50
+ *     '''
  *     cdef int i
- *     cdef cnp.npy_intp summ=0             # <<<<<<<<<<<<<<
- *     for i from 0<=i<lenind:
- *         #print('st',strides[i],indices[i])
+ *     cdef cnp.npy_intp summ = 0             # <<<<<<<<<<<<<<
+ *     for i from 0 <= i < lenind:
+ *         summ += strides[i] * indices[i]
  */
   __pyx_v_summ = 0;
 
-  /* "dipy/tracking/propspeed.pyx":57
+  /* "dipy/tracking/propspeed.pyx":51
  *     cdef int i
- *     cdef cnp.npy_intp summ=0
- *     for i from 0<=i<lenind:             # <<<<<<<<<<<<<<
- *         #print('st',strides[i],indices[i])
- *         summ+=strides[i]*indices[i]
+ *     cdef cnp.npy_intp summ = 0
+ *     for i from 0 <= i < lenind:             # <<<<<<<<<<<<<<
+ *         summ += strides[i] * indices[i]
+ *     summ /= <cnp.npy_intp>typesize
  */
   __pyx_t_1 = __pyx_v_lenind;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_1; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":59
- *     for i from 0<=i<lenind:
- *         #print('st',strides[i],indices[i])
- *         summ+=strides[i]*indices[i]             # <<<<<<<<<<<<<<
- *     summ/=<cnp.npy_intp>typesize
+    /* "dipy/tracking/propspeed.pyx":52
+ *     cdef cnp.npy_intp summ = 0
+ *     for i from 0 <= i < lenind:
+ *         summ += strides[i] * indices[i]             # <<<<<<<<<<<<<<
+ *     summ /= <cnp.npy_intp>typesize
  *     return summ
  */
     __pyx_v_summ = (__pyx_v_summ + ((__pyx_v_strides[__pyx_v_i]) * (__pyx_v_indices[__pyx_v_i])));
   }
 
-  /* "dipy/tracking/propspeed.pyx":60
- *         #print('st',strides[i],indices[i])
- *         summ+=strides[i]*indices[i]
- *     summ/=<cnp.npy_intp>typesize             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/propspeed.pyx":53
+ *     for i from 0 <= i < lenind:
+ *         summ += strides[i] * indices[i]
+ *     summ /= <cnp.npy_intp>typesize             # <<<<<<<<<<<<<<
  *     return summ
  * 
  */
   __pyx_v_summ = (__pyx_v_summ / ((npy_intp)__pyx_v_typesize));
 
-  /* "dipy/tracking/propspeed.pyx":61
- *         summ+=strides[i]*indices[i]
- *     summ/=<cnp.npy_intp>typesize
+  /* "dipy/tracking/propspeed.pyx":54
+ *         summ += strides[i] * indices[i]
+ *     summ /= <cnp.npy_intp>typesize
  *     return summ             # <<<<<<<<<<<<<<
  * 
- * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \
+ * 
  */
   __pyx_r = __pyx_v_summ;
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":36
+  /* "dipy/tracking/propspeed.pyx":29
  * 
  * @cython.cdivision(True)
- * cdef  cnp.npy_intp offset(cnp.npy_intp *indices,cnp.npy_intp *strides,int lenind, int typesize) nogil:             # <<<<<<<<<<<<<<
- * 
- *     ''' Very general way to access any element of any ndimensional numpy array
+ * cdef cnp.npy_intp offset(cnp.npy_intp *indices,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp *strides,
+ *                          int lenind,
  */
 
   /* function exit code */
@@ -1429,17 +1385,17 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed_offset(npy_intp *__pyx_v_indi
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":63
- *     return summ
+/* "dipy/tracking/propspeed.pyx":57
  * 
- * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[cnp.npy_intp, ndim=1] strides,int lenind, int typesize):
- *     ''' find offset in an ndarray using strides
+ * 
+ * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices,             # <<<<<<<<<<<<<<
+ *                    cnp.ndarray[cnp.npy_intp, ndim=1] strides,
+ *                    int lenind,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_1ndarray_offset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_8tracking_9propspeed_ndarray_offset[] = " find offset in an ndarray using strides\n\n    Parameters\n    ----------\n    indices : array, shape(N,), indices of the array which we want to\n    find the offset\n    strides : array, shape(N,), strides\n    lenind : int, len(indices)\n    typesize : int, number of bytes for data type e.g. if double is 8 if\n    int32 is 4\n\n    Returns\n    -------\n    offset : integer, element position in array\n\n    Examples\n    --------\n    >>> import numpy as np\n    >>> from dipy.tracking.propspeed import ndarray_offset\n    >>> I=np.array([1,1])\n    >>> A=np.array([[1,0,0],[0,2,0],[0,0,3]])\n    >>> S=np.array(A.strides)\n    >>> ndarray_offset(I,S,2,A.dtype.itemsize)\n    4\n    >>> A.ravel()[4]==A[1,1]\n    True\n    ";
+static char __pyx_doc_4dipy_8tracking_9propspeed_ndarray_offset[] = " Find offset in an N-dimensional ndarray using strides\n\n    Parameters\n    ----------\n    indices : array, npy_intp shape (N,)\n        Indices of the array which we want to find the offset.\n    strides : array, shape (N,)\n        Strides of array.\n    lenind : int\n        len of the `indices` array.\n    typesize : int\n        Number of bytes for data type e.g. if 8 for double, 4 for int32\n\n    Returns\n    -------\n    offset : integer\n        Index position in flattened array\n\n    Examples\n    --------\n    >>> import numpy as np\n    >>> from dipy.tracking.propspeed import ndarray_offset\n    >>> I=np.array([1,1])\n    >>> A=np.array([[1,0,0],[0,2,0],[0,0,3]])\n    >>> S=np.array(A.strides)\n    >>> ndarray_offset(I,S,2,A.dtype.itemsize)\n    4\n    >>> A.ravel()[4]==A[1,1]\n    True\n    ";
 static PyMethodDef __pyx_mdef_4dipy_8tracking_9propspeed_1ndarray_offset = {"ndarray_offset", (PyCFunction)__pyx_pw_4dipy_8tracking_9propspeed_1ndarray_offset, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_8tracking_9propspeed_ndarray_offset};
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_1ndarray_offset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_indices = 0;
@@ -1474,21 +1430,21 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_1ndarray_offset(PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_strides)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lenind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_typesize)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ndarray_offset") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ndarray_offset") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
       goto __pyx_L5_argtuple_error;
@@ -1500,19 +1456,19 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_1ndarray_offset(PyObject *_
     }
     __pyx_v_indices = ((PyArrayObject *)values[0]);
     __pyx_v_strides = ((PyArrayObject *)values[1]);
-    __pyx_v_lenind = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_lenind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_typesize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_typesize == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_lenind = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_lenind == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_typesize = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_typesize == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("ndarray_offset", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.tracking.propspeed.ndarray_offset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_indices), __pyx_ptype_5numpy_ndarray, 1, "indices", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strides), __pyx_ptype_5numpy_ndarray, 1, "strides", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_indices), __pyx_ptype_5numpy_ndarray, 1, "indices", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_strides), __pyx_ptype_5numpy_ndarray, 1, "strides", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4dipy_8tracking_9propspeed_ndarray_offset(__pyx_self, __pyx_v_indices, __pyx_v_strides, __pyx_v_lenind, __pyx_v_typesize);
 
   /* function exit code */
@@ -1531,7 +1487,8 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_ndarray_offset(CYTHON_UNUSE
   __Pyx_Buffer __pyx_pybuffer_strides;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1546,40 +1503,96 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_ndarray_offset(CYTHON_UNUSE
   __pyx_pybuffernd_strides.rcbuffer = &__pyx_pybuffer_strides;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_indices.rcbuffer->pybuffer, (PyObject*)__pyx_v_indices, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_indices.rcbuffer->pybuffer, (PyObject*)__pyx_v_indices, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_indices.diminfo[0].strides = __pyx_pybuffernd_indices.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_indices.diminfo[0].shape = __pyx_pybuffernd_indices.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_strides.rcbuffer->pybuffer, (PyObject*)__pyx_v_strides, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_strides.rcbuffer->pybuffer, (PyObject*)__pyx_v_strides, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_strides.diminfo[0].strides = __pyx_pybuffernd_strides.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_strides.diminfo[0].shape = __pyx_pybuffernd_strides.rcbuffer->pybuffer.shape[0];
 
-  /* "dipy/tracking/propspeed.pyx":92
+  /* "dipy/tracking/propspeed.pyx":91
  *     True
  *     '''
- *     return offset(<cnp.npy_intp*>indices.data,<cnp.npy_intp*>strides.data,lenind, typesize)             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(indices, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"indices is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_indices), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":92
+ *     '''
+ *     if not cnp.PyArray_CHKFLAGS(indices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"indices is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"strides is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":93
+ *     if not cnp.PyArray_CHKFLAGS(indices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"indices is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"strides is not C contiguous")
+ *     return offset(<cnp.npy_intp*> cnp.PyArray_DATA(indices),
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_strides), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":94
+ *         raise ValueError(u"indices is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"strides is not C contiguous")             # <<<<<<<<<<<<<<
+ *     return offset(<cnp.npy_intp*> cnp.PyArray_DATA(indices),
+ *                   <cnp.npy_intp*> cnp.PyArray_DATA(strides),
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":95
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"strides is not C contiguous")
+ *     return offset(<cnp.npy_intp*> cnp.PyArray_DATA(indices),             # <<<<<<<<<<<<<<
+ *                   <cnp.npy_intp*> cnp.PyArray_DATA(strides),
+ *                   lenind,
+ */
+  __Pyx_XDECREF(__pyx_r);
+
+  /* "dipy/tracking/propspeed.pyx":98
+ *                   <cnp.npy_intp*> cnp.PyArray_DATA(strides),
+ *                   lenind,
+ *                   typesize)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t(__pyx_f_4dipy_8tracking_9propspeed_offset(((npy_intp *)__pyx_v_indices->data), ((npy_intp *)__pyx_v_strides->data), __pyx_v_lenind, __pyx_v_typesize)); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_PyInt_From_Py_intptr_t(__pyx_f_4dipy_8tracking_9propspeed_offset(((npy_intp *)PyArray_DATA(((PyArrayObject *)__pyx_v_indices))), ((npy_intp *)PyArray_DATA(((PyArrayObject *)__pyx_v_strides))), __pyx_v_lenind, __pyx_v_typesize)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":63
- *     return summ
+  /* "dipy/tracking/propspeed.pyx":57
  * 
- * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[cnp.npy_intp, ndim=1] strides,int lenind, int typesize):
- *     ''' find offset in an ndarray using strides
+ * 
+ * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices,             # <<<<<<<<<<<<<<
+ *                    cnp.ndarray[cnp.npy_intp, ndim=1] strides,
+ *                    int lenind,
  */
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_indices.rcbuffer->pybuffer);
@@ -1597,17 +1610,17 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_ndarray_offset(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":97
+/* "dipy/tracking/propspeed.pyx":103
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,\             # <<<<<<<<<<<<<<
- *                                    cnp.ndarray[double, ndim=2] points,\
- *                                    cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,\
+ * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,             # <<<<<<<<<<<<<<
+ *                                   cnp.ndarray[double, ndim=2] points,
+ *                                   cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_iso[] = " trilinear interpolation (isotropic voxel size)\n\n    Has similar behavior with map_coordinates from scipy.ndimage\n\n    Parameters\n    ----------\n    data: array, shape (X,Y,Z), numpy.float\n    points: array, shape(N,3), numpy.float\n    strides: data.strides as one-dimensional array of dtype i8\n    len_points: cnp.npy_intp, number of points to interpolate\n    result: array, shape(N), numpy.float of interpolated values from A at points\n\n    Returns\n    --------\n    result: feeds the result, therefore the result parameter should be initialized before\n        this function is called\n    ";
+static char __pyx_doc_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_iso[] = " Trilinear interpolation (isotropic voxel size)\n\n    Has similar behavior to ``map_coordinates`` from ``scipy.ndimage``\n\n    Parameters\n    ----------\n    data : array, float64 shape (X, Y, Z)\n    points : array, float64 shape(N, 3)\n    data_strides : array npy_intp shape (3,)\n        Strides sequence for `data` array\n    len_points : cnp.npy_intp\n        Number of points to interpolate\n    result : array, float64 shape(N)\n        The output array. This array should be initialized before you call\n        this function.  On exit it will contain the interpolated values from\n        `data` at points given by `points`.\n\n    Returns\n    -------\n    None\n\n    Notes\n    -----\n    The output array `result` is filled in-place.\n    ";
 static PyMethodDef __pyx_mdef_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso = {"map_coordinates_trilinear_iso", (PyCFunction)__pyx_pw_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_iso};
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_data = 0;
@@ -1644,26 +1657,26 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_points)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data_strides)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_len_points)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_result)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "map_coordinates_trilinear_iso") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "map_coordinates_trilinear_iso") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -1677,21 +1690,21 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_
     __pyx_v_data = ((PyArrayObject *)values[0]);
     __pyx_v_points = ((PyArrayObject *)values[1]);
     __pyx_v_data_strides = ((PyArrayObject *)values[2]);
-    __pyx_v_len_points = __Pyx_PyInt_As_Py_intptr_t(values[3]); if (unlikely((__pyx_v_len_points == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_len_points = __Pyx_PyInt_As_Py_intptr_t(values[3]); if (unlikely((__pyx_v_len_points == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_result = ((PyArrayObject *)values[4]);
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("map_coordinates_trilinear_iso", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.tracking.propspeed.map_coordinates_trilinear_iso", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data), __pyx_ptype_5numpy_ndarray, 1, "data", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_points), __pyx_ptype_5numpy_ndarray, 1, "points", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data_strides), __pyx_ptype_5numpy_ndarray, 1, "data_strides", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), __pyx_ptype_5numpy_ndarray, 1, "result", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data), __pyx_ptype_5numpy_ndarray, 1, "data", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_points), __pyx_ptype_5numpy_ndarray, 1, "points", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_data_strides), __pyx_ptype_5numpy_ndarray, 1, "data_strides", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_result), __pyx_ptype_5numpy_ndarray, 1, "result", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_iso(__pyx_self, __pyx_v_data, __pyx_v_points, __pyx_v_data_strides, __pyx_v_len_points, __pyx_v_result);
 
   /* function exit code */
@@ -1711,8 +1724,8 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_
   npy_intp __pyx_v_j;
   double *__pyx_v_ds;
   double *__pyx_v_ps;
-  double *__pyx_v_rs;
   npy_intp *__pyx_v_strides;
+  double *__pyx_v_rs;
   double __pyx_v_weight;
   double __pyx_v_value;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_data;
@@ -1725,10 +1738,12 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_
   __Pyx_Buffer __pyx_pybuffer_result;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  npy_intp __pyx_t_1;
-  npy_intp __pyx_t_2;
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
   npy_intp __pyx_t_3;
   npy_intp __pyx_t_4;
+  npy_intp __pyx_t_5;
+  npy_intp __pyx_t_6;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1751,67 +1766,163 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_
   __pyx_pybuffernd_result.rcbuffer = &__pyx_pybuffer_result;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_data.rcbuffer->pybuffer, (PyObject*)__pyx_v_data, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_data.rcbuffer->pybuffer, (PyObject*)__pyx_v_data, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 3, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_data.diminfo[0].strides = __pyx_pybuffernd_data.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_data.diminfo[0].shape = __pyx_pybuffernd_data.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_data.diminfo[1].strides = __pyx_pybuffernd_data.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_data.diminfo[1].shape = __pyx_pybuffernd_data.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_data.diminfo[2].strides = __pyx_pybuffernd_data.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_data.diminfo[2].shape = __pyx_pybuffernd_data.rcbuffer->pybuffer.shape[2];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_points.rcbuffer->pybuffer, (PyObject*)__pyx_v_points, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_points.rcbuffer->pybuffer, (PyObject*)__pyx_v_points, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_points.diminfo[0].strides = __pyx_pybuffernd_points.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_points.diminfo[0].shape = __pyx_pybuffernd_points.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_points.diminfo[1].strides = __pyx_pybuffernd_points.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_points.diminfo[1].shape = __pyx_pybuffernd_points.rcbuffer->pybuffer.shape[1];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_data_strides.rcbuffer->pybuffer, (PyObject*)__pyx_v_data_strides, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_data_strides.rcbuffer->pybuffer, (PyObject*)__pyx_v_data_strides, &__Pyx_TypeInfo_nn_npy_intp, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_data_strides.diminfo[0].strides = __pyx_pybuffernd_data_strides.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_data_strides.diminfo[0].shape = __pyx_pybuffernd_data_strides.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_result.rcbuffer->pybuffer, (PyObject*)__pyx_v_result, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_result.rcbuffer->pybuffer, (PyObject*)__pyx_v_result, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_result.diminfo[0].strides = __pyx_pybuffernd_result.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_result.diminfo[0].shape = __pyx_pybuffernd_result.rcbuffer->pybuffer.shape[0];
 
-  /* "dipy/tracking/propspeed.pyx":122
- *         double w[8],values[24]
- *         cnp.npy_intp index[24],off,i,j
- *         double *ds=<double *>data.data             # <<<<<<<<<<<<<<
- *         double *ps=<double *>points.data
- *         double *rs=<double *>result.data
+  /* "dipy/tracking/propspeed.pyx":136
+ *         double w[8], values[24]
+ *         cnp.npy_intp index[24], off, i, j
+ *         double *ds=<double *> cnp.PyArray_DATA(data)             # <<<<<<<<<<<<<<
+ *         double *ps=<double *> cnp.PyArray_DATA(points)
+ *         cnp.npy_intp *strides = <cnp.npy_intp *> cnp.PyArray_DATA(data_strides)
  */
-  __pyx_v_ds = ((double *)__pyx_v_data->data);
+  __pyx_v_ds = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_data)));
 
-  /* "dipy/tracking/propspeed.pyx":123
- *         cnp.npy_intp index[24],off,i,j
- *         double *ds=<double *>data.data
- *         double *ps=<double *>points.data             # <<<<<<<<<<<<<<
- *         double *rs=<double *>result.data
- *         cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data
+  /* "dipy/tracking/propspeed.pyx":137
+ *         cnp.npy_intp index[24], off, i, j
+ *         double *ds=<double *> cnp.PyArray_DATA(data)
+ *         double *ps=<double *> cnp.PyArray_DATA(points)             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp *strides = <cnp.npy_intp *> cnp.PyArray_DATA(data_strides)
+ *         double *rs=<double *> cnp.PyArray_DATA(result)
  */
-  __pyx_v_ps = ((double *)__pyx_v_points->data);
+  __pyx_v_ps = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_points)));
 
-  /* "dipy/tracking/propspeed.pyx":124
- *         double *ds=<double *>data.data
- *         double *ps=<double *>points.data
- *         double *rs=<double *>result.data             # <<<<<<<<<<<<<<
- *         cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data
+  /* "dipy/tracking/propspeed.pyx":138
+ *         double *ds=<double *> cnp.PyArray_DATA(data)
+ *         double *ps=<double *> cnp.PyArray_DATA(points)
+ *         cnp.npy_intp *strides = <cnp.npy_intp *> cnp.PyArray_DATA(data_strides)             # <<<<<<<<<<<<<<
+ *         double *rs=<double *> cnp.PyArray_DATA(result)
  * 
  */
-  __pyx_v_rs = ((double *)__pyx_v_result->data);
+  __pyx_v_strides = ((npy_intp *)PyArray_DATA(((PyArrayObject *)__pyx_v_data_strides)));
 
-  /* "dipy/tracking/propspeed.pyx":125
- *         double *ps=<double *>points.data
- *         double *rs=<double *>result.data
- *         cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/propspeed.pyx":139
+ *         double *ps=<double *> cnp.PyArray_DATA(points)
+ *         cnp.npy_intp *strides = <cnp.npy_intp *> cnp.PyArray_DATA(data_strides)
+ *         double *rs=<double *> cnp.PyArray_DATA(result)             # <<<<<<<<<<<<<<
  * 
+ *     if not cnp.PyArray_CHKFLAGS(data, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_v_rs = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_result)));
+
+  /* "dipy/tracking/propspeed.pyx":141
+ *         double *rs=<double *> cnp.PyArray_DATA(result)
+ * 
+ *     if not cnp.PyArray_CHKFLAGS(data, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"data is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_data), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":142
+ * 
+ *     if not cnp.PyArray_CHKFLAGS(data, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"points is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":143
+ *     if not cnp.PyArray_CHKFLAGS(data, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"points is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_points), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":144
+ *         raise ValueError(u"data is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"points is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data_strides is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":145
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"points is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"data_strides is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_data_strides), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":146
+ *         raise ValueError(u"points is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data_strides is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":147
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data_strides is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"result is not C contiguous")
  *     with nogil:
  */
-  __pyx_v_strides = ((npy_intp *)__pyx_v_data_strides->data);
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_result), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
 
-  /* "dipy/tracking/propspeed.pyx":127
- *         cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data
- * 
+    /* "dipy/tracking/propspeed.pyx":148
+ *         raise ValueError(u"data_strides is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")             # <<<<<<<<<<<<<<
+ *     with nogil:
+ *         for i in range(len_points):
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":149
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")
  *     with nogil:             # <<<<<<<<<<<<<<
  *         for i in range(len_points):
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
+ *             _trilinear_interpolation_iso(&ps[i * 3],
  */
   {
       #ifdef WITH_THREAD
@@ -1820,124 +1931,125 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_
       #endif
       /*try:*/ {
 
-        /* "dipy/tracking/propspeed.pyx":128
- * 
+        /* "dipy/tracking/propspeed.pyx":150
+ *         raise ValueError(u"result is not C contiguous")
  *     with nogil:
  *         for i in range(len_points):             # <<<<<<<<<<<<<<
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
- *             rs[i]=0
+ *             _trilinear_interpolation_iso(&ps[i * 3],
+ *                                          <double *> w,
  */
-        __pyx_t_1 = __pyx_v_len_points;
-        for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
-          __pyx_v_i = __pyx_t_2;
+        __pyx_t_3 = __pyx_v_len_points;
+        for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+          __pyx_v_i = __pyx_t_4;
 
-          /* "dipy/tracking/propspeed.pyx":129
+          /* "dipy/tracking/propspeed.pyx":151
  *     with nogil:
  *         for i in range(len_points):
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)             # <<<<<<<<<<<<<<
- *             rs[i]=0
- *             for j in range(8):
+ *             _trilinear_interpolation_iso(&ps[i * 3],             # <<<<<<<<<<<<<<
+ *                                          <double *> w,
+ *                                          <cnp.npy_intp *> index)
  */
           __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso((&(__pyx_v_ps[(__pyx_v_i * 3)])), ((double *)__pyx_v_w), ((npy_intp *)__pyx_v_index));
 
-          /* "dipy/tracking/propspeed.pyx":130
- *         for i in range(len_points):
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
- *             rs[i]=0             # <<<<<<<<<<<<<<
+          /* "dipy/tracking/propspeed.pyx":154
+ *                                          <double *> w,
+ *                                          <cnp.npy_intp *> index)
+ *             rs[i] = 0             # <<<<<<<<<<<<<<
  *             for j in range(8):
- *                 weight=w[j]
+ *                 weight = w[j]
  */
           (__pyx_v_rs[__pyx_v_i]) = 0.0;
 
-          /* "dipy/tracking/propspeed.pyx":131
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
- *             rs[i]=0
+          /* "dipy/tracking/propspeed.pyx":155
+ *                                          <cnp.npy_intp *> index)
+ *             rs[i] = 0
  *             for j in range(8):             # <<<<<<<<<<<<<<
- *                 weight=w[j]
- *                 off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)
+ *                 weight = w[j]
+ *                 off = offset(&index[j * 3], <cnp.npy_intp *> strides, 3, 8)
  */
-          for (__pyx_t_3 = 0; __pyx_t_3 < 8; __pyx_t_3+=1) {
-            __pyx_v_j = __pyx_t_3;
+          for (__pyx_t_5 = 0; __pyx_t_5 < 8; __pyx_t_5+=1) {
+            __pyx_v_j = __pyx_t_5;
 
-            /* "dipy/tracking/propspeed.pyx":132
- *             rs[i]=0
+            /* "dipy/tracking/propspeed.pyx":156
+ *             rs[i] = 0
  *             for j in range(8):
- *                 weight=w[j]             # <<<<<<<<<<<<<<
- *                 off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)
- *                 value=ds[off]
+ *                 weight = w[j]             # <<<<<<<<<<<<<<
+ *                 off = offset(&index[j * 3], <cnp.npy_intp *> strides, 3, 8)
+ *                 value = ds[off]
  */
             __pyx_v_weight = (__pyx_v_w[__pyx_v_j]);
 
-            /* "dipy/tracking/propspeed.pyx":133
+            /* "dipy/tracking/propspeed.pyx":157
  *             for j in range(8):
- *                 weight=w[j]
- *                 off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)             # <<<<<<<<<<<<<<
- *                 value=ds[off]
- *                 rs[i]+=weight*value
+ *                 weight = w[j]
+ *                 off = offset(&index[j * 3], <cnp.npy_intp *> strides, 3, 8)             # <<<<<<<<<<<<<<
+ *                 value = ds[off]
+ *                 rs[i] += weight * value
  */
             __pyx_v_off = __pyx_f_4dipy_8tracking_9propspeed_offset((&(__pyx_v_index[(__pyx_v_j * 3)])), ((npy_intp *)__pyx_v_strides), 3, 8);
 
-            /* "dipy/tracking/propspeed.pyx":134
- *                 weight=w[j]
- *                 off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)
- *                 value=ds[off]             # <<<<<<<<<<<<<<
- *                 rs[i]+=weight*value
+            /* "dipy/tracking/propspeed.pyx":158
+ *                 weight = w[j]
+ *                 off = offset(&index[j * 3], <cnp.npy_intp *> strides, 3, 8)
+ *                 value = ds[off]             # <<<<<<<<<<<<<<
+ *                 rs[i] += weight * value
  *     return
  */
             __pyx_v_value = (__pyx_v_ds[__pyx_v_off]);
 
-            /* "dipy/tracking/propspeed.pyx":135
- *                 off=offset(&index[j*3],<cnp.npy_intp *>strides,3,8)
- *                 value=ds[off]
- *                 rs[i]+=weight*value             # <<<<<<<<<<<<<<
+            /* "dipy/tracking/propspeed.pyx":159
+ *                 off = offset(&index[j * 3], <cnp.npy_intp *> strides, 3, 8)
+ *                 value = ds[off]
+ *                 rs[i] += weight * value             # <<<<<<<<<<<<<<
  *     return
  * 
  */
-            __pyx_t_4 = __pyx_v_i;
-            (__pyx_v_rs[__pyx_t_4]) = ((__pyx_v_rs[__pyx_t_4]) + (__pyx_v_weight * __pyx_v_value));
+            __pyx_t_6 = __pyx_v_i;
+            (__pyx_v_rs[__pyx_t_6]) = ((__pyx_v_rs[__pyx_t_6]) + (__pyx_v_weight * __pyx_v_value));
           }
         }
       }
 
-      /* "dipy/tracking/propspeed.pyx":127
- *         cnp.npy_intp *strides=<cnp.npy_intp *>data_strides.data
- * 
+      /* "dipy/tracking/propspeed.pyx":149
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")
  *     with nogil:             # <<<<<<<<<<<<<<
  *         for i in range(len_points):
- *             _trilinear_interpolation_iso(&ps[i*3],<double *>w,<cnp.npy_intp *>index)
+ *             _trilinear_interpolation_iso(&ps[i * 3],
  */
       /*finally:*/ {
         /*normal exit:*/{
           #ifdef WITH_THREAD
           Py_BLOCK_THREADS
           #endif
-          goto __pyx_L5;
+          goto __pyx_L9;
         }
-        __pyx_L5:;
+        __pyx_L9:;
       }
   }
 
-  /* "dipy/tracking/propspeed.pyx":136
- *                 value=ds[off]
- *                 rs[i]+=weight*value
+  /* "dipy/tracking/propspeed.pyx":160
+ *                 value = ds[off]
+ *                 rs[i] += weight * value
  *     return             # <<<<<<<<<<<<<<
  * 
- * cdef  void _trilinear_interpolation_iso(double *X, double *W, cnp.npy_intp *IN) nogil:
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":97
+  /* "dipy/tracking/propspeed.pyx":103
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,\             # <<<<<<<<<<<<<<
- *                                    cnp.ndarray[double, ndim=2] points,\
- *                                    cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,\
+ * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,             # <<<<<<<<<<<<<<
+ *                                   cnp.ndarray[double, ndim=2] points,
+ *                                   cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,
  */
 
   /* function exit code */
   __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_data.rcbuffer->pybuffer);
@@ -1959,12 +2071,12 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_2map_coordinates_trilinear_
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":138
- *     return
+/* "dipy/tracking/propspeed.pyx":163
  * 
- * cdef  void _trilinear_interpolation_iso(double *X, double *W, cnp.npy_intp *IN) nogil:             # <<<<<<<<<<<<<<
  * 
- *     ''' interpolate in 3d volumes given point X
+ * cdef void _trilinear_interpolation_iso(double *X,             # <<<<<<<<<<<<<<
+ *                                        double *W,
+ *                                        cnp.npy_intp *IN) nogil:
  */
 
 static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(double *__pyx_v_X, double *__pyx_v_W, npy_intp *__pyx_v_IN) {
@@ -1973,54 +2085,54 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   double __pyx_v_nd[3];
   npy_intp __pyx_v_i;
 
-  /* "dipy/tracking/propspeed.pyx":150
- *     #define the rectangular box where every corner is a neighboring voxel (assuming center)
- *     #!!! this needs to change for the affine case
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         Xf[i]=floor(X[i])
- *         d[i]=X[i]-Xf[i]
+  /* "dipy/tracking/propspeed.pyx":177
+ *     # define the rectangular box where every corner is a neighboring voxel
+ *     # (assuming center) !!! this needs to change for the affine case
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         Xf[i] = floor(X[i])
+ *         d[i] = X[i] - Xf[i]
  */
   for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":151
- *     #!!! this needs to change for the affine case
- *     for i from 0<=i<3:
- *         Xf[i]=floor(X[i])             # <<<<<<<<<<<<<<
- *         d[i]=X[i]-Xf[i]
- *         nd[i]=1-d[i]
+    /* "dipy/tracking/propspeed.pyx":178
+ *     # (assuming center) !!! this needs to change for the affine case
+ *     for i from 0 <= i < 3:
+ *         Xf[i] = floor(X[i])             # <<<<<<<<<<<<<<
+ *         d[i] = X[i] - Xf[i]
+ *         nd[i] = 1 - d[i]
  */
     (__pyx_v_Xf[__pyx_v_i]) = floor((__pyx_v_X[__pyx_v_i]));
 
-    /* "dipy/tracking/propspeed.pyx":152
- *     for i from 0<=i<3:
- *         Xf[i]=floor(X[i])
- *         d[i]=X[i]-Xf[i]             # <<<<<<<<<<<<<<
- *         nd[i]=1-d[i]
- *     #weights
+    /* "dipy/tracking/propspeed.pyx":179
+ *     for i from 0 <= i < 3:
+ *         Xf[i] = floor(X[i])
+ *         d[i] = X[i] - Xf[i]             # <<<<<<<<<<<<<<
+ *         nd[i] = 1 - d[i]
+ *     # weights
  */
     (__pyx_v_d[__pyx_v_i]) = ((__pyx_v_X[__pyx_v_i]) - (__pyx_v_Xf[__pyx_v_i]));
 
-    /* "dipy/tracking/propspeed.pyx":153
- *         Xf[i]=floor(X[i])
- *         d[i]=X[i]-Xf[i]
- *         nd[i]=1-d[i]             # <<<<<<<<<<<<<<
- *     #weights
- *     #the weights are actualy the volumes of the 8 smaller boxes that define the initial rectangular box
+    /* "dipy/tracking/propspeed.pyx":180
+ *         Xf[i] = floor(X[i])
+ *         d[i] = X[i] - Xf[i]
+ *         nd[i] = 1 - d[i]             # <<<<<<<<<<<<<<
+ *     # weights
+ *     # the weights are actualy the volumes of the 8 smaller boxes that define
  */
     (__pyx_v_nd[__pyx_v_i]) = (1.0 - (__pyx_v_d[__pyx_v_i]));
   }
 
-  /* "dipy/tracking/propspeed.pyx":159
- *     #http://en.wikipedia.org/wiki/Trilinear_interpolation
- *     #http://local.wasp.uwa.edu.au/~pbourke/miscellaneous/interpolation/index.html
+  /* "dipy/tracking/propspeed.pyx":186
+ *     # http://en.wikipedia.org/wiki/Trilinear_interpolation
+ *     # http://local.wasp.uwa.edu.au/~pbourke/miscellaneous/interpolation/index.html
  *     W[0]=nd[0] * nd[1] * nd[2]             # <<<<<<<<<<<<<<
  *     W[1]= d[0] * nd[1] * nd[2]
  *     W[2]=nd[0] *  d[1] * nd[2]
  */
   (__pyx_v_W[0]) = (((__pyx_v_nd[0]) * (__pyx_v_nd[1])) * (__pyx_v_nd[2]));
 
-  /* "dipy/tracking/propspeed.pyx":160
- *     #http://local.wasp.uwa.edu.au/~pbourke/miscellaneous/interpolation/index.html
+  /* "dipy/tracking/propspeed.pyx":187
+ *     # http://local.wasp.uwa.edu.au/~pbourke/miscellaneous/interpolation/index.html
  *     W[0]=nd[0] * nd[1] * nd[2]
  *     W[1]= d[0] * nd[1] * nd[2]             # <<<<<<<<<<<<<<
  *     W[2]=nd[0] *  d[1] * nd[2]
@@ -2028,7 +2140,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
  */
   (__pyx_v_W[1]) = (((__pyx_v_d[0]) * (__pyx_v_nd[1])) * (__pyx_v_nd[2]));
 
-  /* "dipy/tracking/propspeed.pyx":161
+  /* "dipy/tracking/propspeed.pyx":188
  *     W[0]=nd[0] * nd[1] * nd[2]
  *     W[1]= d[0] * nd[1] * nd[2]
  *     W[2]=nd[0] *  d[1] * nd[2]             # <<<<<<<<<<<<<<
@@ -2037,7 +2149,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
  */
   (__pyx_v_W[2]) = (((__pyx_v_nd[0]) * (__pyx_v_d[1])) * (__pyx_v_nd[2]));
 
-  /* "dipy/tracking/propspeed.pyx":162
+  /* "dipy/tracking/propspeed.pyx":189
  *     W[1]= d[0] * nd[1] * nd[2]
  *     W[2]=nd[0] *  d[1] * nd[2]
  *     W[3]=nd[0] * nd[1] *  d[2]             # <<<<<<<<<<<<<<
@@ -2046,7 +2158,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
  */
   (__pyx_v_W[3]) = (((__pyx_v_nd[0]) * (__pyx_v_nd[1])) * (__pyx_v_d[2]));
 
-  /* "dipy/tracking/propspeed.pyx":163
+  /* "dipy/tracking/propspeed.pyx":190
  *     W[2]=nd[0] *  d[1] * nd[2]
  *     W[3]=nd[0] * nd[1] *  d[2]
  *     W[4]= d[0] *  d[1] * nd[2]             # <<<<<<<<<<<<<<
@@ -2055,7 +2167,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
  */
   (__pyx_v_W[4]) = (((__pyx_v_d[0]) * (__pyx_v_d[1])) * (__pyx_v_nd[2]));
 
-  /* "dipy/tracking/propspeed.pyx":164
+  /* "dipy/tracking/propspeed.pyx":191
  *     W[3]=nd[0] * nd[1] *  d[2]
  *     W[4]= d[0] *  d[1] * nd[2]
  *     W[5]=nd[0] *  d[1] *  d[2]             # <<<<<<<<<<<<<<
@@ -2064,27 +2176,27 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
  */
   (__pyx_v_W[5]) = (((__pyx_v_nd[0]) * (__pyx_v_d[1])) * (__pyx_v_d[2]));
 
-  /* "dipy/tracking/propspeed.pyx":165
+  /* "dipy/tracking/propspeed.pyx":192
  *     W[4]= d[0] *  d[1] * nd[2]
  *     W[5]=nd[0] *  d[1] *  d[2]
  *     W[6]= d[0] * nd[1] *  d[2]             # <<<<<<<<<<<<<<
  *     W[7]= d[0] *  d[1] *  d[2]
- *     #indices
+ *     # indices
  */
   (__pyx_v_W[6]) = (((__pyx_v_d[0]) * (__pyx_v_nd[1])) * (__pyx_v_d[2]));
 
-  /* "dipy/tracking/propspeed.pyx":166
+  /* "dipy/tracking/propspeed.pyx":193
  *     W[5]=nd[0] *  d[1] *  d[2]
  *     W[6]= d[0] * nd[1] *  d[2]
  *     W[7]= d[0] *  d[1] *  d[2]             # <<<<<<<<<<<<<<
- *     #indices
- *     #the indices give you the indices of the neighboring voxels (the corners of the box) e.g. the qa coordinates
+ *     # indices
+ *     # the indices give you the indices of the neighboring voxels (the corners
  */
   (__pyx_v_W[7]) = (((__pyx_v_d[0]) * (__pyx_v_d[1])) * (__pyx_v_d[2]));
 
-  /* "dipy/tracking/propspeed.pyx":169
- *     #indices
- *     #the indices give you the indices of the neighboring voxels (the corners of the box) e.g. the qa coordinates
+  /* "dipy/tracking/propspeed.pyx":197
+ *     # the indices give you the indices of the neighboring voxels (the corners
+ *     # of the box) e.g. the qa coordinates
  *     IN[0] =<cnp.npy_intp>Xf[0];   IN[1] =<cnp.npy_intp>Xf[1];    IN[2] =<cnp.npy_intp>Xf[2]             # <<<<<<<<<<<<<<
  *     IN[3] =<cnp.npy_intp>Xf[0]+1; IN[4] =<cnp.npy_intp>Xf[1];    IN[5] =<cnp.npy_intp>Xf[2]
  *     IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]
@@ -2093,8 +2205,8 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[1]) = ((npy_intp)(__pyx_v_Xf[1]));
   (__pyx_v_IN[2]) = ((npy_intp)(__pyx_v_Xf[2]));
 
-  /* "dipy/tracking/propspeed.pyx":170
- *     #the indices give you the indices of the neighboring voxels (the corners of the box) e.g. the qa coordinates
+  /* "dipy/tracking/propspeed.pyx":198
+ *     # of the box) e.g. the qa coordinates
  *     IN[0] =<cnp.npy_intp>Xf[0];   IN[1] =<cnp.npy_intp>Xf[1];    IN[2] =<cnp.npy_intp>Xf[2]
  *     IN[3] =<cnp.npy_intp>Xf[0]+1; IN[4] =<cnp.npy_intp>Xf[1];    IN[5] =<cnp.npy_intp>Xf[2]             # <<<<<<<<<<<<<<
  *     IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]
@@ -2104,7 +2216,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[4]) = ((npy_intp)(__pyx_v_Xf[1]));
   (__pyx_v_IN[5]) = ((npy_intp)(__pyx_v_Xf[2]));
 
-  /* "dipy/tracking/propspeed.pyx":171
+  /* "dipy/tracking/propspeed.pyx":199
  *     IN[0] =<cnp.npy_intp>Xf[0];   IN[1] =<cnp.npy_intp>Xf[1];    IN[2] =<cnp.npy_intp>Xf[2]
  *     IN[3] =<cnp.npy_intp>Xf[0]+1; IN[4] =<cnp.npy_intp>Xf[1];    IN[5] =<cnp.npy_intp>Xf[2]
  *     IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]             # <<<<<<<<<<<<<<
@@ -2115,7 +2227,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[7]) = (((npy_intp)(__pyx_v_Xf[1])) + 1);
   (__pyx_v_IN[8]) = ((npy_intp)(__pyx_v_Xf[2]));
 
-  /* "dipy/tracking/propspeed.pyx":172
+  /* "dipy/tracking/propspeed.pyx":200
  *     IN[3] =<cnp.npy_intp>Xf[0]+1; IN[4] =<cnp.npy_intp>Xf[1];    IN[5] =<cnp.npy_intp>Xf[2]
  *     IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]
  *     IN[9] =<cnp.npy_intp>Xf[0];   IN[10]=<cnp.npy_intp>Xf[1];    IN[11]=<cnp.npy_intp>Xf[2]+1             # <<<<<<<<<<<<<<
@@ -2126,7 +2238,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[10]) = ((npy_intp)(__pyx_v_Xf[1]));
   (__pyx_v_IN[11]) = (((npy_intp)(__pyx_v_Xf[2])) + 1);
 
-  /* "dipy/tracking/propspeed.pyx":173
+  /* "dipy/tracking/propspeed.pyx":201
  *     IN[6] =<cnp.npy_intp>Xf[0];   IN[7] =<cnp.npy_intp>Xf[1]+1;  IN[8] =<cnp.npy_intp>Xf[2]
  *     IN[9] =<cnp.npy_intp>Xf[0];   IN[10]=<cnp.npy_intp>Xf[1];    IN[11]=<cnp.npy_intp>Xf[2]+1
  *     IN[12]=<cnp.npy_intp>Xf[0]+1; IN[13]=<cnp.npy_intp>Xf[1]+1;  IN[14]=<cnp.npy_intp>Xf[2]             # <<<<<<<<<<<<<<
@@ -2137,7 +2249,7 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[13]) = (((npy_intp)(__pyx_v_Xf[1])) + 1);
   (__pyx_v_IN[14]) = ((npy_intp)(__pyx_v_Xf[2]));
 
-  /* "dipy/tracking/propspeed.pyx":174
+  /* "dipy/tracking/propspeed.pyx":202
  *     IN[9] =<cnp.npy_intp>Xf[0];   IN[10]=<cnp.npy_intp>Xf[1];    IN[11]=<cnp.npy_intp>Xf[2]+1
  *     IN[12]=<cnp.npy_intp>Xf[0]+1; IN[13]=<cnp.npy_intp>Xf[1]+1;  IN[14]=<cnp.npy_intp>Xf[2]
  *     IN[15]=<cnp.npy_intp>Xf[0];   IN[16]=<cnp.npy_intp>Xf[1]+1;  IN[17]=<cnp.npy_intp>Xf[2]+1             # <<<<<<<<<<<<<<
@@ -2148,55 +2260,55 @@ static void __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(doub
   (__pyx_v_IN[16]) = (((npy_intp)(__pyx_v_Xf[1])) + 1);
   (__pyx_v_IN[17]) = (((npy_intp)(__pyx_v_Xf[2])) + 1);
 
-  /* "dipy/tracking/propspeed.pyx":175
+  /* "dipy/tracking/propspeed.pyx":203
  *     IN[12]=<cnp.npy_intp>Xf[0]+1; IN[13]=<cnp.npy_intp>Xf[1]+1;  IN[14]=<cnp.npy_intp>Xf[2]
  *     IN[15]=<cnp.npy_intp>Xf[0];   IN[16]=<cnp.npy_intp>Xf[1]+1;  IN[17]=<cnp.npy_intp>Xf[2]+1
  *     IN[18]=<cnp.npy_intp>Xf[0]+1; IN[19]=<cnp.npy_intp>Xf[1];    IN[20]=<cnp.npy_intp>Xf[2]+1             # <<<<<<<<<<<<<<
  *     IN[21]=<cnp.npy_intp>Xf[0]+1; IN[22]=<cnp.npy_intp>Xf[1]+1;  IN[23]=<cnp.npy_intp>Xf[2]+1
- * 
+ *     return
  */
   (__pyx_v_IN[18]) = (((npy_intp)(__pyx_v_Xf[0])) + 1);
   (__pyx_v_IN[19]) = ((npy_intp)(__pyx_v_Xf[1]));
   (__pyx_v_IN[20]) = (((npy_intp)(__pyx_v_Xf[2])) + 1);
 
-  /* "dipy/tracking/propspeed.pyx":176
+  /* "dipy/tracking/propspeed.pyx":204
  *     IN[15]=<cnp.npy_intp>Xf[0];   IN[16]=<cnp.npy_intp>Xf[1]+1;  IN[17]=<cnp.npy_intp>Xf[2]+1
  *     IN[18]=<cnp.npy_intp>Xf[0]+1; IN[19]=<cnp.npy_intp>Xf[1];    IN[20]=<cnp.npy_intp>Xf[2]+1
  *     IN[21]=<cnp.npy_intp>Xf[0]+1; IN[22]=<cnp.npy_intp>Xf[1]+1;  IN[23]=<cnp.npy_intp>Xf[2]+1             # <<<<<<<<<<<<<<
- * 
  *     return
+ * 
  */
   (__pyx_v_IN[21]) = (((npy_intp)(__pyx_v_Xf[0])) + 1);
   (__pyx_v_IN[22]) = (((npy_intp)(__pyx_v_Xf[1])) + 1);
   (__pyx_v_IN[23]) = (((npy_intp)(__pyx_v_Xf[2])) + 1);
 
-  /* "dipy/tracking/propspeed.pyx":178
+  /* "dipy/tracking/propspeed.pyx":205
+ *     IN[18]=<cnp.npy_intp>Xf[0]+1; IN[19]=<cnp.npy_intp>Xf[1];    IN[20]=<cnp.npy_intp>Xf[2]+1
  *     IN[21]=<cnp.npy_intp>Xf[0]+1; IN[22]=<cnp.npy_intp>Xf[1]+1;  IN[23]=<cnp.npy_intp>Xf[2]+1
- * 
  *     return             # <<<<<<<<<<<<<<
  * 
- * cdef  cnp.npy_intp _nearest_direction(double* dx,double* qa,\
+ * 
  */
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":138
- *     return
+  /* "dipy/tracking/propspeed.pyx":163
  * 
- * cdef  void _trilinear_interpolation_iso(double *X, double *W, cnp.npy_intp *IN) nogil:             # <<<<<<<<<<<<<<
  * 
- *     ''' interpolate in 3d volumes given point X
+ * cdef void _trilinear_interpolation_iso(double *X,             # <<<<<<<<<<<<<<
+ *                                        double *W,
+ *                                        cnp.npy_intp *IN) nogil:
  */
 
   /* function exit code */
   __pyx_L0:;
 }
 
-/* "dipy/tracking/propspeed.pyx":180
- *     return
+/* "dipy/tracking/propspeed.pyx":208
  * 
- * cdef  cnp.npy_intp _nearest_direction(double* dx,double* qa,\             # <<<<<<<<<<<<<<
- *                                         double *ind,cnp.npy_intp peaks,double *odf_vertices,\
- *                                         double qa_thr, double ang_thr,\
+ * 
+ * cdef cnp.npy_intp _nearest_direction(double* dx,             # <<<<<<<<<<<<<<
+ *                                      double* qa,
+ *                                      double *ind,
  */
 
 static npy_intp __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(double *__pyx_v_dx, double *__pyx_v_qa, double *__pyx_v_ind, npy_intp __pyx_v_peaks, double *__pyx_v_odf_vertices, double __pyx_v_qa_thr, double __pyx_v_ang_thr, double *__pyx_v_direction) {
@@ -2211,137 +2323,137 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(double *__
   int __pyx_t_1;
   npy_intp __pyx_t_2;
 
-  /* "dipy/tracking/propspeed.pyx":214
+  /* "dipy/tracking/propspeed.pyx":243
  *     '''
  *     cdef:
- *         double max_dot=0             # <<<<<<<<<<<<<<
+ *         double max_dot = 0             # <<<<<<<<<<<<<<
  *         double angl,curr_dot
  *         double odfv[3]
  */
   __pyx_v_max_dot = 0.0;
 
-  /* "dipy/tracking/propspeed.pyx":217
+  /* "dipy/tracking/propspeed.pyx":246
  *         double angl,curr_dot
  *         double odfv[3]
- *         cnp.npy_intp i,j,max_doti=0             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp i, j, max_doti = 0             # <<<<<<<<<<<<<<
  * 
- *     #calculate the cos with radians
+ *     # calculate the cos with radians
  */
   __pyx_v_max_doti = 0;
 
-  /* "dipy/tracking/propspeed.pyx":220
+  /* "dipy/tracking/propspeed.pyx":249
  * 
- *     #calculate the cos with radians
- *     angl=cos((DPY_PI*ang_thr)/180.)             # <<<<<<<<<<<<<<
- *     #if the maximum peak is lower than the threshold then there is no point continuing tracking
- *     if qa[0] <= qa_thr:
+ *     # calculate the cos with radians
+ *     angl = cos((DPY_PI * ang_thr) / 180.)             # <<<<<<<<<<<<<<
+ *     # if the maximum peak is lower than the threshold then there is no point
+ *     # continuing tracking
  */
   __pyx_v_angl = cos(((DPY_PI * __pyx_v_ang_thr) / 180.));
 
-  /* "dipy/tracking/propspeed.pyx":222
- *     angl=cos((DPY_PI*ang_thr)/180.)
- *     #if the maximum peak is lower than the threshold then there is no point continuing tracking
+  /* "dipy/tracking/propspeed.pyx":252
+ *     # if the maximum peak is lower than the threshold then there is no point
+ *     # continuing tracking
  *     if qa[0] <= qa_thr:             # <<<<<<<<<<<<<<
  *         return 0
- *     #for all peaks find the minimum angle between odf_vertices and dx
+ *     # for all peaks find the minimum angle between odf_vertices and dx
  */
   __pyx_t_1 = (((__pyx_v_qa[0]) <= __pyx_v_qa_thr) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":223
- *     #if the maximum peak is lower than the threshold then there is no point continuing tracking
+    /* "dipy/tracking/propspeed.pyx":253
+ *     # continuing tracking
  *     if qa[0] <= qa_thr:
  *         return 0             # <<<<<<<<<<<<<<
- *     #for all peaks find the minimum angle between odf_vertices and dx
- *     for i from 0<=i<peaks:
+ *     # for all peaks find the minimum angle between odf_vertices and dx
+ *     for i from 0 <= i < peaks:
  */
     __pyx_r = 0;
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/propspeed.pyx":225
+  /* "dipy/tracking/propspeed.pyx":255
  *         return 0
- *     #for all peaks find the minimum angle between odf_vertices and dx
- *     for i from 0<=i<peaks:             # <<<<<<<<<<<<<<
- *         #if the current peak is smaller than the threshold then jump out
- *         if qa[i]<=qa_thr:
+ *     # for all peaks find the minimum angle between odf_vertices and dx
+ *     for i from 0 <= i < peaks:             # <<<<<<<<<<<<<<
+ *         # if the current peak is smaller than the threshold then jump out
+ *         if qa[i] <= qa_thr:
  */
   __pyx_t_2 = __pyx_v_peaks;
   for (__pyx_v_i = 0; __pyx_v_i < __pyx_t_2; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":227
- *     for i from 0<=i<peaks:
- *         #if the current peak is smaller than the threshold then jump out
- *         if qa[i]<=qa_thr:             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":257
+ *     for i from 0 <= i < peaks:
+ *         # if the current peak is smaller than the threshold then jump out
+ *         if qa[i] <= qa_thr:             # <<<<<<<<<<<<<<
  *             break
- *         #copy odf_vertices
+ *         # copy odf_vertices
  */
     __pyx_t_1 = (((__pyx_v_qa[__pyx_v_i]) <= __pyx_v_qa_thr) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":228
- *         #if the current peak is smaller than the threshold then jump out
- *         if qa[i]<=qa_thr:
+      /* "dipy/tracking/propspeed.pyx":258
+ *         # if the current peak is smaller than the threshold then jump out
+ *         if qa[i] <= qa_thr:
  *             break             # <<<<<<<<<<<<<<
- *         #copy odf_vertices
- *         for j from 0<=j<3:
+ *         # copy odf_vertices
+ *         for j from 0 <= j < 3:
  */
       goto __pyx_L5_break;
     }
 
-    /* "dipy/tracking/propspeed.pyx":230
+    /* "dipy/tracking/propspeed.pyx":260
  *             break
- *         #copy odf_vertices
- *         for j from 0<=j<3:             # <<<<<<<<<<<<<<
- *             odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[i]+j]
- *         #calculate the absolute dot product between dx and odf_vertices
+ *         # copy odf_vertices
+ *         for j from 0 <= j < 3:             # <<<<<<<<<<<<<<
+ *             odfv[j]=odf_vertices[3 * <cnp.npy_intp>ind[i] + j]
+ *         # calculate the absolute dot product between dx and odf_vertices
  */
     for (__pyx_v_j = 0; __pyx_v_j < 3; __pyx_v_j++) {
 
-      /* "dipy/tracking/propspeed.pyx":231
- *         #copy odf_vertices
- *         for j from 0<=j<3:
- *             odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[i]+j]             # <<<<<<<<<<<<<<
- *         #calculate the absolute dot product between dx and odf_vertices
- *         curr_dot = dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2]
+      /* "dipy/tracking/propspeed.pyx":261
+ *         # copy odf_vertices
+ *         for j from 0 <= j < 3:
+ *             odfv[j]=odf_vertices[3 * <cnp.npy_intp>ind[i] + j]             # <<<<<<<<<<<<<<
+ *         # calculate the absolute dot product between dx and odf_vertices
+ *         curr_dot = dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2]
  */
       (__pyx_v_odfv[__pyx_v_j]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)(__pyx_v_ind[__pyx_v_i]))) + __pyx_v_j)]);
     }
 
-    /* "dipy/tracking/propspeed.pyx":233
- *             odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[i]+j]
- *         #calculate the absolute dot product between dx and odf_vertices
- *         curr_dot = dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2]             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":263
+ *             odfv[j]=odf_vertices[3 * <cnp.npy_intp>ind[i] + j]
+ *         # calculate the absolute dot product between dx and odf_vertices
+ *         curr_dot = dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2]             # <<<<<<<<<<<<<<
  *         if curr_dot < 0: #abs check
  *             curr_dot = -curr_dot
  */
     __pyx_v_curr_dot = ((((__pyx_v_dx[0]) * (__pyx_v_odfv[0])) + ((__pyx_v_dx[1]) * (__pyx_v_odfv[1]))) + ((__pyx_v_dx[2]) * (__pyx_v_odfv[2])));
 
-    /* "dipy/tracking/propspeed.pyx":234
- *         #calculate the absolute dot product between dx and odf_vertices
- *         curr_dot = dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2]
+    /* "dipy/tracking/propspeed.pyx":264
+ *         # calculate the absolute dot product between dx and odf_vertices
+ *         curr_dot = dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2]
  *         if curr_dot < 0: #abs check             # <<<<<<<<<<<<<<
  *             curr_dot = -curr_dot
- *         #maximum dot means minimum angle
+ *         # maximum dot means minimum angle
  */
     __pyx_t_1 = ((__pyx_v_curr_dot < 0.0) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":235
- *         curr_dot = dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2]
+      /* "dipy/tracking/propspeed.pyx":265
+ *         curr_dot = dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2]
  *         if curr_dot < 0: #abs check
  *             curr_dot = -curr_dot             # <<<<<<<<<<<<<<
- *         #maximum dot means minimum angle
- *         #store tha maximum dot and the corresponding index from the neighboring voxel in maxdoti
+ *         # maximum dot means minimum angle
+ *         # store tha maximum dot and the corresponding index from the
  */
       __pyx_v_curr_dot = (-__pyx_v_curr_dot);
       goto __pyx_L9;
     }
     __pyx_L9:;
 
-    /* "dipy/tracking/propspeed.pyx":238
- *         #maximum dot means minimum angle
- *         #store tha maximum dot and the corresponding index from the neighboring voxel in maxdoti
+    /* "dipy/tracking/propspeed.pyx":269
+ *         # store tha maximum dot and the corresponding index from the
+ *         # neighboring voxel in maxdoti
  *         if curr_dot > max_dot:             # <<<<<<<<<<<<<<
  *             max_dot=curr_dot
  *             max_doti = i
@@ -2349,20 +2461,20 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(double *__
     __pyx_t_1 = ((__pyx_v_curr_dot > __pyx_v_max_dot) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":239
- *         #store tha maximum dot and the corresponding index from the neighboring voxel in maxdoti
+      /* "dipy/tracking/propspeed.pyx":270
+ *         # neighboring voxel in maxdoti
  *         if curr_dot > max_dot:
  *             max_dot=curr_dot             # <<<<<<<<<<<<<<
  *             max_doti = i
- *     #if maxdot smaller than our angular *dot* threshold stop tracking
+ *     # if maxdot smaller than our angular *dot* threshold stop tracking
  */
       __pyx_v_max_dot = __pyx_v_curr_dot;
 
-      /* "dipy/tracking/propspeed.pyx":240
+      /* "dipy/tracking/propspeed.pyx":271
  *         if curr_dot > max_dot:
  *             max_dot=curr_dot
  *             max_doti = i             # <<<<<<<<<<<<<<
- *     #if maxdot smaller than our angular *dot* threshold stop tracking
+ *     # if maxdot smaller than our angular *dot* threshold stop tracking
  *     if max_dot < angl:
  */
       __pyx_v_max_doti = __pyx_v_i;
@@ -2372,123 +2484,121 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(double *__
   }
   __pyx_L5_break:;
 
-  /* "dipy/tracking/propspeed.pyx":242
+  /* "dipy/tracking/propspeed.pyx":273
  *             max_doti = i
- *     #if maxdot smaller than our angular *dot* threshold stop tracking
+ *     # if maxdot smaller than our angular *dot* threshold stop tracking
  *     if max_dot < angl:             # <<<<<<<<<<<<<<
  *         return 0
- *     #copy the odf_vertices for the voxel qa indices which have the smaller angle
+ *     # copy the odf_vertices for the voxel qa indices which have the smaller
  */
   __pyx_t_1 = ((__pyx_v_max_dot < __pyx_v_angl) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":243
- *     #if maxdot smaller than our angular *dot* threshold stop tracking
+    /* "dipy/tracking/propspeed.pyx":274
+ *     # if maxdot smaller than our angular *dot* threshold stop tracking
  *     if max_dot < angl:
  *         return 0             # <<<<<<<<<<<<<<
- *     #copy the odf_vertices for the voxel qa indices which have the smaller angle
- *     for j from 0<=j<3:
+ *     # copy the odf_vertices for the voxel qa indices which have the smaller
+ *     # angle
  */
     __pyx_r = 0;
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/propspeed.pyx":245
- *         return 0
- *     #copy the odf_vertices for the voxel qa indices which have the smaller angle
- *     for j from 0<=j<3:             # <<<<<<<<<<<<<<
- *         odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
- *     #if the dot product is negative then return the opposite direction otherwise return the same direction
+  /* "dipy/tracking/propspeed.pyx":277
+ *     # copy the odf_vertices for the voxel qa indices which have the smaller
+ *     # angle
+ *     for j from 0 <= j < 3:             # <<<<<<<<<<<<<<
+ *         odfv[j] = odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
+ *     # if the dot product is negative then return the opposite direction
  */
   for (__pyx_v_j = 0; __pyx_v_j < 3; __pyx_v_j++) {
 
-    /* "dipy/tracking/propspeed.pyx":246
- *     #copy the odf_vertices for the voxel qa indices which have the smaller angle
- *     for j from 0<=j<3:
- *         odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]             # <<<<<<<<<<<<<<
- *     #if the dot product is negative then return the opposite direction otherwise return the same direction
- *     if dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2] < 0:
+    /* "dipy/tracking/propspeed.pyx":278
+ *     # angle
+ *     for j from 0 <= j < 3:
+ *         odfv[j] = odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]             # <<<<<<<<<<<<<<
+ *     # if the dot product is negative then return the opposite direction
+ *     # otherwise return the same direction
  */
     (__pyx_v_odfv[__pyx_v_j]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)(__pyx_v_ind[__pyx_v_max_doti]))) + __pyx_v_j)]);
   }
 
-  /* "dipy/tracking/propspeed.pyx":248
- *         odfv[j]=odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
- *     #if the dot product is negative then return the opposite direction otherwise return the same direction
- *     if dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2] < 0:             # <<<<<<<<<<<<<<
- *         for j from 0<=j<3:
- *             direction[j]=-odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
+  /* "dipy/tracking/propspeed.pyx":281
+ *     # if the dot product is negative then return the opposite direction
+ *     # otherwise return the same direction
+ *     if dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2] < 0:             # <<<<<<<<<<<<<<
+ *         for j from 0 <= j < 3:
+ *             direction[j] = -odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
  */
   __pyx_t_1 = ((((((__pyx_v_dx[0]) * (__pyx_v_odfv[0])) + ((__pyx_v_dx[1]) * (__pyx_v_odfv[1]))) + ((__pyx_v_dx[2]) * (__pyx_v_odfv[2]))) < 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":249
- *     #if the dot product is negative then return the opposite direction otherwise return the same direction
- *     if dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2] < 0:
- *         for j from 0<=j<3:             # <<<<<<<<<<<<<<
- *             direction[j]=-odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
+    /* "dipy/tracking/propspeed.pyx":282
+ *     # otherwise return the same direction
+ *     if dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2] < 0:
+ *         for j from 0 <= j < 3:             # <<<<<<<<<<<<<<
+ *             direction[j] = -odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
  *         return 1
  */
     for (__pyx_v_j = 0; __pyx_v_j < 3; __pyx_v_j++) {
 
-      /* "dipy/tracking/propspeed.pyx":250
- *     if dx[0]*odfv[0]+dx[1]*odfv[1]+dx[2]*odfv[2] < 0:
- *         for j from 0<=j<3:
- *             direction[j]=-odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]             # <<<<<<<<<<<<<<
+      /* "dipy/tracking/propspeed.pyx":283
+ *     if dx[0] * odfv[0] + dx[1] * odfv[1] + dx[2] * odfv[2] < 0:
+ *         for j from 0 <= j < 3:
+ *             direction[j] = -odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]             # <<<<<<<<<<<<<<
  *         return 1
- *     else:
+ *     for j from 0 <= j < 3:
  */
       (__pyx_v_direction[__pyx_v_j]) = (-(__pyx_v_odf_vertices[((3 * ((npy_intp)(__pyx_v_ind[__pyx_v_max_doti]))) + __pyx_v_j)]));
     }
 
-    /* "dipy/tracking/propspeed.pyx":251
- *         for j from 0<=j<3:
- *             direction[j]=-odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
+    /* "dipy/tracking/propspeed.pyx":284
+ *         for j from 0 <= j < 3:
+ *             direction[j] = -odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
  *         return 1             # <<<<<<<<<<<<<<
- *     else:
- *         for j from 0<=j<3:
- */
-    __pyx_r = 1;
-    goto __pyx_L0;
-  }
-  /*else*/ {
-
-    /* "dipy/tracking/propspeed.pyx":253
- *         return 1
- *     else:
- *         for j from 0<=j<3:             # <<<<<<<<<<<<<<
- *             direction[j]= odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
- *         return 1
- */
-    for (__pyx_v_j = 0; __pyx_v_j < 3; __pyx_v_j++) {
-
-      /* "dipy/tracking/propspeed.pyx":254
- *     else:
- *         for j from 0<=j<3:
- *             direction[j]= odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]             # <<<<<<<<<<<<<<
- *         return 1
- * 
- */
-      (__pyx_v_direction[__pyx_v_j]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)(__pyx_v_ind[__pyx_v_max_doti]))) + __pyx_v_j)]);
-    }
-
-    /* "dipy/tracking/propspeed.pyx":255
- *         for j from 0<=j<3:
- *             direction[j]= odf_vertices[3*<cnp.npy_intp>ind[max_doti]+j]
- *         return 1             # <<<<<<<<<<<<<<
- * 
- * 
+ *     for j from 0 <= j < 3:
+ *         direction[j]= odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
  */
     __pyx_r = 1;
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/propspeed.pyx":180
- *     return
+  /* "dipy/tracking/propspeed.pyx":285
+ *             direction[j] = -odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
+ *         return 1
+ *     for j from 0 <= j < 3:             # <<<<<<<<<<<<<<
+ *         direction[j]= odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
+ *     return 1
+ */
+  for (__pyx_v_j = 0; __pyx_v_j < 3; __pyx_v_j++) {
+
+    /* "dipy/tracking/propspeed.pyx":286
+ *         return 1
+ *     for j from 0 <= j < 3:
+ *         direction[j]= odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]             # <<<<<<<<<<<<<<
+ *     return 1
  * 
- * cdef  cnp.npy_intp _nearest_direction(double* dx,double* qa,\             # <<<<<<<<<<<<<<
- *                                         double *ind,cnp.npy_intp peaks,double *odf_vertices,\
- *                                         double qa_thr, double ang_thr,\
+ */
+    (__pyx_v_direction[__pyx_v_j]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)(__pyx_v_ind[__pyx_v_max_doti]))) + __pyx_v_j)]);
+  }
+
+  /* "dipy/tracking/propspeed.pyx":287
+ *     for j from 0 <= j < 3:
+ *         direction[j]= odf_vertices[3 * <cnp.npy_intp>ind[max_doti] + j]
+ *     return 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_r = 1;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/propspeed.pyx":208
+ * 
+ * 
+ * cdef cnp.npy_intp _nearest_direction(double* dx,             # <<<<<<<<<<<<<<
+ *                                      double* qa,
+ *                                      double *ind,
  */
 
   /* function exit code */
@@ -2496,12 +2606,12 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(double *__
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":259
+/* "dipy/tracking/propspeed.pyx":291
  * 
  * @cython.cdivision(True)
- * cdef cnp.npy_intp _propagation_direction(double *point,double* dx,double* qa,\             # <<<<<<<<<<<<<<
- *                                 double *ind, double *odf_vertices,\
- *                                 double qa_thr, double ang_thr,\
+ * cdef cnp.npy_intp _propagation_direction(double *point,             # <<<<<<<<<<<<<<
+ *                                          double* dx,
+ *                                          double* qa,
  */
 
 static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double *__pyx_v_point, double *__pyx_v_dx, double *__pyx_v_qa, double *__pyx_v_ind, double *__pyx_v_odf_vertices, double __pyx_v_qa_thr, double __pyx_v_ang_thr, npy_intp *__pyx_v_qa_shape, npy_intp *__pyx_v_strides, double *__pyx_v_direction, double __pyx_v_total_weight) {
@@ -2512,10 +2622,10 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
   double __pyx_v_qa_tmp[5];
   double __pyx_v_ind_tmp[5];
   npy_intp __pyx_v_index[24];
+  npy_intp __pyx_v_xyz[4];
   npy_intp __pyx_v_i;
   npy_intp __pyx_v_j;
   npy_intp __pyx_v_m;
-  npy_intp __pyx_v_xyz[4];
   double __pyx_v_normd;
   npy_intp __pyx_v_peaks;
   npy_intp __pyx_v_off;
@@ -2524,66 +2634,66 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
   int __pyx_t_2;
   npy_intp __pyx_t_3;
 
-  /* "dipy/tracking/propspeed.pyx":265
- *                                 double *direction,double total_weight) nogil:
+  /* "dipy/tracking/propspeed.pyx":303
+ *                                          double total_weight) nogil:
  *     cdef:
- *         double total_w=0 #total weighting useful for interpolation             # <<<<<<<<<<<<<<
- *         double delta=0 #store delta function (stopping function) result
- *         double new_direction[3] #new propagation direction
+ *         double total_w = 0 # total weighting useful for interpolation             # <<<<<<<<<<<<<<
+ *         double delta = 0 # store delta function (stopping function) result
+ *         double new_direction[3] # new propagation direction
  */
   __pyx_v_total_w = 0.0;
 
-  /* "dipy/tracking/propspeed.pyx":266
+  /* "dipy/tracking/propspeed.pyx":304
  *     cdef:
- *         double total_w=0 #total weighting useful for interpolation
- *         double delta=0 #store delta function (stopping function) result             # <<<<<<<<<<<<<<
- *         double new_direction[3] #new propagation direction
- *         double w[8],qa_tmp[PEAK_NO],ind_tmp[PEAK_NO]
+ *         double total_w = 0 # total weighting useful for interpolation
+ *         double delta = 0 # store delta function (stopping function) result             # <<<<<<<<<<<<<<
+ *         double new_direction[3] # new propagation direction
+ *         double w[8], qa_tmp[PEAK_NO], ind_tmp[PEAK_NO]
  */
   __pyx_v_delta = 0.0;
 
-  /* "dipy/tracking/propspeed.pyx":271
- *         cnp.npy_intp index[24],i,j,m,xyz[4]
+  /* "dipy/tracking/propspeed.pyx":311
  *         double normd
- *         cnp.npy_intp peaks=qa_shape[3]#number of allowed peaks e.g. for fa is 1 for gqi.qa is 5             # <<<<<<<<<<<<<<
+ *         # number of allowed peaks e.g. for fa is 1 for gqi.qa is 5
+ *         cnp.npy_intp peaks = qa_shape[3]             # <<<<<<<<<<<<<<
  * 
- *     #calculate qa & ind of each of the 8 neighboring voxels
+ *     # Calculate qa & ind of each of the 8 neighboring voxels.
  */
   __pyx_v_peaks = (__pyx_v_qa_shape[3]);
 
-  /* "dipy/tracking/propspeed.pyx":276
- *     #to do that we use trilinear interpolation and return the weights
- *     #and the indices for the weights i.e. xyz in qa[x,y,z]
- *     _trilinear_interpolation_iso(point,<double *>w,<cnp.npy_intp *>index)             # <<<<<<<<<<<<<<
- *     #check if you are outside of the volume
- *     for i from 0<=i<3:
+  /* "dipy/tracking/propspeed.pyx":316
+ *     # To do that we use trilinear interpolation and return the weights and the
+ *     # indices for the weights i.e. xyz in qa[x,y,z]
+ *     _trilinear_interpolation_iso(point, <double *> w, <cnp.npy_intp *> index)             # <<<<<<<<<<<<<<
+ *     # check if you are outside of the volume
+ *     for i from 0 <= i < 3:
  */
   __pyx_f_4dipy_8tracking_9propspeed__trilinear_interpolation_iso(__pyx_v_point, ((double *)__pyx_v_w), ((npy_intp *)__pyx_v_index));
 
-  /* "dipy/tracking/propspeed.pyx":278
- *     _trilinear_interpolation_iso(point,<double *>w,<cnp.npy_intp *>index)
- *     #check if you are outside of the volume
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         new_direction[i]=0
- *         if index[7*3+i] >= qa_shape[i] or index[i] < 0:
+  /* "dipy/tracking/propspeed.pyx":318
+ *     _trilinear_interpolation_iso(point, <double *> w, <cnp.npy_intp *> index)
+ *     # check if you are outside of the volume
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         new_direction[i] = 0
+ *         if index[7 * 3 + i] >= qa_shape[i] or index[i] < 0:
  */
   for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":279
- *     #check if you are outside of the volume
- *     for i from 0<=i<3:
- *         new_direction[i]=0             # <<<<<<<<<<<<<<
- *         if index[7*3+i] >= qa_shape[i] or index[i] < 0:
+    /* "dipy/tracking/propspeed.pyx":319
+ *     # check if you are outside of the volume
+ *     for i from 0 <= i < 3:
+ *         new_direction[i] = 0             # <<<<<<<<<<<<<<
+ *         if index[7 * 3 + i] >= qa_shape[i] or index[i] < 0:
  *             return 0
  */
     (__pyx_v_new_direction[__pyx_v_i]) = 0.0;
 
-    /* "dipy/tracking/propspeed.pyx":280
- *     for i from 0<=i<3:
- *         new_direction[i]=0
- *         if index[7*3+i] >= qa_shape[i] or index[i] < 0:             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":320
+ *     for i from 0 <= i < 3:
+ *         new_direction[i] = 0
+ *         if index[7 * 3 + i] >= qa_shape[i] or index[i] < 0:             # <<<<<<<<<<<<<<
  *             return 0
- *     #for every weight sum the total weighting
+ *     # for every weight sum the total weighting
  */
     __pyx_t_2 = (((__pyx_v_index[(21 + __pyx_v_i)]) >= (__pyx_v_qa_shape[__pyx_v_i])) != 0);
     if (!__pyx_t_2) {
@@ -2596,146 +2706,146 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":281
- *         new_direction[i]=0
- *         if index[7*3+i] >= qa_shape[i] or index[i] < 0:
+      /* "dipy/tracking/propspeed.pyx":321
+ *         new_direction[i] = 0
+ *         if index[7 * 3 + i] >= qa_shape[i] or index[i] < 0:
  *             return 0             # <<<<<<<<<<<<<<
- *     #for every weight sum the total weighting
- *     for m from 0<=m<8:
+ *     # for every weight sum the total weighting
+ *     for m from 0 <= m < 8:
  */
       __pyx_r = 0;
       goto __pyx_L0;
     }
   }
 
-  /* "dipy/tracking/propspeed.pyx":283
+  /* "dipy/tracking/propspeed.pyx":323
  *             return 0
- *     #for every weight sum the total weighting
- *     for m from 0<=m<8:             # <<<<<<<<<<<<<<
- *         for i from 0<=i<3:
- *             xyz[i]=index[m*3+i]
+ *     # for every weight sum the total weighting
+ *     for m from 0 <= m < 8:             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < 3:
+ *             xyz[i]=index[m * 3 + i]
  */
   for (__pyx_v_m = 0; __pyx_v_m < 8; __pyx_v_m++) {
 
-    /* "dipy/tracking/propspeed.pyx":284
- *     #for every weight sum the total weighting
- *     for m from 0<=m<8:
- *         for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *             xyz[i]=index[m*3+i]
- *         #fill qa_tmp and ind_tmp
+    /* "dipy/tracking/propspeed.pyx":324
+ *     # for every weight sum the total weighting
+ *     for m from 0 <= m < 8:
+ *         for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *             xyz[i]=index[m * 3 + i]
+ *         # fill qa_tmp and ind_tmp
  */
     for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-      /* "dipy/tracking/propspeed.pyx":285
- *     for m from 0<=m<8:
- *         for i from 0<=i<3:
- *             xyz[i]=index[m*3+i]             # <<<<<<<<<<<<<<
- *         #fill qa_tmp and ind_tmp
- *         for j from 0<=j<peaks:
+      /* "dipy/tracking/propspeed.pyx":325
+ *     for m from 0 <= m < 8:
+ *         for i from 0 <= i < 3:
+ *             xyz[i]=index[m * 3 + i]             # <<<<<<<<<<<<<<
+ *         # fill qa_tmp and ind_tmp
+ *         for j from 0 <= j < peaks:
  */
       (__pyx_v_xyz[__pyx_v_i]) = (__pyx_v_index[((__pyx_v_m * 3) + __pyx_v_i)]);
     }
 
-    /* "dipy/tracking/propspeed.pyx":287
- *             xyz[i]=index[m*3+i]
- *         #fill qa_tmp and ind_tmp
- *         for j from 0<=j<peaks:             # <<<<<<<<<<<<<<
- *             xyz[3]=j
- *             off=offset(<cnp.npy_intp*>xyz,strides,4,8)
+    /* "dipy/tracking/propspeed.pyx":327
+ *             xyz[i]=index[m * 3 + i]
+ *         # fill qa_tmp and ind_tmp
+ *         for j from 0 <= j < peaks:             # <<<<<<<<<<<<<<
+ *             xyz[3] = j
+ *             off = offset(<cnp.npy_intp*> xyz, strides, 4, 8)
  */
     __pyx_t_3 = __pyx_v_peaks;
     for (__pyx_v_j = 0; __pyx_v_j < __pyx_t_3; __pyx_v_j++) {
 
-      /* "dipy/tracking/propspeed.pyx":288
- *         #fill qa_tmp and ind_tmp
- *         for j from 0<=j<peaks:
- *             xyz[3]=j             # <<<<<<<<<<<<<<
- *             off=offset(<cnp.npy_intp*>xyz,strides,4,8)
- *             qa_tmp[j]=qa[off]
+      /* "dipy/tracking/propspeed.pyx":328
+ *         # fill qa_tmp and ind_tmp
+ *         for j from 0 <= j < peaks:
+ *             xyz[3] = j             # <<<<<<<<<<<<<<
+ *             off = offset(<cnp.npy_intp*> xyz, strides, 4, 8)
+ *             qa_tmp[j] = qa[off]
  */
       (__pyx_v_xyz[3]) = __pyx_v_j;
 
-      /* "dipy/tracking/propspeed.pyx":289
- *         for j from 0<=j<peaks:
- *             xyz[3]=j
- *             off=offset(<cnp.npy_intp*>xyz,strides,4,8)             # <<<<<<<<<<<<<<
- *             qa_tmp[j]=qa[off]
- *             ind_tmp[j]=ind[off]
+      /* "dipy/tracking/propspeed.pyx":329
+ *         for j from 0 <= j < peaks:
+ *             xyz[3] = j
+ *             off = offset(<cnp.npy_intp*> xyz, strides, 4, 8)             # <<<<<<<<<<<<<<
+ *             qa_tmp[j] = qa[off]
+ *             ind_tmp[j] = ind[off]
  */
       __pyx_v_off = __pyx_f_4dipy_8tracking_9propspeed_offset(((npy_intp *)__pyx_v_xyz), __pyx_v_strides, 4, 8);
 
-      /* "dipy/tracking/propspeed.pyx":290
- *             xyz[3]=j
- *             off=offset(<cnp.npy_intp*>xyz,strides,4,8)
- *             qa_tmp[j]=qa[off]             # <<<<<<<<<<<<<<
- *             ind_tmp[j]=ind[off]
- *         #return the nearest direction by searching in all peaks
+      /* "dipy/tracking/propspeed.pyx":330
+ *             xyz[3] = j
+ *             off = offset(<cnp.npy_intp*> xyz, strides, 4, 8)
+ *             qa_tmp[j] = qa[off]             # <<<<<<<<<<<<<<
+ *             ind_tmp[j] = ind[off]
+ *         # return the nearest direction by searching in all peaks
  */
       (__pyx_v_qa_tmp[__pyx_v_j]) = (__pyx_v_qa[__pyx_v_off]);
 
-      /* "dipy/tracking/propspeed.pyx":291
- *             off=offset(<cnp.npy_intp*>xyz,strides,4,8)
- *             qa_tmp[j]=qa[off]
- *             ind_tmp[j]=ind[off]             # <<<<<<<<<<<<<<
- *         #return the nearest direction by searching in all peaks
- *         delta=_nearest_direction(dx,qa_tmp,ind_tmp,peaks,odf_vertices,\
+      /* "dipy/tracking/propspeed.pyx":331
+ *             off = offset(<cnp.npy_intp*> xyz, strides, 4, 8)
+ *             qa_tmp[j] = qa[off]
+ *             ind_tmp[j] = ind[off]             # <<<<<<<<<<<<<<
+ *         # return the nearest direction by searching in all peaks
+ *         delta=_nearest_direction(dx,
  */
       (__pyx_v_ind_tmp[__pyx_v_j]) = (__pyx_v_ind[__pyx_v_off]);
     }
 
-    /* "dipy/tracking/propspeed.pyx":293
- *             ind_tmp[j]=ind[off]
- *         #return the nearest direction by searching in all peaks
- *         delta=_nearest_direction(dx,qa_tmp,ind_tmp,peaks,odf_vertices,\             # <<<<<<<<<<<<<<
- *                                          qa_thr, ang_thr,direction)
- *         #if delta is 0 then that means that there was no good direction (obeying the thresholds)
+    /* "dipy/tracking/propspeed.pyx":333
+ *             ind_tmp[j] = ind[off]
+ *         # return the nearest direction by searching in all peaks
+ *         delta=_nearest_direction(dx,             # <<<<<<<<<<<<<<
+ *                                  qa_tmp,
+ *                                  ind_tmp,
  */
     __pyx_v_delta = __pyx_f_4dipy_8tracking_9propspeed__nearest_direction(__pyx_v_dx, __pyx_v_qa_tmp, __pyx_v_ind_tmp, __pyx_v_peaks, __pyx_v_odf_vertices, __pyx_v_qa_thr, __pyx_v_ang_thr, __pyx_v_direction);
 
-    /* "dipy/tracking/propspeed.pyx":297
- *         #if delta is 0 then that means that there was no good direction (obeying the thresholds)
- *         #from that neighboring voxel, so this voxel is not adding to the total weight
- *         if delta==0:             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":344
+ *         # (obeying the thresholds) from that neighboring voxel, so this voxel
+ *         # is not adding to the total weight
+ *         if delta == 0:             # <<<<<<<<<<<<<<
  *             continue
- *         #add in total
+ *         # add in total
  */
     __pyx_t_1 = ((__pyx_v_delta == 0.0) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":298
- *         #from that neighboring voxel, so this voxel is not adding to the total weight
- *         if delta==0:
+      /* "dipy/tracking/propspeed.pyx":345
+ *         # is not adding to the total weight
+ *         if delta == 0:
  *             continue             # <<<<<<<<<<<<<<
- *         #add in total
- *         total_w+=w[m]
+ *         # add in total
+ *         total_w += w[m]
  */
       goto __pyx_L8_continue;
     }
 
-    /* "dipy/tracking/propspeed.pyx":300
+    /* "dipy/tracking/propspeed.pyx":347
  *             continue
- *         #add in total
- *         total_w+=w[m]             # <<<<<<<<<<<<<<
- *         for i from 0<=i<3:
- *             new_direction[i]+=w[m]*direction[i]
+ *         # add in total
+ *         total_w += w[m]             # <<<<<<<<<<<<<<
+ *         for i from 0 <= i < 3:
+ *             new_direction[i] += w[m] * direction[i]
  */
     __pyx_v_total_w = (__pyx_v_total_w + (__pyx_v_w[__pyx_v_m]));
 
-    /* "dipy/tracking/propspeed.pyx":301
- *         #add in total
- *         total_w+=w[m]
- *         for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *             new_direction[i]+=w[m]*direction[i]
- *     #if less than half the volume is time to stop propagating
+    /* "dipy/tracking/propspeed.pyx":348
+ *         # add in total
+ *         total_w += w[m]
+ *         for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *             new_direction[i] += w[m] * direction[i]
+ *     # if less than half the volume is time to stop propagating
  */
     for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-      /* "dipy/tracking/propspeed.pyx":302
- *         total_w+=w[m]
- *         for i from 0<=i<3:
- *             new_direction[i]+=w[m]*direction[i]             # <<<<<<<<<<<<<<
- *     #if less than half the volume is time to stop propagating
- *     if total_w < total_weight: #termination
+      /* "dipy/tracking/propspeed.pyx":349
+ *         total_w += w[m]
+ *         for i from 0 <= i < 3:
+ *             new_direction[i] += w[m] * direction[i]             # <<<<<<<<<<<<<<
+ *     # if less than half the volume is time to stop propagating
+ *     if total_w < total_weight: # termination
  */
       __pyx_t_3 = __pyx_v_i;
       (__pyx_v_new_direction[__pyx_t_3]) = ((__pyx_v_new_direction[__pyx_t_3]) + ((__pyx_v_w[__pyx_v_m]) * (__pyx_v_direction[__pyx_v_i])));
@@ -2743,67 +2853,67 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
     __pyx_L8_continue:;
   }
 
-  /* "dipy/tracking/propspeed.pyx":304
- *             new_direction[i]+=w[m]*direction[i]
- *     #if less than half the volume is time to stop propagating
- *     if total_w < total_weight: #termination             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/propspeed.pyx":351
+ *             new_direction[i] += w[m] * direction[i]
+ *     # if less than half the volume is time to stop propagating
+ *     if total_w < total_weight: # termination             # <<<<<<<<<<<<<<
  *         return 0
- *     #all good return normalized weighted next direction
+ *     # all good return normalized weighted next direction
  */
   __pyx_t_1 = ((__pyx_v_total_w < __pyx_v_total_weight) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":305
- *     #if less than half the volume is time to stop propagating
- *     if total_w < total_weight: #termination
+    /* "dipy/tracking/propspeed.pyx":352
+ *     # if less than half the volume is time to stop propagating
+ *     if total_w < total_weight: # termination
  *         return 0             # <<<<<<<<<<<<<<
- *     #all good return normalized weighted next direction
- *     normd=new_direction[0]**2+new_direction[1]**2+new_direction[2]**2
+ *     # all good return normalized weighted next direction
+ *     normd = new_direction[0]**2 + new_direction[1]**2 + new_direction[2]**2
  */
     __pyx_r = 0;
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/propspeed.pyx":307
+  /* "dipy/tracking/propspeed.pyx":354
  *         return 0
- *     #all good return normalized weighted next direction
- *     normd=new_direction[0]**2+new_direction[1]**2+new_direction[2]**2             # <<<<<<<<<<<<<<
- *     normd=1/sqrt(normd)
- *     for i from 0<=i<3:
+ *     # all good return normalized weighted next direction
+ *     normd = new_direction[0]**2 + new_direction[1]**2 + new_direction[2]**2             # <<<<<<<<<<<<<<
+ *     normd = 1 / sqrt(normd)
+ *     for i from 0 <= i < 3:
  */
   __pyx_v_normd = ((pow((__pyx_v_new_direction[0]), 2.0) + pow((__pyx_v_new_direction[1]), 2.0)) + pow((__pyx_v_new_direction[2]), 2.0));
 
-  /* "dipy/tracking/propspeed.pyx":308
- *     #all good return normalized weighted next direction
- *     normd=new_direction[0]**2+new_direction[1]**2+new_direction[2]**2
- *     normd=1/sqrt(normd)             # <<<<<<<<<<<<<<
- *     for i from 0<=i<3:
- *         direction[i]=new_direction[i]*normd
+  /* "dipy/tracking/propspeed.pyx":355
+ *     # all good return normalized weighted next direction
+ *     normd = new_direction[0]**2 + new_direction[1]**2 + new_direction[2]**2
+ *     normd = 1 / sqrt(normd)             # <<<<<<<<<<<<<<
+ *     for i from 0 <= i < 3:
+ *         direction[i] = new_direction[i] * normd
  */
   __pyx_v_normd = (1.0 / sqrt(__pyx_v_normd));
 
-  /* "dipy/tracking/propspeed.pyx":309
- *     normd=new_direction[0]**2+new_direction[1]**2+new_direction[2]**2
- *     normd=1/sqrt(normd)
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         direction[i]=new_direction[i]*normd
+  /* "dipy/tracking/propspeed.pyx":356
+ *     normd = new_direction[0]**2 + new_direction[1]**2 + new_direction[2]**2
+ *     normd = 1 / sqrt(normd)
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         direction[i] = new_direction[i] * normd
  *     return 1
  */
   for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":310
- *     normd=1/sqrt(normd)
- *     for i from 0<=i<3:
- *         direction[i]=new_direction[i]*normd             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":357
+ *     normd = 1 / sqrt(normd)
+ *     for i from 0 <= i < 3:
+ *         direction[i] = new_direction[i] * normd             # <<<<<<<<<<<<<<
  *     return 1
  * 
  */
     (__pyx_v_direction[__pyx_v_i]) = ((__pyx_v_new_direction[__pyx_v_i]) * __pyx_v_normd);
   }
 
-  /* "dipy/tracking/propspeed.pyx":311
- *     for i from 0<=i<3:
- *         direction[i]=new_direction[i]*normd
+  /* "dipy/tracking/propspeed.pyx":358
+ *     for i from 0 <= i < 3:
+ *         direction[i] = new_direction[i] * normd
  *     return 1             # <<<<<<<<<<<<<<
  * 
  * 
@@ -2811,12 +2921,12 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
   __pyx_r = 1;
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":259
+  /* "dipy/tracking/propspeed.pyx":291
  * 
  * @cython.cdivision(True)
- * cdef cnp.npy_intp _propagation_direction(double *point,double* dx,double* qa,\             # <<<<<<<<<<<<<<
- *                                 double *ind, double *odf_vertices,\
- *                                 double qa_thr, double ang_thr,\
+ * cdef cnp.npy_intp _propagation_direction(double *point,             # <<<<<<<<<<<<<<
+ *                                          double* dx,
+ *                                          double* qa,
  */
 
   /* function exit code */
@@ -2824,12 +2934,12 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(double
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":314
+/* "dipy/tracking/propspeed.pyx":361
  * 
  * 
- * cdef  cnp.npy_intp _initial_direction(double* seed,double *qa,\             # <<<<<<<<<<<<<<
- *                                         double* ind, double* odf_vertices,\
- *                                         double qa_thr, cnp.npy_intp* strides, cnp.npy_intp ref,\
+ * cdef cnp.npy_intp _initial_direction(double* seed,double *qa,             # <<<<<<<<<<<<<<
+ *                                      double* ind, double* odf_vertices,
+ *                                      double qa_thr,
  */
 
 static npy_intp __pyx_f_4dipy_8tracking_9propspeed__initial_direction(double *__pyx_v_seed, double *__pyx_v_qa, double *__pyx_v_ind, double *__pyx_v_odf_vertices, double __pyx_v_qa_thr, npy_intp *__pyx_v_strides, npy_intp __pyx_v_ref, double *__pyx_v_direction) {
@@ -2841,119 +2951,117 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__initial_direction(double *__
   npy_intp __pyx_r;
   int __pyx_t_1;
 
-  /* "dipy/tracking/propspeed.pyx":327
- *     #neighborhood (grid) for the trilinear interpolation to run smoothly
- *     #find the index for qa
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         point[i]=<cnp.npy_intp>floor(seed[i]+.5)
- *     point[3]=ref
+  /* "dipy/tracking/propspeed.pyx":376
+ *     # (grid) for the trilinear interpolation to run smoothly.
+ *     # Find the index for qa
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         point[i] = <cnp.npy_intp>floor(seed[i] + .5)
+ *     point[3] = ref
  */
   for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":328
- *     #find the index for qa
- *     for i from 0<=i<3:
- *         point[i]=<cnp.npy_intp>floor(seed[i]+.5)             # <<<<<<<<<<<<<<
- *     point[3]=ref
- *     #find the offcet in memory to access the qa value
+    /* "dipy/tracking/propspeed.pyx":377
+ *     # Find the index for qa
+ *     for i from 0 <= i < 3:
+ *         point[i] = <cnp.npy_intp>floor(seed[i] + .5)             # <<<<<<<<<<<<<<
+ *     point[3] = ref
+ *     # Find the offcet in memory to access the qa value
  */
     (__pyx_v_point[__pyx_v_i]) = ((npy_intp)floor(((__pyx_v_seed[__pyx_v_i]) + .5)));
   }
 
-  /* "dipy/tracking/propspeed.pyx":329
- *     for i from 0<=i<3:
- *         point[i]=<cnp.npy_intp>floor(seed[i]+.5)
- *     point[3]=ref             # <<<<<<<<<<<<<<
- *     #find the offcet in memory to access the qa value
- *     off=offset(<cnp.npy_intp*>point,strides,4,8)
+  /* "dipy/tracking/propspeed.pyx":378
+ *     for i from 0 <= i < 3:
+ *         point[i] = <cnp.npy_intp>floor(seed[i] + .5)
+ *     point[3] = ref             # <<<<<<<<<<<<<<
+ *     # Find the offcet in memory to access the qa value
+ *     off = offset(<cnp.npy_intp*>point,strides, 4, 8)
  */
   (__pyx_v_point[3]) = __pyx_v_ref;
 
-  /* "dipy/tracking/propspeed.pyx":331
- *     point[3]=ref
- *     #find the offcet in memory to access the qa value
- *     off=offset(<cnp.npy_intp*>point,strides,4,8)             # <<<<<<<<<<<<<<
- *     qa_tmp=qa[off]
- *     #check for scalar threshold
+  /* "dipy/tracking/propspeed.pyx":380
+ *     point[3] = ref
+ *     # Find the offcet in memory to access the qa value
+ *     off = offset(<cnp.npy_intp*>point,strides, 4, 8)             # <<<<<<<<<<<<<<
+ *     qa_tmp = qa[off]
+ *     # Check for scalar threshold
  */
   __pyx_v_off = __pyx_f_4dipy_8tracking_9propspeed_offset(((npy_intp *)__pyx_v_point), __pyx_v_strides, 4, 8);
 
-  /* "dipy/tracking/propspeed.pyx":332
- *     #find the offcet in memory to access the qa value
- *     off=offset(<cnp.npy_intp*>point,strides,4,8)
- *     qa_tmp=qa[off]             # <<<<<<<<<<<<<<
- *     #check for scalar threshold
+  /* "dipy/tracking/propspeed.pyx":381
+ *     # Find the offcet in memory to access the qa value
+ *     off = offset(<cnp.npy_intp*>point,strides, 4, 8)
+ *     qa_tmp = qa[off]             # <<<<<<<<<<<<<<
+ *     # Check for scalar threshold
  *     if qa_tmp < qa_thr:
  */
   __pyx_v_qa_tmp = (__pyx_v_qa[__pyx_v_off]);
 
-  /* "dipy/tracking/propspeed.pyx":334
- *     qa_tmp=qa[off]
- *     #check for scalar threshold
+  /* "dipy/tracking/propspeed.pyx":383
+ *     qa_tmp = qa[off]
+ *     # Check for scalar threshold
  *     if qa_tmp < qa_thr:             # <<<<<<<<<<<<<<
  *         return 0
- *     else:
+ *     # Find the correct direction from the indices
  */
   __pyx_t_1 = ((__pyx_v_qa_tmp < __pyx_v_qa_thr) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":335
- *     #check for scalar threshold
+    /* "dipy/tracking/propspeed.pyx":384
+ *     # Check for scalar threshold
  *     if qa_tmp < qa_thr:
  *         return 0             # <<<<<<<<<<<<<<
- *     else:
- *         #find the correct direction from the indices
+ *     # Find the correct direction from the indices
+ *     ind_tmp = ind[off] # similar to ind[point] in numpy syntax
  */
     __pyx_r = 0;
     goto __pyx_L0;
   }
-  /*else*/ {
 
-    /* "dipy/tracking/propspeed.pyx":338
- *     else:
- *         #find the correct direction from the indices
- *         ind_tmp=ind[off] #similar to ind[point] in numpy syntax             # <<<<<<<<<<<<<<
- *         #return initial direction through odf_vertices by ind
- *         for i from 0<=i<3:
+  /* "dipy/tracking/propspeed.pyx":386
+ *         return 0
+ *     # Find the correct direction from the indices
+ *     ind_tmp = ind[off] # similar to ind[point] in numpy syntax             # <<<<<<<<<<<<<<
+ *     # Return initial direction through odf_vertices by ind
+ *     for i from 0 <= i < 3:
  */
-    __pyx_v_ind_tmp = (__pyx_v_ind[__pyx_v_off]);
+  __pyx_v_ind_tmp = (__pyx_v_ind[__pyx_v_off]);
 
-    /* "dipy/tracking/propspeed.pyx":340
- *         ind_tmp=ind[off] #similar to ind[point] in numpy syntax
- *         #return initial direction through odf_vertices by ind
- *         for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *             direction[i]=odf_vertices[3*<cnp.npy_intp>ind_tmp+i]
- *         return 1
+  /* "dipy/tracking/propspeed.pyx":388
+ *     ind_tmp = ind[off] # similar to ind[point] in numpy syntax
+ *     # Return initial direction through odf_vertices by ind
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         direction[i] = odf_vertices[3 * <cnp.npy_intp>ind_tmp + i]
+ *     return 1
  */
-    for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
+  for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-      /* "dipy/tracking/propspeed.pyx":341
- *         #return initial direction through odf_vertices by ind
- *         for i from 0<=i<3:
- *             direction[i]=odf_vertices[3*<cnp.npy_intp>ind_tmp+i]             # <<<<<<<<<<<<<<
- *         return 1
+    /* "dipy/tracking/propspeed.pyx":389
+ *     # Return initial direction through odf_vertices by ind
+ *     for i from 0 <= i < 3:
+ *         direction[i] = odf_vertices[3 * <cnp.npy_intp>ind_tmp + i]             # <<<<<<<<<<<<<<
+ *     return 1
  * 
  */
-      (__pyx_v_direction[__pyx_v_i]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)__pyx_v_ind_tmp)) + __pyx_v_i)]);
-    }
-
-    /* "dipy/tracking/propspeed.pyx":342
- *         for i from 0<=i<3:
- *             direction[i]=odf_vertices[3*<cnp.npy_intp>ind_tmp+i]
- *         return 1             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    __pyx_r = 1;
-    goto __pyx_L0;
+    (__pyx_v_direction[__pyx_v_i]) = (__pyx_v_odf_vertices[((3 * ((npy_intp)__pyx_v_ind_tmp)) + __pyx_v_i)]);
   }
 
-  /* "dipy/tracking/propspeed.pyx":314
+  /* "dipy/tracking/propspeed.pyx":390
+ *     for i from 0 <= i < 3:
+ *         direction[i] = odf_vertices[3 * <cnp.npy_intp>ind_tmp + i]
+ *     return 1             # <<<<<<<<<<<<<<
  * 
  * 
- * cdef  cnp.npy_intp _initial_direction(double* seed,double *qa,\             # <<<<<<<<<<<<<<
- *                                         double* ind, double* odf_vertices,\
- *                                         double qa_thr, cnp.npy_intp* strides, cnp.npy_intp ref,\
+ */
+  __pyx_r = 1;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/propspeed.pyx":361
+ * 
+ * 
+ * cdef cnp.npy_intp _initial_direction(double* seed,double *qa,             # <<<<<<<<<<<<<<
+ *                                      double* ind, double* odf_vertices,
+ *                                      double qa_thr,
  */
 
   /* function exit code */
@@ -2961,17 +3069,17 @@ static npy_intp __pyx_f_4dipy_8tracking_9propspeed__initial_direction(double *__
   return __pyx_r;
 }
 
-/* "dipy/tracking/propspeed.pyx":345
+/* "dipy/tracking/propspeed.pyx":393
  * 
  * 
- * def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\             # <<<<<<<<<<<<<<
- *                     cnp.npy_intp ref,\
- *                     cnp.ndarray[double,ndim=4] qa,\
+ * def eudx_both_directions(cnp.ndarray[double, ndim=1] seed,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp ref,
+ *                          cnp.ndarray[double, ndim=4] qa,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_5eudx_both_directions(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_8tracking_9propspeed_4eudx_both_directions[] = "\n    Parameters\n    ------------\n    seed : array, shape(3,), point where the tracking starts\n    ref : cnp.npy_intp int, which peak to follow first\n    qa : array, shape(X,Y,Z,Np), float64, anisotropy matrix,\n    where Np the number of maximum allowed peaks, found using self.Np\n    ind : array, shape(Np,), float64, index of the track orientation\n    total_weight : double\n\n    Returns\n    -------\n    track : array, shape(N,3)\n\n    ";
+static char __pyx_doc_4dipy_8tracking_9propspeed_4eudx_both_directions[] = "\n    Parameters\n    ------------\n    seed : array, float64 shape (3,)\n        Point where the tracking starts.\n    ref : cnp.npy_intp int\n        Index of peak to follow first.\n    qa : array, float64 shape (X, Y, Z, Np)\n        Anisotropy matrix, where ``Np`` is the number of maximum allowed peaks.\n    ind : array, float64 shape(x, y, z, Np)\n        Index of the track orientation.\n    odf_vertices : double array shape (N, 3)\n        Sampling directions on the sphere.\n    qa_thr : float\n        Threshold for QA, we want everything higher than this threshold.\n    ang_thr : float\n        Angle theshold, we only select fiber orientation within this range.\n    step_sz : double\n    total_weight : double\n    max_points : cnp.npy_intp\n\n    Returns\n    -------\n    track : array, shape (N,3)\n    ";
 static PyMethodDef __pyx_mdef_4dipy_8tracking_9propspeed_5eudx_both_directions = {"eudx_both_directions", (PyCFunction)__pyx_pw_4dipy_8tracking_9propspeed_5eudx_both_directions, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_8tracking_9propspeed_4eudx_both_directions};
 static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_5eudx_both_directions(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyArrayObject *__pyx_v_seed = 0;
@@ -3018,51 +3126,51 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_5eudx_both_directions(PyObj
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ref)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_qa)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ind)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_odf_vertices)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_qa_thr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  6:
         if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_ang_thr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 6); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_step_sz)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 7); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  8:
         if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_total_weight)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 8); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  9:
         if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_max_points)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, 9); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eudx_both_directions") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "eudx_both_directions") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 10) {
       goto __pyx_L5_argtuple_error;
@@ -3079,28 +3187,28 @@ static PyObject *__pyx_pw_4dipy_8tracking_9propspeed_5eudx_both_directions(PyObj
       values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
     }
     __pyx_v_seed = ((PyArrayObject *)values[0]);
-    __pyx_v_ref = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_ref == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 346; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ref = __Pyx_PyInt_As_Py_intptr_t(values[1]); if (unlikely((__pyx_v_ref == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __pyx_v_qa = ((PyArrayObject *)values[2]);
     __pyx_v_ind = ((PyArrayObject *)values[3]);
     __pyx_v_odf_vertices = ((PyArrayObject *)values[4]);
-    __pyx_v_qa_thr = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_qa_thr == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_ang_thr = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_ang_thr == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_step_sz = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_step_sz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_total_weight = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_total_weight == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_max_points = __Pyx_PyInt_As_Py_intptr_t(values[9]); if (unlikely((__pyx_v_max_points == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_qa_thr = __pyx_PyFloat_AsDouble(values[5]); if (unlikely((__pyx_v_qa_thr == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 398; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_ang_thr = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_ang_thr == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_step_sz = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_step_sz == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_total_weight = __pyx_PyFloat_AsDouble(values[8]); if (unlikely((__pyx_v_total_weight == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 401; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_max_points = __Pyx_PyInt_As_Py_intptr_t(values[9]); if (unlikely((__pyx_v_max_points == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 402; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("eudx_both_directions", 1, 10, 10, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.tracking.propspeed.eudx_both_directions", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seed), __pyx_ptype_5numpy_ndarray, 1, "seed", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_qa), __pyx_ptype_5numpy_ndarray, 1, "qa", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ind), __pyx_ptype_5numpy_ndarray, 1, "ind", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_odf_vertices), __pyx_ptype_5numpy_ndarray, 1, "odf_vertices", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seed), __pyx_ptype_5numpy_ndarray, 1, "seed", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_qa), __pyx_ptype_5numpy_ndarray, 1, "qa", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_ind), __pyx_ptype_5numpy_ndarray, 1, "ind", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 396; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_odf_vertices), __pyx_ptype_5numpy_ndarray, 1, "odf_vertices", 0))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 397; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(__pyx_self, __pyx_v_seed, __pyx_v_ref, __pyx_v_qa, __pyx_v_ind, __pyx_v_odf_vertices, __pyx_v_qa_thr, __pyx_v_ang_thr, __pyx_v_step_sz, __pyx_v_total_weight, __pyx_v_max_points);
 
   /* function exit code */
@@ -3128,7 +3236,6 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
   double __pyx_v_idirection[3];
   double __pyx_v_ps2[3];
   double __pyx_v_tmp;
-  double __pyx_v_ftmp;
   PyObject *__pyx_v_point = NULL;
   PyObject *__pyx_v_track = NULL;
   PyObject *__pyx_v_tmp_track = NULL;
@@ -3172,122 +3279,218 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
   __pyx_pybuffernd_odf_vertices.rcbuffer = &__pyx_pybuffer_odf_vertices;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_seed.rcbuffer->pybuffer, (PyObject*)__pyx_v_seed, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_seed.rcbuffer->pybuffer, (PyObject*)__pyx_v_seed, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_seed.diminfo[0].strides = __pyx_pybuffernd_seed.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_seed.diminfo[0].shape = __pyx_pybuffernd_seed.rcbuffer->pybuffer.shape[0];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_qa.rcbuffer->pybuffer, (PyObject*)__pyx_v_qa, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_qa.rcbuffer->pybuffer, (PyObject*)__pyx_v_qa, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_qa.diminfo[0].strides = __pyx_pybuffernd_qa.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_qa.diminfo[0].shape = __pyx_pybuffernd_qa.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_qa.diminfo[1].strides = __pyx_pybuffernd_qa.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_qa.diminfo[1].shape = __pyx_pybuffernd_qa.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_qa.diminfo[2].strides = __pyx_pybuffernd_qa.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_qa.diminfo[2].shape = __pyx_pybuffernd_qa.rcbuffer->pybuffer.shape[2]; __pyx_pybuffernd_qa.diminfo[3].strides = __pyx_pybuffernd_qa.rcbuffer->pybuffer.strides[3]; __pyx_pybuffernd_qa.diminfo[3].shape = __pyx_pybuffernd_qa.rcbuffer->pybuffer.shape[3];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ind.rcbuffer->pybuffer, (PyObject*)__pyx_v_ind, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_ind.rcbuffer->pybuffer, (PyObject*)__pyx_v_ind, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 4, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_ind.diminfo[0].strides = __pyx_pybuffernd_ind.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_ind.diminfo[0].shape = __pyx_pybuffernd_ind.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_ind.diminfo[1].strides = __pyx_pybuffernd_ind.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_ind.diminfo[1].shape = __pyx_pybuffernd_ind.rcbuffer->pybuffer.shape[1]; __pyx_pybuffernd_ind.diminfo[2].strides = __pyx_pybuffernd_ind.rcbuffer->pybuffer.strides[2]; __pyx_pybuffernd_ind.diminfo[2].shape = __pyx_pybuffernd_ind.rcbuffer->pybuffer.shape[2]; __pyx_pybuffernd_ind.diminfo[3].strides = __pyx_pybuffernd_ind.rcbuffer->pybuffer.strides[3]; __pyx_pybuffernd_ind.diminfo[3].shape = __pyx_pybuffernd_ind.rcbuffer->pybuffer.shape[3];
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer, (PyObject*)__pyx_v_odf_vertices, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer, (PyObject*)__pyx_v_odf_vertices, &__Pyx_TypeInfo_double, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __pyx_pybuffernd_odf_vertices.diminfo[0].strides = __pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_odf_vertices.diminfo[0].shape = __pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_odf_vertices.diminfo[1].strides = __pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_odf_vertices.diminfo[1].shape = __pyx_pybuffernd_odf_vertices.rcbuffer->pybuffer.shape[1];
 
-  /* "dipy/tracking/propspeed.pyx":367
+  /* "dipy/tracking/propspeed.pyx":429
  *     '''
  *     cdef:
- *         double *ps=<double *>seed.data             # <<<<<<<<<<<<<<
- *         double *pqa=<double*>qa.data
- *         double *pin=<double*>ind.data
+ *         double *ps = <double *> cnp.PyArray_DATA(seed)             # <<<<<<<<<<<<<<
+ *         double *pqa = <double*> cnp.PyArray_DATA(qa)
+ *         double *pin = <double*> cnp.PyArray_DATA(ind)
  */
-  __pyx_v_ps = ((double *)__pyx_v_seed->data);
+  __pyx_v_ps = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_seed)));
 
-  /* "dipy/tracking/propspeed.pyx":368
+  /* "dipy/tracking/propspeed.pyx":430
  *     cdef:
- *         double *ps=<double *>seed.data
- *         double *pqa=<double*>qa.data             # <<<<<<<<<<<<<<
- *         double *pin=<double*>ind.data
- *         double *pverts=<double*>odf_vertices.data
+ *         double *ps = <double *> cnp.PyArray_DATA(seed)
+ *         double *pqa = <double*> cnp.PyArray_DATA(qa)             # <<<<<<<<<<<<<<
+ *         double *pin = <double*> cnp.PyArray_DATA(ind)
+ *         double *pverts = <double*> cnp.PyArray_DATA(odf_vertices)
  */
-  __pyx_v_pqa = ((double *)__pyx_v_qa->data);
+  __pyx_v_pqa = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_qa)));
 
-  /* "dipy/tracking/propspeed.pyx":369
- *         double *ps=<double *>seed.data
- *         double *pqa=<double*>qa.data
- *         double *pin=<double*>ind.data             # <<<<<<<<<<<<<<
- *         double *pverts=<double*>odf_vertices.data
- *         cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides
+  /* "dipy/tracking/propspeed.pyx":431
+ *         double *ps = <double *> cnp.PyArray_DATA(seed)
+ *         double *pqa = <double*> cnp.PyArray_DATA(qa)
+ *         double *pin = <double*> cnp.PyArray_DATA(ind)             # <<<<<<<<<<<<<<
+ *         double *pverts = <double*> cnp.PyArray_DATA(odf_vertices)
+ *         cnp.npy_intp *pstr = <cnp.npy_intp *> qa.strides
  */
-  __pyx_v_pin = ((double *)__pyx_v_ind->data);
+  __pyx_v_pin = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_ind)));
 
-  /* "dipy/tracking/propspeed.pyx":370
- *         double *pqa=<double*>qa.data
- *         double *pin=<double*>ind.data
- *         double *pverts=<double*>odf_vertices.data             # <<<<<<<<<<<<<<
- *         cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides
- *         cnp.npy_intp *qa_shape=<cnp.npy_intp *>qa.shape
+  /* "dipy/tracking/propspeed.pyx":432
+ *         double *pqa = <double*> cnp.PyArray_DATA(qa)
+ *         double *pin = <double*> cnp.PyArray_DATA(ind)
+ *         double *pverts = <double*> cnp.PyArray_DATA(odf_vertices)             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp *pstr = <cnp.npy_intp *> qa.strides
+ *         cnp.npy_intp *qa_shape = <cnp.npy_intp *> qa.shape
  */
-  __pyx_v_pverts = ((double *)__pyx_v_odf_vertices->data);
+  __pyx_v_pverts = ((double *)PyArray_DATA(((PyArrayObject *)__pyx_v_odf_vertices)));
 
-  /* "dipy/tracking/propspeed.pyx":371
- *         double *pin=<double*>ind.data
- *         double *pverts=<double*>odf_vertices.data
- *         cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides             # <<<<<<<<<<<<<<
- *         cnp.npy_intp *qa_shape=<cnp.npy_intp *>qa.shape
- *         cnp.npy_intp *pvstr=<cnp.npy_intp *>odf_vertices.strides
+  /* "dipy/tracking/propspeed.pyx":433
+ *         double *pin = <double*> cnp.PyArray_DATA(ind)
+ *         double *pverts = <double*> cnp.PyArray_DATA(odf_vertices)
+ *         cnp.npy_intp *pstr = <cnp.npy_intp *> qa.strides             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp *qa_shape = <cnp.npy_intp *> qa.shape
+ *         cnp.npy_intp *pvstr = <cnp.npy_intp *> odf_vertices.strides
  */
   __pyx_v_pstr = ((npy_intp *)__pyx_v_qa->strides);
 
-  /* "dipy/tracking/propspeed.pyx":372
- *         double *pverts=<double*>odf_vertices.data
- *         cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides
- *         cnp.npy_intp *qa_shape=<cnp.npy_intp *>qa.shape             # <<<<<<<<<<<<<<
- *         cnp.npy_intp *pvstr=<cnp.npy_intp *>odf_vertices.strides
- *         cnp.npy_intp d,i,j,cnt
+  /* "dipy/tracking/propspeed.pyx":434
+ *         double *pverts = <double*> cnp.PyArray_DATA(odf_vertices)
+ *         cnp.npy_intp *pstr = <cnp.npy_intp *> qa.strides
+ *         cnp.npy_intp *qa_shape = <cnp.npy_intp *> qa.shape             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp *pvstr = <cnp.npy_intp *> odf_vertices.strides
+ *         cnp.npy_intp d, i, j, cnt
  */
   __pyx_v_qa_shape = ((npy_intp *)__pyx_v_qa->dimensions);
 
-  /* "dipy/tracking/propspeed.pyx":373
- *         cnp.npy_intp *pstr=<cnp.npy_intp *>qa.strides
- *         cnp.npy_intp *qa_shape=<cnp.npy_intp *>qa.shape
- *         cnp.npy_intp *pvstr=<cnp.npy_intp *>odf_vertices.strides             # <<<<<<<<<<<<<<
- *         cnp.npy_intp d,i,j,cnt
- *         double direction[3],dx[3],idirection[3],ps2[3],tmp,ftmp
+  /* "dipy/tracking/propspeed.pyx":435
+ *         cnp.npy_intp *pstr = <cnp.npy_intp *> qa.strides
+ *         cnp.npy_intp *qa_shape = <cnp.npy_intp *> qa.shape
+ *         cnp.npy_intp *pvstr = <cnp.npy_intp *> odf_vertices.strides             # <<<<<<<<<<<<<<
+ *         cnp.npy_intp d, i, j, cnt
+ *         double direction[3], dx[3], idirection[3], ps2[3]
  */
   __pyx_v_pvstr = ((npy_intp *)__pyx_v_odf_vertices->strides);
 
-  /* "dipy/tracking/propspeed.pyx":377
- *         double direction[3],dx[3],idirection[3],ps2[3],tmp,ftmp
+  /* "dipy/tracking/propspeed.pyx":439
+ *         double direction[3], dx[3], idirection[3], ps2[3]
+ *         double tmp, ftmp
+ *     if not cnp.PyArray_CHKFLAGS(seed, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"seed is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_seed), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":440
+ *         double tmp, ftmp
+ *     if not cnp.PyArray_CHKFLAGS(seed, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"seed is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"qa is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 440; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 440; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":441
+ *     if not cnp.PyArray_CHKFLAGS(seed, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"seed is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"qa is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_qa), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":442
+ *         raise ValueError(u"seed is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"qa is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"ind is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 442; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 442; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":443
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"qa is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"ind is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_ind), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":444
+ *         raise ValueError(u"qa is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"ind is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"odf_vertices is not C contiguous")
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":445
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"ind is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):             # <<<<<<<<<<<<<<
+ *         raise ValueError(u"odf_vertices is not C contiguous")
  * 
- *     cnt=0             # <<<<<<<<<<<<<<
- *     d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)
- *     if d==0:
+ */
+  __pyx_t_1 = ((!(PyArray_CHKFLAGS(((PyArrayObject *)__pyx_v_odf_vertices), NPY_C_CONTIGUOUS) != 0)) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/propspeed.pyx":446
+ *         raise ValueError(u"ind is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"odf_vertices is not C contiguous")             # <<<<<<<<<<<<<<
+ * 
+ *     cnt = 0
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 446; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 446; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/tracking/propspeed.pyx":448
+ *         raise ValueError(u"odf_vertices is not C contiguous")
+ * 
+ *     cnt = 0             # <<<<<<<<<<<<<<
+ *     d = _initial_direction(ps, pqa, pin, pverts, qa_thr, pstr, ref, idirection)
+ *     if d == 0:
  */
   __pyx_v_cnt = 0;
 
-  /* "dipy/tracking/propspeed.pyx":378
+  /* "dipy/tracking/propspeed.pyx":449
  * 
- *     cnt=0
- *     d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)             # <<<<<<<<<<<<<<
- *     if d==0:
+ *     cnt = 0
+ *     d = _initial_direction(ps, pqa, pin, pverts, qa_thr, pstr, ref, idirection)             # <<<<<<<<<<<<<<
+ *     if d == 0:
  *         return None
  */
   __pyx_v_d = __pyx_f_4dipy_8tracking_9propspeed__initial_direction(__pyx_v_ps, __pyx_v_pqa, __pyx_v_pin, __pyx_v_pverts, __pyx_v_qa_thr, __pyx_v_pstr, __pyx_v_ref, __pyx_v_idirection);
 
-  /* "dipy/tracking/propspeed.pyx":379
- *     cnt=0
- *     d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)
- *     if d==0:             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/propspeed.pyx":450
+ *     cnt = 0
+ *     d = _initial_direction(ps, pqa, pin, pverts, qa_thr, pstr, ref, idirection)
+ *     if d == 0:             # <<<<<<<<<<<<<<
  *         return None
- *     for i from 0<=i<3:
+ *     for i from 0 <= i < 3:
  */
   __pyx_t_1 = ((__pyx_v_d == 0) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/propspeed.pyx":380
- *     d=_initial_direction(ps,pqa,pin,pverts,qa_thr,pstr,ref,idirection)
- *     if d==0:
+    /* "dipy/tracking/propspeed.pyx":451
+ *     d = _initial_direction(ps, pqa, pin, pverts, qa_thr, pstr, ref, idirection)
+ *     if d == 0:
  *         return None             # <<<<<<<<<<<<<<
- *     for i from 0<=i<3:
- *         #store the initial direction
+ *     for i from 0 <= i < 3:
+ *         # store the initial direction
  */
     __Pyx_XDECREF(__pyx_r);
     __Pyx_INCREF(Py_None);
@@ -3295,42 +3498,42 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/propspeed.pyx":381
- *     if d==0:
+  /* "dipy/tracking/propspeed.pyx":452
+ *     if d == 0:
  *         return None
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         #store the initial direction
- *         dx[i]=idirection[i]
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         # store the initial direction
+ *         dx[i] = idirection[i]
  */
   for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-    /* "dipy/tracking/propspeed.pyx":383
- *     for i from 0<=i<3:
- *         #store the initial direction
- *         dx[i]=idirection[i]             # <<<<<<<<<<<<<<
- *         #ps2 is for downwards and ps for upwards propagation
- *         ps2[i]=ps[i]
+    /* "dipy/tracking/propspeed.pyx":454
+ *     for i from 0 <= i < 3:
+ *         # store the initial direction
+ *         dx[i] = idirection[i]             # <<<<<<<<<<<<<<
+ *         # ps2 is for downwards and ps for upwards propagation
+ *         ps2[i] = ps[i]
  */
     (__pyx_v_dx[__pyx_v_i]) = (__pyx_v_idirection[__pyx_v_i]);
 
-    /* "dipy/tracking/propspeed.pyx":385
- *         dx[i]=idirection[i]
- *         #ps2 is for downwards and ps for upwards propagation
- *         ps2[i]=ps[i]             # <<<<<<<<<<<<<<
- *     point=seed.copy()
+    /* "dipy/tracking/propspeed.pyx":456
+ *         dx[i] = idirection[i]
+ *         # ps2 is for downwards and ps for upwards propagation
+ *         ps2[i] = ps[i]             # <<<<<<<<<<<<<<
+ *     point = seed.copy()
  *     track = []
  */
     (__pyx_v_ps2[__pyx_v_i]) = (__pyx_v_ps[__pyx_v_i]);
   }
 
-  /* "dipy/tracking/propspeed.pyx":386
- *         #ps2 is for downwards and ps for upwards propagation
- *         ps2[i]=ps[i]
- *     point=seed.copy()             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/propspeed.pyx":457
+ *         # ps2 is for downwards and ps for upwards propagation
+ *         ps2[i] = ps[i]
+ *     point = seed.copy()             # <<<<<<<<<<<<<<
  *     track = []
  *     track.append(point.copy())
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_seed), __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_seed), __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3343,36 +3546,36 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
     }
   }
   if (__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_point = __pyx_t_2;
   __pyx_t_2 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":387
- *         ps2[i]=ps[i]
- *     point=seed.copy()
+  /* "dipy/tracking/propspeed.pyx":458
+ *         ps2[i] = ps[i]
+ *     point = seed.copy()
  *     track = []             # <<<<<<<<<<<<<<
  *     track.append(point.copy())
- *     #track towards one direction
+ *     # track towards one direction
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_v_track = ((PyObject*)__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":388
- *     point=seed.copy()
+  /* "dipy/tracking/propspeed.pyx":459
+ *     point = seed.copy()
  *     track = []
  *     track.append(point.copy())             # <<<<<<<<<<<<<<
- *     #track towards one direction
+ *     # track towards one direction
  *     while d:
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3385,419 +3588,181 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
     }
   }
   if (__pyx_t_4) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   } else {
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_track, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_track, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":390
+  /* "dipy/tracking/propspeed.pyx":461
  *     track.append(point.copy())
- *     #track towards one direction
+ *     # track towards one direction
  *     while d:             # <<<<<<<<<<<<<<
- *         d= _propagation_direction(ps,dx,pqa,pin,pverts,qa_thr,\
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
+ *         d = _propagation_direction(ps, dx, pqa, pin, pverts, qa_thr, ang_thr,
+ *                                    qa_shape, pstr, direction, total_weight)
  */
   while (1) {
     __pyx_t_1 = (__pyx_v_d != 0);
     if (!__pyx_t_1) break;
 
-    /* "dipy/tracking/propspeed.pyx":391
- *     #track towards one direction
+    /* "dipy/tracking/propspeed.pyx":462
+ *     # track towards one direction
  *     while d:
- *         d= _propagation_direction(ps,dx,pqa,pin,pverts,qa_thr,\             # <<<<<<<<<<<<<<
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:
+ *         d = _propagation_direction(ps, dx, pqa, pin, pverts, qa_thr, ang_thr,             # <<<<<<<<<<<<<<
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:
  */
     __pyx_v_d = __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(__pyx_v_ps, __pyx_v_dx, __pyx_v_pqa, __pyx_v_pin, __pyx_v_pverts, __pyx_v_qa_thr, __pyx_v_ang_thr, __pyx_v_qa_shape, __pyx_v_pstr, __pyx_v_direction, __pyx_v_total_weight);
 
-    /* "dipy/tracking/propspeed.pyx":393
- *         d= _propagation_direction(ps,dx,pqa,pin,pverts,qa_thr,\
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/propspeed.pyx":464
+ *         d = _propagation_direction(ps, dx, pqa, pin, pverts, qa_thr, ang_thr,
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:             # <<<<<<<<<<<<<<
  *             break
- *         if cnt>max_points:
+ *         if cnt > max_points:
  */
     __pyx_t_1 = ((__pyx_v_d == 0) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":394
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:
+      /* "dipy/tracking/propspeed.pyx":465
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:
  *             break             # <<<<<<<<<<<<<<
- *         if cnt>max_points:
+ *         if cnt > max_points:
  *             break
  */
-      goto __pyx_L7_break;
+      goto __pyx_L11_break;
     }
 
-    /* "dipy/tracking/propspeed.pyx":395
- *         if d==0:
+    /* "dipy/tracking/propspeed.pyx":466
+ *         if d == 0:
  *             break
- *         if cnt>max_points:             # <<<<<<<<<<<<<<
+ *         if cnt > max_points:             # <<<<<<<<<<<<<<
  *             break
- *         #update the track
+ *         # update the track
  */
     __pyx_t_1 = ((__pyx_v_cnt > __pyx_v_max_points) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":396
+      /* "dipy/tracking/propspeed.pyx":467
  *             break
- *         if cnt>max_points:
+ *         if cnt > max_points:
  *             break             # <<<<<<<<<<<<<<
- *         #update the track
- *         for i from 0<=i<3:
+ *         # update the track
+ *         for i from 0 <= i < 3:
  */
-      goto __pyx_L7_break;
+      goto __pyx_L11_break;
     }
 
-    /* "dipy/tracking/propspeed.pyx":398
+    /* "dipy/tracking/propspeed.pyx":469
  *             break
- *         #update the track
- *         for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *             dx[i]=direction[i]
- *             #check for boundaries
+ *         # update the track
+ *         for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *             dx[i] = direction[i]
+ *             # check for boundaries
  */
     for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
 
-      /* "dipy/tracking/propspeed.pyx":399
- *         #update the track
- *         for i from 0<=i<3:
- *             dx[i]=direction[i]             # <<<<<<<<<<<<<<
- *             #check for boundaries
- *             tmp=ps[i]+step_sz*dx[i]
+      /* "dipy/tracking/propspeed.pyx":470
+ *         # update the track
+ *         for i from 0 <= i < 3:
+ *             dx[i] = direction[i]             # <<<<<<<<<<<<<<
+ *             # check for boundaries
+ *             tmp = ps[i] + step_sz * dx[i]
  */
       (__pyx_v_dx[__pyx_v_i]) = (__pyx_v_direction[__pyx_v_i]);
 
-      /* "dipy/tracking/propspeed.pyx":401
- *             dx[i]=direction[i]
- *             #check for boundaries
- *             tmp=ps[i]+step_sz*dx[i]             # <<<<<<<<<<<<<<
- *             #ftmp=floor(tmp+.5)
- *             if ftmp > qa_shape[i]-1 or tmp < 0.:
+      /* "dipy/tracking/propspeed.pyx":472
+ *             dx[i] = direction[i]
+ *             # check for boundaries
+ *             tmp = ps[i] + step_sz * dx[i]             # <<<<<<<<<<<<<<
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0
  */
       __pyx_v_tmp = ((__pyx_v_ps[__pyx_v_i]) + (__pyx_v_step_sz * (__pyx_v_dx[__pyx_v_i])));
 
-      /* "dipy/tracking/propspeed.pyx":403
- *             tmp=ps[i]+step_sz*dx[i]
- *             #ftmp=floor(tmp+.5)
- *             if ftmp > qa_shape[i]-1 or tmp < 0.:             # <<<<<<<<<<<<<<
- *                  d=0
- *                  break
- */
-      __pyx_t_6 = ((__pyx_v_ftmp > ((__pyx_v_qa_shape[__pyx_v_i]) - 1)) != 0);
-      if (!__pyx_t_6) {
-      } else {
-        __pyx_t_1 = __pyx_t_6;
-        goto __pyx_L13_bool_binop_done;
-      }
-      __pyx_t_6 = ((__pyx_v_tmp < 0.) != 0);
-      __pyx_t_1 = __pyx_t_6;
-      __pyx_L13_bool_binop_done:;
-      if (__pyx_t_1) {
-
-        /* "dipy/tracking/propspeed.pyx":404
- *             #ftmp=floor(tmp+.5)
- *             if ftmp > qa_shape[i]-1 or tmp < 0.:
- *                  d=0             # <<<<<<<<<<<<<<
- *                  break
- *             #propagate
- */
-        __pyx_v_d = 0;
-
-        /* "dipy/tracking/propspeed.pyx":405
- *             if ftmp > qa_shape[i]-1 or tmp < 0.:
- *                  d=0
- *                  break             # <<<<<<<<<<<<<<
- *             #propagate
- *             ps[i]=tmp
- */
-        goto __pyx_L11_break;
-      }
-
-      /* "dipy/tracking/propspeed.pyx":407
- *                  break
- *             #propagate
- *             ps[i]=tmp             # <<<<<<<<<<<<<<
- *             point[i]=ps[i]
- *         #print('point up',point)
- */
-      (__pyx_v_ps[__pyx_v_i]) = __pyx_v_tmp;
-
-      /* "dipy/tracking/propspeed.pyx":408
- *             #propagate
- *             ps[i]=tmp
- *             point[i]=ps[i]             # <<<<<<<<<<<<<<
- *         #print('point up',point)
- * 
- */
-      __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ps[__pyx_v_i])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 408; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_point, __pyx_v_i, __pyx_t_2, npy_intp, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 1, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 408; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    }
-    __pyx_L11_break:;
-
-    /* "dipy/tracking/propspeed.pyx":411
- *         #print('point up',point)
- * 
- *         if d==1:             # <<<<<<<<<<<<<<
- *             track.append(point.copy())
- *             cnt+=1
- */
-    __pyx_t_1 = ((__pyx_v_d == 1) != 0);
-    if (__pyx_t_1) {
-
-      /* "dipy/tracking/propspeed.pyx":412
- * 
- *         if d==1:
- *             track.append(point.copy())             # <<<<<<<<<<<<<<
- *             cnt+=1
- *     d=1
- */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-        if (likely(__pyx_t_4)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-          __Pyx_INCREF(__pyx_t_4);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_3, function);
-        }
-      }
-      if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_track, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 412; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-      /* "dipy/tracking/propspeed.pyx":413
- *         if d==1:
- *             track.append(point.copy())
- *             cnt+=1             # <<<<<<<<<<<<<<
- *     d=1
- *     for i from 0<=i<3:
- */
-      __pyx_v_cnt = (__pyx_v_cnt + 1);
-      goto __pyx_L15;
-    }
-    __pyx_L15:;
-  }
-  __pyx_L7_break:;
-
-  /* "dipy/tracking/propspeed.pyx":414
- *             track.append(point.copy())
- *             cnt+=1
- *     d=1             # <<<<<<<<<<<<<<
- *     for i from 0<=i<3:
- *         dx[i]=-idirection[i]
- */
-  __pyx_v_d = 1;
-
-  /* "dipy/tracking/propspeed.pyx":415
- *             cnt+=1
- *     d=1
- *     for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *         dx[i]=-idirection[i]
- * 
- */
-  for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
-
-    /* "dipy/tracking/propspeed.pyx":416
- *     d=1
- *     for i from 0<=i<3:
- *         dx[i]=-idirection[i]             # <<<<<<<<<<<<<<
- * 
- *     cnt=0
- */
-    (__pyx_v_dx[__pyx_v_i]) = (-(__pyx_v_idirection[__pyx_v_i]));
-  }
-
-  /* "dipy/tracking/propspeed.pyx":418
- *         dx[i]=-idirection[i]
- * 
- *     cnt=0             # <<<<<<<<<<<<<<
- *     #track towards the opposite direction
- *     while d:
- */
-  __pyx_v_cnt = 0;
-
-  /* "dipy/tracking/propspeed.pyx":420
- *     cnt=0
- *     #track towards the opposite direction
- *     while d:             # <<<<<<<<<<<<<<
- *         d= _propagation_direction(ps2,dx,pqa,pin,pverts,qa_thr,\
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- */
-  while (1) {
-    __pyx_t_1 = (__pyx_v_d != 0);
-    if (!__pyx_t_1) break;
-
-    /* "dipy/tracking/propspeed.pyx":421
- *     #track towards the opposite direction
- *     while d:
- *         d= _propagation_direction(ps2,dx,pqa,pin,pverts,qa_thr,\             # <<<<<<<<<<<<<<
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:
- */
-    __pyx_v_d = __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(__pyx_v_ps2, __pyx_v_dx, __pyx_v_pqa, __pyx_v_pin, __pyx_v_pverts, __pyx_v_qa_thr, __pyx_v_ang_thr, __pyx_v_qa_shape, __pyx_v_pstr, __pyx_v_direction, __pyx_v_total_weight);
-
-    /* "dipy/tracking/propspeed.pyx":423
- *         d= _propagation_direction(ps2,dx,pqa,pin,pverts,qa_thr,\
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:             # <<<<<<<<<<<<<<
- *             break
- *         if cnt>max_points:
- */
-    __pyx_t_1 = ((__pyx_v_d == 0) != 0);
-    if (__pyx_t_1) {
-
-      /* "dipy/tracking/propspeed.pyx":424
- *                                    ang_thr,qa_shape,pstr,direction,total_weight)
- *         if d==0:
- *             break             # <<<<<<<<<<<<<<
- *         if cnt>max_points:
- *             break
- */
-      goto __pyx_L19_break;
-    }
-
-    /* "dipy/tracking/propspeed.pyx":425
- *         if d==0:
- *             break
- *         if cnt>max_points:             # <<<<<<<<<<<<<<
- *             break
- *         #update the track
- */
-    __pyx_t_1 = ((__pyx_v_cnt > __pyx_v_max_points) != 0);
-    if (__pyx_t_1) {
-
-      /* "dipy/tracking/propspeed.pyx":426
- *             break
- *         if cnt>max_points:
- *             break             # <<<<<<<<<<<<<<
- *         #update the track
- *         for i from 0<=i<3:
- */
-      goto __pyx_L19_break;
-    }
-
-    /* "dipy/tracking/propspeed.pyx":428
- *             break
- *         #update the track
- *         for i from 0<=i<3:             # <<<<<<<<<<<<<<
- *             dx[i]=direction[i]
- *             #check for boundaries
- */
-    for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
-
-      /* "dipy/tracking/propspeed.pyx":429
- *         #update the track
- *         for i from 0<=i<3:
- *             dx[i]=direction[i]             # <<<<<<<<<<<<<<
- *             #check for boundaries
- *             tmp=ps2[i]+step_sz*dx[i]
- */
-      (__pyx_v_dx[__pyx_v_i]) = (__pyx_v_direction[__pyx_v_i]);
-
-      /* "dipy/tracking/propspeed.pyx":431
- *             dx[i]=direction[i]
- *             #check for boundaries
- *             tmp=ps2[i]+step_sz*dx[i]             # <<<<<<<<<<<<<<
- *             #ftmp=floor(tmp+.5)
- *             if tmp > qa_shape[i]-1 or tmp < 0.:
- */
-      __pyx_v_tmp = ((__pyx_v_ps2[__pyx_v_i]) + (__pyx_v_step_sz * (__pyx_v_dx[__pyx_v_i])));
-
-      /* "dipy/tracking/propspeed.pyx":433
- *             tmp=ps2[i]+step_sz*dx[i]
- *             #ftmp=floor(tmp+.5)
- *             if tmp > qa_shape[i]-1 or tmp < 0.:             # <<<<<<<<<<<<<<
- *                  d=0
+      /* "dipy/tracking/propspeed.pyx":473
+ *             # check for boundaries
+ *             tmp = ps[i] + step_sz * dx[i]
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:             # <<<<<<<<<<<<<<
+ *                  d = 0
  *                  break
  */
       __pyx_t_6 = ((__pyx_v_tmp > ((__pyx_v_qa_shape[__pyx_v_i]) - 1)) != 0);
       if (!__pyx_t_6) {
       } else {
         __pyx_t_1 = __pyx_t_6;
-        goto __pyx_L25_bool_binop_done;
+        goto __pyx_L17_bool_binop_done;
       }
       __pyx_t_6 = ((__pyx_v_tmp < 0.) != 0);
       __pyx_t_1 = __pyx_t_6;
-      __pyx_L25_bool_binop_done:;
+      __pyx_L17_bool_binop_done:;
       if (__pyx_t_1) {
 
-        /* "dipy/tracking/propspeed.pyx":434
- *             #ftmp=floor(tmp+.5)
- *             if tmp > qa_shape[i]-1 or tmp < 0.:
- *                  d=0             # <<<<<<<<<<<<<<
+        /* "dipy/tracking/propspeed.pyx":474
+ *             tmp = ps[i] + step_sz * dx[i]
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0             # <<<<<<<<<<<<<<
  *                  break
- *             #propagate
+ *             # propagate
  */
         __pyx_v_d = 0;
 
-        /* "dipy/tracking/propspeed.pyx":435
- *             if tmp > qa_shape[i]-1 or tmp < 0.:
- *                  d=0
+        /* "dipy/tracking/propspeed.pyx":475
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0
  *                  break             # <<<<<<<<<<<<<<
- *             #propagate
- *             ps2[i]=tmp
+ *             # propagate
+ *             ps[i] = tmp
  */
-        goto __pyx_L23_break;
+        goto __pyx_L15_break;
       }
 
-      /* "dipy/tracking/propspeed.pyx":437
+      /* "dipy/tracking/propspeed.pyx":477
  *                  break
- *             #propagate
- *             ps2[i]=tmp             # <<<<<<<<<<<<<<
- *             point[i]=ps2[i] #to be changed
- *         #add track point
+ *             # propagate
+ *             ps[i] = tmp             # <<<<<<<<<<<<<<
+ *             point[i] = ps[i]
+ * 
  */
-      (__pyx_v_ps2[__pyx_v_i]) = __pyx_v_tmp;
+      (__pyx_v_ps[__pyx_v_i]) = __pyx_v_tmp;
 
-      /* "dipy/tracking/propspeed.pyx":438
- *             #propagate
- *             ps2[i]=tmp
- *             point[i]=ps2[i] #to be changed             # <<<<<<<<<<<<<<
- *         #add track point
- *         if d==1:
+      /* "dipy/tracking/propspeed.pyx":478
+ *             # propagate
+ *             ps[i] = tmp
+ *             point[i] = ps[i]             # <<<<<<<<<<<<<<
+ * 
+ *         if d == 1:
  */
-      __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ps2[__pyx_v_i])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ps[__pyx_v_i])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 478; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      if (unlikely(__Pyx_SetItemInt(__pyx_v_point, __pyx_v_i, __pyx_t_2, npy_intp, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 1, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_point, __pyx_v_i, __pyx_t_2, npy_intp, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 1, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 478; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
-    __pyx_L23_break:;
+    __pyx_L15_break:;
 
-    /* "dipy/tracking/propspeed.pyx":440
- *             point[i]=ps2[i] #to be changed
- *         #add track point
- *         if d==1:             # <<<<<<<<<<<<<<
- *             track.insert(0,point.copy())
- *             cnt+=1
+    /* "dipy/tracking/propspeed.pyx":480
+ *             point[i] = ps[i]
+ * 
+ *         if d == 1:             # <<<<<<<<<<<<<<
+ *             track.append(point.copy())
+ *             cnt += 1
  */
     __pyx_t_1 = ((__pyx_v_d == 1) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/propspeed.pyx":441
- *         #add track point
- *         if d==1:
- *             track.insert(0,point.copy())             # <<<<<<<<<<<<<<
- *             cnt+=1
- *     #prepare to return final track for the current seed
+      /* "dipy/tracking/propspeed.pyx":481
+ * 
+ *         if d == 1:
+ *             track.append(point.copy())             # <<<<<<<<<<<<<<
+ *             cnt += 1
+ *     d = 1
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 441; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -3810,57 +3775,295 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
         }
       }
       if (__pyx_t_4) {
-        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 441; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       } else {
-        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 441; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_5 = PyList_Insert(__pyx_v_track, 0, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 441; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyList_Append(__pyx_v_track, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "dipy/tracking/propspeed.pyx":442
- *         if d==1:
- *             track.insert(0,point.copy())
- *             cnt+=1             # <<<<<<<<<<<<<<
- *     #prepare to return final track for the current seed
- *     tmp_track=np.array(track,dtype=np.float32)
+      /* "dipy/tracking/propspeed.pyx":482
+ *         if d == 1:
+ *             track.append(point.copy())
+ *             cnt += 1             # <<<<<<<<<<<<<<
+ *     d = 1
+ *     for i from 0 <= i < 3:
  */
       __pyx_v_cnt = (__pyx_v_cnt + 1);
-      goto __pyx_L27;
+      goto __pyx_L19;
     }
-    __pyx_L27:;
+    __pyx_L19:;
   }
-  __pyx_L19_break:;
+  __pyx_L11_break:;
 
-  /* "dipy/tracking/propspeed.pyx":444
- *             cnt+=1
- *     #prepare to return final track for the current seed
- *     tmp_track=np.array(track,dtype=np.float32)             # <<<<<<<<<<<<<<
- * 
- *     #some times one of the ends takes small negative values
+  /* "dipy/tracking/propspeed.pyx":483
+ *             track.append(point.copy())
+ *             cnt += 1
+ *     d = 1             # <<<<<<<<<<<<<<
+ *     for i from 0 <= i < 3:
+ *         dx[i] = -idirection[i]
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_d = 1;
+
+  /* "dipy/tracking/propspeed.pyx":484
+ *             cnt += 1
+ *     d = 1
+ *     for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *         dx[i] = -idirection[i]
+ * 
+ */
+  for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
+
+    /* "dipy/tracking/propspeed.pyx":485
+ *     d = 1
+ *     for i from 0 <= i < 3:
+ *         dx[i] = -idirection[i]             # <<<<<<<<<<<<<<
+ * 
+ *     cnt = 0
+ */
+    (__pyx_v_dx[__pyx_v_i]) = (-(__pyx_v_idirection[__pyx_v_i]));
+  }
+
+  /* "dipy/tracking/propspeed.pyx":487
+ *         dx[i] = -idirection[i]
+ * 
+ *     cnt = 0             # <<<<<<<<<<<<<<
+ *     # track towards the opposite direction
+ *     while d:
+ */
+  __pyx_v_cnt = 0;
+
+  /* "dipy/tracking/propspeed.pyx":489
+ *     cnt = 0
+ *     # track towards the opposite direction
+ *     while d:             # <<<<<<<<<<<<<<
+ *         d = _propagation_direction(ps2, dx, pqa, pin, pverts, qa_thr, ang_thr,
+ *                                    qa_shape, pstr, direction, total_weight)
+ */
+  while (1) {
+    __pyx_t_1 = (__pyx_v_d != 0);
+    if (!__pyx_t_1) break;
+
+    /* "dipy/tracking/propspeed.pyx":490
+ *     # track towards the opposite direction
+ *     while d:
+ *         d = _propagation_direction(ps2, dx, pqa, pin, pverts, qa_thr, ang_thr,             # <<<<<<<<<<<<<<
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:
+ */
+    __pyx_v_d = __pyx_f_4dipy_8tracking_9propspeed__propagation_direction(__pyx_v_ps2, __pyx_v_dx, __pyx_v_pqa, __pyx_v_pin, __pyx_v_pverts, __pyx_v_qa_thr, __pyx_v_ang_thr, __pyx_v_qa_shape, __pyx_v_pstr, __pyx_v_direction, __pyx_v_total_weight);
+
+    /* "dipy/tracking/propspeed.pyx":492
+ *         d = _propagation_direction(ps2, dx, pqa, pin, pverts, qa_thr, ang_thr,
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:             # <<<<<<<<<<<<<<
+ *             break
+ *         if cnt > max_points:
+ */
+    __pyx_t_1 = ((__pyx_v_d == 0) != 0);
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/propspeed.pyx":493
+ *                                    qa_shape, pstr, direction, total_weight)
+ *         if d == 0:
+ *             break             # <<<<<<<<<<<<<<
+ *         if cnt > max_points:
+ *             break
+ */
+      goto __pyx_L23_break;
+    }
+
+    /* "dipy/tracking/propspeed.pyx":494
+ *         if d == 0:
+ *             break
+ *         if cnt > max_points:             # <<<<<<<<<<<<<<
+ *             break
+ *         # update the track
+ */
+    __pyx_t_1 = ((__pyx_v_cnt > __pyx_v_max_points) != 0);
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/propspeed.pyx":495
+ *             break
+ *         if cnt > max_points:
+ *             break             # <<<<<<<<<<<<<<
+ *         # update the track
+ *         for i from 0 <= i < 3:
+ */
+      goto __pyx_L23_break;
+    }
+
+    /* "dipy/tracking/propspeed.pyx":497
+ *             break
+ *         # update the track
+ *         for i from 0 <= i < 3:             # <<<<<<<<<<<<<<
+ *             dx[i] = direction[i]
+ *             # check for boundaries
+ */
+    for (__pyx_v_i = 0; __pyx_v_i < 3; __pyx_v_i++) {
+
+      /* "dipy/tracking/propspeed.pyx":498
+ *         # update the track
+ *         for i from 0 <= i < 3:
+ *             dx[i] = direction[i]             # <<<<<<<<<<<<<<
+ *             # check for boundaries
+ *             tmp=ps2[i] + step_sz*dx[i]
+ */
+      (__pyx_v_dx[__pyx_v_i]) = (__pyx_v_direction[__pyx_v_i]);
+
+      /* "dipy/tracking/propspeed.pyx":500
+ *             dx[i] = direction[i]
+ *             # check for boundaries
+ *             tmp=ps2[i] + step_sz*dx[i]             # <<<<<<<<<<<<<<
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0
+ */
+      __pyx_v_tmp = ((__pyx_v_ps2[__pyx_v_i]) + (__pyx_v_step_sz * (__pyx_v_dx[__pyx_v_i])));
+
+      /* "dipy/tracking/propspeed.pyx":501
+ *             # check for boundaries
+ *             tmp=ps2[i] + step_sz*dx[i]
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:             # <<<<<<<<<<<<<<
+ *                  d = 0
+ *                  break
+ */
+      __pyx_t_6 = ((__pyx_v_tmp > ((__pyx_v_qa_shape[__pyx_v_i]) - 1)) != 0);
+      if (!__pyx_t_6) {
+      } else {
+        __pyx_t_1 = __pyx_t_6;
+        goto __pyx_L29_bool_binop_done;
+      }
+      __pyx_t_6 = ((__pyx_v_tmp < 0.) != 0);
+      __pyx_t_1 = __pyx_t_6;
+      __pyx_L29_bool_binop_done:;
+      if (__pyx_t_1) {
+
+        /* "dipy/tracking/propspeed.pyx":502
+ *             tmp=ps2[i] + step_sz*dx[i]
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0             # <<<<<<<<<<<<<<
+ *                  break
+ *             # propagate
+ */
+        __pyx_v_d = 0;
+
+        /* "dipy/tracking/propspeed.pyx":503
+ *             if tmp > qa_shape[i] - 1 or tmp < 0.:
+ *                  d = 0
+ *                  break             # <<<<<<<<<<<<<<
+ *             # propagate
+ *             ps2[i] = tmp
+ */
+        goto __pyx_L27_break;
+      }
+
+      /* "dipy/tracking/propspeed.pyx":505
+ *                  break
+ *             # propagate
+ *             ps2[i] = tmp             # <<<<<<<<<<<<<<
+ *             point[i] = ps2[i] # to be changed
+ *         # add track point
+ */
+      (__pyx_v_ps2[__pyx_v_i]) = __pyx_v_tmp;
+
+      /* "dipy/tracking/propspeed.pyx":506
+ *             # propagate
+ *             ps2[i] = tmp
+ *             point[i] = ps2[i] # to be changed             # <<<<<<<<<<<<<<
+ *         # add track point
+ *         if d == 1:
+ */
+      __pyx_t_2 = PyFloat_FromDouble((__pyx_v_ps2[__pyx_v_i])); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_2);
+      if (unlikely(__Pyx_SetItemInt(__pyx_v_point, __pyx_v_i, __pyx_t_2, npy_intp, 1, __Pyx_PyInt_From_Py_intptr_t, 0, 1, 1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+    __pyx_L27_break:;
+
+    /* "dipy/tracking/propspeed.pyx":508
+ *             point[i] = ps2[i] # to be changed
+ *         # add track point
+ *         if d == 1:             # <<<<<<<<<<<<<<
+ *             track.insert(0, point.copy())
+ *             cnt += 1
+ */
+    __pyx_t_1 = ((__pyx_v_d == 1) != 0);
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/propspeed.pyx":509
+ *         # add track point
+ *         if d == 1:
+ *             track.insert(0, point.copy())             # <<<<<<<<<<<<<<
+ *             cnt += 1
+ *     # prepare to return final track for the current seed
+ */
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_point, __pyx_n_s_copy); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_4 = NULL;
+      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+          __Pyx_INCREF(__pyx_t_4);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_3, function);
+        }
+      }
+      if (__pyx_t_4) {
+        __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      } else {
+        __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      }
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __pyx_t_5 = PyList_Insert(__pyx_v_track, 0, __pyx_t_2); if (unlikely(__pyx_t_5 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+      /* "dipy/tracking/propspeed.pyx":510
+ *         if d == 1:
+ *             track.insert(0, point.copy())
+ *             cnt += 1             # <<<<<<<<<<<<<<
+ *     # prepare to return final track for the current seed
+ *     tmp_track = np.array(track, dtype=np.float32)
+ */
+      __pyx_v_cnt = (__pyx_v_cnt + 1);
+      goto __pyx_L31;
+    }
+    __pyx_L31:;
+  }
+  __pyx_L23_break:;
+
+  /* "dipy/tracking/propspeed.pyx":512
+ *             cnt += 1
+ *     # prepare to return final track for the current seed
+ *     tmp_track = np.array(track, dtype=np.float32)             # <<<<<<<<<<<<<<
+ * 
+ *     # Sometimes one of the ends takes small negative values; needs to be
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_v_track);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_track);
   __Pyx_GIVEREF(__pyx_v_track);
-  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 512; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3868,24 +4071,22 @@ static PyObject *__pyx_pf_4dipy_8tracking_9propspeed_4eudx_both_directions(CYTHO
   __pyx_v_tmp_track = __pyx_t_8;
   __pyx_t_8 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":450
+  /* "dipy/tracking/propspeed.pyx":518
  * 
- *     #return track for the current seed point and ref
+ *     # Return track for the current seed point and ref
  *     return tmp_track             # <<<<<<<<<<<<<<
- * 
- * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_tmp_track);
   __pyx_r = __pyx_v_tmp_track;
   goto __pyx_L0;
 
-  /* "dipy/tracking/propspeed.pyx":345
+  /* "dipy/tracking/propspeed.pyx":393
  * 
  * 
- * def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\             # <<<<<<<<<<<<<<
- *                     cnp.npy_intp ref,\
- *                     cnp.ndarray[double,ndim=4] qa,\
+ * def eudx_both_directions(cnp.ndarray[double, ndim=1] seed,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp ref,
+ *                          cnp.ndarray[double, ndim=4] qa,
  */
 
   /* function exit code */
@@ -4075,7 +4276,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4115,7 +4316,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4392,7 +4593,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5200,7 +5401,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5252,7 +5453,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5353,7 +5554,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5940,6 +6141,7 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_kp_u_Find_offset_in_an_N_dimensional, __pyx_k_Find_offset_in_an_N_dimensional, sizeof(__pyx_k_Find_offset_in_an_N_dimensional), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor, __pyx_k_Format_string_allocated_too_shor, sizeof(__pyx_k_Format_string_allocated_too_shor), 0, 1, 0, 0},
   {&__pyx_kp_u_Format_string_allocated_too_shor_2, __pyx_k_Format_string_allocated_too_shor_2, sizeof(__pyx_k_Format_string_allocated_too_shor_2), 0, 1, 0, 0},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
@@ -5951,14 +6153,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
   {&__pyx_n_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
+  {&__pyx_kp_u_data_is_not_C_contiguous, __pyx_k_data_is_not_C_contiguous, sizeof(__pyx_k_data_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_data_strides, __pyx_k_data_strides, sizeof(__pyx_k_data_strides), 0, 0, 1, 1},
+  {&__pyx_kp_u_data_strides_is_not_C_contiguous, __pyx_k_data_strides_is_not_C_contiguous, sizeof(__pyx_k_data_strides_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_dipy_tracking_propspeed, __pyx_k_dipy_tracking_propspeed, sizeof(__pyx_k_dipy_tracking_propspeed), 0, 0, 1, 1},
   {&__pyx_n_s_direction, __pyx_k_direction, sizeof(__pyx_k_direction), 0, 0, 1, 1},
   {&__pyx_n_s_ds, __pyx_k_ds, sizeof(__pyx_k_ds), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_dx, __pyx_k_dx, sizeof(__pyx_k_dx), 0, 0, 1, 1},
   {&__pyx_n_s_eudx_both_directions, __pyx_k_eudx_both_directions, sizeof(__pyx_k_eudx_both_directions), 0, 0, 1, 1},
-  {&__pyx_kp_u_find_offset_in_an_ndarray_using, __pyx_k_find_offset_in_an_ndarray_using, sizeof(__pyx_k_find_offset_in_an_ndarray_using), 0, 1, 0, 0},
   {&__pyx_n_s_float32, __pyx_k_float32, sizeof(__pyx_k_float32), 0, 0, 1, 1},
   {&__pyx_n_s_ftmp, __pyx_k_ftmp, sizeof(__pyx_k_ftmp), 0, 0, 1, 1},
   {&__pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_k_home_yoh_proj_nipy_nipy_suite_d, sizeof(__pyx_k_home_yoh_proj_nipy_nipy_suite_d), 0, 0, 1, 0},
@@ -5966,8 +6169,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_idirection, __pyx_k_idirection, sizeof(__pyx_k_idirection), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_ind, __pyx_k_ind, sizeof(__pyx_k_ind), 0, 0, 1, 1},
+  {&__pyx_kp_u_ind_is_not_C_contiguous, __pyx_k_ind_is_not_C_contiguous, sizeof(__pyx_k_ind_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_index, __pyx_k_index, sizeof(__pyx_k_index), 0, 0, 1, 1},
   {&__pyx_n_s_indices, __pyx_k_indices, sizeof(__pyx_k_indices), 0, 0, 1, 1},
+  {&__pyx_kp_u_indices_is_not_C_contiguous, __pyx_k_indices_is_not_C_contiguous, sizeof(__pyx_k_indices_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
   {&__pyx_n_s_len_points, __pyx_k_len_points, sizeof(__pyx_k_len_points), 0, 0, 1, 1},
   {&__pyx_n_s_lenind, __pyx_k_lenind, sizeof(__pyx_k_lenind), 0, 0, 1, 1},
@@ -5977,14 +6182,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_ndarray_is_not_C_contiguous, __pyx_k_ndarray_is_not_C_contiguous, sizeof(__pyx_k_ndarray_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_ndarray_offset, __pyx_k_ndarray_offset, sizeof(__pyx_k_ndarray_offset), 0, 0, 1, 1},
-  {&__pyx_kp_u_ndarray_offset_line_63, __pyx_k_ndarray_offset_line_63, sizeof(__pyx_k_ndarray_offset_line_63), 0, 1, 0, 0},
+  {&__pyx_kp_u_ndarray_offset_line_57, __pyx_k_ndarray_offset_line_57, sizeof(__pyx_k_ndarray_offset_line_57), 0, 1, 0, 0},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_odf_vertices, __pyx_k_odf_vertices, sizeof(__pyx_k_odf_vertices), 0, 0, 1, 1},
+  {&__pyx_kp_u_odf_vertices_is_not_C_contiguous, __pyx_k_odf_vertices_is_not_C_contiguous, sizeof(__pyx_k_odf_vertices_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_off, __pyx_k_off, sizeof(__pyx_k_off), 0, 0, 1, 1},
   {&__pyx_n_s_pin, __pyx_k_pin, sizeof(__pyx_k_pin), 0, 0, 1, 1},
   {&__pyx_n_s_point, __pyx_k_point, sizeof(__pyx_k_point), 0, 0, 1, 1},
   {&__pyx_n_s_points, __pyx_k_points, sizeof(__pyx_k_points), 0, 0, 1, 1},
+  {&__pyx_kp_u_points_is_not_C_contiguous, __pyx_k_points_is_not_C_contiguous, sizeof(__pyx_k_points_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_pqa, __pyx_k_pqa, sizeof(__pyx_k_pqa), 0, 0, 1, 1},
   {&__pyx_n_s_ps, __pyx_k_ps, sizeof(__pyx_k_ps), 0, 0, 1, 1},
   {&__pyx_n_s_ps2, __pyx_k_ps2, sizeof(__pyx_k_ps2), 0, 0, 1, 1},
@@ -5992,15 +6199,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pverts, __pyx_k_pverts, sizeof(__pyx_k_pverts), 0, 0, 1, 1},
   {&__pyx_n_s_pvstr, __pyx_k_pvstr, sizeof(__pyx_k_pvstr), 0, 0, 1, 1},
   {&__pyx_n_s_qa, __pyx_k_qa, sizeof(__pyx_k_qa), 0, 0, 1, 1},
+  {&__pyx_kp_u_qa_is_not_C_contiguous, __pyx_k_qa_is_not_C_contiguous, sizeof(__pyx_k_qa_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_qa_shape, __pyx_k_qa_shape, sizeof(__pyx_k_qa_shape), 0, 0, 1, 1},
   {&__pyx_n_s_qa_thr, __pyx_k_qa_thr, sizeof(__pyx_k_qa_thr), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_ref, __pyx_k_ref, sizeof(__pyx_k_ref), 0, 0, 1, 1},
   {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
+  {&__pyx_kp_u_result_is_not_C_contiguous, __pyx_k_result_is_not_C_contiguous, sizeof(__pyx_k_result_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_rs, __pyx_k_rs, sizeof(__pyx_k_rs), 0, 0, 1, 1},
   {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
+  {&__pyx_kp_u_seed_is_not_C_contiguous, __pyx_k_seed_is_not_C_contiguous, sizeof(__pyx_k_seed_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_step_sz, __pyx_k_step_sz, sizeof(__pyx_k_step_sz), 0, 0, 1, 1},
   {&__pyx_n_s_strides, __pyx_k_strides, sizeof(__pyx_k_strides), 0, 0, 1, 1},
+  {&__pyx_kp_u_strides_is_not_C_contiguous, __pyx_k_strides_is_not_C_contiguous, sizeof(__pyx_k_strides_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_tmp, __pyx_k_tmp, sizeof(__pyx_k_tmp), 0, 0, 1, 1},
   {&__pyx_n_s_tmp_track, __pyx_k_tmp_track, sizeof(__pyx_k_tmp_track), 0, 0, 1, 1},
@@ -6015,8 +6226,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 150; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -6027,6 +6238,116 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
+  /* "dipy/tracking/propspeed.pyx":92
+ *     '''
+ *     if not cnp.PyArray_CHKFLAGS(indices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"indices is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"strides is not C contiguous")
+ */
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_indices_is_not_C_contiguous); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "dipy/tracking/propspeed.pyx":94
+ *         raise ValueError(u"indices is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"strides is not C contiguous")             # <<<<<<<<<<<<<<
+ *     return offset(<cnp.npy_intp*> cnp.PyArray_DATA(indices),
+ *                   <cnp.npy_intp*> cnp.PyArray_DATA(strides),
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_strides_is_not_C_contiguous); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "dipy/tracking/propspeed.pyx":142
+ * 
+ *     if not cnp.PyArray_CHKFLAGS(data, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"points is not C contiguous")
+ */
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_data_is_not_C_contiguous); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
+
+  /* "dipy/tracking/propspeed.pyx":144
+ *         raise ValueError(u"data is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(points, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"points is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data_strides is not C contiguous")
+ */
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_points_is_not_C_contiguous); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "dipy/tracking/propspeed.pyx":146
+ *         raise ValueError(u"points is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(data_strides, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"data_strides is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")
+ */
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_data_strides_is_not_C_contiguous); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
+
+  /* "dipy/tracking/propspeed.pyx":148
+ *         raise ValueError(u"data_strides is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(result, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"result is not C contiguous")             # <<<<<<<<<<<<<<
+ *     with nogil:
+ *         for i in range(len_points):
+ */
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_result_is_not_C_contiguous); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 148; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+
+  /* "dipy/tracking/propspeed.pyx":440
+ *         double tmp, ftmp
+ *     if not cnp.PyArray_CHKFLAGS(seed, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"seed is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"qa is not C contiguous")
+ */
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_seed_is_not_C_contiguous); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 440; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
+
+  /* "dipy/tracking/propspeed.pyx":442
+ *         raise ValueError(u"seed is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(qa, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"qa is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"ind is not C contiguous")
+ */
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_qa_is_not_C_contiguous); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 442; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
+
+  /* "dipy/tracking/propspeed.pyx":444
+ *         raise ValueError(u"qa is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(ind, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"ind is not C contiguous")             # <<<<<<<<<<<<<<
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"odf_vertices is not C contiguous")
+ */
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_ind_is_not_C_contiguous); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 444; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+
+  /* "dipy/tracking/propspeed.pyx":446
+ *         raise ValueError(u"ind is not C contiguous")
+ *     if not cnp.PyArray_CHKFLAGS(odf_vertices, cnp.NPY_C_CONTIGUOUS):
+ *         raise ValueError(u"odf_vertices is not C contiguous")             # <<<<<<<<<<<<<<
+ * 
+ *     cnt = 0
+ */
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_u_odf_vertices_is_not_C_contiguous); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 446; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
+
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":215
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
@@ -6034,9 +6355,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":219
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -6045,9 +6366,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":257
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -6056,9 +6377,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
@@ -6067,9 +6388,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -6078,9 +6399,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
@@ -6089,45 +6410,45 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
-  /* "dipy/tracking/propspeed.pyx":63
- *     return summ
+  /* "dipy/tracking/propspeed.pyx":57
  * 
- * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[cnp.npy_intp, ndim=1] strides,int lenind, int typesize):
- *     ''' find offset in an ndarray using strides
+ * 
+ * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices,             # <<<<<<<<<<<<<<
+ *                    cnp.ndarray[cnp.npy_intp, ndim=1] strides,
+ *                    int lenind,
  */
-  __pyx_tuple__7 = PyTuple_Pack(4, __pyx_n_s_indices, __pyx_n_s_strides, __pyx_n_s_lenind, __pyx_n_s_typesize); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_ndarray_offset, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__17 = PyTuple_Pack(4, __pyx_n_s_indices, __pyx_n_s_strides, __pyx_n_s_lenind, __pyx_n_s_typesize); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(4, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_ndarray_offset, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "dipy/tracking/propspeed.pyx":97
+  /* "dipy/tracking/propspeed.pyx":103
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,\             # <<<<<<<<<<<<<<
- *                                    cnp.ndarray[double, ndim=2] points,\
- *                                    cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,\
+ * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,             # <<<<<<<<<<<<<<
+ *                                   cnp.ndarray[double, ndim=2] points,
+ *                                   cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,
  */
-  __pyx_tuple__9 = PyTuple_Pack(17, __pyx_n_s_data, __pyx_n_s_points, __pyx_n_s_data_strides, __pyx_n_s_len_points, __pyx_n_s_result, __pyx_n_s_w, __pyx_n_s_values, __pyx_n_s_index, __pyx_n_s_off, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_ds, __pyx_n_s_ps, __pyx_n_s_rs, __pyx_n_s_strides, __pyx_n_s_weight, __pyx_n_s_value); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(5, 0, 17, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_map_coordinates_trilinear_iso, 97, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__19 = PyTuple_Pack(17, __pyx_n_s_data, __pyx_n_s_points, __pyx_n_s_data_strides, __pyx_n_s_len_points, __pyx_n_s_result, __pyx_n_s_w, __pyx_n_s_values, __pyx_n_s_index, __pyx_n_s_off, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_ds, __pyx_n_s_ps, __pyx_n_s_strides, __pyx_n_s_rs, __pyx_n_s_weight, __pyx_n_s_value); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(5, 0, 17, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_map_coordinates_trilinear_iso, 103, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "dipy/tracking/propspeed.pyx":345
+  /* "dipy/tracking/propspeed.pyx":393
  * 
  * 
- * def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\             # <<<<<<<<<<<<<<
- *                     cnp.npy_intp ref,\
- *                     cnp.ndarray[double,ndim=4] qa,\
+ * def eudx_both_directions(cnp.ndarray[double, ndim=1] seed,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp ref,
+ *                          cnp.ndarray[double, ndim=4] qa,
  */
-  __pyx_tuple__11 = PyTuple_Pack(30, __pyx_n_s_seed, __pyx_n_s_ref, __pyx_n_s_qa, __pyx_n_s_ind, __pyx_n_s_odf_vertices, __pyx_n_s_qa_thr, __pyx_n_s_ang_thr, __pyx_n_s_step_sz, __pyx_n_s_total_weight, __pyx_n_s_max_points, __pyx_n_s_ps, __pyx_n_s_pqa, __pyx_n_s_pin, __pyx_n_s_pverts, __pyx_n_s_pstr, __pyx_n_s_qa_shape, __pyx_n_s_pvstr, __pyx_n_s_d, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_cnt, __pyx_n_s_direction, __pyx_n_s_dx, __pyx_n_s_idirection, __pyx_n_s_ps2, __pyx_n_s_tmp, __pyx_n_s_ftmp, __pyx_n_s_point, __pyx_n_s_track, __pyx_n_s_tmp_track); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(10, 0, 30, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_eudx_both_directions, 345, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__21 = PyTuple_Pack(30, __pyx_n_s_seed, __pyx_n_s_ref, __pyx_n_s_qa, __pyx_n_s_ind, __pyx_n_s_odf_vertices, __pyx_n_s_qa_thr, __pyx_n_s_ang_thr, __pyx_n_s_step_sz, __pyx_n_s_total_weight, __pyx_n_s_max_points, __pyx_n_s_ps, __pyx_n_s_pqa, __pyx_n_s_pin, __pyx_n_s_pverts, __pyx_n_s_pstr, __pyx_n_s_qa_shape, __pyx_n_s_pvstr, __pyx_n_s_d, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_cnt, __pyx_n_s_direction, __pyx_n_s_dx, __pyx_n_s_idirection, __pyx_n_s_ps2, __pyx_n_s_tmp, __pyx_n_s_ftmp, __pyx_n_s_point, __pyx_n_s_track, __pyx_n_s_tmp_track); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(10, 0, 30, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_eudx_both_directions, 393, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6257,44 +6578,44 @@ PyMODINIT_FUNC PyInit_propspeed(void)
  * # initialize numpy runtime
  * cnp.import_array()             # <<<<<<<<<<<<<<
  * 
- * #numpy pointers
+ * @cython.cdivision(True)
  */
   import_array();
 
-  /* "dipy/tracking/propspeed.pyx":63
- *     return summ
+  /* "dipy/tracking/propspeed.pyx":57
  * 
- * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[cnp.npy_intp, ndim=1] strides,int lenind, int typesize):
- *     ''' find offset in an ndarray using strides
+ * 
+ * def ndarray_offset(cnp.ndarray[cnp.npy_intp, ndim=1] indices,             # <<<<<<<<<<<<<<
+ *                    cnp.ndarray[cnp.npy_intp, ndim=1] strides,
+ *                    int lenind,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_1ndarray_offset, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_1ndarray_offset, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ndarray_offset, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ndarray_offset, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":97
+  /* "dipy/tracking/propspeed.pyx":103
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,\             # <<<<<<<<<<<<<<
- *                                    cnp.ndarray[double, ndim=2] points,\
- *                                    cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,\
+ * def map_coordinates_trilinear_iso(cnp.ndarray[double, ndim=3] data,             # <<<<<<<<<<<<<<
+ *                                   cnp.ndarray[double, ndim=2] points,
+ *                                   cnp.ndarray[cnp.npy_intp, ndim=1] data_strides,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_3map_coordinates_trilinear_iso, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_map_coordinates_trilinear_iso, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_map_coordinates_trilinear_iso, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dipy/tracking/propspeed.pyx":345
+  /* "dipy/tracking/propspeed.pyx":393
  * 
  * 
- * def eudx_both_directions(cnp.ndarray[double,ndim=1] seed,\             # <<<<<<<<<<<<<<
- *                     cnp.npy_intp ref,\
- *                     cnp.ndarray[double,ndim=4] qa,\
+ * def eudx_both_directions(cnp.ndarray[double, ndim=1] seed,             # <<<<<<<<<<<<<<
+ *                          cnp.npy_intp ref,
+ *                          cnp.ndarray[double, ndim=4] qa,
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_5eudx_both_directions, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_9propspeed_5eudx_both_directions, NULL, __pyx_n_s_dipy_tracking_propspeed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eudx_both_directions, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_eudx_both_directions, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 393; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "dipy/tracking/propspeed.pyx":1
@@ -6304,7 +6625,7 @@ PyMODINIT_FUNC PyInit_propspeed(void)
  */
   __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_ndarray_offset_line_63, __pyx_kp_u_find_offset_in_an_ndarray_using) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_1, __pyx_kp_u_ndarray_offset_line_57, __pyx_kp_u_Find_offset_in_an_N_dimensional) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
@@ -7082,6 +7403,25 @@ static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info) {
   __Pyx_ReleaseBuffer(info);
 }
 
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
 static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
 #if CYTHON_COMPILING_IN_CPYTHON
     PyObject *tmp_type, *tmp_value, *tmp_tb;
@@ -7111,154 +7451,6 @@ static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyOb
 #else
     PyErr_Fetch(type, value, tb);
 #endif
-}
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject* args = PyTuple_Pack(1, arg);
-    return (likely(args)) ? __Pyx_PyObject_Call(func, args, NULL) : NULL;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-static CYTHON_INLINE int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
-    int r;
-    if (!j) return -1;
-    r = PyObject_SetItem(o, j, v);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
-                                               int is_list, int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = (!wraparound) ? i : ((likely(i >= 0)) ? i : i + PyList_GET_SIZE(o));
-        if ((!boundscheck) || likely((n >= 0) & (n < PyList_GET_SIZE(o)))) {
-            PyObject* old = PyList_GET_ITEM(o, n);
-            Py_INCREF(v);
-            PyList_SET_ITEM(o, n, v);
-            Py_DECREF(old);
-            return 1;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_ass_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (PyErr_ExceptionMatches(PyExc_OverflowError))
-                        PyErr_Clear();
-                    else
-                        return -1;
-                }
-            }
-            return m->sq_ass_item(o, i, v);
-        }
-    }
-#else
-#if CYTHON_COMPILING_IN_PYPY
-    if (is_list || (PySequence_Check(o) && !PyDict_Check(o))) {
-#else
-    if (is_list || PySequence_Check(o)) {
-#endif
-        return PySequence_SetItem(o, i, v);
-    }
-#endif
-    return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
-}
-
-static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
-    PyObject *result;
-#if CYTHON_COMPILING_IN_CPYTHON
-    result = PyDict_GetItem(__pyx_d, name);
-    if (likely(result)) {
-        Py_INCREF(result);
-    } else {
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    if (!result) {
-        PyErr_Clear();
-#endif
-        result = __Pyx_GetBuiltinName(name);
-    }
-    return result;
 }
 
 #if PY_MAJOR_VERSION < 3
@@ -7417,6 +7609,135 @@ bad:
     return;
 }
 #endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject* args = PyTuple_Pack(1, arg);
+    return (likely(args)) ? __Pyx_PyObject_Call(func, args, NULL) : NULL;
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+static CYTHON_INLINE int __Pyx_SetItemInt_Generic(PyObject *o, PyObject *j, PyObject *v) {
+    int r;
+    if (!j) return -1;
+    r = PyObject_SetItem(o, j, v);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE int __Pyx_SetItemInt_Fast(PyObject *o, Py_ssize_t i, PyObject *v,
+                                               int is_list, int wraparound, int boundscheck) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = (!wraparound) ? i : ((likely(i >= 0)) ? i : i + PyList_GET_SIZE(o));
+        if ((!boundscheck) || likely((n >= 0) & (n < PyList_GET_SIZE(o)))) {
+            PyObject* old = PyList_GET_ITEM(o, n);
+            Py_INCREF(v);
+            PyList_SET_ITEM(o, n, v);
+            Py_DECREF(old);
+            return 1;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_ass_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (PyErr_ExceptionMatches(PyExc_OverflowError))
+                        PyErr_Clear();
+                    else
+                        return -1;
+                }
+            }
+            return m->sq_ass_item(o, i, v);
+        }
+    }
+#else
+#if CYTHON_COMPILING_IN_PYPY
+    if (is_list || (PySequence_Check(o) && !PyDict_Check(o))) {
+#else
+    if (is_list || PySequence_Check(o)) {
+#endif
+        return PySequence_SetItem(o, i, v);
+    }
+#endif
+    return __Pyx_SetItemInt_Generic(o, PyInt_FromSsize_t(i), v);
+}
+
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
+    PyObject *result;
+#if CYTHON_COMPILING_IN_CPYTHON
+    result = PyDict_GetItem(__pyx_d, name);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else {
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    if (!result) {
+        PyErr_Clear();
+#endif
+        result = __Pyx_GetBuiltinName(name);
+    }
+    return result;
+}
 
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
     PyErr_Format(PyExc_ValueError,
