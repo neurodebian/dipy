@@ -1,6 +1,10 @@
 dipy (0.8.0-1) experimental; urgency=medium
 
   * New upstream release
+  * debian/{control,rules}
+    - migrated from using python-support
+  * debian/copyright
+    - various small tune ups to satisfy format
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 07 Jan 2015 17:07:25 -0500
 

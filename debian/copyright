@@ -1,10 +1,24 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Name: dipy
-Maintainer: Eleftherios Garyfallidis <garyfallidis@gmail.com>
+Upstream-Name: dipy
+Upstream-Contact: Eleftherios Garyfallidis <garyfallidis@gmail.com>
 Source: http://github.com/Garyfallidis/dipy
 
 Files: *
-Copyright: 2009-2013, Dipy Developers
+Copyright: 2009-2015, Dipy Developers
+License: BSD-3
+
+Files: doc/sphinxext/*
+Copyright: 2007-2010, Stefan van der Walt and Sphinx team
+License: BSD-3
+
+Files: dipy/testing/lightunit.py
+Copyright: 2009, The IPython Development Team
+License: BSD-3
+
+Files: debian/*
+Copyright: 2010-2015, Yaroslav Halchenko <debian@onerussian.com>
+License: BSD-3
+
 License: BSD-3
   Redistribution and use in source and binary forms, with or without
   modification, are permitted provided that the following conditions are
@@ -31,15 +45,3 @@ License: BSD-3
   THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
   (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-Files: doc/sphinxext/*
-Copyright: 2007-2010, Stefan van der Walt and Sphinx team
-License: BSD-3
-
-Files: dipy/testing/lightunit.py
-Copyright: 2009, The IPython Development Team
-License: BSD-3
-
-Files: debian/*
-Copyright: 2010-2013, Yaroslav Halchenko <debian@onerussian.com>
-License: BSD-3
