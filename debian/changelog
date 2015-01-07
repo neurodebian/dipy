@@ -1,4 +1,10 @@
-dipy (0.7.1+git1225-gb048445-1) experimental; urgency=medium
+dipy (0.8.0-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 07 Jan 2015 17:07:25 -0500
+
+dipy (0.7.1+git1225-gb048445-1) UNRELEASED; urgency=medium
 
   * Fresh upstream snapshot
   * debian/control
