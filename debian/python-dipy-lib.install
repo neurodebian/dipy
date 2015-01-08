@@ -1,1 +1,2 @@
-usr/lib/python2*/dist-packages/dipy/*.so
+usr/lib/python2*/dist-packages/dipy/*/*.so
+usr/lib/python2*/dist-packages/dipy/*/*/*.so
