@@ -756,7 +756,9 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 /*--- Type declarations ---*/
 struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier;
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier;
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -824,8 +826,8 @@ struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
 };
 
 
-/* "dipy/tracking/local/tissue_classifier.pxd":8
- *     ENDPOINT = 2
+/* "dipy/tracking/local/tissue_classifier.pxd":9
+ * 
  * 
  * cdef class TissueClassifier:             # <<<<<<<<<<<<<<
  *     # Please update doc-string in tissue_classifer.pyx if you change these
@@ -834,22 +836,49 @@ struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier {
   PyObject_HEAD
   struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_vtab;
-  double threshold;
   double interp_out_double[1];
   __Pyx_memviewslice interp_out_view;
+};
+
+
+/* "dipy/tracking/local/tissue_classifier.pxd":17
+ *     cpdef TissueClass check_point(self, double[::1] point) except PYERROR
+ * 
+ * cdef class BinaryTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         unsigned char [:, :, :] mask
+ */
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier {
+  struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+  __Pyx_memviewslice mask;
+};
+
+
+/* "dipy/tracking/local/tissue_classifier.pxd":22
+ *     pass
+ * 
+ * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double threshold
+ */
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier {
+  struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+  double threshold;
   __Pyx_memviewslice metric_map;
 };
 
 
-/* "dipy/tracking/local/tissue_classifier.pxd":18
- * 
- * 
- * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+/* "dipy/tracking/local/tissue_classifier.pxd":28
  *     pass
  * 
+ * cdef class ActTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double[:, :, :] include_map, exclude_map
  */
-struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier {
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
   struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+  __Pyx_memviewslice include_map;
+  __Pyx_memviewslice exclude_map;
 };
 
 
@@ -945,8 +974,8 @@ struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGette
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
 
 
-/* "dipy/tracking/local/tissue_classifier.pxd":8
- *     ENDPOINT = 2
+/* "dipy/tracking/local/tissue_classifier.pxd":9
+ * 
  * 
  * cdef class TissueClassifier:             # <<<<<<<<<<<<<<
  *     # Please update doc-string in tissue_classifer.pyx if you change these
@@ -959,18 +988,46 @@ struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassif
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier;
 
 
-/* "dipy/tracking/local/tissue_classifier.pxd":18
+/* "dipy/tracking/local/tissue_classifier.pxd":17
+ *     cpdef TissueClass check_point(self, double[::1] point) except PYERROR
  * 
- * 
- * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ * cdef class BinaryTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         unsigned char [:, :, :] mask
+ */
+
+struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier {
+  struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier;
+
+
+/* "dipy/tracking/local/tissue_classifier.pxd":22
  *     pass
  * 
+ * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double threshold
  */
 
 struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier {
   struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
 };
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier;
+
+
+/* "dipy/tracking/local/tissue_classifier.pxd":28
+ *     pass
+ * 
+ * cdef class ActTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double[:, :, :] include_map, exclude_map
+ */
+
+struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
+  struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier;
 
 
 /* "View.MemoryView":302
@@ -1550,7 +1607,9 @@ static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_16direction_getter_Direc
 
 /* Module declarations from 'dipy.tracking.local.tissue_classifier' */
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = 0;
+static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = 0;
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = 0;
+static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = 0;
 
 /* Module declarations from 'dipy.tracking.local.localtrack' */
 static PyTypeObject *__pyx_array_type = 0;
@@ -1722,7 +1781,6 @@ static char __pyx_k_stepsize[] = "stepsize";
 static char __pyx_k_TypeError[] = "TypeError";
 static char __pyx_k_enumerate[] = "enumerate";
 static char __pyx_k_fixedstep[] = "fixedstep";
-static char __pyx_k_tssuclass[] = "tssuclass";
 static char __pyx_k_IndexError[] = "IndexError";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_first_step[] = "first_step";
@@ -1731,6 +1789,7 @@ static char __pyx_k_streamline[] = "streamline";
 static char __pyx_k_voxel_size[] = "voxel_size";
 static char __pyx_k_MemoryError[] = "MemoryError";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
+static char __pyx_k_tissue_class[] = "tissue_class";
 static char __pyx_k_local_tracker[] = "local_tracker";
 static char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static char __pyx_k_allocate_buffer[] = "allocate_buffer";
@@ -1856,7 +1915,7 @@ static PyObject *__pyx_kp_s_strided_and_indirect;
 static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_tc;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_tssuclass;
+static PyObject *__pyx_n_s_tissue_class;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
@@ -2305,7 +2364,7 @@ static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyO
 
 static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, PyArrayObject *__pyx_v_seed, PyArrayObject *__pyx_v_first_step, PyArrayObject *__pyx_v_voxel_size, PyArrayObject *__pyx_v_streamline, double __pyx_v_stepsize, int __pyx_v_fixedstep) {
   int __pyx_v_i;
-  enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_v_tssuclass;
+  enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_v_tissue_class;
   double __pyx_v_point[3];
   double __pyx_v_dir[3];
   double __pyx_v_vs[3];
@@ -2341,6 +2400,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   int __pyx_t_15;
   long __pyx_t_16;
   enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_t_17;
+  PyObject *__pyx_t_18 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2435,7 +2495,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   }
 
   /* "dipy/tracking/local/localtrack.pyx":154
- *         TissueClass tssuclass
+ *         TissueClass tissue_class
  *         double point[3], dir[3], vs[3], voxdir[3]
  *         double[::1] pview = point, dview = dir             # <<<<<<<<<<<<<<
  *         void (*step)(double*, double*, double) nogil
@@ -2546,7 +2606,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
  *         dir[i] = first_step[i]
  *         vs[i] = voxel_size[i]             # <<<<<<<<<<<<<<
  * 
- *     for i in range(1, streamline.shape[0]):
+ *     tissue_class = TRACKPOINT
  */
     __pyx_t_13 = __pyx_v_i;
     (__pyx_v_vs[__pyx_v_i]) = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_voxel_size.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_voxel_size.diminfo[0].strides));
@@ -2555,6 +2615,15 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   /* "dipy/tracking/local/localtrack.pyx":167
  *         vs[i] = voxel_size[i]
  * 
+ *     tissue_class = TRACKPOINT             # <<<<<<<<<<<<<<
+ *     for i in range(1, streamline.shape[0]):
+ *         if dg.get_direction(pview, dview):
+ */
+  __pyx_v_tissue_class = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
+
+  /* "dipy/tracking/local/localtrack.pyx":168
+ * 
+ *     tissue_class = TRACKPOINT
  *     for i in range(1, streamline.shape[0]):             # <<<<<<<<<<<<<<
  *         if dg.get_direction(pview, dview):
  *             break
@@ -2563,18 +2632,18 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   for (__pyx_t_7 = 1; __pyx_t_7 < __pyx_t_14; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "dipy/tracking/local/localtrack.pyx":168
- * 
+    /* "dipy/tracking/local/localtrack.pyx":169
+ *     tissue_class = TRACKPOINT
  *     for i in range(1, streamline.shape[0]):
  *         if dg.get_direction(pview, dview):             # <<<<<<<<<<<<<<
  *             break
  *         for j in range(3):
  */
-    __pyx_t_15 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction(__pyx_v_dg, __pyx_v_pview, __pyx_v_dview, 0); if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_15 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction(__pyx_v_dg, __pyx_v_pview, __pyx_v_dview, 0); if (unlikely(__pyx_t_15 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_1 = (__pyx_t_15 != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/local/localtrack.pyx":169
+      /* "dipy/tracking/local/localtrack.pyx":170
  *     for i in range(1, streamline.shape[0]):
  *         if dg.get_direction(pview, dview):
  *             break             # <<<<<<<<<<<<<<
@@ -2584,7 +2653,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
       goto __pyx_L12_break;
     }
 
-    /* "dipy/tracking/local/localtrack.pyx":170
+    /* "dipy/tracking/local/localtrack.pyx":171
  *         if dg.get_direction(pview, dview):
  *             break
  *         for j in range(3):             # <<<<<<<<<<<<<<
@@ -2594,7 +2663,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
     for (__pyx_t_16 = 0; __pyx_t_16 < 3; __pyx_t_16+=1) {
       __pyx_v_j = __pyx_t_16;
 
-      /* "dipy/tracking/local/localtrack.pyx":171
+      /* "dipy/tracking/local/localtrack.pyx":172
  *             break
  *         for j in range(3):
  *             voxdir[j] = dir[j] / vs[j]             # <<<<<<<<<<<<<<
@@ -2604,132 +2673,113 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
       (__pyx_v_voxdir[__pyx_v_j]) = ((__pyx_v_dir[__pyx_v_j]) / (__pyx_v_vs[__pyx_v_j]));
     }
 
-    /* "dipy/tracking/local/localtrack.pyx":172
+    /* "dipy/tracking/local/localtrack.pyx":173
  *         for j in range(3):
  *             voxdir[j] = dir[j] / vs[j]
  *         step(point, voxdir, stepsize)             # <<<<<<<<<<<<<<
  *         copypoint(point, &streamline[i, 0])
- *         tssuclass = tc.check_point(pview)
+ *         tissue_class = tc.check_point(pview)
  */
     __pyx_v_step(__pyx_v_point, __pyx_v_voxdir, __pyx_v_stepsize);
 
-    /* "dipy/tracking/local/localtrack.pyx":173
+    /* "dipy/tracking/local/localtrack.pyx":174
  *             voxdir[j] = dir[j] / vs[j]
  *         step(point, voxdir, stepsize)
  *         copypoint(point, &streamline[i, 0])             # <<<<<<<<<<<<<<
- *         tssuclass = tc.check_point(pview)
- *         if tssuclass == TRACKPOINT:
+ *         tissue_class = tc.check_point(pview)
+ *         if tissue_class == TRACKPOINT:
  */
     __pyx_t_15 = __pyx_v_i;
     __pyx_t_16 = 0;
     __pyx_f_4dipy_8tracking_5local_10localtrack_copypoint(__pyx_v_point, (&(*__Pyx_BufPtrCContig2d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_streamline.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_streamline.diminfo[0].strides, __pyx_t_16, __pyx_pybuffernd_streamline.diminfo[1].strides))));
 
-    /* "dipy/tracking/local/localtrack.pyx":174
+    /* "dipy/tracking/local/localtrack.pyx":175
  *         step(point, voxdir, stepsize)
  *         copypoint(point, &streamline[i, 0])
- *         tssuclass = tc.check_point(pview)             # <<<<<<<<<<<<<<
- *         if tssuclass == TRACKPOINT:
+ *         tissue_class = tc.check_point(pview)             # <<<<<<<<<<<<<<
+ *         if tissue_class == TRACKPOINT:
  *             continue
  */
-    __pyx_t_17 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc->__pyx_vtab)->check_point(__pyx_v_tc, __pyx_v_pview, 0); if (unlikely(__pyx_t_17 == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_PYERROR)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_v_tssuclass = __pyx_t_17;
+    __pyx_t_17 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc->__pyx_vtab)->check_point(__pyx_v_tc, __pyx_v_pview, 0); if (unlikely(__pyx_t_17 == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_PYERROR)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_v_tissue_class = __pyx_t_17;
 
     /* "dipy/tracking/local/localtrack.pyx":182
- *         elif tssuclass == OUTSIDEIMAGE:
+ *             i += 1
  *             break
- *         elif tssuclass == INVALIDPOINT:             # <<<<<<<<<<<<<<
- *             i = - (i + 1)
+ *         elif tissue_class == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
  *             break
+ *     else:
  */
-    switch (__pyx_v_tssuclass) {
+    switch (__pyx_v_tissue_class) {
 
-      /* "dipy/tracking/local/localtrack.pyx":175
+      /* "dipy/tracking/local/localtrack.pyx":176
  *         copypoint(point, &streamline[i, 0])
- *         tssuclass = tc.check_point(pview)
- *         if tssuclass == TRACKPOINT:             # <<<<<<<<<<<<<<
+ *         tissue_class = tc.check_point(pview)
+ *         if tissue_class == TRACKPOINT:             # <<<<<<<<<<<<<<
  *             continue
- *         elif tssuclass == ENDPOINT:
+ *         elif (tissue_class == ENDPOINT or
  */
       case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT:
 
-      /* "dipy/tracking/local/localtrack.pyx":176
- *         tssuclass = tc.check_point(pview)
- *         if tssuclass == TRACKPOINT:
+      /* "dipy/tracking/local/localtrack.pyx":177
+ *         tissue_class = tc.check_point(pview)
+ *         if tissue_class == TRACKPOINT:
  *             continue             # <<<<<<<<<<<<<<
- *         elif tssuclass == ENDPOINT:
- *             i += 1
+ *         elif (tissue_class == ENDPOINT or
+ *               tissue_class == INVALIDPOINT):
  */
       goto __pyx_L11_continue;
       break;
 
-      /* "dipy/tracking/local/localtrack.pyx":177
- *         if tssuclass == TRACKPOINT:
+      /* "dipy/tracking/local/localtrack.pyx":178
+ *         if tissue_class == TRACKPOINT:
  *             continue
- *         elif tssuclass == ENDPOINT:             # <<<<<<<<<<<<<<
+ *         elif (tissue_class == ENDPOINT or             # <<<<<<<<<<<<<<
+ *               tissue_class == INVALIDPOINT):
  *             i += 1
- *             break
  */
       case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_ENDPOINT:
 
-      /* "dipy/tracking/local/localtrack.pyx":178
+      /* "dipy/tracking/local/localtrack.pyx":179
  *             continue
- *         elif tssuclass == ENDPOINT:
+ *         elif (tissue_class == ENDPOINT or
+ *               tissue_class == INVALIDPOINT):             # <<<<<<<<<<<<<<
+ *             i += 1
+ *             break
+ */
+      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT:
+
+      /* "dipy/tracking/local/localtrack.pyx":180
+ *         elif (tissue_class == ENDPOINT or
+ *               tissue_class == INVALIDPOINT):
  *             i += 1             # <<<<<<<<<<<<<<
  *             break
- *         elif tssuclass == OUTSIDEIMAGE:
+ *         elif tissue_class == OUTSIDEIMAGE:
  */
       __pyx_v_i = (__pyx_v_i + 1);
 
-      /* "dipy/tracking/local/localtrack.pyx":179
- *         elif tssuclass == ENDPOINT:
- *             i += 1
- *             break             # <<<<<<<<<<<<<<
- *         elif tssuclass == OUTSIDEIMAGE:
- *             break
- */
-      goto __pyx_L12_break;
-      break;
-
-      /* "dipy/tracking/local/localtrack.pyx":180
- *             i += 1
- *             break
- *         elif tssuclass == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
- *             break
- *         elif tssuclass == INVALIDPOINT:
- */
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_OUTSIDEIMAGE:
-
       /* "dipy/tracking/local/localtrack.pyx":181
- *             break
- *         elif tssuclass == OUTSIDEIMAGE:
+ *               tissue_class == INVALIDPOINT):
+ *             i += 1
  *             break             # <<<<<<<<<<<<<<
- *         elif tssuclass == INVALIDPOINT:
- *             i = - (i + 1)
+ *         elif tissue_class == OUTSIDEIMAGE:
+ *             break
  */
       goto __pyx_L12_break;
       break;
 
       /* "dipy/tracking/local/localtrack.pyx":182
- *         elif tssuclass == OUTSIDEIMAGE:
+ *             i += 1
  *             break
- *         elif tssuclass == INVALIDPOINT:             # <<<<<<<<<<<<<<
- *             i = - (i + 1)
- *             break
- */
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT:
-
-      /* "dipy/tracking/local/localtrack.pyx":183
- *             break
- *         elif tssuclass == INVALIDPOINT:
- *             i = - (i + 1)             # <<<<<<<<<<<<<<
+ *         elif tissue_class == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
  *             break
  *     else:
  */
-      __pyx_v_i = (-(__pyx_v_i + 1));
+      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_OUTSIDEIMAGE:
 
-      /* "dipy/tracking/local/localtrack.pyx":184
- *         elif tssuclass == INVALIDPOINT:
- *             i = - (i + 1)
+      /* "dipy/tracking/local/localtrack.pyx":183
+ *             break
+ *         elif tissue_class == OUTSIDEIMAGE:
  *             break             # <<<<<<<<<<<<<<
  *     else:
  *         # maximum length of streamline has been reached, return everything
@@ -2742,28 +2792,36 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   }
   /*else*/ {
 
-    /* "dipy/tracking/local/localtrack.pyx":187
+    /* "dipy/tracking/local/localtrack.pyx":186
  *     else:
  *         # maximum length of streamline has been reached, return everything
  *         i = streamline.shape[0]             # <<<<<<<<<<<<<<
- * 
- *     return i
+ *     return i, tissue_class
  */
     __pyx_v_i = (__pyx_v_streamline->dimensions[0]);
   }
   __pyx_L12_break:;
 
-  /* "dipy/tracking/local/localtrack.pyx":189
+  /* "dipy/tracking/local/localtrack.pyx":187
+ *         # maximum length of streamline has been reached, return everything
  *         i = streamline.shape[0]
- * 
- *     return i             # <<<<<<<<<<<<<<
- * 
+ *     return i, tissue_class             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_r = __pyx_t_3;
+  __pyx_t_5 = PyInt_FromLong(__pyx_v_tissue_class); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_18 = PyTuple_New(2); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 187; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_18);
+  PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_5);
   __pyx_t_3 = 0;
+  __pyx_t_5 = 0;
+  __pyx_r = __pyx_t_18;
+  __pyx_t_18 = 0;
   goto __pyx_L0;
 
   /* "dipy/tracking/local/localtrack.pyx":87
@@ -2780,6 +2838,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   __Pyx_XDECREF(((PyObject *)__pyx_t_4));
   __Pyx_XDECREF(__pyx_t_5);
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_XDECREF(__pyx_t_18);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_first_step.rcbuffer->pybuffer);
@@ -16528,7 +16587,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
   {&__pyx_n_s_tc, __pyx_k_tc, sizeof(__pyx_k_tc), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_tssuclass, __pyx_k_tssuclass, sizeof(__pyx_k_tssuclass), 0, 0, 1, 1},
+  {&__pyx_n_s_tissue_class, __pyx_k_tissue_class, sizeof(__pyx_k_tissue_class), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
@@ -16757,7 +16816,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                   np.ndarray[np.float_t, ndim=1] seed,
  *                   np.ndarray[np.float_t, ndim=1] first_step,
  */
-  __pyx_tuple__23 = PyTuple_Pack(18, __pyx_n_s_dg, __pyx_n_s_tc, __pyx_n_s_seed, __pyx_n_s_first_step, __pyx_n_s_voxel_size, __pyx_n_s_streamline, __pyx_n_s_stepsize, __pyx_n_s_fixedstep, __pyx_n_s_i, __pyx_n_s_tssuclass, __pyx_n_s_point, __pyx_n_s_dir, __pyx_n_s_vs, __pyx_n_s_voxdir, __pyx_n_s_pview, __pyx_n_s_dview, __pyx_n_s_step, __pyx_n_s_j); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__23 = PyTuple_Pack(18, __pyx_n_s_dg, __pyx_n_s_tc, __pyx_n_s_seed, __pyx_n_s_first_step, __pyx_n_s_voxel_size, __pyx_n_s_streamline, __pyx_n_s_stepsize, __pyx_n_s_fixedstep, __pyx_n_s_i, __pyx_n_s_tissue_class, __pyx_n_s_point, __pyx_n_s_dir, __pyx_n_s_vs, __pyx_n_s_voxdir, __pyx_n_s_pview, __pyx_n_s_dview, __pyx_n_s_step, __pyx_n_s_j); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
   __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(8, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_local_tracker, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -16960,10 +17019,14 @@ PyMODINIT_FUNC PyInit_localtrack(void)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter = __Pyx_ImportType("dipy.tracking.local.direction_getter", "DirectionGetter", sizeof(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter = (struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) {__pyx_filename = __pyx_f[5]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "TissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 8; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ThresholdTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "TissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "BinaryTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ThresholdTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ActTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) {__pyx_filename = __pyx_f[6]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
   /*--- Execution code ---*/

@@ -231,8 +231,8 @@ void __Pyx_call_destructor(T* x) {
 #define _USE_MATH_DEFINES
 #endif
 #include <math.h>
-#define __PYX_HAVE__dipy__reconst__peak_direction_getter
-#define __PYX_HAVE_API__dipy__reconst__peak_direction_getter
+#define __PYX_HAVE__dipy__align__transforms
+#define __PYX_HAVE_API__dipy__align__transforms
 #include "string.h"
 #include "stdio.h"
 #include "stdlib.h"
@@ -444,7 +444,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "dipy/reconst/peak_direction_getter.pyx",
+  "dipy/align/transforms.pyx",
   "__init__.pxd",
   "stringsource",
   "type.pxd",
@@ -751,8 +751,17 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 
 
 /*--- Type declarations ---*/
-struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
-struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
+struct __pyx_obj_4dipy_5align_10transforms_Transform;
+struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D;
+struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D;
+struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D;
+struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D;
+struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D;
+struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D;
+struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D;
+struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D;
+struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D;
+struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -794,35 +803,138 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "dipy/tracking/local/direction_getter.pxd":3
- * cimport numpy as np
+/* "dipy/align/transforms.pyx":15
+ *     double log(double)
  * 
- * cdef class DirectionGetter:             # <<<<<<<<<<<<<<
- *     cpdef int get_direction(self, double[::1] point, double[::1] direction) except -1
- *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(self, double[::1] point)
+ * cdef class Transform:             # <<<<<<<<<<<<<<
+ *     r""" Base class (contract) for all transforms for affine image registration.
+ *     Each transform must define the following (fast, nogil) methods:
  */
-struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
+struct __pyx_obj_4dipy_5align_10transforms_Transform {
   PyObject_HEAD
-  struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_vtab;
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform *__pyx_vtab;
+  int number_of_parameters;
+  int dim;
 };
 
 
-/* "dipy/reconst/peak_direction_getter.pyx":23
+/* "dipy/align/transforms.pyx":121
  * 
  * 
- * cdef class PeaksAndMetricsDirectionGetter(DirectionGetter):             # <<<<<<<<<<<<<<
- *     """Deterministic Direction Getter based on peak directions.
- * 
+ * cdef class TranslationTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Translation transform in 2D
  */
-struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter {
-  struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter __pyx_base;
-  double qa_thr;
-  double ang_thr;
-  double total_weight;
-  __Pyx_memviewslice _qa;
-  __Pyx_memviewslice _ind;
-  __Pyx_memviewslice _odf_vertices;
-  int initialized;
+struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":190
+ * 
+ * 
+ * cdef class TranslationTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Translation transform in 3D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":261
+ * 
+ * 
+ * cdef class RotationTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rotation transform in 2D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":335
+ * 
+ * 
+ * cdef class RotationTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rotation transform in 3D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":428
+ * 
+ * 
+ * cdef class RigidTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rigid transform in 2D (rotation + translation)
+ */
+struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":515
+ * 
+ * 
+ * cdef class RigidTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rigid transform in 3D (rotation + translation)
+ */
+struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":634
+ * 
+ * 
+ * cdef class ScalingTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Scaling transform in 2D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":697
+ * 
+ * 
+ * cdef class ScalingTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Scaling transform in 3D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":761
+ * 
+ * 
+ * cdef class AffineTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Affine transform in 2D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
+};
+
+
+/* "dipy/align/transforms.pyx":846
+ * 
+ * 
+ * cdef class AffineTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Affine transform in 3D
+ */
+struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform __pyx_base;
 };
 
 
@@ -903,33 +1015,160 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "dipy/tracking/local/direction_getter.pxd":3
- * cimport numpy as np
+/* "dipy/align/transforms.pyx":15
+ *     double log(double)
  * 
- * cdef class DirectionGetter:             # <<<<<<<<<<<<<<
- *     cpdef int get_direction(self, double[::1] point, double[::1] direction) except -1
- *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(self, double[::1] point)
+ * cdef class Transform:             # <<<<<<<<<<<<<<
+ *     r""" Base class (contract) for all transforms for affine image registration.
+ *     Each transform must define the following (fast, nogil) methods:
  */
 
-struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
-  int (*get_direction)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch);
-  PyArrayObject *(*initial_direction)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform {
+  int (*_jacobian)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice);
+  void (*_get_identity_parameters)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice);
+  void (*_param_to_matrix)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice);
 };
-static struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
 
 
-/* "dipy/reconst/peak_direction_getter.pyx":23
+/* "dipy/align/transforms.pyx":121
  * 
  * 
- * cdef class PeaksAndMetricsDirectionGetter(DirectionGetter):             # <<<<<<<<<<<<<<
- *     """Deterministic Direction Getter based on peak directions.
- * 
+ * cdef class TranslationTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Translation transform in 2D
  */
 
-struct __pyx_vtabstruct_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter {
-  struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter __pyx_base;
+struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform2D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
 };
-static struct __pyx_vtabstruct_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_vtabptr_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform2D *__pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform2D;
+
+
+/* "dipy/align/transforms.pyx":190
+ * 
+ * 
+ * cdef class TranslationTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Translation transform in 3D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform3D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform3D *__pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform3D;
+
+
+/* "dipy/align/transforms.pyx":261
+ * 
+ * 
+ * cdef class RotationTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rotation transform in 2D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform2D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform2D *__pyx_vtabptr_4dipy_5align_10transforms_RotationTransform2D;
+
+
+/* "dipy/align/transforms.pyx":335
+ * 
+ * 
+ * cdef class RotationTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rotation transform in 3D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform3D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform3D *__pyx_vtabptr_4dipy_5align_10transforms_RotationTransform3D;
+
+
+/* "dipy/align/transforms.pyx":428
+ * 
+ * 
+ * cdef class RigidTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rigid transform in 2D (rotation + translation)
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform2D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform2D *__pyx_vtabptr_4dipy_5align_10transforms_RigidTransform2D;
+
+
+/* "dipy/align/transforms.pyx":515
+ * 
+ * 
+ * cdef class RigidTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Rigid transform in 3D (rotation + translation)
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform3D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform3D *__pyx_vtabptr_4dipy_5align_10transforms_RigidTransform3D;
+
+
+/* "dipy/align/transforms.pyx":634
+ * 
+ * 
+ * cdef class ScalingTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Scaling transform in 2D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform2D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform2D *__pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform2D;
+
+
+/* "dipy/align/transforms.pyx":697
+ * 
+ * 
+ * cdef class ScalingTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Scaling transform in 3D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform3D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform3D *__pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform3D;
+
+
+/* "dipy/align/transforms.pyx":761
+ * 
+ * 
+ * cdef class AffineTransform2D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Affine transform in 2D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform2D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform2D *__pyx_vtabptr_4dipy_5align_10transforms_AffineTransform2D;
+
+
+/* "dipy/align/transforms.pyx":846
+ * 
+ * 
+ * cdef class AffineTransform3D(Transform):             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         r""" Affine transform in 3D
+ */
+
+struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform3D {
+  struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform3D *__pyx_vtabptr_4dipy_5align_10transforms_AffineTransform3D;
 
 
 /* "View.MemoryView":302
@@ -1046,6 +1285,8 @@ static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
     Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
 
+static CYTHON_INLINE int __Pyx_CheckKeywordStrings(PyObject *kwdict, const char* function_name, int kw_allowed);
+
 static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
 
 static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
@@ -1058,26 +1299,18 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
 #endif
 
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
-#endif
-
 static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
 static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
 
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
-static CYTHON_INLINE int __Pyx_CheckKeywordStrings(PyObject *kwdict, const char* function_name, int kw_allowed);
-
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
     __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
@@ -1108,7 +1341,9 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
 
-static void __Pyx_RaiseBufferIndexError(int axis);
+static void __Pyx_WriteUnraisable(const char *name, int clineno,
+                                  int lineno, const char *filename,
+                                  int full_traceback);
 
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
 
@@ -1132,8 +1367,6 @@ static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int 
 #else
 #define __Pyx_PyString_Equals __Pyx_PyBytes_Equals
 #endif
-
-static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t, Py_ssize_t); /* proto */
 
 #ifndef __PYX_FORCE_INIT_THREADS
   #define __PYX_FORCE_INIT_THREADS 0
@@ -1234,17 +1467,7 @@ static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
 
 static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
-static CYTHON_INLINE long __Pyx_div_long(long, long); /* proto */
-
 static PyObject *__pyx_memoryviewslice__get__base(PyObject *__pyx_v_self); /*proto*/
-static void __Pyx_WriteUnraisable(const char *name, int clineno,
-                                  int lineno, const char *filename,
-                                  int full_traceback);
-
-static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc);
-
-static void* __Pyx_GetVtable(PyObject *dict);
-
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 
 typedef struct {
@@ -1263,22 +1486,6 @@ static void __pyx_insert_code_object(int code_line, PyCodeObject* code_object);
 
 static void __Pyx_AddTraceback(const char *funcname, int c_line,
                                int py_line, const char *filename);
-
-static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
-
-static int __Pyx_ValidateAndInit_memviewslice(
-                int *axes_specs,
-                int c_or_f_flag,
-                int buf_flags,
-                int ndim,
-                __Pyx_TypeInfo *dtype,
-                __Pyx_BufFmt_StackElem stack[],
-                __Pyx_memviewslice *memviewslice,
-                PyObject *original_obj);
-
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(PyObject *);
-
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *);
 
 typedef struct {
   Py_ssize_t shape, strides, suboffsets;
@@ -1307,20 +1514,28 @@ static Py_ssize_t __Pyx_minusones[] = {-1, -1, -1, -1, -1, -1, -1, -1};
 
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *);
+static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
 
-static CYTHON_INLINE Py_intptr_t __Pyx_PyInt_As_Py_intptr_t(PyObject *);
+static int __Pyx_ValidateAndInit_memviewslice(
+                int *axes_specs,
+                int c_or_f_flag,
+                int buf_flags,
+                int ndim,
+                __Pyx_TypeInfo *dtype,
+                __Pyx_BufFmt_StackElem stack[],
+                __Pyx_memviewslice *memviewslice,
+                PyObject *original_obj);
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_Py_intptr_t(Py_intptr_t value);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *);
+
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 static PyObject *__pyx_memview_get_double(const char *itemp);
 static int __pyx_memview_set_double(const char *itemp, PyObject *obj);
 
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
-
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
+static CYTHON_INLINE Py_intptr_t __Pyx_PyInt_As_Py_intptr_t(PyObject *);
 
 #if CYTHON_CCOMPLEX
   #ifdef __cplusplus
@@ -1420,6 +1635,8 @@ static CYTHON_INLINE __pyx_t_double_complex __pyx_t_double_complex_from_parts(do
     #endif
 #endif
 
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
+
 static int __pyx_memviewslice_is_contig(const __Pyx_memviewslice *mvs,
                                         char order, int ndim);
 
@@ -1435,9 +1652,11 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
 
 static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
-
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
+
+static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
+
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_double(PyObject *);
 
 static int __Pyx_check_binary_version(void);
 
@@ -1453,11 +1672,41 @@ static PyObject *__Pyx_ImportModule(const char *name);
 
 static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class_name, size_t size, int strict);
 
-static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig);
-
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
-static int __pyx_f_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_get_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point, __Pyx_memviewslice __pyx_v_direction, int __pyx_skip_dispatch); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_9Transform__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_9Transform__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_9Transform__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_T); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
+static int __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto*/
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R); /* proto*/
 static char *__pyx_memoryview_get_item_pointer(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_index); /* proto*/
 static PyObject *__pyx_memoryview_is_slice(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_obj); /* proto*/
 static PyObject *__pyx_memoryview_setitem_slice_assignment(struct __pyx_memoryview_obj *__pyx_v_self, PyObject *__pyx_v_dst, PyObject *__pyx_v_src); /* proto*/
@@ -1467,10 +1716,6 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
 static PyObject *__pyx_memoryview_assign_item_from_object(struct __pyx_memoryview_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
 static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp); /* proto*/
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
-
-/* Module declarations from 'cython.view' */
-
-/* Module declarations from 'cython' */
 
 /* Module declarations from 'cpython.buffer' */
 
@@ -1499,14 +1744,22 @@ static PyTypeObject *__pyx_ptype_5numpy_ndarray = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, char *, char *, int *); /*proto*/
 
-/* Module declarations from 'dipy.tracking.propspeed' */
-static npy_intp (*__pyx_f_4dipy_8tracking_9propspeed__propagation_direction)(double *, double *, double *, double *, double *, double, double, npy_intp *, npy_intp *, double *, double); /*proto*/
+/* Module declarations from 'cython.view' */
 
-/* Module declarations from 'dipy.tracking.local.direction_getter' */
-static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter = 0;
+/* Module declarations from 'cython' */
 
-/* Module declarations from 'dipy.reconst.peak_direction_getter' */
-static PyTypeObject *__pyx_ptype_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter = 0;
+/* Module declarations from 'dipy.align.transforms' */
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_Transform = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_TranslationTransform2D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_TranslationTransform3D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_RotationTransform2D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_RotationTransform3D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_RigidTransform2D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_RigidTransform3D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_ScalingTransform2D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_ScalingTransform3D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_AffineTransform2D = 0;
+static PyTypeObject *__pyx_ptype_4dipy_5align_10transforms_AffineTransform3D = 0;
 static PyTypeObject *__pyx_array_type = 0;
 static PyTypeObject *__pyx_MemviewEnum_type = 0;
 static PyTypeObject *__pyx_memoryview_type = 0;
@@ -1549,13 +1802,12 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
-#define __Pyx_MODULE_NAME "dipy.reconst.peak_direction_getter"
-int __pyx_module_is_main_dipy__reconst__peak_direction_getter = 0;
+#define __Pyx_MODULE_NAME "dipy.align.transforms"
+int __pyx_module_is_main_dipy__align__transforms = 0;
 
-/* Implementation of 'dipy.reconst.peak_direction_getter' */
+/* Implementation of 'dipy.align.transforms' */
 static PyObject *__pyx_builtin_ValueError;
 static PyObject *__pyx_builtin_range;
-static PyObject *__pyx_builtin_IndexError;
 static PyObject *__pyx_builtin_RuntimeError;
 static PyObject *__pyx_builtin_MemoryError;
 static PyObject *__pyx_builtin_enumerate;
@@ -1563,23 +1815,23 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_TypeError;
 static PyObject *__pyx_builtin_xrange;
 static PyObject *__pyx_builtin_id;
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_make_nd(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_array, PyObject *__pyx_v_N); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter___cinit__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_2_initialize(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4initial_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6get_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point, __Pyx_memviewslice __pyx_v_direction); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self); /* proto */
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value); /* proto */
+static PyObject *__pyx_builtin_IndexError;
+static int __pyx_pf_4dipy_5align_10transforms_9Transform___cinit__(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_2jacobian(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x); /* proto */
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_4get_identity_parameters(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_6param_to_matrix(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta); /* proto */
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_8get_number_of_parameters(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_10get_dim(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_22TranslationTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_22TranslationTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_19RotationTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_19RotationTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_16RigidTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_16RigidTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_18ScalingTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_18ScalingTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_17AffineTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self); /* proto */
+static int __pyx_pf_4dipy_5align_10transforms_17AffineTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -1614,17 +1866,25 @@ static PyObject *__pyx_memoryview_MemoryView_10memoryview_20copy(struct __pyx_me
 static PyObject *__pyx_memoryview_MemoryView_10memoryview_22copy_fortran(struct __pyx_memoryview_obj *__pyx_v_self); /* proto */
 static void __pyx_memoryviewslice_MemoryView_16_memoryviewslice___dealloc__(struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
 static PyObject *__pyx_memoryviewslice__get__base_MemoryView_16_memoryviewslice_4base___get__(struct __pyx_memoryviewslice_obj *__pyx_v_self); /* proto */
-static PyObject *__pyx_tp_new_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_Transform(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_TranslationTransform2D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_TranslationTransform3D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RotationTransform2D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RotationTransform3D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RigidTransform2D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RigidTransform3D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_ScalingTransform2D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_ScalingTransform3D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_AffineTransform2D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_AffineTransform3D(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_Enum(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_memoryview(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new__memoryviewslice(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static char __pyx_k_B[] = "B";
-static char __pyx_k_C[] = "C";
 static char __pyx_k_H[] = "H";
 static char __pyx_k_I[] = "I";
 static char __pyx_k_L[] = "L";
-static char __pyx_k_N[] = "N";
 static char __pyx_k_O[] = "O";
 static char __pyx_k_Q[] = "Q";
 static char __pyx_k_b[] = "b";
@@ -1636,14 +1896,15 @@ static char __pyx_k_h[] = "h";
 static char __pyx_k_i[] = "i";
 static char __pyx_k_l[] = "l";
 static char __pyx_k_q[] = "q";
+static char __pyx_k_x[] = "x";
 static char __pyx_k_Zd[] = "Zd";
 static char __pyx_k_Zf[] = "Zf";
 static char __pyx_k_Zg[] = "Zg";
 static char __pyx_k_id[] = "id";
 static char __pyx_k_np[] = "np";
+static char __pyx_k_eye[] = "eye";
 static char __pyx_k_obj[] = "obj";
 static char __pyx_k_base[] = "base";
-static char __pyx_k_copy[] = "copy";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_mode[] = "mode";
 static char __pyx_k_name[] = "name";
@@ -1653,50 +1914,42 @@ static char __pyx_k_size[] = "size";
 static char __pyx_k_step[] = "step";
 static char __pyx_k_stop[] = "stop";
 static char __pyx_k_test[] = "__test__";
-static char __pyx_k_array[] = "array";
+static char __pyx_k_RIGID[] = "RIGID";
 static char __pyx_k_class[] = "__class__";
-static char __pyx_k_dtype[] = "dtype";
-static char __pyx_k_empty[] = "empty";
 static char __pyx_k_error[] = "error";
 static char __pyx_k_flags[] = "flags";
 static char __pyx_k_numpy[] = "numpy";
-static char __pyx_k_order[] = "order";
-static char __pyx_k_point[] = "point";
 static char __pyx_k_range[] = "range";
 static char __pyx_k_shape[] = "shape";
 static char __pyx_k_start[] = "start";
-static char __pyx_k_double[] = "double";
+static char __pyx_k_theta[] = "theta";
+static char __pyx_k_zeros[] = "zeros";
+static char __pyx_k_AFFINE[] = "AFFINE";
 static char __pyx_k_format[] = "format";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_name_2[] = "__name__";
-static char __pyx_k_sphere[] = "sphere";
 static char __pyx_k_struct[] = "struct";
 static char __pyx_k_unpack[] = "unpack";
 static char __pyx_k_xrange[] = "xrange";
+static char __pyx_k_SCALING[] = "SCALING";
 static char __pyx_k_fortran[] = "fortran";
-static char __pyx_k_make_nd[] = "make_nd";
 static char __pyx_k_memview[] = "memview";
-static char __pyx_k_reshape[] = "reshape";
 static char __pyx_k_Ellipsis[] = "Ellipsis";
+static char __pyx_k_ROTATION[] = "ROTATION";
 static char __pyx_k_itemsize[] = "itemsize";
-static char __pyx_k_vertices[] = "vertices";
 static char __pyx_k_TypeError[] = "TypeError";
-static char __pyx_k_direction[] = "direction";
 static char __pyx_k_enumerate[] = "enumerate";
-static char __pyx_k_new_shape[] = "new_shape";
 static char __pyx_k_IndexError[] = "IndexError";
 static char __pyx_k_ValueError[] = "ValueError";
-static char __pyx_k_initialize[] = "_initialize";
 static char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
 static char __pyx_k_MemoryError[] = "MemoryError";
-static char __pyx_k_peak_values[] = "peak_values";
+static char __pyx_k_TRANSLATION[] = "TRANSLATION";
 static char __pyx_k_RuntimeError[] = "RuntimeError";
-static char __pyx_k_peak_indices[] = "peak_indices";
-static char __pyx_k_get_direction[] = "get_direction";
 static char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
+static char __pyx_k_regtransforms[] = "regtransforms";
 static char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static char __pyx_k_dtype_is_object[] = "dtype_is_object";
-static char __pyx_k_point_outside_data[] = "point outside data";
+static char __pyx_k_Invalid_transform[] = "Invalid transform.";
 static char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
 static char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
@@ -1706,14 +1959,15 @@ static char __pyx_k_contiguous_and_indirect[] = "<contiguous and indirect>";
 static char __pyx_k_Cannot_index_with_type_s[] = "Cannot index with type '%s'";
 static char __pyx_k_getbuffer_obj_view_flags[] = "getbuffer(obj, view, flags)";
 static char __pyx_k_Dimension_d_is_not_direct[] = "Dimension %d is not direct";
+static char __pyx_k_Invalid_point_dimension_d[] = "Invalid point dimension: %d";
 static char __pyx_k_Invalid_shape_in_axis_d_d[] = "Invalid shape in axis %d: %d.";
 static char __pyx_k_Index_out_of_bounds_axis_d[] = "Index out of bounds (axis %d)";
 static char __pyx_k_Step_may_not_be_zero_axis_d[] = "Step may not be zero (axis %d)";
 static char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
 static char __pyx_k_ndarray_is_not_C_contiguous[] = "ndarray is not C contiguous";
 static char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
+static char __pyx_k_Invalid_number_of_parameters_d[] = "Invalid number of parameters: %d";
 static char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
-static char __pyx_k_home_yoh_proj_nipy_nipy_suite_d[] = "/home/yoh/proj/nipy/nipy-suite/dipy/dipy/reconst/peak_direction_getter.pyx";
 static char __pyx_k_unknown_dtype_code_in_numpy_pxd[] = "unknown dtype code in numpy.pxd (%d)";
 static char __pyx_k_All_dimensions_preceding_dimensi[] = "All dimensions preceding dimension %d must be indexed and not sliced";
 static char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
@@ -1726,14 +1980,12 @@ static char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected
 static char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static char __pyx_k_Out_of_bounds_on_buffer_access_a[] = "Out of bounds on buffer access (axis %d)";
 static char __pyx_k_Unable_to_convert_item_to_object[] = "Unable to convert item to object";
-static char __pyx_k_dipy_reconst_peak_direction_gett[] = "dipy.reconst.peak_direction_getter";
 static char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension %d (got %d and %d)";
 static char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
-static char __pyx_k_shapes_of_peak_values_and_peak_i[] = "shapes of peak_values and peak_indices do not match";
 static char __pyx_k_unable_to_allocate_shape_and_str[] = "unable to allocate shape and strides.";
 static char __pyx_k_Format_string_allocated_too_shor_2[] = "Format string allocated too short.";
+static PyObject *__pyx_n_s_AFFINE;
 static PyObject *__pyx_kp_s_Buffer_view_does_not_expose_stri;
-static PyObject *__pyx_n_s_C;
 static PyObject *__pyx_kp_s_Can_only_create_a_buffer_that_is;
 static PyObject *__pyx_kp_s_Cannot_index_with_type_s;
 static PyObject *__pyx_n_s_Ellipsis;
@@ -1743,49 +1995,45 @@ static PyObject *__pyx_kp_u_Format_string_allocated_too_shor_2;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
+static PyObject *__pyx_kp_s_Invalid_number_of_parameters_d;
+static PyObject *__pyx_kp_s_Invalid_point_dimension_d;
 static PyObject *__pyx_kp_s_Invalid_shape_in_axis_d_d;
+static PyObject *__pyx_kp_s_Invalid_transform;
 static PyObject *__pyx_n_s_MemoryError;
 static PyObject *__pyx_kp_s_MemoryView_of_r_at_0x_x;
 static PyObject *__pyx_kp_s_MemoryView_of_r_object;
-static PyObject *__pyx_n_s_N;
 static PyObject *__pyx_kp_u_Non_native_byte_order_not_suppor;
 static PyObject *__pyx_n_b_O;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
+static PyObject *__pyx_n_s_RIGID;
+static PyObject *__pyx_n_s_ROTATION;
 static PyObject *__pyx_n_s_RuntimeError;
+static PyObject *__pyx_n_s_SCALING;
+static PyObject *__pyx_n_s_TRANSLATION;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_allocate_buffer;
-static PyObject *__pyx_n_s_array;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
 static PyObject *__pyx_n_u_c;
 static PyObject *__pyx_n_s_class;
 static PyObject *__pyx_kp_s_contiguous_and_direct;
 static PyObject *__pyx_kp_s_contiguous_and_indirect;
-static PyObject *__pyx_n_s_copy;
-static PyObject *__pyx_n_s_dipy_reconst_peak_direction_gett;
-static PyObject *__pyx_n_s_direction;
-static PyObject *__pyx_n_s_double;
-static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_dtype_is_object;
-static PyObject *__pyx_n_s_empty;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
+static PyObject *__pyx_n_s_eye;
 static PyObject *__pyx_n_s_flags;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
-static PyObject *__pyx_n_s_get_direction;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
-static PyObject *__pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
-static PyObject *__pyx_n_s_initialize;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
 static PyObject *__pyx_n_s_main;
-static PyObject *__pyx_n_s_make_nd;
 static PyObject *__pyx_n_s_memview;
 static PyObject *__pyx_n_s_mode;
 static PyObject *__pyx_n_s_name;
@@ -1793,24 +2041,16 @@ static PyObject *__pyx_n_s_name_2;
 static PyObject *__pyx_kp_u_ndarray_is_not_C_contiguous;
 static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_ndim;
-static PyObject *__pyx_n_s_new_shape;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_obj;
-static PyObject *__pyx_n_s_order;
 static PyObject *__pyx_n_s_pack;
-static PyObject *__pyx_n_s_peak_indices;
-static PyObject *__pyx_n_s_peak_values;
-static PyObject *__pyx_n_s_point;
-static PyObject *__pyx_kp_s_point_outside_data;
 static PyObject *__pyx_n_s_pyx_getbuffer;
 static PyObject *__pyx_n_s_pyx_vtable;
 static PyObject *__pyx_n_s_range;
-static PyObject *__pyx_n_s_reshape;
+static PyObject *__pyx_n_s_regtransforms;
 static PyObject *__pyx_n_s_shape;
-static PyObject *__pyx_kp_s_shapes_of_peak_values_and_peak_i;
 static PyObject *__pyx_n_s_size;
-static PyObject *__pyx_n_s_sphere;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
@@ -1819,68 +2059,232 @@ static PyObject *__pyx_kp_s_strided_and_direct_or_indirect;
 static PyObject *__pyx_kp_s_strided_and_indirect;
 static PyObject *__pyx_n_s_struct;
 static PyObject *__pyx_n_s_test;
+static PyObject *__pyx_n_s_theta;
 static PyObject *__pyx_kp_s_unable_to_allocate_array_data;
 static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_unpack;
-static PyObject *__pyx_n_s_vertices;
+static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_xrange;
+static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
+static PyObject *__pyx_int_2;
 static PyObject *__pyx_int_3;
-static PyObject *__pyx_int_4;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple_;
-static PyObject *__pyx_slice__3;
 static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_slice__15;
+static PyObject *__pyx_slice__16;
 static PyObject *__pyx_slice__17;
-static PyObject *__pyx_slice__18;
-static PyObject *__pyx_slice__19;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__13;
 static PyObject *__pyx_tuple__14;
-static PyObject *__pyx_tuple__15;
-static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__22;
 static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__25;
 static PyObject *__pyx_tuple__26;
 static PyObject *__pyx_tuple__27;
-static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_tuple__28;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__30;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__32;
+static PyObject *__pyx_tuple__33;
 
-/* "dipy/reconst/peak_direction_getter.pyx":11
- *     double dpy_rint(double x)
+/* "dipy/align/transforms.pyx":39
+ *         int dim
  * 
- * def make_nd(array, N):             # <<<<<<<<<<<<<<
- *     """Makes an array that's less than Nd - Nd
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         r""" Default constructor
+ *         Sets transform dimension and number of parameter to invalid values (-1)
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_9Transform_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_4dipy_5align_10transforms_9Transform_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__cinit__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform___cinit__(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_9Transform___cinit__(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "dipy/align/transforms.pyx":43
+ *         Sets transform dimension and number of parameter to invalid values (-1)
+ *         """
+ *         self.dim = -1             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = -1
+ * 
+ */
+  __pyx_v_self->dim = -1;
+
+  /* "dipy/align/transforms.pyx":44
+ *         """
+ *         self.dim = -1
+ *         self.number_of_parameters = -1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->number_of_parameters = -1;
+
+  /* "dipy/align/transforms.pyx":39
+ *         int dim
+ * 
+ *     def __cinit__(self):             # <<<<<<<<<<<<<<
+ *         r""" Default constructor
+ *         Sets transform dimension and number of parameter to invalid values (-1)
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":46
+ *         self.number_of_parameters = -1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         return -1
+ * 
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_9Transform__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_J) {
+  int __pyx_r;
+
+  /* "dipy/align/transforms.pyx":47
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ *         return -1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = -1;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":46
+ *         self.number_of_parameters = -1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         return -1
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":49
+ *         return -1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_9Transform__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta) {
+
+  /* "dipy/align/transforms.pyx":50
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] T)nogil:
+ */
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":49
+ *         return -1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":52
+ *         return
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] T)nogil:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_9Transform__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_T) {
+
+  /* "dipy/align/transforms.pyx":53
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] T)nogil:
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     def jacobian(self, double[:] theta, double[:] x):
+ */
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":52
+ *         return
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] T)nogil:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":55
+ *         return
+ * 
+ *     def jacobian(self, double[:] theta, double[:] x):             # <<<<<<<<<<<<<<
+ *         r""" Jacobian function of this transform
  * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_1make_nd(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_7reconst_21peak_direction_getter_make_nd[] = "Makes an array that's less than Nd - Nd\n\n    We need this because numpy 1.6 does not return a \"c contiguous array\"\n    when you call ``array(a, order='c', ndmin=N)``\n    ";
-static PyMethodDef __pyx_mdef_4dipy_7reconst_21peak_direction_getter_1make_nd = {"make_nd", (PyCFunction)__pyx_pw_4dipy_7reconst_21peak_direction_getter_1make_nd, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_7reconst_21peak_direction_getter_make_nd};
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_1make_nd(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_array = 0;
-  PyObject *__pyx_v_N = 0;
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_3jacobian(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_9Transform_2jacobian[] = " Jacobian function of this transform\n\n        Parameters\n        ----------\n        theta : array, shape (n,)\n            vector containing the n parameters of this transform\n        x : array, shape (dim,)\n            vector containing the point where the Jacobian must be evaluated\n\n        Returns\n        -------\n        J : array, shape (dim, n)\n            Jacobian matrix of the transform with parameters theta at point x\n        ";
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_3jacobian(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  __Pyx_memviewslice __pyx_v_theta = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_x = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("make_nd (wrapper)", 0);
+  __Pyx_RefNannySetupContext("jacobian (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_array,&__pyx_n_s_N,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_theta,&__pyx_n_s_x,0};
     PyObject* values[2] = {0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -1894,16 +2298,16 @@ static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_1make_nd(PyObje
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_array)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_theta)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_N)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("make_nd", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("jacobian", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "make_nd") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "jacobian") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -1911,225 +2315,781 @@ static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_1make_nd(PyObje
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_array = values[0];
-    __pyx_v_N = values[1];
+    __pyx_v_theta = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[0]); if (unlikely(!__pyx_v_theta.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_x = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[1]); if (unlikely(!__pyx_v_x.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("make_nd", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("jacobian", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.make_nd", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.jacobian", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_make_nd(__pyx_self, __pyx_v_array, __pyx_v_N);
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform_2jacobian(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self), __pyx_v_theta, __pyx_v_x);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_make_nd(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_array, PyObject *__pyx_v_N) {
-  PyObject *__pyx_v_new_shape = NULL;
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_2jacobian(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x) {
+  Py_ssize_t __pyx_v_n;
+  Py_ssize_t __pyx_v_m;
+  PyObject *__pyx_v_J = NULL;
+  CYTHON_UNUSED int __pyx_v_ret;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_1;
   PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
+  PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("make_nd", 0);
+  __Pyx_RefNannySetupContext("jacobian", 0);
 
-  /* "dipy/reconst/peak_direction_getter.pyx":17
- *     when you call ``array(a, order='c', ndmin=N)``
- *     """
- *     if array.ndim > N:             # <<<<<<<<<<<<<<
- *         raise ValueError()
- *     new_shape = (1,) * (N - array.ndim) + array.shape
+  /* "dipy/align/transforms.pyx":70
+ *             Jacobian matrix of the transform with parameters theta at point x
+ *         """
+ *         n = theta.shape[0]             # <<<<<<<<<<<<<<
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_array, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, __pyx_v_N, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (__pyx_t_3) {
+  __pyx_v_n = (__pyx_v_theta.shape[0]);
 
-    /* "dipy/reconst/peak_direction_getter.pyx":18
- *     """
- *     if array.ndim > N:
- *         raise ValueError()             # <<<<<<<<<<<<<<
- *     new_shape = (1,) * (N - array.ndim) + array.shape
- *     return array.reshape(new_shape)
+  /* "dipy/align/transforms.pyx":71
+ *         """
+ *         n = theta.shape[0]
+ *         if n != self.number_of_parameters:             # <<<<<<<<<<<<<<
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         m = x.shape[0]
  */
-    __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_builtin_ValueError); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = ((__pyx_v_n != __pyx_v_self->number_of_parameters) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/align/transforms.pyx":72
+ *         n = theta.shape[0]
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))             # <<<<<<<<<<<<<<
+ *         m = x.shape[0]
+ *         if m < self.dim:
+ */
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_Invalid_number_of_parameters_d, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/align/transforms.pyx":73
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         m = x.shape[0]             # <<<<<<<<<<<<<<
+ *         if m < self.dim:
+ *             raise ValueError("Invalid point dimension: %d"%(m,))
+ */
+  __pyx_v_m = (__pyx_v_x.shape[0]);
+
+  /* "dipy/align/transforms.pyx":74
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         m = x.shape[0]
+ *         if m < self.dim:             # <<<<<<<<<<<<<<
+ *             raise ValueError("Invalid point dimension: %d"%(m,))
+ *         J = np.zeros((self.dim, n))
+ */
+  __pyx_t_1 = ((__pyx_v_m < __pyx_v_self->dim) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/align/transforms.pyx":75
+ *         m = x.shape[0]
+ *         if m < self.dim:
+ *             raise ValueError("Invalid point dimension: %d"%(m,))             # <<<<<<<<<<<<<<
+ *         J = np.zeros((self.dim, n))
+ *         ret = self._jacobian(theta, x, J)
+ */
+    __pyx_t_2 = PyInt_FromSsize_t(__pyx_v_m); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_Invalid_point_dimension_d, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
+    __Pyx_GIVEREF(__pyx_t_2);
+    __pyx_t_2 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/align/transforms.pyx":76
+ *         if m < self.dim:
+ *             raise ValueError("Invalid point dimension: %d"%(m,))
+ *         J = np.zeros((self.dim, n))             # <<<<<<<<<<<<<<
+ *         ret = self._jacobian(theta, x, J)
+ *         return J
+ */
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->dim); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_5);
+  __pyx_t_3 = 0;
+  __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
+    }
+  }
+  if (!__pyx_t_5) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_GOTREF(__pyx_t_2);
+  } else {
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
+    PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_6);
+    __Pyx_GIVEREF(__pyx_t_6);
+    __pyx_t_6 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_J = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "dipy/align/transforms.pyx":77
+ *             raise ValueError("Invalid point dimension: %d"%(m,))
+ *         J = np.zeros((self.dim, n))
+ *         ret = self._jacobian(theta, x, J)             # <<<<<<<<<<<<<<
+ *         return J
+ * 
+ */
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_J);
+  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_v_ret = ((struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform *)__pyx_v_self->__pyx_vtab)->_jacobian(__pyx_v_self, __pyx_v_theta, __pyx_v_x, __pyx_t_7);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+
+  /* "dipy/align/transforms.pyx":78
+ *         J = np.zeros((self.dim, n))
+ *         ret = self._jacobian(theta, x, J)
+ *         return J             # <<<<<<<<<<<<<<
+ * 
+ *     def get_identity_parameters(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_J);
+  __pyx_r = __pyx_v_J;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":55
+ *         return
+ * 
+ *     def jacobian(self, double[:] theta, double[:] x):             # <<<<<<<<<<<<<<
+ *         r""" Jacobian function of this transform
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.jacobian", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_J);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_theta, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_x, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":80
+ *         return J
+ * 
+ *     def get_identity_parameters(self):             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity transform
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_5get_identity_parameters(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_9Transform_4get_identity_parameters[] = " Parameter values corresponding to the identity transform\n\n        Returns\n        -------\n        theta : array, shape (n,)\n            the n parameter values corresponding to the identity transform\n        ";
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_5get_identity_parameters(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_identity_parameters (wrapper)", 0);
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform_4get_identity_parameters(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_4get_identity_parameters(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self) {
+  PyObject *__pyx_v_theta = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_identity_parameters", 0);
+
+  /* "dipy/align/transforms.pyx":88
+ *             the n parameter values corresponding to the identity transform
+ *         """
+ *         if self.number_of_parameters < 0:             # <<<<<<<<<<<<<<
+ *             raise ValueError("Invalid transform.")
+ *         theta = np.zeros(self.number_of_parameters)
+ */
+  __pyx_t_1 = ((__pyx_v_self->number_of_parameters < 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/align/transforms.pyx":89
+ *         """
+ *         if self.number_of_parameters < 0:
+ *             raise ValueError("Invalid transform.")             # <<<<<<<<<<<<<<
+ *         theta = np.zeros(self.number_of_parameters)
+ *         self._get_identity_parameters(theta)
+ */
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
 
-  /* "dipy/reconst/peak_direction_getter.pyx":19
- *     if array.ndim > N:
- *         raise ValueError()
- *     new_shape = (1,) * (N - array.ndim) + array.shape             # <<<<<<<<<<<<<<
- *     return array.reshape(new_shape)
- * 
+  /* "dipy/align/transforms.pyx":90
+ *         if self.number_of_parameters < 0:
+ *             raise ValueError("Invalid transform.")
+ *         theta = np.zeros(self.number_of_parameters)             # <<<<<<<<<<<<<<
+ *         self._get_identity_parameters(theta)
+ *         return theta
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_array, __pyx_n_s_ndim); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyNumber_Subtract(__pyx_v_N, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyNumber_Multiply(__pyx_tuple_, __pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_array, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyNumber_Add(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_zeros); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_new_shape = __pyx_t_4;
-  __pyx_t_4 = 0;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":20
- *         raise ValueError()
- *     new_shape = (1,) * (N - array.ndim) + array.shape
- *     return array.reshape(new_shape)             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_array, __pyx_n_s_reshape); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_self->number_of_parameters); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_5 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  if (!__pyx_t_2) {
-    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_new_shape); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
+  if (!__pyx_t_5) {
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_2);
   } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_2); __Pyx_GIVEREF(__pyx_t_2); __pyx_t_2 = NULL;
-    __Pyx_INCREF(__pyx_v_new_shape);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_v_new_shape);
-    __Pyx_GIVEREF(__pyx_v_new_shape);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __Pyx_GIVEREF(__pyx_t_5); __pyx_t_5 = NULL;
+    PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_r = __pyx_t_4;
-  __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_theta = __pyx_t_2;
+  __pyx_t_2 = 0;
+
+  /* "dipy/align/transforms.pyx":91
+ *             raise ValueError("Invalid transform.")
+ *         theta = np.zeros(self.number_of_parameters)
+ *         self._get_identity_parameters(theta)             # <<<<<<<<<<<<<<
+ *         return theta
+ * 
+ */
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_v_theta);
+  if (unlikely(!__pyx_t_7.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 91; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  ((struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform *)__pyx_v_self->__pyx_vtab)->_get_identity_parameters(__pyx_v_self, __pyx_t_7);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+
+  /* "dipy/align/transforms.pyx":92
+ *         theta = np.zeros(self.number_of_parameters)
+ *         self._get_identity_parameters(theta)
+ *         return theta             # <<<<<<<<<<<<<<
+ * 
+ *     def param_to_matrix(self, double[:] theta):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_theta);
+  __pyx_r = __pyx_v_theta;
   goto __pyx_L0;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":11
- *     double dpy_rint(double x)
+  /* "dipy/align/transforms.pyx":80
+ *         return J
  * 
- * def make_nd(array, N):             # <<<<<<<<<<<<<<
- *     """Makes an array that's less than Nd - Nd
+ *     def get_identity_parameters(self):             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity transform
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_theta);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":94
+ *         return theta
+ * 
+ *     def param_to_matrix(self, double[:] theta):             # <<<<<<<<<<<<<<
+ *         r""" Matrix representation of this transform with the given parameters
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_7param_to_matrix(PyObject *__pyx_v_self, PyObject *__pyx_arg_theta); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_9Transform_6param_to_matrix[] = " Matrix representation of this transform with the given parameters\n\n        Parameters\n        ----------\n        theta : array, shape (n,)\n            the parameter values of the transform\n\n        Returns\n        -------\n        T : array, shape (dim + 1, dim + 1)\n            the matrix representation of this transform with parameters theta\n        ";
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_7param_to_matrix(PyObject *__pyx_v_self, PyObject *__pyx_arg_theta) {
+  __Pyx_memviewslice __pyx_v_theta = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("param_to_matrix (wrapper)", 0);
+  assert(__pyx_arg_theta); {
+    __pyx_v_theta = __Pyx_PyObject_to_MemoryviewSlice_ds_double(__pyx_arg_theta); if (unlikely(!__pyx_v_theta.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.param_to_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform_6param_to_matrix(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self), __pyx_v_theta);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_6param_to_matrix(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  Py_ssize_t __pyx_v_n;
+  PyObject *__pyx_v_T = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("param_to_matrix", 0);
+
+  /* "dipy/align/transforms.pyx":107
+ *             the matrix representation of this transform with parameters theta
+ *         """
+ *         n = len(theta)             # <<<<<<<<<<<<<<
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ */
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_theta, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_n = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":108
+ *         """
+ *         n = len(theta)
+ *         if n != self.number_of_parameters:             # <<<<<<<<<<<<<<
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         T = np.eye(self.dim + 1)
+ */
+  __pyx_t_3 = ((__pyx_v_n != __pyx_v_self->number_of_parameters) != 0);
+  if (__pyx_t_3) {
+
+    /* "dipy/align/transforms.pyx":109
+ *         n = len(theta)
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))             # <<<<<<<<<<<<<<
+ *         T = np.eye(self.dim + 1)
+ *         self._param_to_matrix(theta, T)
+ */
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_v_n); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_1);
+    __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyString_Format(__pyx_kp_s_Invalid_number_of_parameters_d, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_1);
+    __pyx_t_1 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+
+  /* "dipy/align/transforms.pyx":110
+ *         if n != self.number_of_parameters:
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         T = np.eye(self.dim + 1)             # <<<<<<<<<<<<<<
+ *         self._param_to_matrix(theta, T)
+ *         return T
+ */
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_eye); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyInt_From_long((__pyx_v_self->dim + 1)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  if (!__pyx_t_6) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
+    PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_4);
+    __pyx_t_4 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_T = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":111
+ *             raise ValueError("Invalid number of parameters: %d"%(n,))
+ *         T = np.eye(self.dim + 1)
+ *         self._param_to_matrix(theta, T)             # <<<<<<<<<<<<<<
+ *         return T
+ * 
+ */
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dsds_double(__pyx_v_T);
+  if (unlikely(!__pyx_t_8.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  ((struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform *)__pyx_v_self->__pyx_vtab)->_param_to_matrix(__pyx_v_self, __pyx_v_theta, __pyx_t_8);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
+
+  /* "dipy/align/transforms.pyx":112
+ *         T = np.eye(self.dim + 1)
+ *         self._param_to_matrix(theta, T)
+ *         return T             # <<<<<<<<<<<<<<
+ * 
+ *     def get_number_of_parameters(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_T);
+  __pyx_r = __pyx_v_T;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":94
+ *         return theta
+ * 
+ *     def param_to_matrix(self, double[:] theta):             # <<<<<<<<<<<<<<
+ *         r""" Matrix representation of this transform with the given parameters
  * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.make_nd", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.param_to_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_new_shape);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_theta, 1);
+  __Pyx_XDECREF(__pyx_v_T);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "dipy/reconst/peak_direction_getter.pyx":35
- *         int initialized
+/* "dipy/align/transforms.pyx":114
+ *         return T
  * 
- *     def __cinit__(self):             # <<<<<<<<<<<<<<
- *         initialized = False
- *         self.qa_thr = 0.0239
+ *     def get_number_of_parameters(self):             # <<<<<<<<<<<<<<
+ *         return self.number_of_parameters
+ * 
  */
 
 /* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  int __pyx_r;
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_9get_number_of_parameters(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_9get_number_of_parameters(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
-  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
-    __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
-  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__cinit__", 0))) return -1;
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter___cinit__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("get_number_of_parameters (wrapper)", 0);
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform_8get_number_of_parameters(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter___cinit__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  CYTHON_UNUSED int __pyx_v_initialized;
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_8get_number_of_parameters(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_number_of_parameters", 0);
+
+  /* "dipy/align/transforms.pyx":115
+ * 
+ *     def get_number_of_parameters(self):
+ *         return self.number_of_parameters             # <<<<<<<<<<<<<<
+ * 
+ *     def get_dim(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->number_of_parameters); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":114
+ *         return T
+ * 
+ *     def get_number_of_parameters(self):             # <<<<<<<<<<<<<<
+ *         return self.number_of_parameters
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.get_number_of_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":117
+ *         return self.number_of_parameters
+ * 
+ *     def get_dim(self):             # <<<<<<<<<<<<<<
+ *         return self.dim
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_11get_dim(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_4dipy_5align_10transforms_9Transform_11get_dim(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_dim (wrapper)", 0);
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_9Transform_10get_dim(((struct __pyx_obj_4dipy_5align_10transforms_Transform *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4dipy_5align_10transforms_9Transform_10get_dim(struct __pyx_obj_4dipy_5align_10transforms_Transform *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_dim", 0);
+
+  /* "dipy/align/transforms.pyx":118
+ * 
+ *     def get_dim(self):
+ *         return self.dim             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->dim); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":117
+ *         return self.number_of_parameters
+ * 
+ *     def get_dim(self):             # <<<<<<<<<<<<<<
+ *         return self.dim
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("dipy.align.transforms.Transform.get_dim", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":122
+ * 
+ * cdef class TranslationTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Translation transform in 2D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_22TranslationTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_22TranslationTransform2D___init__[] = " Translation transform in 2D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform2D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_22TranslationTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__cinit__", 0);
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_22TranslationTransform2D___init__(((struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *)__pyx_v_self));
 
-  /* "dipy/reconst/peak_direction_getter.pyx":36
- * 
- *     def __cinit__(self):
- *         initialized = False             # <<<<<<<<<<<<<<
- *         self.qa_thr = 0.0239
- *         self.ang_thr = 60
- */
-  __pyx_v_initialized = 0;
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 
-  /* "dipy/reconst/peak_direction_getter.pyx":37
- *     def __cinit__(self):
- *         initialized = False
- *         self.qa_thr = 0.0239             # <<<<<<<<<<<<<<
- *         self.ang_thr = 60
- *         self.total_weight = .5
- */
-  __pyx_v_self->qa_thr = 0.0239;
+static int __pyx_pf_4dipy_5align_10transforms_22TranslationTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dipy/reconst/peak_direction_getter.pyx":38
- *         initialized = False
- *         self.qa_thr = 0.0239
- *         self.ang_thr = 60             # <<<<<<<<<<<<<<
- *         self.total_weight = .5
+  /* "dipy/align/transforms.pyx":125
+ *         r""" Translation transform in 2D
+ *         """
+ *         self.dim = 2             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 2
  * 
  */
-  __pyx_v_self->ang_thr = 60.0;
+  __pyx_v_self->__pyx_base.dim = 2;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":39
- *         self.qa_thr = 0.0239
- *         self.ang_thr = 60
- *         self.total_weight = .5             # <<<<<<<<<<<<<<
+  /* "dipy/align/transforms.pyx":126
+ *         """
+ *         self.dim = 2
+ *         self.number_of_parameters = 2             # <<<<<<<<<<<<<<
  * 
- *     def _initialize(self):
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
  */
-  __pyx_v_self->total_weight = .5;
+  __pyx_v_self->__pyx_base.number_of_parameters = 2;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":35
- *         int initialized
+  /* "dipy/align/transforms.pyx":122
  * 
- *     def __cinit__(self):             # <<<<<<<<<<<<<<
- *         initialized = False
- *         self.qa_thr = 0.0239
+ * cdef class TranslationTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Translation transform in 2D
+ *         """
  */
 
   /* function exit code */
@@ -2138,766 +3098,177 @@ static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDire
   return __pyx_r;
 }
 
-/* "dipy/reconst/peak_direction_getter.pyx":41
- *         self.total_weight = .5
+/* "dipy/align/transforms.pyx":128
+ *         self.number_of_parameters = 2
  * 
- *     def _initialize(self):             # <<<<<<<<<<<<<<
- *         """First time that a PAM instance is used as a direction getter,
- *         initialize all the memoryviews.
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 2D translation transform
+ *         The transformation is given by:
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_initialize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
-static char __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_2_initialize[] = "First time that a PAM instance is used as a direction getter,\n        initialize all the memoryviews.\n        ";
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_initialize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("_initialize (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_2_initialize(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_2_initialize(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_v_msg = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  int __pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  PyObject *__pyx_t_7 = NULL;
-  Py_ssize_t __pyx_t_8;
-  __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_10 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("_initialize", 0);
-
-  /* "dipy/reconst/peak_direction_getter.pyx":45
- *         initialize all the memoryviews.
- *         """
- *         if self.peak_values.shape != self.peak_indices.shape:             # <<<<<<<<<<<<<<
- *             msg = "shapes of peak_values and peak_indices do not match"
- *             raise ValueError(msg)
- */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_peak_values); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_peak_indices); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_shape); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__pyx_t_4) {
-
-    /* "dipy/reconst/peak_direction_getter.pyx":46
- *         """
- *         if self.peak_values.shape != self.peak_indices.shape:
- *             msg = "shapes of peak_values and peak_indices do not match"             # <<<<<<<<<<<<<<
- *             raise ValueError(msg)
- *         self._qa = make_nd(np.array(self.peak_values, copy=False,
- */
-    __Pyx_INCREF(__pyx_kp_s_shapes_of_peak_values_and_peak_i);
-    __pyx_v_msg = __pyx_kp_s_shapes_of_peak_values_and_peak_i;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":47
- *         if self.peak_values.shape != self.peak_indices.shape:
- *             msg = "shapes of peak_values and peak_indices do not match"
- *             raise ValueError(msg)             # <<<<<<<<<<<<<<
- *         self._qa = make_nd(np.array(self.peak_values, copy=False,
- *                                    dtype='double', order='C'), 4)
- */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_v_msg);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_msg);
-    __Pyx_GIVEREF(__pyx_v_msg);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-
-  /* "dipy/reconst/peak_direction_getter.pyx":48
- *             msg = "shapes of peak_values and peak_indices do not match"
- *             raise ValueError(msg)
- *         self._qa = make_nd(np.array(self.peak_values, copy=False,             # <<<<<<<<<<<<<<
- *                                    dtype='double', order='C'), 4)
- *         self._ind = make_nd(np.array(self.peak_indices, copy=False,
- */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_make_nd); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_peak_values); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_copy, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_s_double) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_order, __pyx_n_s_C) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  __pyx_t_8 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-      __pyx_t_8 = 1;
-    }
-  }
-  __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  if (__pyx_t_2) {
-    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __Pyx_GIVEREF(__pyx_t_2); __pyx_t_2 = NULL;
-  }
-  PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_7);
-  __Pyx_GIVEREF(__pyx_t_7);
-  __Pyx_INCREF(__pyx_int_4);
-  PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_int_4);
-  __Pyx_GIVEREF(__pyx_int_4);
-  __pyx_t_7 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(__pyx_t_3);
-  if (unlikely(!__pyx_t_9.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_qa, 0);
-  __pyx_v_self->_qa = __pyx_t_9;
-  __pyx_t_9.memview = NULL;
-  __pyx_t_9.data = NULL;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":50
- *         self._qa = make_nd(np.array(self.peak_values, copy=False,
- *                                    dtype='double', order='C'), 4)
- *         self._ind = make_nd(np.array(self.peak_indices, copy=False,             # <<<<<<<<<<<<<<
- *                                     dtype='double', order='C'), 4)
- *         self._odf_vertices = np.array(self.sphere.vertices, copy=False,
- */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_make_nd); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_peak_indices); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6);
-  __Pyx_GIVEREF(__pyx_t_6);
-  __pyx_t_6 = 0;
-  __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_copy, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_n_s_double) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_order, __pyx_n_s_C) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = NULL;
-  __pyx_t_8 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-      __pyx_t_8 = 1;
-    }
-  }
-  __pyx_t_2 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (__pyx_t_6) {
-    PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
-  }
-  PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_8, __pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_5);
-  __Pyx_INCREF(__pyx_int_4);
-  PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_8, __pyx_int_4);
-  __Pyx_GIVEREF(__pyx_int_4);
-  __pyx_t_5 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(__pyx_t_3);
-  if (unlikely(!__pyx_t_9.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_ind, 0);
-  __pyx_v_self->_ind = __pyx_t_9;
-  __pyx_t_9.memview = NULL;
-  __pyx_t_9.data = NULL;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":52
- *         self._ind = make_nd(np.array(self.peak_indices, copy=False,
- *                                     dtype='double', order='C'), 4)
- *         self._odf_vertices = np.array(self.sphere.vertices, copy=False,             # <<<<<<<<<<<<<<
- *                                       dtype='double', order='C')
- * 
- */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_sphere); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_vertices); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_copy, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_n_s_double) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_order, __pyx_n_s_C) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5);
-  if (unlikely(!__pyx_t_10.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_odf_vertices, 0);
-  __pyx_v_self->_odf_vertices = __pyx_t_10;
-  __pyx_t_10.memview = NULL;
-  __pyx_t_10.data = NULL;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":55
- *                                       dtype='double', order='C')
- * 
- *         self.initialized = True             # <<<<<<<<<<<<<<
- * 
- *     def initial_direction(self, double[::1] point):
- */
-  __pyx_v_self->initialized = 1;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":41
- *         self.total_weight = .5
- * 
- *     def _initialize(self):             # <<<<<<<<<<<<<<
- *         """First time that a PAM instance is used as a direction getter,
- *         initialize all the memoryviews.
- */
-
-  /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_7);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_9, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._initialize", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_msg);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/reconst/peak_direction_getter.pyx":57
- *         self.initialized = True
- * 
- *     def initial_direction(self, double[::1] point):             # <<<<<<<<<<<<<<
- *         """The best starting directions for fiber tracking from point
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_5initial_direction(PyObject *__pyx_v_self, PyObject *__pyx_arg_point); /*proto*/
-static char __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4initial_direction[] = "The best starting directions for fiber tracking from point\n\n        All the valid peaks in the voxel closest to point are returned as\n        initial directions.\n\n        ";
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_5initial_direction(PyObject *__pyx_v_self, PyObject *__pyx_arg_point) {
-  __Pyx_memviewslice __pyx_v_point = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("initial_direction (wrapper)", 0);
-  assert(__pyx_arg_point); {
-    __pyx_v_point = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_arg_point); if (unlikely(!__pyx_v_point.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.initial_direction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4initial_direction(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), __pyx_v_point);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4initial_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point) {
-  npy_intp __pyx_v_numpeaks;
-  npy_intp __pyx_v_i;
-  npy_intp __pyx_v_ijk[3];
-  PyObject *__pyx_v_res = NULL;
-  PyObject *__pyx_v_peak_index = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  npy_intp __pyx_t_5;
-  npy_intp __pyx_t_6;
-  int __pyx_t_7;
-  int __pyx_t_8;
-  Py_ssize_t __pyx_t_9;
-  npy_intp __pyx_t_10;
-  npy_intp __pyx_t_11;
-  npy_intp __pyx_t_12;
-  npy_intp __pyx_t_13;
-  PyObject *__pyx_t_14 = NULL;
-  PyObject *__pyx_t_15 = NULL;
-  npy_intp __pyx_t_16;
-  npy_intp __pyx_t_17;
-  npy_intp __pyx_t_18;
-  npy_intp __pyx_t_19;
-  npy_intp __pyx_t_20;
-  __Pyx_memviewslice __pyx_t_21 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  npy_intp __pyx_t_22;
-  __Pyx_memviewslice __pyx_t_23 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("initial_direction", 0);
-
-  /* "dipy/reconst/peak_direction_getter.pyx":64
- * 
- *         """
- *         if not self.initialized:             # <<<<<<<<<<<<<<
- *             self._initialize()
- * 
- */
-  __pyx_t_1 = ((!(__pyx_v_self->initialized != 0)) != 0);
-  if (__pyx_t_1) {
-
-    /* "dipy/reconst/peak_direction_getter.pyx":65
- *         """
- *         if not self.initialized:
- *             self._initialize()             # <<<<<<<<<<<<<<
- * 
- *         cdef:
- */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_initialize); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_3, function);
-      }
-    }
-    if (__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    goto __pyx_L3;
-  }
-  __pyx_L3:;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":72
- * 
- *         # ijk is the closest voxel to point
- *         for i in range(3):             # <<<<<<<<<<<<<<
- *             ijk[i] = <np.npy_intp> dpy_rint(point[i])
- *             if ijk[i] < 0 or ijk[i] >= self._ind.shape[i]:
- */
-  for (__pyx_t_5 = 0; __pyx_t_5 < 3; __pyx_t_5+=1) {
-    __pyx_v_i = __pyx_t_5;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":73
- *         # ijk is the closest voxel to point
- *         for i in range(3):
- *             ijk[i] = <np.npy_intp> dpy_rint(point[i])             # <<<<<<<<<<<<<<
- *             if ijk[i] < 0 or ijk[i] >= self._ind.shape[i]:
- *                 raise IndexError("point outside data")
- */
-    __pyx_t_6 = __pyx_v_i;
-    __pyx_t_7 = -1;
-    if (__pyx_t_6 < 0) {
-      __pyx_t_6 += __pyx_v_point.shape[0];
-      if (unlikely(__pyx_t_6 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_6 >= __pyx_v_point.shape[0])) __pyx_t_7 = 0;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    (__pyx_v_ijk[__pyx_v_i]) = ((npy_intp)dpy_rint((*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_point.data) + __pyx_t_6)) )))));
-
-    /* "dipy/reconst/peak_direction_getter.pyx":74
- *         for i in range(3):
- *             ijk[i] = <np.npy_intp> dpy_rint(point[i])
- *             if ijk[i] < 0 or ijk[i] >= self._ind.shape[i]:             # <<<<<<<<<<<<<<
- *                 raise IndexError("point outside data")
- * 
- */
-    __pyx_t_8 = (((__pyx_v_ijk[__pyx_v_i]) < 0) != 0);
-    if (!__pyx_t_8) {
-    } else {
-      __pyx_t_1 = __pyx_t_8;
-      goto __pyx_L7_bool_binop_done;
-    }
-    if (unlikely(!__pyx_v_self->_ind.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-    __pyx_t_8 = (((__pyx_v_ijk[__pyx_v_i]) >= (__pyx_v_self->_ind.shape[__pyx_v_i])) != 0);
-    __pyx_t_1 = __pyx_t_8;
-    __pyx_L7_bool_binop_done:;
-    if (__pyx_t_1) {
-
-      /* "dipy/reconst/peak_direction_getter.pyx":75
- *             ijk[i] = <np.npy_intp> dpy_rint(point[i])
- *             if ijk[i] < 0 or ijk[i] >= self._ind.shape[i]:
- *                 raise IndexError("point outside data")             # <<<<<<<<<<<<<<
- * 
- *         # Check to see how many peaks were found in the voxel
- */
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_IndexError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_Raise(__pyx_t_2, 0, 0, 0);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-  }
-
-  /* "dipy/reconst/peak_direction_getter.pyx":78
- * 
- *         # Check to see how many peaks were found in the voxel
- *         for numpeaks in range(self._ind.shape[3]):             # <<<<<<<<<<<<<<
- *             if self._ind[ijk[0], ijk[1], ijk[2], numpeaks] < 0:
- *                 break
- */
-  if (unlikely(!__pyx_v_self->_ind.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-  __pyx_t_9 = (__pyx_v_self->_ind.shape[3]);
-  for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_9; __pyx_t_5+=1) {
-    __pyx_v_numpeaks = __pyx_t_5;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":79
- *         # Check to see how many peaks were found in the voxel
- *         for numpeaks in range(self._ind.shape[3]):
- *             if self._ind[ijk[0], ijk[1], ijk[2], numpeaks] < 0:             # <<<<<<<<<<<<<<
- *                 break
- * 
- */
-    if (unlikely(!__pyx_v_self->_ind.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-    __pyx_t_10 = (__pyx_v_ijk[0]);
-    __pyx_t_11 = (__pyx_v_ijk[1]);
-    __pyx_t_12 = (__pyx_v_ijk[2]);
-    __pyx_t_13 = __pyx_v_numpeaks;
-    __pyx_t_7 = -1;
-    if (__pyx_t_10 < 0) {
-      __pyx_t_10 += __pyx_v_self->_ind.shape[0];
-      if (unlikely(__pyx_t_10 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_10 >= __pyx_v_self->_ind.shape[0])) __pyx_t_7 = 0;
-    if (__pyx_t_11 < 0) {
-      __pyx_t_11 += __pyx_v_self->_ind.shape[1];
-      if (unlikely(__pyx_t_11 < 0)) __pyx_t_7 = 1;
-    } else if (unlikely(__pyx_t_11 >= __pyx_v_self->_ind.shape[1])) __pyx_t_7 = 1;
-    if (__pyx_t_12 < 0) {
-      __pyx_t_12 += __pyx_v_self->_ind.shape[2];
-      if (unlikely(__pyx_t_12 < 0)) __pyx_t_7 = 2;
-    } else if (unlikely(__pyx_t_12 >= __pyx_v_self->_ind.shape[2])) __pyx_t_7 = 2;
-    if (__pyx_t_13 < 0) {
-      __pyx_t_13 += __pyx_v_self->_ind.shape[3];
-      if (unlikely(__pyx_t_13 < 0)) __pyx_t_7 = 3;
-    } else if (unlikely(__pyx_t_13 >= __pyx_v_self->_ind.shape[3])) __pyx_t_7 = 3;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __pyx_t_1 = (((*((double *) ( /* dim=3 */ ((char *) (((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->_ind.data + __pyx_t_10 * __pyx_v_self->_ind.strides[0]) ) + __pyx_t_11 * __pyx_v_self->_ind.strides[1]) ) + __pyx_t_12 * __pyx_v_self->_ind.strides[2]) )) + __pyx_t_13)) ))) < 0.0) != 0);
-    if (__pyx_t_1) {
-
-      /* "dipy/reconst/peak_direction_getter.pyx":80
- *         for numpeaks in range(self._ind.shape[3]):
- *             if self._ind[ijk[0], ijk[1], ijk[2], numpeaks] < 0:
- *                 break             # <<<<<<<<<<<<<<
- * 
- *         # Create directions array and copy peak directions from vertices
- */
-      goto __pyx_L10_break;
-    }
-  }
-  __pyx_L10_break:;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":83
- * 
- *         # Create directions array and copy peak directions from vertices
- *         res = np.empty((numpeaks, 3))             # <<<<<<<<<<<<<<
- *         for i in range(numpeaks):
- *             peak_index = self._ind[ijk[0], ijk[1], ijk[2], i]
- */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_numpeaks); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_14);
-  PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_int_3);
-  PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_int_3);
-  __Pyx_GIVEREF(__pyx_int_3);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  if (!__pyx_t_3) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_14); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    __Pyx_GOTREF(__pyx_t_2);
-  } else {
-    __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_15);
-    PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-    PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_14);
-    __Pyx_GIVEREF(__pyx_t_14);
-    __pyx_t_14 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_15, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_res = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":84
- *         # Create directions array and copy peak directions from vertices
- *         res = np.empty((numpeaks, 3))
- *         for i in range(numpeaks):             # <<<<<<<<<<<<<<
- *             peak_index = self._ind[ijk[0], ijk[1], ijk[2], i]
- *             res[i, :] = self._odf_vertices[<np.npy_intp> peak_index, :]
- */
-  __pyx_t_5 = __pyx_v_numpeaks;
-  for (__pyx_t_16 = 0; __pyx_t_16 < __pyx_t_5; __pyx_t_16+=1) {
-    __pyx_v_i = __pyx_t_16;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":85
- *         res = np.empty((numpeaks, 3))
- *         for i in range(numpeaks):
- *             peak_index = self._ind[ijk[0], ijk[1], ijk[2], i]             # <<<<<<<<<<<<<<
- *             res[i, :] = self._odf_vertices[<np.npy_intp> peak_index, :]
- * 
- */
-    if (unlikely(!__pyx_v_self->_ind.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-    __pyx_t_17 = (__pyx_v_ijk[0]);
-    __pyx_t_18 = (__pyx_v_ijk[1]);
-    __pyx_t_19 = (__pyx_v_ijk[2]);
-    __pyx_t_20 = __pyx_v_i;
-    __pyx_t_7 = -1;
-    if (__pyx_t_17 < 0) {
-      __pyx_t_17 += __pyx_v_self->_ind.shape[0];
-      if (unlikely(__pyx_t_17 < 0)) __pyx_t_7 = 0;
-    } else if (unlikely(__pyx_t_17 >= __pyx_v_self->_ind.shape[0])) __pyx_t_7 = 0;
-    if (__pyx_t_18 < 0) {
-      __pyx_t_18 += __pyx_v_self->_ind.shape[1];
-      if (unlikely(__pyx_t_18 < 0)) __pyx_t_7 = 1;
-    } else if (unlikely(__pyx_t_18 >= __pyx_v_self->_ind.shape[1])) __pyx_t_7 = 1;
-    if (__pyx_t_19 < 0) {
-      __pyx_t_19 += __pyx_v_self->_ind.shape[2];
-      if (unlikely(__pyx_t_19 < 0)) __pyx_t_7 = 2;
-    } else if (unlikely(__pyx_t_19 >= __pyx_v_self->_ind.shape[2])) __pyx_t_7 = 2;
-    if (__pyx_t_20 < 0) {
-      __pyx_t_20 += __pyx_v_self->_ind.shape[3];
-      if (unlikely(__pyx_t_20 < 0)) __pyx_t_7 = 3;
-    } else if (unlikely(__pyx_t_20 >= __pyx_v_self->_ind.shape[3])) __pyx_t_7 = 3;
-    if (unlikely(__pyx_t_7 != -1)) {
-      __Pyx_RaiseBufferIndexError(__pyx_t_7);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __pyx_t_2 = PyFloat_FromDouble((*((double *) ( /* dim=3 */ ((char *) (((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->_ind.data + __pyx_t_17 * __pyx_v_self->_ind.strides[0]) ) + __pyx_t_18 * __pyx_v_self->_ind.strides[1]) ) + __pyx_t_19 * __pyx_v_self->_ind.strides[2]) )) + __pyx_t_20)) )))); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_XDECREF_SET(__pyx_v_peak_index, __pyx_t_2);
-    __pyx_t_2 = 0;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":86
- *         for i in range(numpeaks):
- *             peak_index = self._ind[ijk[0], ijk[1], ijk[2], i]
- *             res[i, :] = self._odf_vertices[<np.npy_intp> peak_index, :]             # <<<<<<<<<<<<<<
- * 
- *         return res
- */
-    if (unlikely(!__pyx_v_self->_odf_vertices.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-    __pyx_t_21 = __pyx_v_self->_odf_vertices;
-    __PYX_INC_MEMVIEW(&__pyx_t_21, 1);
-    __pyx_t_22 = __Pyx_PyInt_As_Py_intptr_t(__pyx_v_peak_index); if (unlikely((__pyx_t_22 == (npy_intp)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_7 = -1;
-    __pyx_t_23.data = __pyx_t_21.data;
-    __pyx_t_23.memview = __pyx_t_21.memview;
-    __PYX_INC_MEMVIEW(&__pyx_t_23, 0);
-    {
-    Py_ssize_t __pyx_tmp_idx = ((npy_intp)__pyx_t_22);
-    Py_ssize_t __pyx_tmp_shape = __pyx_t_21.shape[0];
-    Py_ssize_t __pyx_tmp_stride = __pyx_t_21.strides[0];
-    if (1 && (__pyx_tmp_idx < 0))
-        __pyx_tmp_idx += __pyx_tmp_shape;
-    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
-        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-        __pyx_t_23.data += __pyx_tmp_idx * __pyx_tmp_stride;
-}
-
-__pyx_t_23.shape[0] = __pyx_t_21.shape[1];
-__pyx_t_23.strides[0] = __pyx_t_21.strides[1];
-    __pyx_t_23.suboffsets[0] = -1;
-
-__PYX_XDEC_MEMVIEW(&__pyx_t_21, 1);
-    __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_t_23, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __PYX_XDEC_MEMVIEW(&__pyx_t_23, 1);
-    __pyx_t_4 = __Pyx_PyInt_From_Py_intptr_t(__pyx_v_i); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_15);
-    PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_4);
-    __Pyx_INCREF(__pyx_slice__3);
-    PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_slice__3);
-    __Pyx_GIVEREF(__pyx_slice__3);
-    __pyx_t_4 = 0;
-    if (unlikely(PyObject_SetItem(__pyx_v_res, __pyx_t_15, __pyx_t_2) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  }
-
-  /* "dipy/reconst/peak_direction_getter.pyx":88
- *             res[i, :] = self._odf_vertices[<np.npy_intp> peak_index, :]
- * 
- *         return res             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_res);
-  __pyx_r = __pyx_v_res;
-  goto __pyx_L0;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":57
- *         self.initialized = True
- * 
- *     def initial_direction(self, double[::1] point):             # <<<<<<<<<<<<<<
- *         """The best starting directions for fiber tracking from point
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_XDECREF(__pyx_t_15);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_21, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_23, 1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.initial_direction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_point, 1);
-  __Pyx_XDECREF(__pyx_v_res);
-  __Pyx_XDECREF(__pyx_v_peak_index);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/reconst/peak_direction_getter.pyx":94
- *     @cython.boundscheck(False)
- *     @cython.wraparound(False)
- *     cpdef int get_direction(self,             # <<<<<<<<<<<<<<
- *                             double[::1] point,
- *                             double[::1] direction) except -1:
- */
-
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7get_direction(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_f_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_get_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point, __Pyx_memviewslice __pyx_v_direction, int __pyx_skip_dispatch) {
-  npy_intp __pyx_v_s;
-  double __pyx_v_newdirection[3];
-  npy_intp __pyx_v_qa_shape[4];
-  npy_intp __pyx_v_qa_strides[4];
-  long __pyx_v_i;
+static int __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
   int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
+  double __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
   Py_ssize_t __pyx_t_7;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  int __pyx_t_10;
-  long __pyx_t_11;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+
+  /* "dipy/align/transforms.pyx":158
+ *             (independent of x)
+ *         """
+ *         J[0, 0], J[0, 1] = 1.0, 0.0             # <<<<<<<<<<<<<<
+ *         J[1, 0], J[1, 1] = 0.0, 1.0
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_3 * __pyx_v_J.strides[0]) ) + __pyx_t_4 * __pyx_v_J.strides[1]) )) = __pyx_t_1;
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_5 * __pyx_v_J.strides[0]) ) + __pyx_t_6 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":159
+ *         """
+ *         J[0, 0], J[0, 1] = 1.0, 0.0
+ *         J[1, 0], J[1, 1] = 0.0, 1.0             # <<<<<<<<<<<<<<
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ *         return 1
+ */
+  __pyx_t_2 = 0.0;
+  __pyx_t_1 = 1.0;
+  __pyx_t_7 = 1;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_7 * __pyx_v_J.strides[0]) ) + __pyx_t_8 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_9 = 1;
+  __pyx_t_10 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_9 * __pyx_v_J.strides[0]) ) + __pyx_t_10 * __pyx_v_J.strides[1]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":161
+ *         J[1, 0], J[1, 1] = 0.0, 1.0
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ *         return 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 1;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":128
+ *         self.number_of_parameters = 2
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 2D translation transform
+ *         The transformation is given by:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":163
+ *         return 1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":173
+ *             buffer to write the parameters of the 2D translation transform
+ *         """
+ *         theta[:2] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_theta.data;
+  __pyx_t_1.memview = __pyx_v_theta.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_theta.shape[0], __pyx_v_theta.strides[0], __pyx_v_theta.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    2,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+
+  /* "dipy/align/transforms.pyx":163
+ *         return 1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.TranslationTransform2D._get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":175
+ *         theta[:2] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D translation transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
   Py_ssize_t __pyx_t_12;
   Py_ssize_t __pyx_t_13;
   Py_ssize_t __pyx_t_14;
@@ -2909,836 +3280,4603 @@ static int __pyx_f_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirec
   Py_ssize_t __pyx_t_20;
   Py_ssize_t __pyx_t_21;
   Py_ssize_t __pyx_t_22;
-  long __pyx_t_23;
+  Py_ssize_t __pyx_t_23;
+
+  /* "dipy/align/transforms.pyx":185
+ *             the buffer in which to write the translation matrix
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = 1, 0, theta[0]             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, 1, theta[1]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_5 * __pyx_v_R.strides[0]) ) + __pyx_t_6 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+  __pyx_t_7 = 0;
+  __pyx_t_8 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_7 * __pyx_v_R.strides[0]) ) + __pyx_t_8 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_9 * __pyx_v_R.strides[0]) ) + __pyx_t_10 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":186
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = 1, 0, theta[0]
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, 1, theta[1]             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ * 
+ */
+  __pyx_t_4 = 0.0;
+  __pyx_t_2 = 1.0;
+  __pyx_t_11 = 1;
+  __pyx_t_1 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_11 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_12 = 1;
+  __pyx_t_13 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_12 * __pyx_v_R.strides[0]) ) + __pyx_t_13 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_14 * __pyx_v_R.strides[0]) ) + __pyx_t_15 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":187
+ *         R[0, 0], R[0, 1], R[0, 2] = 1, 0, theta[0]
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, 1, theta[1]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_4 = 1.0;
+  __pyx_t_18 = 2;
+  __pyx_t_19 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_22 = 2;
+  __pyx_t_23 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":175
+ *         theta[:2] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D translation transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":191
+ * 
+ * cdef class TranslationTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Translation transform in 3D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_22TranslationTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_22TranslationTransform3D___init__[] = " Translation transform in 3D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform3D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_22TranslationTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_22TranslationTransform3D___init__(((struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_22TranslationTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":194
+ *         r""" Translation transform in 3D
+ *         """
+ *         self.dim = 3             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 3
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 3;
+
+  /* "dipy/align/transforms.pyx":195
+ *         """
+ *         self.dim = 3
+ *         self.number_of_parameters = 3             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 3;
+
+  /* "dipy/align/transforms.pyx":191
+ * 
+ * cdef class TranslationTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Translation transform in 3D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":197
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 3D translation transform
+ *         The transformation is given by:
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  int __pyx_r;
+  double __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+
+  /* "dipy/align/transforms.pyx":227
+ *             (independent of x)
+ *         """
+ *         J[0, 0], J[0, 1], J[0, 2] = 1.0, 0.0, 0.0             # <<<<<<<<<<<<<<
+ *         J[1, 0], J[1, 1], J[1, 2] = 0.0, 1.0, 0.0
+ *         J[2, 0], J[2, 1], J[2, 2] = 0.0, 0.0, 1.0
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_4 * __pyx_v_J.strides[0]) ) + __pyx_t_5 * __pyx_v_J.strides[1]) )) = __pyx_t_1;
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_6 * __pyx_v_J.strides[0]) ) + __pyx_t_7 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_8 * __pyx_v_J.strides[0]) ) + __pyx_t_9 * __pyx_v_J.strides[1]) )) = __pyx_t_3;
+
+  /* "dipy/align/transforms.pyx":228
+ *         """
+ *         J[0, 0], J[0, 1], J[0, 2] = 1.0, 0.0, 0.0
+ *         J[1, 0], J[1, 1], J[1, 2] = 0.0, 1.0, 0.0             # <<<<<<<<<<<<<<
+ *         J[2, 0], J[2, 1], J[2, 2] = 0.0, 0.0, 1.0
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ */
+  __pyx_t_3 = 0.0;
+  __pyx_t_2 = 1.0;
+  __pyx_t_1 = 0.0;
+  __pyx_t_10 = 1;
+  __pyx_t_11 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = __pyx_t_3;
+  __pyx_t_12 = 1;
+  __pyx_t_13 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_12 * __pyx_v_J.strides[0]) ) + __pyx_t_13 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_14 * __pyx_v_J.strides[0]) ) + __pyx_t_15 * __pyx_v_J.strides[1]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":229
+ *         J[0, 0], J[0, 1], J[0, 2] = 1.0, 0.0, 0.0
+ *         J[1, 0], J[1, 1], J[1, 2] = 0.0, 1.0, 0.0
+ *         J[2, 0], J[2, 1], J[2, 2] = 0.0, 0.0, 1.0             # <<<<<<<<<<<<<<
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ *         return 1
+ */
+  __pyx_t_1 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 1.0;
+  __pyx_t_16 = 2;
+  __pyx_t_17 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_16 * __pyx_v_J.strides[0]) ) + __pyx_t_17 * __pyx_v_J.strides[1]) )) = __pyx_t_1;
+  __pyx_t_18 = 2;
+  __pyx_t_19 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_18 * __pyx_v_J.strides[0]) ) + __pyx_t_19 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_20 * __pyx_v_J.strides[0]) ) + __pyx_t_21 * __pyx_v_J.strides[1]) )) = __pyx_t_3;
+
+  /* "dipy/align/transforms.pyx":231
+ *         J[2, 0], J[2, 1], J[2, 2] = 0.0, 0.0, 1.0
+ *         # This Jacobian does not depend on x (it's constant): return 1
+ *         return 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 1;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":197
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 3D translation transform
+ *         The transformation is given by:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":233
+ *         return 1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("get_direction", 0);
-  /* Check if called by wrapper */
-  if (unlikely(__pyx_skip_dispatch)) ;
-  /* Check if overridden in Python */
-  else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_direction); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7get_direction)) {
-      __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_point, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_direction, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_1);
-      __pyx_t_5 = __pyx_t_1; __pyx_t_6 = NULL;
-      __pyx_t_7 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-        if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-          __Pyx_INCREF(__pyx_t_6);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_5, function);
-          __pyx_t_7 = 1;
-        }
-      }
-      __pyx_t_8 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_8);
-      if (__pyx_t_6) {
-        PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
-      }
-      PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_7, __pyx_t_3);
-      __Pyx_GIVEREF(__pyx_t_3);
-      PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_7, __pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      __pyx_t_3 = 0;
-      __pyx_t_4 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_2); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_r = __pyx_t_9;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      goto __pyx_L0;
-    }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  }
 
-  /* "dipy/reconst/peak_direction_getter.pyx":103
- * 
+  /* "dipy/align/transforms.pyx":243
+ *             buffer to write the parameters of the 3D translation transform
  *         """
- *         if not self.initialized:             # <<<<<<<<<<<<<<
- *             self._initialize()
+ *         theta[:3] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_theta.data;
+  __pyx_t_1.memview = __pyx_v_theta.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_theta.shape[0], __pyx_v_theta.strides[0], __pyx_v_theta.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+
+  /* "dipy/align/transforms.pyx":233
+ *         return 1
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.TranslationTransform3D._get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":245
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D translation transform
  * 
  */
-  __pyx_t_10 = ((!(__pyx_v_self->initialized != 0)) != 0);
-  if (__pyx_t_10) {
 
-    /* "dipy/reconst/peak_direction_getter.pyx":104
+static void __pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  double __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+
+  /* "dipy/align/transforms.pyx":255
+ *             the buffer in which to write the translation matrix
  *         """
- *         if not self.initialized:
- *             self._initialize()             # <<<<<<<<<<<<<<
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = 1, 0, 0, theta[0]             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, 1, 0, theta[1]
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, 1, theta[2]
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0;
+  __pyx_t_5 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_6 * __pyx_v_R.strides[0]) ) + __pyx_t_7 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_8 * __pyx_v_R.strides[0]) ) + __pyx_t_9 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_10 * __pyx_v_R.strides[0]) ) + __pyx_t_11 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_12 = 0;
+  __pyx_t_13 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_12 * __pyx_v_R.strides[0]) ) + __pyx_t_13 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":256
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = 1, 0, 0, theta[0]
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, 1, 0, theta[1]             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, 1, theta[2]
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1
+ */
+  __pyx_t_5 = 0.0;
+  __pyx_t_3 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_14 = 1;
+  __pyx_t_1 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_14 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_15 = 1;
+  __pyx_t_16 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_15 * __pyx_v_R.strides[0]) ) + __pyx_t_16 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+  __pyx_t_17 = 1;
+  __pyx_t_18 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_17 * __pyx_v_R.strides[0]) ) + __pyx_t_18 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_19 = 1;
+  __pyx_t_20 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_19 * __pyx_v_R.strides[0]) ) + __pyx_t_20 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_21 = 1;
+  __pyx_t_22 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_21 * __pyx_v_R.strides[0]) ) + __pyx_t_22 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":257
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = 1, 0, 0, theta[0]
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, 1, 0, theta[1]
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, 1, theta[2]             # <<<<<<<<<<<<<<
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1
  * 
+ */
+  __pyx_t_1 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 1.0;
+  __pyx_t_23 = 2;
+  __pyx_t_5 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_23 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_24 = 2;
+  __pyx_t_25 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_24 * __pyx_v_R.strides[0]) ) + __pyx_t_25 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+  __pyx_t_26 = 2;
+  __pyx_t_27 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_26 * __pyx_v_R.strides[0]) ) + __pyx_t_27 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_28 = 2;
+  __pyx_t_29 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_28 * __pyx_v_R.strides[0]) ) + __pyx_t_29 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_30 = 2;
+  __pyx_t_31 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_30 * __pyx_v_R.strides[0]) ) + __pyx_t_31 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":258
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, 1, 0, theta[1]
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, 1, theta[2]
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_5 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_1 = 1.0;
+  __pyx_t_32 = 3;
+  __pyx_t_33 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_32 * __pyx_v_R.strides[0]) ) + __pyx_t_33 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+  __pyx_t_34 = 3;
+  __pyx_t_35 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_34 * __pyx_v_R.strides[0]) ) + __pyx_t_35 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_36 = 3;
+  __pyx_t_37 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_36 * __pyx_v_R.strides[0]) ) + __pyx_t_37 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_38 = 3;
+  __pyx_t_39 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_38 * __pyx_v_R.strides[0]) ) + __pyx_t_39 * __pyx_v_R.strides[1]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":245
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D translation transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":262
+ * 
+ * cdef class RotationTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rotation transform in 2D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_19RotationTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_19RotationTransform2D___init__[] = " Rotation transform in 2D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform2D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_19RotationTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_19RotationTransform2D___init__(((struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_19RotationTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":265
+ *         r""" Rotation transform in 2D
+ *         """
+ *         self.dim = 2             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 1
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 2;
+
+  /* "dipy/align/transforms.pyx":266
+ *         """
+ *         self.dim = 2
+ *         self.number_of_parameters = 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 1;
+
+  /* "dipy/align/transforms.pyx":262
+ * 
+ * cdef class RotationTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rotation transform in 2D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":268
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 2D rotation with parameter theta, at x
+ * 
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  double __pyx_v_st;
+  double __pyx_v_ct;
+  double __pyx_v_px;
+  double __pyx_v_py;
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+
+  /* "dipy/align/transforms.pyx":296
+ *         '''
  *         cdef:
+ *             double st = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ct = cos(theta[0])
+ *             double px = x[0], py = x[1]
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_initialize); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_5)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_5);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
-      }
-    }
-    if (__pyx_t_5) {
-      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    } else {
-      __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    goto __pyx_L3;
-  }
-  __pyx_L3:;
+  __pyx_t_1 = 0;
+  __pyx_v_st = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
 
-  /* "dipy/reconst/peak_direction_getter.pyx":112
- *             np.npy_intp qa_strides[4]
- * 
- *         for i in range(4):             # <<<<<<<<<<<<<<
- *             qa_shape[i] = self._qa.shape[i]
- *             qa_strides[i] = self._qa.strides[i]
- */
-  for (__pyx_t_11 = 0; __pyx_t_11 < 4; __pyx_t_11+=1) {
-    __pyx_v_i = __pyx_t_11;
-
-    /* "dipy/reconst/peak_direction_getter.pyx":113
- * 
- *         for i in range(4):
- *             qa_shape[i] = self._qa.shape[i]             # <<<<<<<<<<<<<<
- *             qa_strides[i] = self._qa.strides[i]
+  /* "dipy/align/transforms.pyx":297
+ *         cdef:
+ *             double st = sin(theta[0])
+ *             double ct = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double px = x[0], py = x[1]
  * 
  */
-    (__pyx_v_qa_shape[__pyx_v_i]) = (__pyx_v_self->_qa.shape[__pyx_v_i]);
+  __pyx_t_2 = 0;
+  __pyx_v_ct = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
 
-    /* "dipy/reconst/peak_direction_getter.pyx":114
- *         for i in range(4):
- *             qa_shape[i] = self._qa.shape[i]
- *             qa_strides[i] = self._qa.strides[i]             # <<<<<<<<<<<<<<
+  /* "dipy/align/transforms.pyx":298
+ *             double st = sin(theta[0])
+ *             double ct = cos(theta[0])
+ *             double px = x[0], py = x[1]             # <<<<<<<<<<<<<<
  * 
- *         s = _propagation_direction(&point[0], &direction[0],
+ *         J[0, 0] = -px * st - py * ct
  */
-    (__pyx_v_qa_strides[__pyx_v_i]) = (__pyx_v_self->_qa.strides[__pyx_v_i]);
-  }
+  __pyx_t_3 = 0;
+  __pyx_v_px = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_3 * __pyx_v_x.strides[0]) )));
+  __pyx_t_4 = 1;
+  __pyx_v_py = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_4 * __pyx_v_x.strides[0]) )));
 
-  /* "dipy/reconst/peak_direction_getter.pyx":116
- *             qa_strides[i] = self._qa.strides[i]
+  /* "dipy/align/transforms.pyx":300
+ *             double px = x[0], py = x[1]
  * 
- *         s = _propagation_direction(&point[0], &direction[0],             # <<<<<<<<<<<<<<
- *                                    &self._qa[0, 0, 0, 0],
- *                                    &self._ind[0, 0, 0, 0],
+ *         J[0, 0] = -px * st - py * ct             # <<<<<<<<<<<<<<
+ *         J[1, 0] = px * ct - py * st
+ *         # This Jacobian depends on x (it's not constant): return 0
+ */
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_5 * __pyx_v_J.strides[0]) ) + __pyx_t_6 * __pyx_v_J.strides[1]) )) = (((-__pyx_v_px) * __pyx_v_st) - (__pyx_v_py * __pyx_v_ct));
+
+  /* "dipy/align/transforms.pyx":301
+ * 
+ *         J[0, 0] = -px * st - py * ct
+ *         J[1, 0] = px * ct - py * st             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_7 = 1;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_7 * __pyx_v_J.strides[0]) ) + __pyx_t_8 * __pyx_v_J.strides[1]) )) = ((__pyx_v_px * __pyx_v_ct) - (__pyx_v_py * __pyx_v_st));
+
+  /* "dipy/align/transforms.pyx":303
+ *         J[1, 0] = px * ct - py * st
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":268
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 2D rotation with parameter theta, at x
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":305
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  Py_ssize_t __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":315
+ *             buffer to write the parameters of the 2D rotation transform
+ *         """
+ *         theta[0] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_1 = 0;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )) = 0.0;
+
+  /* "dipy/align/transforms.pyx":305
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":317
+ *         theta[0] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D rotation transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_v_ct;
+  double __pyx_v_st;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+
+  /* "dipy/align/transforms.pyx":328
+ *         """
+ *         cdef:
+ *             double ct = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, 0
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_ct = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":329
+ *         cdef:
+ *             double ct = cos(theta[0])
+ *             double st = sin(theta[0])             # <<<<<<<<<<<<<<
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, 0
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, 0
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_st = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":330
+ *             double ct = cos(theta[0])
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, 0             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, 0
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ */
+  __pyx_t_3 = __pyx_v_ct;
+  __pyx_t_4 = (-__pyx_v_st);
+  __pyx_t_5 = 0.0;
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_6 * __pyx_v_R.strides[0]) ) + __pyx_t_7 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_8 * __pyx_v_R.strides[0]) ) + __pyx_t_9 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_10 * __pyx_v_R.strides[0]) ) + __pyx_t_11 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":331
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, 0
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, 0             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ * 
+ */
+  __pyx_t_5 = __pyx_v_st;
+  __pyx_t_4 = __pyx_v_ct;
+  __pyx_t_3 = 0.0;
+  __pyx_t_12 = 1;
+  __pyx_t_13 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_12 * __pyx_v_R.strides[0]) ) + __pyx_t_13 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_14 * __pyx_v_R.strides[0]) ) + __pyx_t_15 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+
+  /* "dipy/align/transforms.pyx":332
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, 0
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, 0
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_5 = 1.0;
+  __pyx_t_18 = 2;
+  __pyx_t_19 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_22 = 2;
+  __pyx_t_23 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":317
+ *         theta[0] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D rotation transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":336
+ * 
+ * cdef class RotationTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rotation transform in 3D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_19RotationTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_19RotationTransform3D___init__[] = " Rotation transform in 3D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform3D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_19RotationTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_19RotationTransform3D___init__(((struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_19RotationTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":339
+ *         r""" Rotation transform in 3D
+ *         """
+ *         self.dim = 3             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 3
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 3;
+
+  /* "dipy/align/transforms.pyx":340
+ *         """
+ *         self.dim = 3
+ *         self.number_of_parameters = 3             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 3;
+
+  /* "dipy/align/transforms.pyx":336
+ * 
+ * cdef class RotationTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rotation transform in 3D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":342
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 3D rotation with parameters theta, at x
+ * 
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  double __pyx_v_sa;
+  double __pyx_v_ca;
+  double __pyx_v_sb;
+  double __pyx_v_cb;
+  double __pyx_v_sc;
+  double __pyx_v_cc;
+  double __pyx_v_px;
+  double __pyx_v_py;
+  double __pyx_v_pz;
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+
+  /* "dipy/align/transforms.pyx":361
+ *         '''
+ *         cdef:
+ *             double sa = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_sa = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":362
+ *         cdef:
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_ca = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":363
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])             # <<<<<<<<<<<<<<
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ */
+  __pyx_t_3 = 1;
+  __pyx_v_sb = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":364
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])             # <<<<<<<<<<<<<<
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ */
+  __pyx_t_4 = 1;
+  __pyx_v_cb = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":365
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])             # <<<<<<<<<<<<<<
+ *             double cc = cos(theta[2])
+ *             double px = x[0], py = x[1], pz = x[2]
+ */
+  __pyx_t_5 = 2;
+  __pyx_v_sc = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":366
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])             # <<<<<<<<<<<<<<
+ *             double px = x[0], py = x[1], pz = x[2]
+ * 
+ */
+  __pyx_t_6 = 2;
+  __pyx_v_cc = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":367
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ *             double px = x[0], py = x[1], pz = x[2]             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
  */
   __pyx_t_7 = 0;
-  __pyx_t_12 = 0;
+  __pyx_v_px = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_7 * __pyx_v_x.strides[0]) )));
+  __pyx_t_8 = 1;
+  __pyx_v_py = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_8 * __pyx_v_x.strides[0]) )));
+  __pyx_t_9 = 2;
+  __pyx_v_pz = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_9 * __pyx_v_x.strides[0]) )));
 
-  /* "dipy/reconst/peak_direction_getter.pyx":117
+  /* "dipy/align/transforms.pyx":369
+ *             double px = x[0], py = x[1], pz = x[2]
  * 
- *         s = _propagation_direction(&point[0], &direction[0],
- *                                    &self._qa[0, 0, 0, 0],             # <<<<<<<<<<<<<<
- *                                    &self._ind[0, 0, 0, 0],
- *                                    &self._odf_vertices[0, 0], self.qa_thr,
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz             # <<<<<<<<<<<<<<
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
  */
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = ((((((-__pyx_v_sc) * __pyx_v_ca) * __pyx_v_sb) * __pyx_v_px) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_py)) + (((__pyx_v_sc * __pyx_v_ca) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":370
+ * 
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz             # <<<<<<<<<<<<<<
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
+ * 
+ */
+  __pyx_t_12 = 1;
   __pyx_t_13 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_12 * __pyx_v_J.strides[0]) ) + __pyx_t_13 * __pyx_v_J.strides[1]) )) = (((((__pyx_v_cc * __pyx_v_ca) * __pyx_v_sb) * __pyx_v_px) + (((-__pyx_v_cc) * __pyx_v_sa) * __pyx_v_py)) + ((((-__pyx_v_cc) * __pyx_v_ca) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":371
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ */
+  __pyx_t_14 = 2;
+  __pyx_t_15 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_14 * __pyx_v_J.strides[0]) ) + __pyx_t_15 * __pyx_v_J.strides[1]) )) = ((((__pyx_v_sa * __pyx_v_sb) * __pyx_v_px) + (__pyx_v_ca * __pyx_v_py)) + (((-__pyx_v_sa) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":373
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz             # <<<<<<<<<<<<<<
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ */
+  __pyx_t_16 = 0;
+  __pyx_t_17 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_16 * __pyx_v_J.strides[0]) ) + __pyx_t_17 * __pyx_v_J.strides[1]) )) = (((((-__pyx_v_cc) * __pyx_v_sb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_px) + (((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":374
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz             # <<<<<<<<<<<<<<
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ * 
+ */
+  __pyx_t_18 = 1;
+  __pyx_t_19 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_18 * __pyx_v_J.strides[0]) ) + __pyx_t_19 * __pyx_v_J.strides[1]) )) = (((((-__pyx_v_sc) * __pyx_v_sb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_px) + (((__pyx_v_sc * __pyx_v_cb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":375
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \
+ */
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_20 * __pyx_v_J.strides[0]) ) + __pyx_t_21 * __pyx_v_J.strides[1]) )) = ((((-__pyx_v_ca) * __pyx_v_cb) * __pyx_v_px) + (((-__pyx_v_ca) * __pyx_v_sb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":377
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ * 
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \             # <<<<<<<<<<<<<<
+ *                   (-sc * sb + cc * sa * cb) * pz
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \
+ */
+  __pyx_t_22 = 0;
+  __pyx_t_23 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_22 * __pyx_v_J.strides[0]) ) + __pyx_t_23 * __pyx_v_J.strides[1]) )) = ((((((-__pyx_v_sc) * __pyx_v_cb) - ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_px) + (((-__pyx_v_cc) * __pyx_v_ca) * __pyx_v_py)) + ((((-__pyx_v_sc) * __pyx_v_sb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":379
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \
+ *                   (-sc * sb + cc * sa * cb) * pz
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \             # <<<<<<<<<<<<<<
+ *                   (cc * sb + sc * sa * cb) * pz
+ *         J[2, 2] = 0
+ */
+  __pyx_t_24 = 1;
+  __pyx_t_25 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_24 * __pyx_v_J.strides[0]) ) + __pyx_t_25 * __pyx_v_J.strides[1]) )) = (((((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_px) + (((-__pyx_v_sc) * __pyx_v_ca) * __pyx_v_py)) + (((__pyx_v_cc * __pyx_v_sb) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":381
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \
+ *                   (cc * sb + sc * sa * cb) * pz
+ *         J[2, 2] = 0             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_26 = 2;
+  __pyx_t_27 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_26 * __pyx_v_J.strides[0]) ) + __pyx_t_27 * __pyx_v_J.strides[1]) )) = 0.0;
+
+  /* "dipy/align/transforms.pyx":383
+ *         J[2, 2] = 0
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":342
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 3D rotation with parameters theta, at x
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":385
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":395
+ *             buffer to write the parameters of the 3D rotation transform
+ *         """
+ *         theta[:3] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_theta.data;
+  __pyx_t_1.memview = __pyx_v_theta.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_theta.shape[0], __pyx_v_theta.strides[0], __pyx_v_theta.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+
+  /* "dipy/align/transforms.pyx":385
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.RotationTransform3D._get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":397
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D rotation transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_19RotationTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_v_sa;
+  double __pyx_v_ca;
+  double __pyx_v_sb;
+  double __pyx_v_cb;
+  double __pyx_v_sc;
+  double __pyx_v_cc;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  double __pyx_t_7;
+  double __pyx_t_8;
+  double __pyx_t_9;
+  double __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  Py_ssize_t __pyx_t_41;
+  Py_ssize_t __pyx_t_42;
+
+  /* "dipy/align/transforms.pyx":415
+ *         """
+ *         cdef:
+ *             double sa = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_sa = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":416
+ *         cdef:
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_ca = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":417
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])             # <<<<<<<<<<<<<<
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ */
+  __pyx_t_3 = 1;
+  __pyx_v_sb = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":418
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])             # <<<<<<<<<<<<<<
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ */
+  __pyx_t_4 = 1;
+  __pyx_v_cb = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":419
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])             # <<<<<<<<<<<<<<
+ *             double cc = cos(theta[2])
+ * 
+ */
+  __pyx_t_5 = 2;
+  __pyx_v_sc = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":420
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])             # <<<<<<<<<<<<<<
+ * 
+ *         R[0,0], R[0,1], R[0,2], R[0, 3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, 0
+ */
+  __pyx_t_6 = 2;
+  __pyx_v_cc = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":422
+ *             double cc = cos(theta[2])
+ * 
+ *         R[0,0], R[0,1], R[0,2], R[0, 3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, 0             # <<<<<<<<<<<<<<
+ *         R[1,0], R[1,1], R[1,2], R[1, 3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, 0
+ *         R[2,0], R[2,1], R[2,2], R[2, 3] = -ca*sb, sa, ca*cb, 0
+ */
+  __pyx_t_7 = ((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb));
+  __pyx_t_8 = ((-__pyx_v_sc) * __pyx_v_ca);
+  __pyx_t_9 = ((__pyx_v_cc * __pyx_v_sb) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb));
+  __pyx_t_10 = 0.0;
+  __pyx_t_11 = 0;
+  __pyx_t_12 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_11 * __pyx_v_R.strides[0]) ) + __pyx_t_12 * __pyx_v_R.strides[1]) )) = __pyx_t_7;
+  __pyx_t_13 = 0;
+  __pyx_t_14 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_13 * __pyx_v_R.strides[0]) ) + __pyx_t_14 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_15 = 0;
+  __pyx_t_16 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_15 * __pyx_v_R.strides[0]) ) + __pyx_t_16 * __pyx_v_R.strides[1]) )) = __pyx_t_9;
+  __pyx_t_17 = 0;
+  __pyx_t_18 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_17 * __pyx_v_R.strides[0]) ) + __pyx_t_18 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+
+  /* "dipy/align/transforms.pyx":423
+ * 
+ *         R[0,0], R[0,1], R[0,2], R[0, 3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, 0
+ *         R[1,0], R[1,1], R[1,2], R[1, 3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, 0             # <<<<<<<<<<<<<<
+ *         R[2,0], R[2,1], R[2,2], R[2, 3] = -ca*sb, sa, ca*cb, 0
+ *         R[3,0], R[3,1], R[3,2], R[3, 3] = 0, 0, 0, 1
+ */
+  __pyx_t_10 = ((__pyx_v_sc * __pyx_v_cb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb));
+  __pyx_t_9 = (__pyx_v_cc * __pyx_v_ca);
+  __pyx_t_8 = ((__pyx_v_sc * __pyx_v_sb) - ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb));
+  __pyx_t_7 = 0.0;
+  __pyx_t_19 = 1;
+  __pyx_t_20 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_19 * __pyx_v_R.strides[0]) ) + __pyx_t_20 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+  __pyx_t_21 = 1;
+  __pyx_t_22 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_21 * __pyx_v_R.strides[0]) ) + __pyx_t_22 * __pyx_v_R.strides[1]) )) = __pyx_t_9;
+  __pyx_t_23 = 1;
+  __pyx_t_24 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_23 * __pyx_v_R.strides[0]) ) + __pyx_t_24 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_25 = 1;
+  __pyx_t_26 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_25 * __pyx_v_R.strides[0]) ) + __pyx_t_26 * __pyx_v_R.strides[1]) )) = __pyx_t_7;
+
+  /* "dipy/align/transforms.pyx":424
+ *         R[0,0], R[0,1], R[0,2], R[0, 3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, 0
+ *         R[1,0], R[1,1], R[1,2], R[1, 3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, 0
+ *         R[2,0], R[2,1], R[2,2], R[2, 3] = -ca*sb, sa, ca*cb, 0             # <<<<<<<<<<<<<<
+ *         R[3,0], R[3,1], R[3,2], R[3, 3] = 0, 0, 0, 1
+ * 
+ */
+  __pyx_t_7 = ((-__pyx_v_ca) * __pyx_v_sb);
+  __pyx_t_8 = __pyx_v_sa;
+  __pyx_t_9 = (__pyx_v_ca * __pyx_v_cb);
+  __pyx_t_10 = 0.0;
+  __pyx_t_27 = 2;
+  __pyx_t_28 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_27 * __pyx_v_R.strides[0]) ) + __pyx_t_28 * __pyx_v_R.strides[1]) )) = __pyx_t_7;
+  __pyx_t_29 = 2;
+  __pyx_t_30 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_29 * __pyx_v_R.strides[0]) ) + __pyx_t_30 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_31 = 2;
+  __pyx_t_32 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_31 * __pyx_v_R.strides[0]) ) + __pyx_t_32 * __pyx_v_R.strides[1]) )) = __pyx_t_9;
+  __pyx_t_33 = 2;
+  __pyx_t_34 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_33 * __pyx_v_R.strides[0]) ) + __pyx_t_34 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+
+  /* "dipy/align/transforms.pyx":425
+ *         R[1,0], R[1,1], R[1,2], R[1, 3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, 0
+ *         R[2,0], R[2,1], R[2,2], R[2, 3] = -ca*sb, sa, ca*cb, 0
+ *         R[3,0], R[3,1], R[3,2], R[3, 3] = 0, 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_10 = 0.0;
+  __pyx_t_9 = 0.0;
+  __pyx_t_8 = 0.0;
+  __pyx_t_7 = 1.0;
+  __pyx_t_35 = 3;
+  __pyx_t_36 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_35 * __pyx_v_R.strides[0]) ) + __pyx_t_36 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+  __pyx_t_37 = 3;
+  __pyx_t_38 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_37 * __pyx_v_R.strides[0]) ) + __pyx_t_38 * __pyx_v_R.strides[1]) )) = __pyx_t_9;
+  __pyx_t_39 = 3;
+  __pyx_t_40 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_39 * __pyx_v_R.strides[0]) ) + __pyx_t_40 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_41 = 3;
+  __pyx_t_42 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_41 * __pyx_v_R.strides[0]) ) + __pyx_t_42 * __pyx_v_R.strides[1]) )) = __pyx_t_7;
+
+  /* "dipy/align/transforms.pyx":397
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D rotation transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":429
+ * 
+ * cdef class RigidTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rigid transform in 2D (rotation + translation)
+ *         The parameter vector theta of length 3 is interpreted as follows:
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_16RigidTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_16RigidTransform2D___init__[] = " Rigid transform in 2D (rotation + translation)\n        The parameter vector theta of length 3 is interpreted as follows:\n        theta[0] : rotation angle\n        theta[1] : translation along the x axis\n        theta[2] : translation along the y axis\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform2D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_16RigidTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_16RigidTransform2D___init__(((struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_16RigidTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":436
+ *         theta[2] : translation along the y axis
+ *         """
+ *         self.dim = 2             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 3
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 2;
+
+  /* "dipy/align/transforms.pyx":437
+ *         """
+ *         self.dim = 2
+ *         self.number_of_parameters = 3             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 3;
+
+  /* "dipy/align/transforms.pyx":429
+ * 
+ * cdef class RigidTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rigid transform in 2D (rotation + translation)
+ *         The parameter vector theta of length 3 is interpreted as follows:
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":439
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 2D rigid transform (rotation + translation)
+ * 
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  double __pyx_v_st;
+  double __pyx_v_ct;
+  double __pyx_v_px;
+  double __pyx_v_py;
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  double __pyx_t_5;
+  double __pyx_t_6;
+  double __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+
+  /* "dipy/align/transforms.pyx":470
+ *         '''
+ *         cdef:
+ *             double st = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ct = cos(theta[0])
+ *             double px = x[0], py = x[1]
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_st = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":471
+ *         cdef:
+ *             double st = sin(theta[0])
+ *             double ct = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double px = x[0], py = x[1]
+ * 
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_ct = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":472
+ *             double st = sin(theta[0])
+ *             double ct = cos(theta[0])
+ *             double px = x[0], py = x[1]             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 0], J[0, 1], J[0, 2] = -px * st - py * ct, 1, 0
+ */
+  __pyx_t_3 = 0;
+  __pyx_v_px = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_3 * __pyx_v_x.strides[0]) )));
+  __pyx_t_4 = 1;
+  __pyx_v_py = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_4 * __pyx_v_x.strides[0]) )));
+
+  /* "dipy/align/transforms.pyx":474
+ *             double px = x[0], py = x[1]
+ * 
+ *         J[0, 0], J[0, 1], J[0, 2] = -px * st - py * ct, 1, 0             # <<<<<<<<<<<<<<
+ *         J[1, 0], J[1, 1], J[1, 2] = px * ct - py * st, 0, 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ */
+  __pyx_t_5 = (((-__pyx_v_px) * __pyx_v_st) - (__pyx_v_py * __pyx_v_ct));
+  __pyx_t_6 = 1.0;
+  __pyx_t_7 = 0.0;
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_8 * __pyx_v_J.strides[0]) ) + __pyx_t_9 * __pyx_v_J.strides[1]) )) = __pyx_t_5;
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = __pyx_t_6;
+  __pyx_t_12 = 0;
+  __pyx_t_13 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_12 * __pyx_v_J.strides[0]) ) + __pyx_t_13 * __pyx_v_J.strides[1]) )) = __pyx_t_7;
+
+  /* "dipy/align/transforms.pyx":475
+ * 
+ *         J[0, 0], J[0, 1], J[0, 2] = -px * st - py * ct, 1, 0
+ *         J[1, 0], J[1, 1], J[1, 2] = px * ct - py * st, 0, 1             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_7 = ((__pyx_v_px * __pyx_v_ct) - (__pyx_v_py * __pyx_v_st));
+  __pyx_t_6 = 0.0;
+  __pyx_t_5 = 1.0;
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_14 * __pyx_v_J.strides[0]) ) + __pyx_t_15 * __pyx_v_J.strides[1]) )) = __pyx_t_7;
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_16 * __pyx_v_J.strides[0]) ) + __pyx_t_17 * __pyx_v_J.strides[1]) )) = __pyx_t_6;
+  __pyx_t_18 = 1;
+  __pyx_t_19 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_18 * __pyx_v_J.strides[0]) ) + __pyx_t_19 * __pyx_v_J.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":477
+ *         J[1, 0], J[1, 1], J[1, 2] = px * ct - py * st, 0, 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":439
+ *         self.number_of_parameters = 3
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 2D rigid transform (rotation + translation)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":479
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":492
+ *             theta[2] : translation along the y axis
+ *         """
+ *         theta[:3] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_theta.data;
+  __pyx_t_1.memview = __pyx_v_theta.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_theta.shape[0], __pyx_v_theta.strides[0], __pyx_v_theta.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 492; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+
+  /* "dipy/align/transforms.pyx":479
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.RigidTransform2D._get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":494
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D rigid transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_v_ct;
+  double __pyx_v_st;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  double __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+
+  /* "dipy/align/transforms.pyx":508
+ *         """
+ *         cdef:
+ *             double ct = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, theta[1]
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_ct = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":509
+ *         cdef:
+ *             double ct = cos(theta[0])
+ *             double st = sin(theta[0])             # <<<<<<<<<<<<<<
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, theta[1]
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, theta[2]
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_st = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":510
+ *             double ct = cos(theta[0])
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, theta[1]             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, theta[2]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ */
+  __pyx_t_3 = __pyx_v_ct;
+  __pyx_t_4 = (-__pyx_v_st);
+  __pyx_t_5 = 1;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_7 = 0;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_7 * __pyx_v_R.strides[0]) ) + __pyx_t_8 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_9 * __pyx_v_R.strides[0]) ) + __pyx_t_10 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_11 = 0;
+  __pyx_t_12 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_11 * __pyx_v_R.strides[0]) ) + __pyx_t_12 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+
+  /* "dipy/align/transforms.pyx":511
+ *             double st = sin(theta[0])
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, theta[1]
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, theta[2]             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ * 
+ */
+  __pyx_t_6 = __pyx_v_st;
+  __pyx_t_4 = __pyx_v_ct;
+  __pyx_t_13 = 2;
+  __pyx_t_3 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_13 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_14 * __pyx_v_R.strides[0]) ) + __pyx_t_15 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_18 = 1;
+  __pyx_t_19 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+
+  /* "dipy/align/transforms.pyx":512
+ *         R[0, 0], R[0, 1], R[0, 2] = ct, -st, theta[1]
+ *         R[1, 0], R[1, 1], R[1, 2] = st, ct, theta[2]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_6 = 1.0;
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_22 = 2;
+  __pyx_t_23 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_24 = 2;
+  __pyx_t_25 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_24 * __pyx_v_R.strides[0]) ) + __pyx_t_25 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+
+  /* "dipy/align/transforms.pyx":494
+ *         theta[:3] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D rigid transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":516
+ * 
+ * cdef class RigidTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rigid transform in 3D (rotation + translation)
+ *         The parameter vector theta of length 6 is interpreted as follows:
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_16RigidTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_16RigidTransform3D___init__[] = " Rigid transform in 3D (rotation + translation)\n        The parameter vector theta of length 6 is interpreted as follows:\n        theta[0] : rotation about the x axis\n        theta[1] : rotation about the y axis\n        theta[2] : rotation about the z axis\n        theta[3] : translation along the x axis\n        theta[4] : translation along the y axis\n        theta[5] : translation along the z axis\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform3D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_16RigidTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_16RigidTransform3D___init__(((struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_16RigidTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":526
+ *         theta[5] : translation along the z axis
+ *         """
+ *         self.dim = 3             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 6
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 3;
+
+  /* "dipy/align/transforms.pyx":527
+ *         """
+ *         self.dim = 3
+ *         self.number_of_parameters = 6             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 6;
+
+  /* "dipy/align/transforms.pyx":516
+ * 
+ * cdef class RigidTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Rigid transform in 3D (rotation + translation)
+ *         The parameter vector theta of length 6 is interpreted as follows:
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":529
+ *         self.number_of_parameters = 6
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 3D rigid transform (rotation + translation)
+ * 
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  double __pyx_v_sa;
+  double __pyx_v_ca;
+  double __pyx_v_sb;
+  double __pyx_v_cb;
+  double __pyx_v_sc;
+  double __pyx_v_cc;
+  double __pyx_v_px;
+  double __pyx_v_py;
+  double __pyx_v_pz;
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  __Pyx_memviewslice __pyx_t_28 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_29;
+  __Pyx_memviewslice __pyx_t_30 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_31 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_t_32;
+  double __pyx_t_33;
+  double __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":554
+ *         '''
+ *         cdef:
+ *             double sa = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_sa = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":555
+ *         cdef:
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_ca = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":556
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])             # <<<<<<<<<<<<<<
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ */
+  __pyx_t_3 = 1;
+  __pyx_v_sb = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":557
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])             # <<<<<<<<<<<<<<
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ */
+  __pyx_t_4 = 1;
+  __pyx_v_cb = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":558
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])             # <<<<<<<<<<<<<<
+ *             double cc = cos(theta[2])
+ *             double px = x[0], py = x[1], pz = x[2]
+ */
+  __pyx_t_5 = 2;
+  __pyx_v_sc = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":559
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])             # <<<<<<<<<<<<<<
+ *             double px = x[0], py = x[1], pz = x[2]
+ * 
+ */
+  __pyx_t_6 = 2;
+  __pyx_v_cc = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":560
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ *             double px = x[0], py = x[1], pz = x[2]             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
+ */
+  __pyx_t_7 = 0;
+  __pyx_v_px = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_7 * __pyx_v_x.strides[0]) )));
+  __pyx_t_8 = 1;
+  __pyx_v_py = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_8 * __pyx_v_x.strides[0]) )));
+  __pyx_t_9 = 2;
+  __pyx_v_pz = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_9 * __pyx_v_x.strides[0]) )));
+
+  /* "dipy/align/transforms.pyx":562
+ *             double px = x[0], py = x[1], pz = x[2]
+ * 
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz             # <<<<<<<<<<<<<<
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
+ */
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = ((((((-__pyx_v_sc) * __pyx_v_ca) * __pyx_v_sb) * __pyx_v_px) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_py)) + (((__pyx_v_sc * __pyx_v_ca) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":563
+ * 
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz             # <<<<<<<<<<<<<<
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
+ * 
+ */
+  __pyx_t_12 = 1;
+  __pyx_t_13 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_12 * __pyx_v_J.strides[0]) ) + __pyx_t_13 * __pyx_v_J.strides[1]) )) = (((((__pyx_v_cc * __pyx_v_ca) * __pyx_v_sb) * __pyx_v_px) + (((-__pyx_v_cc) * __pyx_v_sa) * __pyx_v_py)) + ((((-__pyx_v_cc) * __pyx_v_ca) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":564
+ *         J[0, 0] = (-sc * ca * sb) * px + (sc * sa) * py + (sc * ca * cb) * pz
+ *         J[1, 0] = (cc * ca * sb) * px + (-cc * sa) * py + (-cc * ca * cb) * pz
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ */
+  __pyx_t_14 = 2;
+  __pyx_t_15 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_14 * __pyx_v_J.strides[0]) ) + __pyx_t_15 * __pyx_v_J.strides[1]) )) = ((((__pyx_v_sa * __pyx_v_sb) * __pyx_v_px) + (__pyx_v_ca * __pyx_v_py)) + (((-__pyx_v_sa) * __pyx_v_cb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":566
+ *         J[2, 0] = (sa * sb) * px + ca * py + (-sa * cb) * pz
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz             # <<<<<<<<<<<<<<
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ */
+  __pyx_t_16 = 0;
+  __pyx_t_17 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_16 * __pyx_v_J.strides[0]) ) + __pyx_t_17 * __pyx_v_J.strides[1]) )) = (((((-__pyx_v_cc) * __pyx_v_sb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_px) + (((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":567
+ * 
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz             # <<<<<<<<<<<<<<
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ * 
+ */
+  __pyx_t_18 = 1;
+  __pyx_t_19 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_18 * __pyx_v_J.strides[0]) ) + __pyx_t_19 * __pyx_v_J.strides[1]) )) = (((((-__pyx_v_sc) * __pyx_v_sb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_px) + (((__pyx_v_sc * __pyx_v_cb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":568
+ *         J[0, 1] = (-cc * sb - sc * sa * cb) * px + (cc * cb - sc * sa * sb) * pz
+ *         J[1, 1] = (-sc * sb + cc * sa * cb) * px + (sc * cb + cc * sa * sb) * pz
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \
+ */
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_20 * __pyx_v_J.strides[0]) ) + __pyx_t_21 * __pyx_v_J.strides[1]) )) = ((((-__pyx_v_ca) * __pyx_v_cb) * __pyx_v_px) + (((-__pyx_v_ca) * __pyx_v_sb) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":570
+ *         J[2, 1] = (-ca * cb) * px + (-ca * sb) * pz
+ * 
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \             # <<<<<<<<<<<<<<
+ *                   (-sc * sb + cc * sa * cb) * pz
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \
+ */
+  __pyx_t_22 = 0;
+  __pyx_t_23 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_22 * __pyx_v_J.strides[0]) ) + __pyx_t_23 * __pyx_v_J.strides[1]) )) = ((((((-__pyx_v_sc) * __pyx_v_cb) - ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_px) + (((-__pyx_v_cc) * __pyx_v_ca) * __pyx_v_py)) + ((((-__pyx_v_sc) * __pyx_v_sb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":572
+ *         J[0, 2] = (-sc * cb - cc * sa * sb) * px + (-cc * ca) * py + \
+ *                   (-sc * sb + cc * sa * cb) * pz
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \             # <<<<<<<<<<<<<<
+ *                   (cc * sb + sc * sa * cb) * pz
+ *         J[2, 2] = 0
+ */
+  __pyx_t_24 = 1;
+  __pyx_t_25 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_24 * __pyx_v_J.strides[0]) ) + __pyx_t_25 * __pyx_v_J.strides[1]) )) = (((((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb)) * __pyx_v_px) + (((-__pyx_v_sc) * __pyx_v_ca) * __pyx_v_py)) + (((__pyx_v_cc * __pyx_v_sb) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb)) * __pyx_v_pz));
+
+  /* "dipy/align/transforms.pyx":574
+ *         J[1, 2] = (cc * cb - sc * sa * sb) * px + (-sc * ca) * py + \
+ *                   (cc * sb + sc * sa * cb) * pz
+ *         J[2, 2] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, 3:6] = 0
+ */
+  __pyx_t_26 = 2;
+  __pyx_t_27 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_26 * __pyx_v_J.strides[0]) ) + __pyx_t_27 * __pyx_v_J.strides[1]) )) = 0.0;
+
+  /* "dipy/align/transforms.pyx":576
+ *         J[2, 2] = 0
+ * 
+ *         J[0, 3:6] = 0             # <<<<<<<<<<<<<<
+ *         J[1, 3:6] = 0
+ *         J[2, 3:6] = 0
+ */
+  __pyx_t_29 = -1;
+  __pyx_t_28.data = __pyx_v_J.data;
+  __pyx_t_28.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_28, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_28.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_28,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_29,
+    3,
+    6,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 576; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_28.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_28.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_28.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_28, 0);
+
+  /* "dipy/align/transforms.pyx":577
+ * 
+ *         J[0, 3:6] = 0
+ *         J[1, 3:6] = 0             # <<<<<<<<<<<<<<
+ *         J[2, 3:6] = 0
+ *         J[0, 3], J[1, 4], J[2, 5] = 1, 1, 1
+ */
+  __pyx_t_29 = -1;
+  __pyx_t_30.data = __pyx_v_J.data;
+  __pyx_t_30.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_30, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 1;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 577; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_30.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_30,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_29,
+    3,
+    6,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 577; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_30.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_30.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_30.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_30, 0);
+
+  /* "dipy/align/transforms.pyx":578
+ *         J[0, 3:6] = 0
+ *         J[1, 3:6] = 0
+ *         J[2, 3:6] = 0             # <<<<<<<<<<<<<<
+ *         J[0, 3], J[1, 4], J[2, 5] = 1, 1, 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ */
+  __pyx_t_29 = -1;
+  __pyx_t_31.data = __pyx_v_J.data;
+  __pyx_t_31.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_31, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 2;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 578; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_31.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_31,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_29,
+    3,
+    6,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 578; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_31.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_31.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_31.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_31, 0);
+
+  /* "dipy/align/transforms.pyx":579
+ *         J[1, 3:6] = 0
+ *         J[2, 3:6] = 0
+ *         J[0, 3], J[1, 4], J[2, 5] = 1, 1, 1             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_32 = 1.0;
+  __pyx_t_33 = 1.0;
+  __pyx_t_34 = 1.0;
+  __pyx_t_35 = 0;
+  __pyx_t_36 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_35 * __pyx_v_J.strides[0]) ) + __pyx_t_36 * __pyx_v_J.strides[1]) )) = __pyx_t_32;
+  __pyx_t_37 = 1;
+  __pyx_t_38 = 4;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_37 * __pyx_v_J.strides[0]) ) + __pyx_t_38 * __pyx_v_J.strides[1]) )) = __pyx_t_33;
+  __pyx_t_39 = 2;
+  __pyx_t_40 = 5;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_39 * __pyx_v_J.strides[0]) ) + __pyx_t_40 * __pyx_v_J.strides[1]) )) = __pyx_t_34;
+
+  /* "dipy/align/transforms.pyx":581
+ *         J[0, 3], J[1, 4], J[2, 5] = 1, 1, 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":529
+ *         self.number_of_parameters = 6
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r''' Jacobian matrix of a 3D rigid transform (rotation + translation)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_28, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_30, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_31, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.RigidTransform3D._jacobian", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":583
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":599
+ *             theta[5] : translation along the z axis
+ *         """
+ *         theta[:6] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_theta.data;
+  __pyx_t_1.memview = __pyx_v_theta.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_theta.shape[0], __pyx_v_theta.strides[0], __pyx_v_theta.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    6,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 599; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+
+  /* "dipy/align/transforms.pyx":583
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.RigidTransform3D._get_identity_parameters", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":601
+ *         theta[:6] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D rigid transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_16RigidTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  double __pyx_v_sa;
+  double __pyx_v_ca;
+  double __pyx_v_sb;
+  double __pyx_v_cb;
+  double __pyx_v_sc;
+  double __pyx_v_cc;
+  double __pyx_v_dx;
+  double __pyx_v_dy;
+  double __pyx_v_dz;
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  double __pyx_t_10;
+  double __pyx_t_11;
+  double __pyx_t_12;
+  double __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  Py_ssize_t __pyx_t_41;
+  Py_ssize_t __pyx_t_42;
+  Py_ssize_t __pyx_t_43;
+  Py_ssize_t __pyx_t_44;
+  Py_ssize_t __pyx_t_45;
+
+  /* "dipy/align/transforms.pyx":618
+ *         """
+ *         cdef:
+ *             double sa = sin(theta[0])             # <<<<<<<<<<<<<<
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ */
+  __pyx_t_1 = 0;
+  __pyx_v_sa = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":619
+ *         cdef:
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])             # <<<<<<<<<<<<<<
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ */
+  __pyx_t_2 = 0;
+  __pyx_v_ca = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_2 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":620
+ *             double sa = sin(theta[0])
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])             # <<<<<<<<<<<<<<
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ */
+  __pyx_t_3 = 1;
+  __pyx_v_sb = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":621
+ *             double ca = cos(theta[0])
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])             # <<<<<<<<<<<<<<
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ */
+  __pyx_t_4 = 1;
+  __pyx_v_cb = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":622
+ *             double sb = sin(theta[1])
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])             # <<<<<<<<<<<<<<
+ *             double cc = cos(theta[2])
+ *             double dx = theta[3]
+ */
+  __pyx_t_5 = 2;
+  __pyx_v_sc = sin((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":623
+ *             double cb = cos(theta[1])
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])             # <<<<<<<<<<<<<<
+ *             double dx = theta[3]
+ *             double dy = theta[4]
+ */
+  __pyx_t_6 = 2;
+  __pyx_v_cc = cos((*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) ))));
+
+  /* "dipy/align/transforms.pyx":624
+ *             double sc = sin(theta[2])
+ *             double cc = cos(theta[2])
+ *             double dx = theta[3]             # <<<<<<<<<<<<<<
+ *             double dy = theta[4]
+ *             double dz = theta[5]
+ */
+  __pyx_t_7 = 3;
+  __pyx_v_dx = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_7 * __pyx_v_theta.strides[0]) )));
+
+  /* "dipy/align/transforms.pyx":625
+ *             double cc = cos(theta[2])
+ *             double dx = theta[3]
+ *             double dy = theta[4]             # <<<<<<<<<<<<<<
+ *             double dz = theta[5]
+ * 
+ */
+  __pyx_t_8 = 4;
+  __pyx_v_dy = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_8 * __pyx_v_theta.strides[0]) )));
+
+  /* "dipy/align/transforms.pyx":626
+ *             double dx = theta[3]
+ *             double dy = theta[4]
+ *             double dz = theta[5]             # <<<<<<<<<<<<<<
+ * 
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, dx
+ */
+  __pyx_t_9 = 5;
+  __pyx_v_dz = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_9 * __pyx_v_theta.strides[0]) )));
+
+  /* "dipy/align/transforms.pyx":628
+ *             double dz = theta[5]
+ * 
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, dx             # <<<<<<<<<<<<<<
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, dy
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = -ca*sb, sa, ca*cb, dz
+ */
+  __pyx_t_10 = ((__pyx_v_cc * __pyx_v_cb) - ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_sb));
+  __pyx_t_11 = ((-__pyx_v_sc) * __pyx_v_ca);
+  __pyx_t_12 = ((__pyx_v_cc * __pyx_v_sb) + ((__pyx_v_sc * __pyx_v_sa) * __pyx_v_cb));
+  __pyx_t_13 = __pyx_v_dx;
   __pyx_t_14 = 0;
   __pyx_t_15 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_14 * __pyx_v_R.strides[0]) ) + __pyx_t_15 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
   __pyx_t_16 = 0;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":118
- *         s = _propagation_direction(&point[0], &direction[0],
- *                                    &self._qa[0, 0, 0, 0],
- *                                    &self._ind[0, 0, 0, 0],             # <<<<<<<<<<<<<<
- *                                    &self._odf_vertices[0, 0], self.qa_thr,
- *                                    self.ang_thr, qa_shape, qa_strides,
- */
-  __pyx_t_17 = 0;
+  __pyx_t_17 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_11;
   __pyx_t_18 = 0;
-  __pyx_t_19 = 0;
+  __pyx_t_19 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_12;
   __pyx_t_20 = 0;
+  __pyx_t_21 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_13;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":119
- *                                    &self._qa[0, 0, 0, 0],
- *                                    &self._ind[0, 0, 0, 0],
- *                                    &self._odf_vertices[0, 0], self.qa_thr,             # <<<<<<<<<<<<<<
- *                                    self.ang_thr, qa_shape, qa_strides,
- *                                    newdirection, self.total_weight)
- */
-  __pyx_t_21 = 0;
-  __pyx_t_22 = 0;
-
-  /* "dipy/reconst/peak_direction_getter.pyx":116
- *             qa_strides[i] = self._qa.strides[i]
+  /* "dipy/align/transforms.pyx":629
  * 
- *         s = _propagation_direction(&point[0], &direction[0],             # <<<<<<<<<<<<<<
- *                                    &self._qa[0, 0, 0, 0],
- *                                    &self._ind[0, 0, 0, 0],
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, dx
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, dy             # <<<<<<<<<<<<<<
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = -ca*sb, sa, ca*cb, dz
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1
  */
-  __pyx_v_s = __pyx_f_4dipy_8tracking_9propspeed__propagation_direction((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_point.data) + __pyx_t_7)) )))), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_direction.data) + __pyx_t_12)) )))), (&(*((double *) ( /* dim=3 */ ((char *) (((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->_qa.data + __pyx_t_13 * __pyx_v_self->_qa.strides[0]) ) + __pyx_t_14 * __pyx_v_self->_qa.strides[1]) ) + __pyx_t_15 * __pyx_v_self->_qa.strides[2]) )) + __pyx_t_16)) )))), (&(*((double *) ( /* dim=3 */ ((char *) (((double *) ( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_self->_ind.data + __pyx_t_17 * __pyx_v_self->_ind.strides[0]) ) + __pyx_t_18 * __pyx_v_self->_ind.strides[1]) ) + __pyx_t_19 * __pyx_v_self->_ind.strides[2]) )) + __pyx_t_20)) )))), (&(*((double *) ( /* dim=1 */ ((char *) (((double *) ( /* dim=0 */ (__pyx_v_self->_odf_vertices.data + __pyx_t_21 * __pyx_v_self->_odf_vertices.strides[0]) )) + __pyx_t_22)) )))), __pyx_v_self->qa_thr, __pyx_v_self->ang_thr, __pyx_v_qa_shape, __pyx_v_qa_strides, __pyx_v_newdirection, __pyx_v_self->total_weight);
+  __pyx_t_13 = ((__pyx_v_sc * __pyx_v_cb) + ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_sb));
+  __pyx_t_12 = (__pyx_v_cc * __pyx_v_ca);
+  __pyx_t_11 = ((__pyx_v_sc * __pyx_v_sb) - ((__pyx_v_cc * __pyx_v_sa) * __pyx_v_cb));
+  __pyx_t_10 = __pyx_v_dy;
+  __pyx_t_22 = 1;
+  __pyx_t_23 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_13;
+  __pyx_t_24 = 1;
+  __pyx_t_25 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_24 * __pyx_v_R.strides[0]) ) + __pyx_t_25 * __pyx_v_R.strides[1]) )) = __pyx_t_12;
+  __pyx_t_26 = 1;
+  __pyx_t_27 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_26 * __pyx_v_R.strides[0]) ) + __pyx_t_27 * __pyx_v_R.strides[1]) )) = __pyx_t_11;
+  __pyx_t_28 = 1;
+  __pyx_t_29 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_28 * __pyx_v_R.strides[0]) ) + __pyx_t_29 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":122
- *                                    self.ang_thr, qa_shape, qa_strides,
- *                                    newdirection, self.total_weight)
- *         if s:             # <<<<<<<<<<<<<<
- *             for i in range(3):
- *                 direction[i] = newdirection[i]
- */
-  __pyx_t_10 = (__pyx_v_s != 0);
-  if (__pyx_t_10) {
-
-    /* "dipy/reconst/peak_direction_getter.pyx":123
- *                                    newdirection, self.total_weight)
- *         if s:
- *             for i in range(3):             # <<<<<<<<<<<<<<
- *                 direction[i] = newdirection[i]
- *             return 0
- */
-    for (__pyx_t_11 = 0; __pyx_t_11 < 3; __pyx_t_11+=1) {
-      __pyx_v_i = __pyx_t_11;
-
-      /* "dipy/reconst/peak_direction_getter.pyx":124
- *         if s:
- *             for i in range(3):
- *                 direction[i] = newdirection[i]             # <<<<<<<<<<<<<<
- *             return 0
- *         else:
- */
-      __pyx_t_23 = __pyx_v_i;
-      *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_direction.data) + __pyx_t_23)) )) = (__pyx_v_newdirection[__pyx_v_i]);
-    }
-
-    /* "dipy/reconst/peak_direction_getter.pyx":125
- *             for i in range(3):
- *                 direction[i] = newdirection[i]
- *             return 0             # <<<<<<<<<<<<<<
- *         else:
- *             return 1
- */
-    __pyx_r = 0;
-    goto __pyx_L0;
-  }
-  /*else*/ {
-
-    /* "dipy/reconst/peak_direction_getter.pyx":127
- *             return 0
- *         else:
- *             return 1             # <<<<<<<<<<<<<<
+  /* "dipy/align/transforms.pyx":630
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = cc*cb-sc*sa*sb, -sc*ca, cc*sb+sc*sa*cb, dx
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, dy
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = -ca*sb, sa, ca*cb, dz             # <<<<<<<<<<<<<<
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1
  * 
  */
-    __pyx_r = 1;
-    goto __pyx_L0;
-  }
+  __pyx_t_10 = ((-__pyx_v_ca) * __pyx_v_sb);
+  __pyx_t_11 = __pyx_v_sa;
+  __pyx_t_12 = (__pyx_v_ca * __pyx_v_cb);
+  __pyx_t_13 = __pyx_v_dz;
+  __pyx_t_30 = 2;
+  __pyx_t_31 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_30 * __pyx_v_R.strides[0]) ) + __pyx_t_31 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+  __pyx_t_32 = 2;
+  __pyx_t_33 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_32 * __pyx_v_R.strides[0]) ) + __pyx_t_33 * __pyx_v_R.strides[1]) )) = __pyx_t_11;
+  __pyx_t_34 = 2;
+  __pyx_t_35 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_34 * __pyx_v_R.strides[0]) ) + __pyx_t_35 * __pyx_v_R.strides[1]) )) = __pyx_t_12;
+  __pyx_t_36 = 2;
+  __pyx_t_37 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_36 * __pyx_v_R.strides[0]) ) + __pyx_t_37 * __pyx_v_R.strides[1]) )) = __pyx_t_13;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":94
- *     @cython.boundscheck(False)
- *     @cython.wraparound(False)
- *     cpdef int get_direction(self,             # <<<<<<<<<<<<<<
- *                             double[::1] point,
- *                             double[::1] direction) except -1:
+  /* "dipy/align/transforms.pyx":631
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = sc*cb+cc*sa*sb, cc*ca, sc*sb-cc*sa*cb, dy
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = -ca*sb, sa, ca*cb, dz
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_13 = 0.0;
+  __pyx_t_12 = 0.0;
+  __pyx_t_11 = 0.0;
+  __pyx_t_10 = 1.0;
+  __pyx_t_38 = 3;
+  __pyx_t_39 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_38 * __pyx_v_R.strides[0]) ) + __pyx_t_39 * __pyx_v_R.strides[1]) )) = __pyx_t_13;
+  __pyx_t_40 = 3;
+  __pyx_t_41 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_40 * __pyx_v_R.strides[0]) ) + __pyx_t_41 * __pyx_v_R.strides[1]) )) = __pyx_t_12;
+  __pyx_t_42 = 3;
+  __pyx_t_43 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_42 * __pyx_v_R.strides[0]) ) + __pyx_t_43 * __pyx_v_R.strides[1]) )) = __pyx_t_11;
+  __pyx_t_44 = 3;
+  __pyx_t_45 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_44 * __pyx_v_R.strides[0]) ) + __pyx_t_45 * __pyx_v_R.strides[1]) )) = __pyx_t_10;
+
+  /* "dipy/align/transforms.pyx":601
+ *         theta[:6] = 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D rigid transform
+ * 
  */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.get_direction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
+}
+
+/* "dipy/align/transforms.pyx":635
+ * 
+ * cdef class ScalingTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Scaling transform in 2D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_18ScalingTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_18ScalingTransform2D___init__[] = " Scaling transform in 2D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform2D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_18ScalingTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_18ScalingTransform2D___init__(((struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *)__pyx_v_self));
+
+  /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
+static int __pyx_pf_4dipy_5align_10transforms_18ScalingTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":638
+ *         r""" Scaling transform in 2D
+ *         """
+ *         self.dim = 2             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 1
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 2;
+
+  /* "dipy/align/transforms.pyx":639
+ *         """
+ *         self.dim = 2
+ *         self.number_of_parameters = 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 1;
+
+  /* "dipy/align/transforms.pyx":635
+ * 
+ * cdef class ScalingTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Scaling transform in 2D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":641
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the isotropic 2D scale transform
+ *         The transformation is given by:
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+
+  /* "dipy/align/transforms.pyx":666
+ *             constant (it depends on the value of x)
+ *         """
+ *         J[0, 0], J[1, 0] = x[0], x[1]             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_1 * __pyx_v_x.strides[0]) )));
+  __pyx_t_3 = 1;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_3 * __pyx_v_x.strides[0]) )));
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_5 * __pyx_v_J.strides[0]) ) + __pyx_t_6 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_7 = 1;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_7 * __pyx_v_J.strides[0]) ) + __pyx_t_8 * __pyx_v_J.strides[1]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":668
+ *         J[0, 0], J[1, 0] = x[0], x[1]
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":641
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the isotropic 2D scale transform
+ *         The transformation is given by:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":670
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  Py_ssize_t __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":680
+ *             buffer to write the parameters of the 2D scale transform
+ *         """
+ *         theta[0] = 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_1 = 0;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":670
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":682
+ *         theta[0] = 1
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D (isotropic) scaling transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+
+  /* "dipy/align/transforms.pyx":692
+ *             the buffer in which to write the scaling matrix
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], 0, 0             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, theta[0], 0
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_5 * __pyx_v_R.strides[0]) ) + __pyx_t_6 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_7 = 0;
+  __pyx_t_8 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_7 * __pyx_v_R.strides[0]) ) + __pyx_t_8 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_9 * __pyx_v_R.strides[0]) ) + __pyx_t_10 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":693
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], 0, 0
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, theta[0], 0             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ * 
+ */
+  __pyx_t_4 = 0.0;
+  __pyx_t_11 = 0;
+  __pyx_t_3 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_11 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_2 = 0.0;
+  __pyx_t_12 = 1;
+  __pyx_t_13 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_12 * __pyx_v_R.strides[0]) ) + __pyx_t_13 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_14 = 1;
+  __pyx_t_15 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_14 * __pyx_v_R.strides[0]) ) + __pyx_t_15 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":694
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], 0, 0
+ *         R[1, 0], R[1, 1], R[1, 2] = 0, theta[0], 0
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 1.0;
+  __pyx_t_18 = 2;
+  __pyx_t_19 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_20 = 2;
+  __pyx_t_21 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_22 = 2;
+  __pyx_t_23 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":682
+ *         theta[0] = 1
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 2D (isotropic) scaling transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":698
+ * 
+ * cdef class ScalingTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Scaling transform in 3D
+ *         """
+ */
+
 /* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7get_direction(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6get_direction[] = "Interpolate closest peaks to direction from voxels neighboring point\n\n        Update direction and return 0 if successful. If no tracking direction\n        could be found, return 1.\n\n        ";
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7get_direction(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  __Pyx_memviewslice __pyx_v_point = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_direction = { 0, 0, { 0 }, { 0 }, { 0 } };
+static int __pyx_pw_4dipy_5align_10transforms_18ScalingTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_18ScalingTransform3D___init__[] = " Scaling transform in 3D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform3D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_18ScalingTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_18ScalingTransform3D___init__(((struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_18ScalingTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":701
+ *         r""" Scaling transform in 3D
+ *         """
+ *         self.dim = 3             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 1
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 3;
+
+  /* "dipy/align/transforms.pyx":702
+ *         """
+ *         self.dim = 3
+ *         self.number_of_parameters = 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 1;
+
+  /* "dipy/align/transforms.pyx":698
+ * 
+ * cdef class ScalingTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Scaling transform in 3D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":704
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the isotropic 3D scale transform
+ *         The transformation is given by:
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  int __pyx_r;
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  double __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+
+  /* "dipy/align/transforms.pyx":729
+ *             constant (it depends on the value of x)
+ *         """
+ *         J[0, 0], J[1, 0], J[2, 0]= x[0], x[1], x[2]             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_1 * __pyx_v_x.strides[0]) )));
+  __pyx_t_3 = 1;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_3 * __pyx_v_x.strides[0]) )));
+  __pyx_t_5 = 2;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_x.data + __pyx_t_5 * __pyx_v_x.strides[0]) )));
+  __pyx_t_7 = 0;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_7 * __pyx_v_J.strides[0]) ) + __pyx_t_8 * __pyx_v_J.strides[1]) )) = __pyx_t_2;
+  __pyx_t_9 = 1;
+  __pyx_t_10 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_9 * __pyx_v_J.strides[0]) ) + __pyx_t_10 * __pyx_v_J.strides[1]) )) = __pyx_t_4;
+  __pyx_t_11 = 2;
+  __pyx_t_12 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_11 * __pyx_v_J.strides[0]) ) + __pyx_t_12 * __pyx_v_J.strides[1]) )) = __pyx_t_6;
+
+  /* "dipy/align/transforms.pyx":731
+ *         J[0, 0], J[1, 0], J[2, 0]= x[0], x[1], x[2]
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":704
+ *         self.number_of_parameters = 1
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the isotropic 3D scale transform
+ *         The transformation is given by:
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":733
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  Py_ssize_t __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":743
+ *             buffer to write the parameters of the 3D scale transform
+ *         """
+ *         theta[0] = 1             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_1 = 0;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":733
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":745
+ *         theta[0] = 1
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D (isotropic) scaling transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  double __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+
+  /* "dipy/align/transforms.pyx":755
+ *             the buffer in which to write the scaling matrix
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = theta[0], 0, 0, 0             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, theta[0], 0, 0
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, theta[0], 0
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_5 = 0.0;
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_6 * __pyx_v_R.strides[0]) ) + __pyx_t_7 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_8 = 0;
+  __pyx_t_9 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_8 * __pyx_v_R.strides[0]) ) + __pyx_t_9 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_10 = 0;
+  __pyx_t_11 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_10 * __pyx_v_R.strides[0]) ) + __pyx_t_11 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_12 = 0;
+  __pyx_t_13 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_12 * __pyx_v_R.strides[0]) ) + __pyx_t_13 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":756
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = theta[0], 0, 0, 0
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, theta[0], 0, 0             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, theta[0], 0
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1
+ */
+  __pyx_t_5 = 0.0;
+  __pyx_t_14 = 0;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_14 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_3 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_15 = 1;
+  __pyx_t_16 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_15 * __pyx_v_R.strides[0]) ) + __pyx_t_16 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+  __pyx_t_17 = 1;
+  __pyx_t_18 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_17 * __pyx_v_R.strides[0]) ) + __pyx_t_18 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_19 = 1;
+  __pyx_t_20 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_19 * __pyx_v_R.strides[0]) ) + __pyx_t_20 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_21 = 1;
+  __pyx_t_22 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_21 * __pyx_v_R.strides[0]) ) + __pyx_t_22 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":757
+ *         R[0, 0], R[0, 1], R[0, 2], R[0, 3] = theta[0], 0, 0, 0
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, theta[0], 0, 0
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, theta[0], 0             # <<<<<<<<<<<<<<
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1
+ * 
+ */
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_23 = 0;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_23 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_5 = 0.0;
+  __pyx_t_24 = 2;
+  __pyx_t_25 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_24 * __pyx_v_R.strides[0]) ) + __pyx_t_25 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_26 = 2;
+  __pyx_t_27 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_26 * __pyx_v_R.strides[0]) ) + __pyx_t_27 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_28 = 2;
+  __pyx_t_29 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_28 * __pyx_v_R.strides[0]) ) + __pyx_t_29 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_30 = 2;
+  __pyx_t_31 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_30 * __pyx_v_R.strides[0]) ) + __pyx_t_31 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+
+  /* "dipy/align/transforms.pyx":758
+ *         R[1, 0], R[1, 1], R[1, 2], R[1, 3] = 0, theta[0], 0, 0
+ *         R[2, 0], R[2, 1], R[2, 2], R[2, 3] = 0, 0, theta[0], 0
+ *         R[3, 0], R[3, 1], R[3, 2], R[3, 3] = 0, 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_5 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_2 = 1.0;
+  __pyx_t_32 = 3;
+  __pyx_t_33 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_32 * __pyx_v_R.strides[0]) ) + __pyx_t_33 * __pyx_v_R.strides[1]) )) = __pyx_t_5;
+  __pyx_t_34 = 3;
+  __pyx_t_35 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_34 * __pyx_v_R.strides[0]) ) + __pyx_t_35 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_36 = 3;
+  __pyx_t_37 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_36 * __pyx_v_R.strides[0]) ) + __pyx_t_37 * __pyx_v_R.strides[1]) )) = __pyx_t_3;
+  __pyx_t_38 = 3;
+  __pyx_t_39 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_38 * __pyx_v_R.strides[0]) ) + __pyx_t_39 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":745
+ *         theta[0] = 1
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with the 3D (isotropic) scaling transform
+ * 
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":762
+ * 
+ * cdef class AffineTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Affine transform in 2D
+ *         """
+ */
+
+/* Python wrapper */
+static int __pyx_pw_4dipy_5align_10transforms_17AffineTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_17AffineTransform2D___init__[] = " Affine transform in 2D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform2D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_17AffineTransform2D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_17AffineTransform2D___init__(((struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_4dipy_5align_10transforms_17AffineTransform2D___init__(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":765
+ *         r""" Affine transform in 2D
+ *         """
+ *         self.dim = 2             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 6
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 2;
+
+  /* "dipy/align/transforms.pyx":766
+ *         """
+ *         self.dim = 2
+ *         self.number_of_parameters = 6             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 6;
+
+  /* "dipy/align/transforms.pyx":762
+ * 
+ * cdef class AffineTransform2D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Affine transform in 2D
+ *         """
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":768
+ *         self.number_of_parameters = 6
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 2D affine transform
+ *         The transformation is given by:
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  int __pyx_r;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_2;
+  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_direction (wrapper)", 0);
+
+  /* "dipy/align/transforms.pyx":802
+ *             constant (it depends on the value of x)
+ *         """
+ *         J[0, :6] = 0             # <<<<<<<<<<<<<<
+ *         J[1, :6] = 0
+ * 
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_1.data = __pyx_v_J.data;
+  __pyx_t_1.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_point,&__pyx_n_s_direction,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_point)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_direction)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("get_direction", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_direction") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 802; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_v_point = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[0]); if (unlikely(!__pyx_v_point.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_direction = __Pyx_PyObject_to_MemoryviewSlice_dc_double(values[1]); if (unlikely(!__pyx_v_direction.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_1,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_2,
+    0,
+    6,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 802; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_1.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_1.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_1.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
   }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_direction", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.get_direction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6get_direction(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), __pyx_v_point, __pyx_v_direction);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
 
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
+  /* "dipy/align/transforms.pyx":803
+ *         """
+ *         J[0, :6] = 0
+ *         J[1, :6] = 0             # <<<<<<<<<<<<<<
+ * 
+ *         J[0, :2] = x[:2]
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_3.data = __pyx_v_J.data;
+  __pyx_t_3.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_3, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 1;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
 
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6get_direction(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, __Pyx_memviewslice __pyx_v_point, __Pyx_memviewslice __pyx_v_direction) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("get_direction", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_get_direction(__pyx_v_self, __pyx_v_point, __pyx_v_direction, 1); if (unlikely(__pyx_t_1 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 94; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_3,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_2,
+    0,
+    6,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+      double __pyx_temp_scalar = 0.0;
+      {
+          Py_ssize_t __pyx_temp_extent_0 = __pyx_t_3.shape[0];
+          Py_ssize_t __pyx_temp_stride_0 = __pyx_t_3.strides[0];
+          char *__pyx_temp_pointer_0;
+          Py_ssize_t __pyx_temp_idx_0;
+          __pyx_temp_pointer_0 = __pyx_t_3.data;
+          for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+            *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+            __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+          }
+      }
+  }
+  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 0);
+
+  /* "dipy/align/transforms.pyx":805
+ *         J[1, :6] = 0
+ * 
+ *         J[0, :2] = x[:2]             # <<<<<<<<<<<<<<
+ *         J[0, 2] = 1
+ *         J[1, 3:5] = x[:2]
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_4.data = __pyx_v_x.data;
+  __pyx_t_4.memview = __pyx_v_x.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_4, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_4,
+    __pyx_v_x.shape[0], __pyx_v_x.strides[0], __pyx_v_x.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    2,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 805; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+__pyx_t_2 = -1;
+  __pyx_t_5.data = __pyx_v_J.data;
+  __pyx_t_5.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 805; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_5.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_5,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_2,
+    0,
+    2,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 805; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+if (unlikely(__pyx_memoryview_copy_contents(__pyx_t_4, __pyx_t_5, 1, 1, 0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 805; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 0);
+
+  /* "dipy/align/transforms.pyx":806
+ * 
+ *         J[0, :2] = x[:2]
+ *         J[0, 2] = 1             # <<<<<<<<<<<<<<
+ *         J[1, 3:5] = x[:2]
+ *         J[1, 5] = 1
+ */
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_6 * __pyx_v_J.strides[0]) ) + __pyx_t_7 * __pyx_v_J.strides[1]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":807
+ *         J[0, :2] = x[:2]
+ *         J[0, 2] = 1
+ *         J[1, 3:5] = x[:2]             # <<<<<<<<<<<<<<
+ *         J[1, 5] = 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ */
+  __pyx_t_2 = -1;
+  __pyx_t_8.data = __pyx_v_x.data;
+  __pyx_t_8.memview = __pyx_v_x.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_8, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_8,
+    __pyx_v_x.shape[0], __pyx_v_x.strides[0], __pyx_v_x.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_2,
+    0,
+    2,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 807; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+__pyx_t_2 = -1;
+  __pyx_t_9.data = __pyx_v_J.data;
+  __pyx_t_9.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_9, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 1;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 807; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_9.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_9,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_2,
+    3,
+    5,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 807; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+if (unlikely(__pyx_memoryview_copy_contents(__pyx_t_8, __pyx_t_9, 1, 1, 0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 807; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __PYX_XDEC_MEMVIEW(&__pyx_t_9, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 0);
+
+  /* "dipy/align/transforms.pyx":808
+ *         J[0, 2] = 1
+ *         J[1, 3:5] = x[:2]
+ *         J[1, 5] = 1             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_10 = 1;
+  __pyx_t_11 = 5;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":810
+ *         J[1, 5] = 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
   goto __pyx_L0;
 
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.get_direction", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_point, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_direction, 1);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/reconst/peak_direction_getter.pyx":30
- *     """
- *     cdef:
- *         public double qa_thr, ang_thr, total_weight             # <<<<<<<<<<<<<<
- *         public double[:, :, :, ::1] _qa, _ind
- *         public double[:, ::1] _odf_vertices
+  /* "dipy/align/transforms.pyx":768
+ *         self.number_of_parameters = 6
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 2D affine transform
+ *         The transformation is given by:
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->qa_thr); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.qa_thr.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->qa_thr = __pyx_t_1;
-
-  /* function exit code */
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_9, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.AffineTransform2D._jacobian", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.qa_thr.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->ang_thr); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.ang_thr.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->ang_thr = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.ang_thr.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->total_weight); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.total_weight.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  double __pyx_t_1;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_value); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_v_self->total_weight = __pyx_t_1;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter.total_weight.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/reconst/peak_direction_getter.pyx":31
- *     cdef:
- *         public double qa_thr, ang_thr, total_weight
- *         public double[:, :, :, ::1] _qa, _ind             # <<<<<<<<<<<<<<
- *         public double[:, ::1] _odf_vertices
- *         int initialized
+/* "dipy/align/transforms.pyx":812
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  double __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+
+  /* "dipy/align/transforms.pyx":822
+ *             buffer to write the parameters of the 2D affine transform
+ *         """
+ *         theta[0], theta[1], theta[2] = 1, 0, 0             # <<<<<<<<<<<<<<
+ *         theta[3], theta[4], theta[5] = 0, 1, 0
+ * 
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_4 * __pyx_v_theta.strides[0]) )) = __pyx_t_1;
+  __pyx_t_5 = 1;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) )) = __pyx_t_2;
+  __pyx_t_6 = 2;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) )) = __pyx_t_3;
+
+  /* "dipy/align/transforms.pyx":823
+ *         """
+ *         theta[0], theta[1], theta[2] = 1, 0, 0
+ *         theta[3], theta[4], theta[5] = 0, 1, 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_3 = 0.0;
+  __pyx_t_2 = 1.0;
+  __pyx_t_1 = 0.0;
+  __pyx_t_7 = 3;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_7 * __pyx_v_theta.strides[0]) )) = __pyx_t_3;
+  __pyx_t_8 = 4;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_8 * __pyx_v_theta.strides[0]) )) = __pyx_t_2;
+  __pyx_t_9 = 5;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_9 * __pyx_v_theta.strides[0]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":812
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
 
   /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->_qa.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_qa, 4, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._qa.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(__pyx_v_value);
-  if (unlikely(!__pyx_t_1.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_qa, 0);
-  __pyx_v_self->_qa = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._qa.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->_ind.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_ind, 4, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._ind.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(__pyx_v_value);
-  if (unlikely(!__pyx_t_1.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_ind, 0);
-  __pyx_v_self->_ind = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._ind.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "dipy/reconst/peak_direction_getter.pyx":32
- *         public double qa_thr, ang_thr, total_weight
- *         public double[:, :, :, ::1] _qa, _ind
- *         public double[:, ::1] _odf_vertices             # <<<<<<<<<<<<<<
- *         int initialized
+/* "dipy/align/transforms.pyx":825
+ *         theta[3], theta[4], theta[5] = 0, 1, 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with a general 2D affine transform
  * 
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices___get__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self));
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform2D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  double __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
 
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices___get__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__get__", 0);
-  __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_v_self->_odf_vertices.memview)) {PyErr_SetString(PyExc_AttributeError,"Memoryview is not initialized");{__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}}
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_self->_odf_vertices, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
+  /* "dipy/align/transforms.pyx":841
+ *             the buffer in which to write the matrix
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], theta[1], theta[2]             # <<<<<<<<<<<<<<
+ *         R[1, 0], R[1, 1], R[1, 2] = theta[3], theta[4], theta[5]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ */
   __pyx_t_1 = 0;
-  goto __pyx_L0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_3 = 1;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_5 = 2;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_7 = 0;
+  __pyx_t_8 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_7 * __pyx_v_R.strides[0]) ) + __pyx_t_8 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_9 * __pyx_v_R.strides[0]) ) + __pyx_t_10 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_11 = 0;
+  __pyx_t_12 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_11 * __pyx_v_R.strides[0]) ) + __pyx_t_12 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+
+  /* "dipy/align/transforms.pyx":842
+ *         """
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], theta[1], theta[2]
+ *         R[1, 0], R[1, 1], R[1, 2] = theta[3], theta[4], theta[5]             # <<<<<<<<<<<<<<
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1
+ * 
+ */
+  __pyx_t_13 = 3;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_13 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_14 = 4;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_14 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_15 = 5;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_15 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_16 = 1;
+  __pyx_t_17 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_16 * __pyx_v_R.strides[0]) ) + __pyx_t_17 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_18 = 1;
+  __pyx_t_19 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_18 * __pyx_v_R.strides[0]) ) + __pyx_t_19 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_20 = 1;
+  __pyx_t_21 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_20 * __pyx_v_R.strides[0]) ) + __pyx_t_21 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":843
+ *         R[0, 0], R[0, 1], R[0, 2] = theta[0], theta[1], theta[2]
+ *         R[1, 0], R[1, 1], R[1, 2] = theta[3], theta[4], theta[5]
+ *         R[2, 0], R[2, 1], R[2, 2] = 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_2 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_6 = 1.0;
+  __pyx_t_22 = 2;
+  __pyx_t_23 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_22 * __pyx_v_R.strides[0]) ) + __pyx_t_23 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_24 = 2;
+  __pyx_t_25 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_24 * __pyx_v_R.strides[0]) ) + __pyx_t_25 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_26 = 2;
+  __pyx_t_27 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_26 * __pyx_v_R.strides[0]) ) + __pyx_t_27 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+
+  /* "dipy/align/transforms.pyx":825
+ *         theta[3], theta[4], theta[5] = 0, 1, 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with a general 2D affine transform
+ * 
+ */
 
   /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._odf_vertices.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
 }
+
+/* "dipy/align/transforms.pyx":847
+ * 
+ * cdef class AffineTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Affine transform in 3D
+ *         """
+ */
 
 /* Python wrapper */
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value); /*proto*/
-static int __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pw_4dipy_5align_10transforms_17AffineTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_5align_10transforms_17AffineTransform3D___init__[] = " Affine transform in 3D\n        ";
+#if CYTHON_COMPILING_IN_CPYTHON
+struct wrapperbase __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform3D___init__;
+#endif
+static int __pyx_pw_4dipy_5align_10transforms_17AffineTransform3D_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_2__set__(((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)__pyx_v_self), ((PyObject *)__pyx_v_value));
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  if (unlikely(PyTuple_GET_SIZE(__pyx_args) > 0)) {
+    __Pyx_RaiseArgtupleInvalid("__init__", 1, 0, 0, PyTuple_GET_SIZE(__pyx_args)); return -1;}
+  if (unlikely(__pyx_kwds) && unlikely(PyDict_Size(__pyx_kwds) > 0) && unlikely(!__Pyx_CheckKeywordStrings(__pyx_kwds, "__init__", 0))) return -1;
+  __pyx_r = __pyx_pf_4dipy_5align_10transforms_17AffineTransform3D___init__(((struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_2__set__(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *__pyx_v_self, PyObject *__pyx_v_value) {
+static int __pyx_pf_4dipy_5align_10transforms_17AffineTransform3D___init__(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("__set__", 0);
-  __pyx_t_1 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_v_value);
-  if (unlikely(!__pyx_t_1.memview)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 32; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __PYX_XDEC_MEMVIEW(&__pyx_v_self->_odf_vertices, 0);
-  __pyx_v_self->_odf_vertices = __pyx_t_1;
-  __pyx_t_1.memview = NULL;
-  __pyx_t_1.data = NULL;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "dipy/align/transforms.pyx":850
+ *         r""" Affine transform in 3D
+ *         """
+ *         self.dim = 3             # <<<<<<<<<<<<<<
+ *         self.number_of_parameters = 12
+ * 
+ */
+  __pyx_v_self->__pyx_base.dim = 3;
+
+  /* "dipy/align/transforms.pyx":851
+ *         """
+ *         self.dim = 3
+ *         self.number_of_parameters = 12             # <<<<<<<<<<<<<<
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:
+ */
+  __pyx_v_self->__pyx_base.number_of_parameters = 12;
+
+  /* "dipy/align/transforms.pyx":847
+ * 
+ * cdef class AffineTransform3D(Transform):
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         r""" Affine transform in 3D
+ *         """
+ */
 
   /* function exit code */
   __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
-  __Pyx_AddTraceback("dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter._odf_vertices.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":853
+ *         self.number_of_parameters = 12
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 3D affine transform
+ *         The transformation is given by:
+ */
+
+static int __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__jacobian(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, CYTHON_UNUSED __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_x, __Pyx_memviewslice __pyx_v_J) {
+  npy_intp __pyx_v_j;
+  int __pyx_r;
+  npy_intp __pyx_t_1;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_3;
+  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_5 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_9 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  __Pyx_memviewslice __pyx_t_12 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_13 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+
+  /* "dipy/align/transforms.pyx":897
+ *             cnp.npy_intp j
+ * 
+ *         for j in range(3):             # <<<<<<<<<<<<<<
+ *             J[j, :12] = 0
+ *         J[0, :3] = x[:3]
+ */
+  for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
+    __pyx_v_j = __pyx_t_1;
+
+    /* "dipy/align/transforms.pyx":898
+ * 
+ *         for j in range(3):
+ *             J[j, :12] = 0             # <<<<<<<<<<<<<<
+ *         J[0, :3] = x[:3]
+ *         J[0, 3] = 1
+ */
+    __pyx_t_3 = -1;
+    __pyx_t_2.data = __pyx_v_J.data;
+    __pyx_t_2.memview = __pyx_v_J.memview;
+    __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
+    {
+    Py_ssize_t __pyx_tmp_idx = __pyx_v_j;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 898; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_2.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_2,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_3,
+    0,
+    12,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 898; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+{
+        double __pyx_temp_scalar = 0.0;
+        {
+            Py_ssize_t __pyx_temp_extent_0 = __pyx_t_2.shape[0];
+            Py_ssize_t __pyx_temp_stride_0 = __pyx_t_2.strides[0];
+            char *__pyx_temp_pointer_0;
+            Py_ssize_t __pyx_temp_idx_0;
+            __pyx_temp_pointer_0 = __pyx_t_2.data;
+            for (__pyx_temp_idx_0 = 0; __pyx_temp_idx_0 < __pyx_temp_extent_0; __pyx_temp_idx_0++) {
+              *((double *) __pyx_temp_pointer_0) = __pyx_temp_scalar;
+              __pyx_temp_pointer_0 += __pyx_temp_stride_0;
+            }
+        }
+    }
+    __PYX_XDEC_MEMVIEW(&__pyx_t_2, 0);
+  }
+
+  /* "dipy/align/transforms.pyx":899
+ *         for j in range(3):
+ *             J[j, :12] = 0
+ *         J[0, :3] = x[:3]             # <<<<<<<<<<<<<<
+ *         J[0, 3] = 1
+ *         J[1, 4:7] = x[:3]
+ */
+  __pyx_t_3 = -1;
+  __pyx_t_4.data = __pyx_v_x.data;
+  __pyx_t_4.memview = __pyx_v_x.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_4, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_4,
+    __pyx_v_x.shape[0], __pyx_v_x.strides[0], __pyx_v_x.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_3,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 899; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+__pyx_t_3 = -1;
+  __pyx_t_5.data = __pyx_v_J.data;
+  __pyx_t_5.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_5, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 899; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_5.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_5,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_3,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 899; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+if (unlikely(__pyx_memoryview_copy_contents(__pyx_t_4, __pyx_t_5, 1, 1, 0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 899; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 0);
+
+  /* "dipy/align/transforms.pyx":900
+ *             J[j, :12] = 0
+ *         J[0, :3] = x[:3]
+ *         J[0, 3] = 1             # <<<<<<<<<<<<<<
+ *         J[1, 4:7] = x[:3]
+ *         J[1, 7] = 1
+ */
+  __pyx_t_6 = 0;
+  __pyx_t_7 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_6 * __pyx_v_J.strides[0]) ) + __pyx_t_7 * __pyx_v_J.strides[1]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":901
+ *         J[0, :3] = x[:3]
+ *         J[0, 3] = 1
+ *         J[1, 4:7] = x[:3]             # <<<<<<<<<<<<<<
+ *         J[1, 7] = 1
+ *         J[2, 8:11] = x[:3]
+ */
+  __pyx_t_3 = -1;
+  __pyx_t_8.data = __pyx_v_x.data;
+  __pyx_t_8.memview = __pyx_v_x.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_8, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_8,
+    __pyx_v_x.shape[0], __pyx_v_x.strides[0], __pyx_v_x.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_3,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 901; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+__pyx_t_3 = -1;
+  __pyx_t_9.data = __pyx_v_J.data;
+  __pyx_t_9.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_9, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 1;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 901; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_9.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_9,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_3,
+    4,
+    7,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 901; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+if (unlikely(__pyx_memoryview_copy_contents(__pyx_t_8, __pyx_t_9, 1, 1, 0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 901; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __PYX_XDEC_MEMVIEW(&__pyx_t_9, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 0);
+
+  /* "dipy/align/transforms.pyx":902
+ *         J[0, 3] = 1
+ *         J[1, 4:7] = x[:3]
+ *         J[1, 7] = 1             # <<<<<<<<<<<<<<
+ *         J[2, 8:11] = x[:3]
+ *         J[2, 11] = 1
+ */
+  __pyx_t_10 = 1;
+  __pyx_t_11 = 7;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_10 * __pyx_v_J.strides[0]) ) + __pyx_t_11 * __pyx_v_J.strides[1]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":903
+ *         J[1, 4:7] = x[:3]
+ *         J[1, 7] = 1
+ *         J[2, 8:11] = x[:3]             # <<<<<<<<<<<<<<
+ *         J[2, 11] = 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ */
+  __pyx_t_3 = -1;
+  __pyx_t_12.data = __pyx_v_x.data;
+  __pyx_t_12.memview = __pyx_v_x.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_12, 0);
+  if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_12,
+    __pyx_v_x.shape[0], __pyx_v_x.strides[0], __pyx_v_x.suboffsets[0],
+    0,
+    0,
+    &__pyx_t_3,
+    0,
+    3,
+    0,
+    0,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 903; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+__pyx_t_3 = -1;
+  __pyx_t_13.data = __pyx_v_J.data;
+  __pyx_t_13.memview = __pyx_v_J.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_13, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 2;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_J.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_J.strides[0];
+    if (0 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (0 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+            #ifdef WITH_THREAD
+            PyGILState_STATE __pyx_gilstate_save = PyGILState_Ensure();
+            #endif
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+            #ifdef WITH_THREAD
+            PyGILState_Release(__pyx_gilstate_save);
+            #endif
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 903; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+        __pyx_t_13.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+if (unlikely(__pyx_memoryview_slice_memviewslice(
+    &__pyx_t_13,
+    __pyx_v_J.shape[1], __pyx_v_J.strides[1], __pyx_v_J.suboffsets[1],
+    1,
+    0,
+    &__pyx_t_3,
+    8,
+    11,
+    0,
+    1,
+    1,
+    0,
+    1) < 0))
+{
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 903; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+}
+
+if (unlikely(__pyx_memoryview_copy_contents(__pyx_t_12, __pyx_t_13, 1, 1, 0) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 903; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __PYX_XDEC_MEMVIEW(&__pyx_t_13, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_12, 0);
+
+  /* "dipy/align/transforms.pyx":904
+ *         J[1, 7] = 1
+ *         J[2, 8:11] = x[:3]
+ *         J[2, 11] = 1             # <<<<<<<<<<<<<<
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0
+ */
+  __pyx_t_14 = 2;
+  __pyx_t_15 = 11;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_J.data + __pyx_t_14 * __pyx_v_J.strides[0]) ) + __pyx_t_15 * __pyx_v_J.strides[1]) )) = 1.0;
+
+  /* "dipy/align/transforms.pyx":906
+ *         J[2, 11] = 1
+ *         # This Jacobian depends on x (it's not constant): return 0
+ *         return 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:
+ */
+  __pyx_r = 0;
+  goto __pyx_L0;
+
+  /* "dipy/align/transforms.pyx":853
+ *         self.number_of_parameters = 12
+ * 
+ *     cdef int _jacobian(self, double[:] theta, double[:] x, double[:, :] J)nogil:             # <<<<<<<<<<<<<<
+ *         r""" Jacobian matrix of the 3D affine transform
+ *         The transformation is given by:
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_5, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_9, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_12, 0);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_13, 0);
+  __Pyx_WriteUnraisable("dipy.align.transforms.AffineTransform3D._jacobian", __pyx_clineno, __pyx_lineno, __pyx_filename, 0);
+  __pyx_r = 0;
+  __pyx_L0:;
+  return __pyx_r;
+}
+
+/* "dipy/align/transforms.pyx":908
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__get_identity_parameters(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta) {
+  double __pyx_t_1;
+  double __pyx_t_2;
+  double __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+
+  /* "dipy/align/transforms.pyx":918
+ *             buffer to write the parameters of the 3D affine transform
+ *         """
+ *         theta[0], theta[1], theta[2], theta[3] = 1, 0, 0, 0             # <<<<<<<<<<<<<<
+ *         theta[4], theta[5], theta[6], theta[7] = 0, 1, 0, 0
+ *         theta[8], theta[9], theta[10], theta[11] = 0, 0, 1, 0
+ */
+  __pyx_t_1 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_5 = 0;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) )) = __pyx_t_1;
+  __pyx_t_6 = 1;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_6 * __pyx_v_theta.strides[0]) )) = __pyx_t_2;
+  __pyx_t_7 = 2;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_7 * __pyx_v_theta.strides[0]) )) = __pyx_t_3;
+  __pyx_t_8 = 3;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_8 * __pyx_v_theta.strides[0]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":919
+ *         """
+ *         theta[0], theta[1], theta[2], theta[3] = 1, 0, 0, 0
+ *         theta[4], theta[5], theta[6], theta[7] = 0, 1, 0, 0             # <<<<<<<<<<<<<<
+ *         theta[8], theta[9], theta[10], theta[11] = 0, 0, 1, 0
+ * 
+ */
+  __pyx_t_4 = 0.0;
+  __pyx_t_3 = 1.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_1 = 0.0;
+  __pyx_t_9 = 4;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_9 * __pyx_v_theta.strides[0]) )) = __pyx_t_4;
+  __pyx_t_10 = 5;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_10 * __pyx_v_theta.strides[0]) )) = __pyx_t_3;
+  __pyx_t_11 = 6;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_11 * __pyx_v_theta.strides[0]) )) = __pyx_t_2;
+  __pyx_t_12 = 7;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_12 * __pyx_v_theta.strides[0]) )) = __pyx_t_1;
+
+  /* "dipy/align/transforms.pyx":920
+ *         theta[0], theta[1], theta[2], theta[3] = 1, 0, 0, 0
+ *         theta[4], theta[5], theta[6], theta[7] = 0, 1, 0, 0
+ *         theta[8], theta[9], theta[10], theta[11] = 0, 0, 1, 0             # <<<<<<<<<<<<<<
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:
+ */
+  __pyx_t_1 = 0.0;
+  __pyx_t_2 = 0.0;
+  __pyx_t_3 = 1.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_13 = 8;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_13 * __pyx_v_theta.strides[0]) )) = __pyx_t_1;
+  __pyx_t_14 = 9;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_14 * __pyx_v_theta.strides[0]) )) = __pyx_t_2;
+  __pyx_t_15 = 10;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_15 * __pyx_v_theta.strides[0]) )) = __pyx_t_3;
+  __pyx_t_16 = 11;
+  *((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_16 * __pyx_v_theta.strides[0]) )) = __pyx_t_4;
+
+  /* "dipy/align/transforms.pyx":908
+ *         return 0
+ * 
+ *     cdef void _get_identity_parameters(self, double[:] theta) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Parameter values corresponding to the identity
+ *         Sets in theta the parameter values corresponding to the identity
+ */
+
+  /* function exit code */
+}
+
+/* "dipy/align/transforms.pyx":922
+ *         theta[8], theta[9], theta[10], theta[11] = 0, 0, 1, 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with a general 3D affine transform
+ * 
+ */
+
+static void __pyx_f_4dipy_5align_10transforms_17AffineTransform3D__param_to_matrix(CYTHON_UNUSED struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *__pyx_v_self, __Pyx_memviewslice __pyx_v_theta, __Pyx_memviewslice __pyx_v_R) {
+  Py_ssize_t __pyx_t_1;
+  double __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  double __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  double __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  double __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  Py_ssize_t __pyx_t_22;
+  Py_ssize_t __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  Py_ssize_t __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  Py_ssize_t __pyx_t_41;
+  Py_ssize_t __pyx_t_42;
+  Py_ssize_t __pyx_t_43;
+  Py_ssize_t __pyx_t_44;
+  Py_ssize_t __pyx_t_45;
+  Py_ssize_t __pyx_t_46;
+  Py_ssize_t __pyx_t_47;
+  Py_ssize_t __pyx_t_48;
+
+  /* "dipy/align/transforms.pyx":939
+ *             the buffer in which to write the matrix
+ *         """
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = theta[0], theta[1], theta[2], theta[3]             # <<<<<<<<<<<<<<
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = theta[4], theta[5], theta[6], theta[7]
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = theta[8], theta[9], theta[10], theta[11]
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_1 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_3 = 1;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_3 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_5 = 2;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_5 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_7 = 3;
+  __pyx_t_8 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_7 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_9 = 0;
+  __pyx_t_10 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_9 * __pyx_v_R.strides[0]) ) + __pyx_t_10 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_11 = 0;
+  __pyx_t_12 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_11 * __pyx_v_R.strides[0]) ) + __pyx_t_12 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_13 = 0;
+  __pyx_t_14 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_13 * __pyx_v_R.strides[0]) ) + __pyx_t_14 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_15 = 0;
+  __pyx_t_16 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_15 * __pyx_v_R.strides[0]) ) + __pyx_t_16 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+
+  /* "dipy/align/transforms.pyx":940
+ *         """
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = theta[0], theta[1], theta[2], theta[3]
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = theta[4], theta[5], theta[6], theta[7]             # <<<<<<<<<<<<<<
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = theta[8], theta[9], theta[10], theta[11]
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1
+ */
+  __pyx_t_17 = 4;
+  __pyx_t_8 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_17 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_18 = 5;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_18 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_19 = 6;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_19 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_20 = 7;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_20 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_21 = 1;
+  __pyx_t_22 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_21 * __pyx_v_R.strides[0]) ) + __pyx_t_22 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_23 = 1;
+  __pyx_t_24 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_23 * __pyx_v_R.strides[0]) ) + __pyx_t_24 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_25 = 1;
+  __pyx_t_26 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_25 * __pyx_v_R.strides[0]) ) + __pyx_t_26 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_27 = 1;
+  __pyx_t_28 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_27 * __pyx_v_R.strides[0]) ) + __pyx_t_28 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":941
+ *         R[0,0], R[0,1], R[0,2], R[0,3] = theta[0], theta[1], theta[2], theta[3]
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = theta[4], theta[5], theta[6], theta[7]
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = theta[8], theta[9], theta[10], theta[11]             # <<<<<<<<<<<<<<
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1
+ * 
+ */
+  __pyx_t_29 = 8;
+  __pyx_t_2 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_29 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_30 = 9;
+  __pyx_t_4 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_30 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_31 = 10;
+  __pyx_t_6 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_31 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_32 = 11;
+  __pyx_t_8 = (*((double *) ( /* dim=0 */ (__pyx_v_theta.data + __pyx_t_32 * __pyx_v_theta.strides[0]) )));
+  __pyx_t_33 = 2;
+  __pyx_t_34 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_33 * __pyx_v_R.strides[0]) ) + __pyx_t_34 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+  __pyx_t_35 = 2;
+  __pyx_t_36 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_35 * __pyx_v_R.strides[0]) ) + __pyx_t_36 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_37 = 2;
+  __pyx_t_38 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_37 * __pyx_v_R.strides[0]) ) + __pyx_t_38 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_39 = 2;
+  __pyx_t_40 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_39 * __pyx_v_R.strides[0]) ) + __pyx_t_40 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+
+  /* "dipy/align/transforms.pyx":942
+ *         R[1,0], R[1,1], R[1,2], R[1,3] = theta[4], theta[5], theta[6], theta[7]
+ *         R[2,0], R[2,1], R[2,2], R[2,3] = theta[8], theta[9], theta[10], theta[11]
+ *         R[3,0], R[3,1], R[3,2], R[3,3] = 0, 0, 0, 1             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_8 = 0.0;
+  __pyx_t_6 = 0.0;
+  __pyx_t_4 = 0.0;
+  __pyx_t_2 = 1.0;
+  __pyx_t_41 = 3;
+  __pyx_t_42 = 0;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_41 * __pyx_v_R.strides[0]) ) + __pyx_t_42 * __pyx_v_R.strides[1]) )) = __pyx_t_8;
+  __pyx_t_43 = 3;
+  __pyx_t_44 = 1;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_43 * __pyx_v_R.strides[0]) ) + __pyx_t_44 * __pyx_v_R.strides[1]) )) = __pyx_t_6;
+  __pyx_t_45 = 3;
+  __pyx_t_46 = 2;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_45 * __pyx_v_R.strides[0]) ) + __pyx_t_46 * __pyx_v_R.strides[1]) )) = __pyx_t_4;
+  __pyx_t_47 = 3;
+  __pyx_t_48 = 3;
+  *((double *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_R.data + __pyx_t_47 * __pyx_v_R.strides[0]) ) + __pyx_t_48 * __pyx_v_R.strides[1]) )) = __pyx_t_2;
+
+  /* "dipy/align/transforms.pyx":922
+ *         theta[8], theta[9], theta[10], theta[11] = 0, 0, 1, 0
+ * 
+ *     cdef void _param_to_matrix(self, double[:] theta, double[:, :] R) nogil:             # <<<<<<<<<<<<<<
+ *         r""" Matrix associated with a general 3D affine transform
+ * 
+ */
+
+  /* function exit code */
 }
 
 /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":194
@@ -3897,7 +8035,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3937,7 +8075,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4214,7 +8352,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5022,7 +9160,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5074,7 +9212,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5175,7 +9313,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5930,7 +10068,7 @@ static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5954,7 +10092,7 @@ static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx
  * 
  *         if isinstance(format, unicode):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6052,7 +10190,7 @@ static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx
  * 
  * 
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6303,7 +10441,7 @@ static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6356,7 +10494,7 @@ static int __pyx_array_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx
         #endif
         {__pyx_filename = __pyx_f[2]; __pyx_lineno = 174; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
-      __pyx_t_1 = __Pyx_div_Py_ssize_t(__pyx_v_self->len, __pyx_v_itemsize);
+      __pyx_t_1 = (__pyx_v_self->len / __pyx_v_itemsize);
       for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_1; __pyx_t_8+=1) {
         __pyx_v_i = __pyx_t_8;
 
@@ -6521,7 +10659,7 @@ static int __pyx_array_getbuffer_MemoryView_5array_2__getbuffer__(struct __pyx_a
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -9063,7 +13201,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  * 
  */
         __Pyx_XDECREF(__pyx_r);
-        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 448; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;};
+        __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_result, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 448; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;};
         __Pyx_GOTREF(__pyx_t_1);
         __pyx_r = __pyx_t_1;
         __pyx_t_1 = 0;
@@ -9114,7 +13252,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L5_except_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -9893,7 +14031,7 @@ static PyObject *__pyx_memoryview_get_strides_MemoryView_10memoryview_7strides__
  * 
  *             return tuple([self.view.strides[i] for i in xrange(self.view.ndim)])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 521; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 521; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11356,9 +15494,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__17);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__17);
-            __Pyx_GIVEREF(__pyx_slice__17);
+            __Pyx_INCREF(__pyx_slice__15);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__15);
+            __Pyx_GIVEREF(__pyx_slice__15);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11383,7 +15521,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *             have_slices = True
  *         else:
  */
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__18); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__16); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       }
       __pyx_L7:;
 
@@ -11512,9 +15650,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__19);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__19);
-        __Pyx_GIVEREF(__pyx_slice__19);
+        __Pyx_INCREF(__pyx_slice__17);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__17);
+        __Pyx_GIVEREF(__pyx_slice__17);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 652; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11633,7 +15771,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
       __Pyx_Raise(__pyx_t_4, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -12909,7 +17047,7 @@ static char *__pyx_pybuffer_index(Py_buffer *__pyx_v_view, char *__pyx_v_bufp, P
       #endif
       {__pyx_filename = __pyx_f[2]; __pyx_lineno = 874; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __pyx_v_shape = __Pyx_div_Py_ssize_t(__pyx_v_view->len, __pyx_v_itemsize);
+    __pyx_v_shape = (__pyx_v_view->len / __pyx_v_itemsize);
 
     /* "View.MemoryView":875
  *     if view.ndim == 0:
@@ -13181,7 +17319,7 @@ static int __pyx_memslice_transpose(__Pyx_memviewslice *__pyx_v_memslice) {
  *         j = ndim - 1 - i
  *         strides[i], strides[j] = strides[j], strides[i]
  */
-  __pyx_t_3 = __Pyx_div_long(__pyx_v_ndim, 2);
+  __pyx_t_3 = (__pyx_v_ndim / 2);
   for (__pyx_t_1 = 0; __pyx_t_1 < __pyx_t_3; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
@@ -16372,146 +20510,49 @@ static void __pyx_memoryview__slice_assign_scalar(char *__pyx_v_data, Py_ssize_t
 
   /* function exit code */
 }
-static struct __pyx_vtabstruct_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter __pyx_vtable_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform __pyx_vtable_4dipy_5align_10transforms_Transform;
 
-static PyObject *__pyx_tp_new_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter(PyTypeObject *t, PyObject *a, PyObject *k) {
-  struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *p;
-  PyObject *o = __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_new(t, a, k);
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_Transform(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_Transform *p;
+  PyObject *o;
+  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
+    o = (*t->tp_alloc)(t, 0);
+  } else {
+    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
+  }
   if (unlikely(!o)) return 0;
-  p = ((struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)o);
-  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter*)__pyx_vtabptr_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
-  p->_qa.data = NULL;
-  p->_qa.memview = NULL;
-  p->_ind.data = NULL;
-  p->_ind.memview = NULL;
-  p->_odf_vertices.data = NULL;
-  p->_odf_vertices.memview = NULL;
-  if (unlikely(__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_1__cinit__(o, __pyx_empty_tuple, NULL) < 0)) {
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_Transform *)o);
+  p->__pyx_vtab = __pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  if (unlikely(__pyx_pw_4dipy_5align_10transforms_9Transform_1__cinit__(o, __pyx_empty_tuple, NULL) < 0)) {
     Py_DECREF(o); o = 0;
   }
   return o;
 }
 
-static void __pyx_tp_dealloc_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter(PyObject *o) {
-  struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *p = (struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter *)o;
+static void __pyx_tp_dealloc_4dipy_5align_10transforms_Transform(PyObject *o) {
   #if PY_VERSION_HEX >= 0x030400a1
   if (unlikely(Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
     if (PyObject_CallFinalizerFromDealloc(o)) return;
   }
   #endif
-  __PYX_XDEC_MEMVIEW(&p->_qa, 1);
-  __PYX_XDEC_MEMVIEW(&p->_ind, 1);
-  __PYX_XDEC_MEMVIEW(&p->_odf_vertices, 1);
-  if (likely(__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_dealloc(o); else __Pyx_call_next_tp_dealloc(o, __pyx_tp_dealloc_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter);
+  (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_qa_thr(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_qa_thr(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6qa_thr_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_ang_thr(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_ang_thr(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7ang_thr_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_total_weight(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_total_weight(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_12total_weight_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__qa(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__qa(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_qa_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__ind(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__ind(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4_ind_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyObject *__pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__odf_vertices(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_1__get__(o);
-}
-
-static int __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__odf_vertices(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_13_odf_vertices_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
-static PyMethodDef __pyx_methods_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter[] = {
-  {"_initialize", (PyCFunction)__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_3_initialize, METH_NOARGS, __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_2_initialize},
-  {"initial_direction", (PyCFunction)__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_5initial_direction, METH_O, __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_4initial_direction},
-  {"get_direction", (PyCFunction)__pyx_pw_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_7get_direction, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_6get_direction},
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_Transform[] = {
+  {"jacobian", (PyCFunction)__pyx_pw_4dipy_5align_10transforms_9Transform_3jacobian, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_5align_10transforms_9Transform_2jacobian},
+  {"get_identity_parameters", (PyCFunction)__pyx_pw_4dipy_5align_10transforms_9Transform_5get_identity_parameters, METH_NOARGS, __pyx_doc_4dipy_5align_10transforms_9Transform_4get_identity_parameters},
+  {"param_to_matrix", (PyCFunction)__pyx_pw_4dipy_5align_10transforms_9Transform_7param_to_matrix, METH_O, __pyx_doc_4dipy_5align_10transforms_9Transform_6param_to_matrix},
+  {"get_number_of_parameters", (PyCFunction)__pyx_pw_4dipy_5align_10transforms_9Transform_9get_number_of_parameters, METH_NOARGS, 0},
+  {"get_dim", (PyCFunction)__pyx_pw_4dipy_5align_10transforms_9Transform_11get_dim, METH_NOARGS, 0},
   {0, 0, 0, 0}
 };
 
-static struct PyGetSetDef __pyx_getsets_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter[] = {
-  {(char *)"qa_thr", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_qa_thr, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_qa_thr, 0, 0},
-  {(char *)"ang_thr", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_ang_thr, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_ang_thr, 0, 0},
-  {(char *)"total_weight", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_total_weight, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_total_weight, 0, 0},
-  {(char *)"_qa", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__qa, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__qa, 0, 0},
-  {(char *)"_ind", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__ind, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__ind, 0, 0},
-  {(char *)"_odf_vertices", __pyx_getprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__odf_vertices, __pyx_setprop_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter__odf_vertices, 0, 0},
-  {0, 0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter = {
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_Transform = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dipy.reconst.peak_direction_getter.PeaksAndMetricsDirectionGetter", /*tp_name*/
-  sizeof(struct __pyx_obj_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter), /*tp_basicsize*/
+  "dipy.align.transforms.Transform", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_Transform), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter, /*tp_dealloc*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -16531,16 +20572,16 @@ static PyTypeObject __pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMe
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  "Deterministic Direction Getter based on peak directions.\n\n    This class contains the cython portion of the code for PeaksAndMetrics and\n    is not meant to be used on its own.\n    ", /*tp_doc*/
+  " Base class (contract) for all transforms for affine image registration.\n    Each transform must define the following (fast, nogil) methods:\n\n    1. _jacobian(theta, x, J): receives a parameter vector theta, a point in\n       x, and a matrix J with shape (dim, len(theta)). It must writes in J, the\n       Jacobian of the transform with parameters theta evaluated at x.\n\n    2. _get_identity_parameters(theta): receives a vector theta whose length is\n       the number of parameters of the transform and sets in theta the values\n       that define the identity transform.\n\n    3. _param_to_matrix(theta, T): receives a parameter vector theta, and a\n       matrix T of shape (dim + 1, dim + 1) and writes in T the matrix\n       representation of the transform with parameters theta\n\n    This base class defines the (slow, convenient) python wrappers for each\n    of the above functions, which also do parameter checking and raise\n    a ValueError in case the provided parameters are invalid.\n    ", /*tp_doc*/
   0, /*tp_traverse*/
   0, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
   0, /*tp_iternext*/
-  __pyx_methods_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter, /*tp_methods*/
+  __pyx_methods_4dipy_5align_10transforms_Transform, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter, /*tp_getset*/
+  0, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -16548,7 +20589,717 @@ static PyTypeObject __pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMe
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter, /*tp_new*/
+  __pyx_tp_new_4dipy_5align_10transforms_Transform, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform2D __pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_TranslationTransform2D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform2D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_TranslationTransform2D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_TranslationTransform2D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.TranslationTransform2D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform2D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_TranslationTransform2D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_22TranslationTransform2D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_TranslationTransform2D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_TranslationTransform3D __pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_TranslationTransform3D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform3D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_TranslationTransform3D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_TranslationTransform3D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.TranslationTransform3D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_TranslationTransform3D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_TranslationTransform3D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_22TranslationTransform3D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_TranslationTransform3D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform2D __pyx_vtable_4dipy_5align_10transforms_RotationTransform2D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RotationTransform2D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_RotationTransform2D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_RotationTransform2D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_RotationTransform2D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.RotationTransform2D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform2D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_RotationTransform2D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_19RotationTransform2D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_RotationTransform2D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RotationTransform3D __pyx_vtable_4dipy_5align_10transforms_RotationTransform3D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RotationTransform3D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_RotationTransform3D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_RotationTransform3D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_RotationTransform3D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.RotationTransform3D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_RotationTransform3D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_RotationTransform3D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_19RotationTransform3D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_RotationTransform3D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform2D __pyx_vtable_4dipy_5align_10transforms_RigidTransform2D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RigidTransform2D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_RigidTransform2D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_RigidTransform2D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_RigidTransform2D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.RigidTransform2D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform2D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_RigidTransform2D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_16RigidTransform2D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_RigidTransform2D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_RigidTransform3D __pyx_vtable_4dipy_5align_10transforms_RigidTransform3D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_RigidTransform3D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_RigidTransform3D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_RigidTransform3D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_RigidTransform3D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.RigidTransform3D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_RigidTransform3D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_RigidTransform3D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_16RigidTransform3D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_RigidTransform3D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform2D __pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_ScalingTransform2D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform2D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_ScalingTransform2D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_ScalingTransform2D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.ScalingTransform2D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform2D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_ScalingTransform2D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_18ScalingTransform2D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_ScalingTransform2D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_ScalingTransform3D __pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_ScalingTransform3D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform3D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_ScalingTransform3D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_ScalingTransform3D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.ScalingTransform3D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_ScalingTransform3D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_ScalingTransform3D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_18ScalingTransform3D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_ScalingTransform3D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform2D __pyx_vtable_4dipy_5align_10transforms_AffineTransform2D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_AffineTransform2D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_AffineTransform2D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_AffineTransform2D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_AffineTransform2D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.AffineTransform2D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform2D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_AffineTransform2D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_17AffineTransform2D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_AffineTransform2D, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_4dipy_5align_10transforms_AffineTransform3D __pyx_vtable_4dipy_5align_10transforms_AffineTransform3D;
+
+static PyObject *__pyx_tp_new_4dipy_5align_10transforms_AffineTransform3D(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *p;
+  PyObject *o = __pyx_tp_new_4dipy_5align_10transforms_Transform(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_4dipy_5align_10transforms_Transform*)__pyx_vtabptr_4dipy_5align_10transforms_AffineTransform3D;
+  return o;
+}
+
+static PyMethodDef __pyx_methods_4dipy_5align_10transforms_AffineTransform3D[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_4dipy_5align_10transforms_AffineTransform3D = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "dipy.align.transforms.AffineTransform3D", /*tp_name*/
+  sizeof(struct __pyx_obj_4dipy_5align_10transforms_AffineTransform3D), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4dipy_5align_10transforms_Transform, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #else
+  0, /*reserved*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_4dipy_5align_10transforms_AffineTransform3D, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  __pyx_pw_4dipy_5align_10transforms_17AffineTransform3D_1__init__, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4dipy_5align_10transforms_AffineTransform3D, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -16680,7 +21431,7 @@ static PyBufferProcs __pyx_tp_as_buffer_array = {
 
 static PyTypeObject __pyx_type___pyx_array = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dipy.reconst.peak_direction_getter.array", /*tp_name*/
+  "dipy.align.transforms.array", /*tp_name*/
   sizeof(struct __pyx_array_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_array, /*tp_dealloc*/
@@ -16785,7 +21536,7 @@ static PyMethodDef __pyx_methods_Enum[] = {
 
 static PyTypeObject __pyx_type___pyx_MemviewEnum = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dipy.reconst.peak_direction_getter.Enum", /*tp_name*/
+  "dipy.align.transforms.Enum", /*tp_name*/
   sizeof(struct __pyx_MemviewEnum_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_Enum, /*tp_dealloc*/
@@ -17031,7 +21782,7 @@ static PyBufferProcs __pyx_tp_as_buffer_memoryview = {
 
 static PyTypeObject __pyx_type___pyx_memoryview = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dipy.reconst.peak_direction_getter.memoryview", /*tp_name*/
+  "dipy.align.transforms.memoryview", /*tp_name*/
   sizeof(struct __pyx_memoryview_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc_memoryview, /*tp_dealloc*/
@@ -17155,7 +21906,7 @@ static struct PyGetSetDef __pyx_getsets__memoryviewslice[] = {
 
 static PyTypeObject __pyx_type___pyx_memoryviewslice = {
   PyVarObject_HEAD_INIT(0, 0)
-  "dipy.reconst.peak_direction_getter._memoryviewslice", /*tp_name*/
+  "dipy.align.transforms._memoryviewslice", /*tp_name*/
   sizeof(struct __pyx_memoryviewslice_obj), /*tp_basicsize*/
   0, /*tp_itemsize*/
   __pyx_tp_dealloc__memoryviewslice, /*tp_dealloc*/
@@ -17229,7 +21980,7 @@ static struct PyModuleDef __pyx_moduledef = {
   #else
     PyModuleDef_HEAD_INIT,
   #endif
-    "peak_direction_getter",
+    "transforms",
     0, /* m_doc */
     -1, /* m_size */
     __pyx_methods /* m_methods */,
@@ -17241,8 +21992,8 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
+  {&__pyx_n_s_AFFINE, __pyx_k_AFFINE, sizeof(__pyx_k_AFFINE), 0, 0, 1, 1},
   {&__pyx_kp_s_Buffer_view_does_not_expose_stri, __pyx_k_Buffer_view_does_not_expose_stri, sizeof(__pyx_k_Buffer_view_does_not_expose_stri), 0, 0, 1, 0},
-  {&__pyx_n_s_C, __pyx_k_C, sizeof(__pyx_k_C), 0, 0, 1, 1},
   {&__pyx_kp_s_Can_only_create_a_buffer_that_is, __pyx_k_Can_only_create_a_buffer_that_is, sizeof(__pyx_k_Can_only_create_a_buffer_that_is), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_index_with_type_s, __pyx_k_Cannot_index_with_type_s, sizeof(__pyx_k_Cannot_index_with_type_s), 0, 0, 1, 0},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
@@ -17252,49 +22003,45 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
+  {&__pyx_kp_s_Invalid_number_of_parameters_d, __pyx_k_Invalid_number_of_parameters_d, sizeof(__pyx_k_Invalid_number_of_parameters_d), 0, 0, 1, 0},
+  {&__pyx_kp_s_Invalid_point_dimension_d, __pyx_k_Invalid_point_dimension_d, sizeof(__pyx_k_Invalid_point_dimension_d), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_shape_in_axis_d_d, __pyx_k_Invalid_shape_in_axis_d_d, sizeof(__pyx_k_Invalid_shape_in_axis_d_d), 0, 0, 1, 0},
+  {&__pyx_kp_s_Invalid_transform, __pyx_k_Invalid_transform, sizeof(__pyx_k_Invalid_transform), 0, 0, 1, 0},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
   {&__pyx_kp_s_MemoryView_of_r_at_0x_x, __pyx_k_MemoryView_of_r_at_0x_x, sizeof(__pyx_k_MemoryView_of_r_at_0x_x), 0, 0, 1, 0},
   {&__pyx_kp_s_MemoryView_of_r_object, __pyx_k_MemoryView_of_r_object, sizeof(__pyx_k_MemoryView_of_r_object), 0, 0, 1, 0},
-  {&__pyx_n_s_N, __pyx_k_N, sizeof(__pyx_k_N), 0, 0, 1, 1},
   {&__pyx_kp_u_Non_native_byte_order_not_suppor, __pyx_k_Non_native_byte_order_not_suppor, sizeof(__pyx_k_Non_native_byte_order_not_suppor), 0, 1, 0, 0},
   {&__pyx_n_b_O, __pyx_k_O, sizeof(__pyx_k_O), 0, 0, 0, 1},
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
+  {&__pyx_n_s_RIGID, __pyx_k_RIGID, sizeof(__pyx_k_RIGID), 0, 0, 1, 1},
+  {&__pyx_n_s_ROTATION, __pyx_k_ROTATION, sizeof(__pyx_k_ROTATION), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
+  {&__pyx_n_s_SCALING, __pyx_k_SCALING, sizeof(__pyx_k_SCALING), 0, 0, 1, 1},
+  {&__pyx_n_s_TRANSLATION, __pyx_k_TRANSLATION, sizeof(__pyx_k_TRANSLATION), 0, 0, 1, 1},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
-  {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
   {&__pyx_n_u_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 1, 0, 1},
   {&__pyx_n_s_class, __pyx_k_class, sizeof(__pyx_k_class), 0, 0, 1, 1},
   {&__pyx_kp_s_contiguous_and_direct, __pyx_k_contiguous_and_direct, sizeof(__pyx_k_contiguous_and_direct), 0, 0, 1, 0},
   {&__pyx_kp_s_contiguous_and_indirect, __pyx_k_contiguous_and_indirect, sizeof(__pyx_k_contiguous_and_indirect), 0, 0, 1, 0},
-  {&__pyx_n_s_copy, __pyx_k_copy, sizeof(__pyx_k_copy), 0, 0, 1, 1},
-  {&__pyx_n_s_dipy_reconst_peak_direction_gett, __pyx_k_dipy_reconst_peak_direction_gett, sizeof(__pyx_k_dipy_reconst_peak_direction_gett), 0, 0, 1, 1},
-  {&__pyx_n_s_direction, __pyx_k_direction, sizeof(__pyx_k_direction), 0, 0, 1, 1},
-  {&__pyx_n_s_double, __pyx_k_double, sizeof(__pyx_k_double), 0, 0, 1, 1},
-  {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
-  {&__pyx_n_s_empty, __pyx_k_empty, sizeof(__pyx_k_empty), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
+  {&__pyx_n_s_eye, __pyx_k_eye, sizeof(__pyx_k_eye), 0, 0, 1, 1},
   {&__pyx_n_s_flags, __pyx_k_flags, sizeof(__pyx_k_flags), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
-  {&__pyx_n_s_get_direction, __pyx_k_get_direction, sizeof(__pyx_k_get_direction), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
-  {&__pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_k_home_yoh_proj_nipy_nipy_suite_d, sizeof(__pyx_k_home_yoh_proj_nipy_nipy_suite_d), 0, 0, 1, 0},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
-  {&__pyx_n_s_initialize, __pyx_k_initialize, sizeof(__pyx_k_initialize), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
-  {&__pyx_n_s_make_nd, __pyx_k_make_nd, sizeof(__pyx_k_make_nd), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
@@ -17302,24 +22049,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_ndarray_is_not_C_contiguous, __pyx_k_ndarray_is_not_C_contiguous, sizeof(__pyx_k_ndarray_is_not_C_contiguous), 0, 1, 0, 0},
   {&__pyx_kp_u_ndarray_is_not_Fortran_contiguou, __pyx_k_ndarray_is_not_Fortran_contiguou, sizeof(__pyx_k_ndarray_is_not_Fortran_contiguou), 0, 1, 0, 0},
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
-  {&__pyx_n_s_new_shape, __pyx_k_new_shape, sizeof(__pyx_k_new_shape), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
-  {&__pyx_n_s_order, __pyx_k_order, sizeof(__pyx_k_order), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
-  {&__pyx_n_s_peak_indices, __pyx_k_peak_indices, sizeof(__pyx_k_peak_indices), 0, 0, 1, 1},
-  {&__pyx_n_s_peak_values, __pyx_k_peak_values, sizeof(__pyx_k_peak_values), 0, 0, 1, 1},
-  {&__pyx_n_s_point, __pyx_k_point, sizeof(__pyx_k_point), 0, 0, 1, 1},
-  {&__pyx_kp_s_point_outside_data, __pyx_k_point_outside_data, sizeof(__pyx_k_point_outside_data), 0, 0, 1, 0},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
-  {&__pyx_n_s_reshape, __pyx_k_reshape, sizeof(__pyx_k_reshape), 0, 0, 1, 1},
+  {&__pyx_n_s_regtransforms, __pyx_k_regtransforms, sizeof(__pyx_k_regtransforms), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
-  {&__pyx_kp_s_shapes_of_peak_values_and_peak_i, __pyx_k_shapes_of_peak_values_and_peak_i, sizeof(__pyx_k_shapes_of_peak_values_and_peak_i), 0, 0, 1, 0},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
-  {&__pyx_n_s_sphere, __pyx_k_sphere, sizeof(__pyx_k_sphere), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
@@ -17328,18 +22067,19 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_strided_and_indirect, __pyx_k_strided_and_indirect, sizeof(__pyx_k_strided_and_indirect), 0, 0, 1, 0},
   {&__pyx_n_s_struct, __pyx_k_struct, sizeof(__pyx_k_struct), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
+  {&__pyx_n_s_theta, __pyx_k_theta, sizeof(__pyx_k_theta), 0, 0, 1, 1},
   {&__pyx_kp_s_unable_to_allocate_array_data, __pyx_k_unable_to_allocate_array_data, sizeof(__pyx_k_unable_to_allocate_array_data), 0, 0, 1, 0},
   {&__pyx_kp_s_unable_to_allocate_shape_and_str, __pyx_k_unable_to_allocate_shape_and_str, sizeof(__pyx_k_unable_to_allocate_shape_and_str), 0, 0, 1, 0},
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
-  {&__pyx_n_s_vertices, __pyx_k_vertices, sizeof(__pyx_k_vertices), 0, 0, 1, 1},
+  {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {&__pyx_n_s_xrange, __pyx_k_xrange, sizeof(__pyx_k_xrange), 0, 0, 1, 1},
+  {&__pyx_n_s_zeros, __pyx_k_zeros, sizeof(__pyx_k_zeros), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 897; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -17351,6 +22091,7 @@ static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_xrange = __Pyx_GetBuiltinName(__pyx_n_s_xrange); if (!__pyx_builtin_xrange) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 514; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
   __pyx_builtin_id = __Pyx_GetBuiltinName(__pyx_n_s_id); if (!__pyx_builtin_id) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 569; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_IndexError = __Pyx_GetBuiltinName(__pyx_n_s_IndexError); if (!__pyx_builtin_IndexError) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 789; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -17360,41 +22101,16 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "dipy/reconst/peak_direction_getter.pyx":19
- *     if array.ndim > N:
- *         raise ValueError()
- *     new_shape = (1,) * (N - array.ndim) + array.shape             # <<<<<<<<<<<<<<
- *     return array.reshape(new_shape)
- * 
+  /* "dipy/align/transforms.pyx":89
+ *         """
+ *         if self.number_of_parameters < 0:
+ *             raise ValueError("Invalid transform.")             # <<<<<<<<<<<<<<
+ *         theta = np.zeros(self.number_of_parameters)
+ *         self._get_identity_parameters(theta)
  */
-  __pyx_tuple_ = PyTuple_New(1); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Invalid_transform); if (unlikely(!__pyx_tuple_)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_INCREF(__pyx_int_1);
-  PyTuple_SET_ITEM(__pyx_tuple_, 0, __pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
   __Pyx_GIVEREF(__pyx_tuple_);
-
-  /* "dipy/reconst/peak_direction_getter.pyx":75
- *             ijk[i] = <np.npy_intp> dpy_rint(point[i])
- *             if ijk[i] < 0 or ijk[i] >= self._ind.shape[i]:
- *                 raise IndexError("point outside data")             # <<<<<<<<<<<<<<
- * 
- *         # Check to see how many peaks were found in the voxel
- */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_point_outside_data); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
-
-  /* "dipy/reconst/peak_direction_getter.pyx":86
- *         for i in range(numpeaks):
- *             peak_index = self._ind[ijk[0], ijk[1], ijk[2], i]
- *             res[i, :] = self._odf_vertices[<np.npy_intp> peak_index, :]             # <<<<<<<<<<<<<<
- * 
- *         return res
- */
-  __pyx_slice__3 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__3);
-  __Pyx_GIVEREF(__pyx_slice__3);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":215
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
@@ -17403,9 +22119,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__2)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":219
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -17414,9 +22130,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__3)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":257
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -17425,9 +22141,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 257; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
@@ -17436,9 +22152,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 799; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -17447,9 +22163,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 803; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
@@ -17458,9 +22174,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 823; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "View.MemoryView":127
  * 
@@ -17469,9 +22185,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 127; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "View.MemoryView":130
  * 
@@ -17480,9 +22196,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if isinstance(format, unicode):
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "View.MemoryView":142
  * 
@@ -17491,9 +22207,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "View.MemoryView":170
  *             self.data = <char *>malloc(self.len)
@@ -17502,9 +22218,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "View.MemoryView":186
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -17513,9 +22229,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "View.MemoryView":445
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -17524,9 +22240,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 445; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "View.MemoryView":521
  *             if self.view.strides == NULL:
@@ -17535,9 +22251,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             return tuple([self.view.strides[i] for i in xrange(self.view.ndim)])
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 521; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 521; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "View.MemoryView":638
  *         if item is Ellipsis:
@@ -17546,9 +22262,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__17 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__17)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__17);
-  __Pyx_GIVEREF(__pyx_slice__17);
+  __pyx_slice__15 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__15)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 638; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__15);
+  __Pyx_GIVEREF(__pyx_slice__15);
 
   /* "View.MemoryView":641
  *                 seen_ellipsis = True
@@ -17557,9 +22273,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             have_slices = True
  *         else:
  */
-  __pyx_slice__18 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__18)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__18);
-  __Pyx_GIVEREF(__pyx_slice__18);
+  __pyx_slice__16 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__16)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 641; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__16);
+  __Pyx_GIVEREF(__pyx_slice__16);
 
   /* "View.MemoryView":652
  *     nslices = ndim - len(result)
@@ -17568,9 +22284,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     return have_slices or nslices, tuple(result)
  */
-  __pyx_slice__19 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__19)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 652; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_slice__19);
-  __Pyx_GIVEREF(__pyx_slice__19);
+  __pyx_slice__17 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__17)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 652; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_slice__17);
+  __Pyx_GIVEREF(__pyx_slice__17);
 
   /* "View.MemoryView":660
  *     for i in range(ndim):
@@ -17579,21 +22295,116 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+
+  /* "dipy/align/transforms.pyx":946
+ * 
+ * regtransforms = {}
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ */
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_TRANSLATION, __pyx_int_2); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 946; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+
+  /* "dipy/align/transforms.pyx":947
+ * regtransforms = {}
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ */
+  __pyx_tuple__20 = PyTuple_Pack(2, __pyx_n_s_TRANSLATION, __pyx_int_3); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 947; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__20);
   __Pyx_GIVEREF(__pyx_tuple__20);
 
-  /* "dipy/reconst/peak_direction_getter.pyx":11
- *     double dpy_rint(double x)
- * 
- * def make_nd(array, N):             # <<<<<<<<<<<<<<
- *     """Makes an array that's less than Nd - Nd
- * 
+  /* "dipy/align/transforms.pyx":948
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
  */
-  __pyx_tuple__21 = PyTuple_Pack(3, __pyx_n_s_array, __pyx_n_s_N, __pyx_n_s_new_shape); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__21 = PyTuple_Pack(2, __pyx_n_s_ROTATION, __pyx_int_2); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 948; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_yoh_proj_nipy_nipy_suite_d, __pyx_n_s_make_nd, 11, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "dipy/align/transforms.pyx":949
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ */
+  __pyx_tuple__22 = PyTuple_Pack(2, __pyx_n_s_ROTATION, __pyx_int_3); if (unlikely(!__pyx_tuple__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 949; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__22);
+  __Pyx_GIVEREF(__pyx_tuple__22);
+
+  /* "dipy/align/transforms.pyx":950
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ */
+  __pyx_tuple__23 = PyTuple_Pack(2, __pyx_n_s_RIGID, __pyx_int_2); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 950; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+
+  /* "dipy/align/transforms.pyx":951
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ */
+  __pyx_tuple__24 = PyTuple_Pack(2, __pyx_n_s_RIGID, __pyx_int_3); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 951; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
+
+  /* "dipy/align/transforms.pyx":952
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ */
+  __pyx_tuple__25 = PyTuple_Pack(2, __pyx_n_s_SCALING, __pyx_int_2); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 952; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+
+  /* "dipy/align/transforms.pyx":953
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()
+ */
+  __pyx_tuple__26 = PyTuple_Pack(2, __pyx_n_s_SCALING, __pyx_int_3); if (unlikely(!__pyx_tuple__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__26);
+  __Pyx_GIVEREF(__pyx_tuple__26);
+
+  /* "dipy/align/transforms.pyx":954
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()
+ */
+  __pyx_tuple__27 = PyTuple_Pack(2, __pyx_n_s_AFFINE, __pyx_int_2); if (unlikely(!__pyx_tuple__27)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 954; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__27);
+  __Pyx_GIVEREF(__pyx_tuple__27);
+
+  /* "dipy/align/transforms.pyx":955
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()             # <<<<<<<<<<<<<<
+ */
+  __pyx_tuple__28 = PyTuple_Pack(2, __pyx_n_s_AFFINE, __pyx_int_3); if (unlikely(!__pyx_tuple__28)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 955; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "View.MemoryView":276
  *         return self.name
@@ -17602,9 +22413,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__23);
-  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__29)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "View.MemoryView":277
  * 
@@ -17613,9 +22424,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__24)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__24);
-  __Pyx_GIVEREF(__pyx_tuple__24);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__30)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
   /* "View.MemoryView":278
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -17624,9 +22435,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__25 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__25);
-  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_tuple__31 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__31)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
 
   /* "View.MemoryView":281
  * 
@@ -17635,9 +22446,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__26)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__32 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__32)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__32);
+  __Pyx_GIVEREF(__pyx_tuple__32);
 
   /* "View.MemoryView":282
  * 
@@ -17646,9 +22457,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__27)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__33 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__33)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -17660,8 +22471,8 @@ static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_3 = PyInt_FromLong(3); if (unlikely(!__pyx_int_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_int_4 = PyInt_FromLong(4); if (unlikely(!__pyx_int_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -17669,11 +22480,11 @@ static int __Pyx_InitGlobals(void) {
 }
 
 #if PY_MAJOR_VERSION < 3
-PyMODINIT_FUNC initpeak_direction_getter(void); /*proto*/
-PyMODINIT_FUNC initpeak_direction_getter(void)
+PyMODINIT_FUNC inittransforms(void); /*proto*/
+PyMODINIT_FUNC inittransforms(void)
 #else
-PyMODINIT_FUNC PyInit_peak_direction_getter(void); /*proto*/
-PyMODINIT_FUNC PyInit_peak_direction_getter(void)
+PyMODINIT_FUNC PyInit_transforms(void); /*proto*/
+PyMODINIT_FUNC PyInit_transforms(void)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
@@ -17691,7 +22502,7 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
           Py_FatalError("failed to import 'refnanny' module");
   }
   #endif
-  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit_peak_direction_getter(void)", 0);
+  __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit_transforms(void)", 0);
   if ( __Pyx_check_binary_version() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -17713,7 +22524,7 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
   #endif
   /*--- Module creation code ---*/
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("peak_direction_getter", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("transforms", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -17730,14 +22541,14 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   #endif
-  if (__pyx_module_is_main_dipy__reconst__peak_direction_getter) {
+  if (__pyx_module_is_main_dipy__align__transforms) {
     if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (!PyDict_GetItemString(modules, "dipy.reconst.peak_direction_getter")) {
-      if (unlikely(PyDict_SetItemString(modules, "dipy.reconst.peak_direction_getter", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (!PyDict_GetItemString(modules, "dipy.align.transforms")) {
+      if (unlikely(PyDict_SetItemString(modules, "dipy.align.transforms", __pyx_m) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
   }
   #endif
@@ -17754,17 +22565,225 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter = __Pyx_ImportType("dipy.tracking.local.direction_getter", "DirectionGetter", sizeof(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter = (struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_vtabptr_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter = &__pyx_vtable_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
-  __pyx_vtable_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter.__pyx_base = *__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
-  __pyx_vtable_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter.__pyx_base.get_direction = (int (*)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch))__pyx_f_4dipy_7reconst_21peak_direction_getter_30PeaksAndMetricsDirectionGetter_get_direction;
-  __pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter.tp_base = __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
-  if (PyType_Ready(&__pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter.tp_dict, __pyx_vtabptr_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyObject_SetAttrString(__pyx_m, "PeaksAndMetricsDirectionGetter", (PyObject *)&__pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter = &__pyx_type_4dipy_7reconst_21peak_direction_getter_PeaksAndMetricsDirectionGetter;
+  __pyx_vtabptr_4dipy_5align_10transforms_Transform = &__pyx_vtable_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_Transform._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_9Transform__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_Transform._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_9Transform__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_Transform._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_9Transform__param_to_matrix;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_Transform) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_Transform.tp_print = 0;
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_Transform.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_Transform) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "Transform", (PyObject *)&__pyx_type_4dipy_5align_10transforms_Transform) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_Transform = &__pyx_type_4dipy_5align_10transforms_Transform;
+  __pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform2D = &__pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform2D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform2D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_TranslationTransform2D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_TranslationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_TranslationTransform2D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_TranslationTransform2D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform2D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform2D___init__.doc = __pyx_doc_4dipy_5align_10transforms_22TranslationTransform2D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform2D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_TranslationTransform2D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "TranslationTransform2D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_TranslationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_TranslationTransform2D = &__pyx_type_4dipy_5align_10transforms_TranslationTransform2D;
+  __pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform3D = &__pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_TranslationTransform3D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_22TranslationTransform3D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_TranslationTransform3D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_TranslationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_TranslationTransform3D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_TranslationTransform3D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform3D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform3D___init__.doc = __pyx_doc_4dipy_5align_10transforms_22TranslationTransform3D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_22TranslationTransform3D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_TranslationTransform3D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_TranslationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "TranslationTransform3D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_TranslationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 190; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_TranslationTransform3D = &__pyx_type_4dipy_5align_10transforms_TranslationTransform3D;
+  __pyx_vtabptr_4dipy_5align_10transforms_RotationTransform2D = &__pyx_vtable_4dipy_5align_10transforms_RotationTransform2D;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform2D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform2D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform2D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform2D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform2D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform2D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform2D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_RotationTransform2D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_RotationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_RotationTransform2D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_RotationTransform2D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform2D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform2D___init__.doc = __pyx_doc_4dipy_5align_10transforms_19RotationTransform2D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform2D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_RotationTransform2D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_RotationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "RotationTransform2D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_RotationTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_RotationTransform2D = &__pyx_type_4dipy_5align_10transforms_RotationTransform2D;
+  __pyx_vtabptr_4dipy_5align_10transforms_RotationTransform3D = &__pyx_vtable_4dipy_5align_10transforms_RotationTransform3D;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform3D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform3D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform3D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform3D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform3D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_RotationTransform3D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_19RotationTransform3D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_RotationTransform3D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_RotationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_RotationTransform3D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_RotationTransform3D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform3D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform3D___init__.doc = __pyx_doc_4dipy_5align_10transforms_19RotationTransform3D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_19RotationTransform3D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_RotationTransform3D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_RotationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "RotationTransform3D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_RotationTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 335; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_RotationTransform3D = &__pyx_type_4dipy_5align_10transforms_RotationTransform3D;
+  __pyx_vtabptr_4dipy_5align_10transforms_RigidTransform2D = &__pyx_vtable_4dipy_5align_10transforms_RigidTransform2D;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform2D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform2D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform2D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform2D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform2D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform2D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform2D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_RigidTransform2D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_RigidTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 428; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_RigidTransform2D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_RigidTransform2D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 428; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform2D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform2D___init__.doc = __pyx_doc_4dipy_5align_10transforms_16RigidTransform2D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform2D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_RigidTransform2D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_RigidTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 428; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "RigidTransform2D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_RigidTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 428; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_RigidTransform2D = &__pyx_type_4dipy_5align_10transforms_RigidTransform2D;
+  __pyx_vtabptr_4dipy_5align_10transforms_RigidTransform3D = &__pyx_vtable_4dipy_5align_10transforms_RigidTransform3D;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform3D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform3D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform3D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform3D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform3D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_RigidTransform3D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_16RigidTransform3D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_RigidTransform3D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_RigidTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 515; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_RigidTransform3D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_RigidTransform3D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 515; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform3D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform3D___init__.doc = __pyx_doc_4dipy_5align_10transforms_16RigidTransform3D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_16RigidTransform3D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_RigidTransform3D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_RigidTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 515; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "RigidTransform3D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_RigidTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 515; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_RigidTransform3D = &__pyx_type_4dipy_5align_10transforms_RigidTransform3D;
+  __pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform2D = &__pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform2D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform2D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_ScalingTransform2D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_ScalingTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_ScalingTransform2D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_ScalingTransform2D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform2D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform2D___init__.doc = __pyx_doc_4dipy_5align_10transforms_18ScalingTransform2D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform2D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_ScalingTransform2D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "ScalingTransform2D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_ScalingTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 634; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_ScalingTransform2D = &__pyx_type_4dipy_5align_10transforms_ScalingTransform2D;
+  __pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform3D = &__pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_ScalingTransform3D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_18ScalingTransform3D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_ScalingTransform3D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_ScalingTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 697; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_ScalingTransform3D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_ScalingTransform3D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 697; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform3D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform3D___init__.doc = __pyx_doc_4dipy_5align_10transforms_18ScalingTransform3D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_18ScalingTransform3D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_ScalingTransform3D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_ScalingTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 697; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "ScalingTransform3D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_ScalingTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 697; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_ScalingTransform3D = &__pyx_type_4dipy_5align_10transforms_ScalingTransform3D;
+  __pyx_vtabptr_4dipy_5align_10transforms_AffineTransform2D = &__pyx_vtable_4dipy_5align_10transforms_AffineTransform2D;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform2D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform2D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform2D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform2D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform2D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform2D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform2D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_AffineTransform2D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_AffineTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 761; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_AffineTransform2D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_AffineTransform2D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 761; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform2D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform2D___init__.doc = __pyx_doc_4dipy_5align_10transforms_17AffineTransform2D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform2D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_AffineTransform2D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_AffineTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 761; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "AffineTransform2D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_AffineTransform2D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 761; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_AffineTransform2D = &__pyx_type_4dipy_5align_10transforms_AffineTransform2D;
+  __pyx_vtabptr_4dipy_5align_10transforms_AffineTransform3D = &__pyx_vtable_4dipy_5align_10transforms_AffineTransform3D;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform3D.__pyx_base = *__pyx_vtabptr_4dipy_5align_10transforms_Transform;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform3D.__pyx_base._jacobian = (int (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform3D__jacobian;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform3D.__pyx_base._get_identity_parameters = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform3D__get_identity_parameters;
+  __pyx_vtable_4dipy_5align_10transforms_AffineTransform3D.__pyx_base._param_to_matrix = (void (*)(struct __pyx_obj_4dipy_5align_10transforms_Transform *, __Pyx_memviewslice, __Pyx_memviewslice))__pyx_f_4dipy_5align_10transforms_17AffineTransform3D__param_to_matrix;
+  __pyx_type_4dipy_5align_10transforms_AffineTransform3D.tp_base = __pyx_ptype_4dipy_5align_10transforms_Transform;
+  if (PyType_Ready(&__pyx_type_4dipy_5align_10transforms_AffineTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 846; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4dipy_5align_10transforms_AffineTransform3D.tp_print = 0;
+  #if CYTHON_COMPILING_IN_CPYTHON
+  {
+    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_4dipy_5align_10transforms_AffineTransform3D, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 846; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
+      __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform3D___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
+      __pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform3D___init__.doc = __pyx_doc_4dipy_5align_10transforms_17AffineTransform3D___init__;
+      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_4dipy_5align_10transforms_17AffineTransform3D___init__;
+    }
+  }
+  #endif
+  if (__Pyx_SetVtable(__pyx_type_4dipy_5align_10transforms_AffineTransform3D.tp_dict, __pyx_vtabptr_4dipy_5align_10transforms_AffineTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 846; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetAttrString(__pyx_m, "AffineTransform3D", (PyObject *)&__pyx_type_4dipy_5align_10transforms_AffineTransform3D) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 846; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_ptype_4dipy_5align_10transforms_AffineTransform3D = &__pyx_type_4dipy_5align_10transforms_AffineTransform3D;
   if (PyType_Ready(&__pyx_type___pyx_array) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type___pyx_array.tp_print = 0;
   __pyx_array_type = &__pyx_type___pyx_array;
@@ -17807,44 +22826,188 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) {__pyx_filename = __pyx_f[1]; __pyx_lineno = 861; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
-  __pyx_t_1 = __Pyx_ImportModule("dipy.tracking.propspeed"); if (!__pyx_t_1) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (__Pyx_ImportFunction(__pyx_t_1, "_propagation_direction", (void (**)(void))&__pyx_f_4dipy_8tracking_9propspeed__propagation_direction, "npy_intp (double *, double *, double *, double *, double *, double, double, npy_intp *, npy_intp *, double *, double)") < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   /*--- Execution code ---*/
 
-  /* "dipy/reconst/peak_direction_getter.pyx":3
- * cimport cython
- * cimport numpy as np
+  /* "dipy/align/transforms.pyx":6
+ * #cython: cdivision=True
+ * 
  * import numpy as np             # <<<<<<<<<<<<<<
- * 
- * from dipy.tracking.propspeed cimport _propagation_direction
+ * cimport numpy as cnp
+ * cimport cython
  */
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 3; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 6; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":11
- *     double dpy_rint(double x)
+  /* "dipy/align/transforms.pyx":945
  * 
- * def make_nd(array, N):             # <<<<<<<<<<<<<<
- *     """Makes an array that's less than Nd - Nd
  * 
+ * regtransforms = {}             # <<<<<<<<<<<<<<
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_4dipy_7reconst_21peak_direction_getter_1make_nd, NULL, __pyx_n_s_dipy_reconst_peak_direction_gett); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_make_nd, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 945; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_regtransforms, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 945; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "dipy/reconst/peak_direction_getter.pyx":1
- * cimport cython             # <<<<<<<<<<<<<<
- * cimport numpy as np
- * import numpy as np
+  /* "dipy/align/transforms.pyx":946
+ * 
+ * regtransforms = {}
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
  */
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_TranslationTransform2D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 946; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 946; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__19, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 946; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":947
+ * regtransforms = {}
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_TranslationTransform3D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 947; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 947; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__20, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 947; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":948
+ * regtransforms [('TRANSLATION', 2)] = TranslationTransform2D()
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_RotationTransform2D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 948; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 948; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__21, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 948; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":949
+ * regtransforms [('TRANSLATION', 3)] = TranslationTransform3D()
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_RotationTransform3D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 949; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 949; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__22, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 949; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":950
+ * regtransforms [('ROTATION', 2)] = RotationTransform2D()
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_RigidTransform2D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 950; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 950; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__23, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 950; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":951
+ * regtransforms [('ROTATION', 3)] = RotationTransform3D()
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_RigidTransform3D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 951; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 951; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__24, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 951; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":952
+ * regtransforms [('RIGID', 2)] = RigidTransform2D()
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_ScalingTransform2D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 952; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 952; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__25, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 952; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":953
+ * regtransforms [('RIGID', 3)] = RigidTransform3D()
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()             # <<<<<<<<<<<<<<
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_ScalingTransform3D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__26, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":954
+ * regtransforms [('SCALING', 2)] = ScalingTransform2D()
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()             # <<<<<<<<<<<<<<
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_AffineTransform2D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 954; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 954; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__27, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 954; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":955
+ * regtransforms [('SCALING', 3)] = ScalingTransform3D()
+ * regtransforms [('AFFINE', 2)] = AffineTransform2D()
+ * regtransforms [('AFFINE', 3)] = AffineTransform3D()             # <<<<<<<<<<<<<<
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject*)__pyx_ptype_4dipy_5align_10transforms_AffineTransform3D)), __pyx_empty_tuple, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 955; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_regtransforms); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 955; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_tuple__28, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 955; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "dipy/align/transforms.pyx":1
+ * #!python             # <<<<<<<<<<<<<<
+ * #cython: boundscheck=False
+ * #cython: wraparound=False
+ */
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "View.MemoryView":203
  *         info.obj = self
@@ -17853,10 +23016,10 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * 
  *     def __dealloc__(array self):
  */
-  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_array_type);
 
   /* "View.MemoryView":276
@@ -17866,12 +23029,12 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(generic);
-  __Pyx_DECREF_SET(generic, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __Pyx_DECREF_SET(generic, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "View.MemoryView":277
  * 
@@ -17880,12 +23043,12 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 277; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(strided);
-  __Pyx_DECREF_SET(strided, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __Pyx_DECREF_SET(strided, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "View.MemoryView":278
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -17894,12 +23057,12 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__25, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__31, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 278; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect);
-  __Pyx_DECREF_SET(indirect, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __Pyx_DECREF_SET(indirect, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "View.MemoryView":281
  * 
@@ -17908,12 +23071,12 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__32, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 281; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(contiguous);
-  __Pyx_DECREF_SET(contiguous, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __Pyx_DECREF_SET(contiguous, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "View.MemoryView":282
  * 
@@ -17922,12 +23085,12 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * 
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)((PyObject *)__pyx_MemviewEnum_type)), __pyx_tuple__33, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 282; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_XGOTREF(indirect_contiguous);
-  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_2);
-  __pyx_t_2 = 0;
+  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_t_1 = 0;
 
   /* "View.MemoryView":496
  *         info.obj = self
@@ -17936,10 +23099,10 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * 
  * 
  */
-  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_memoryview_type);
 
   /* "View.MemoryView":953
@@ -17949,10 +23112,10 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
  * 
  * 
  */
-  __pyx_t_2 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), __pyx_k_getbuffer_obj_view_flags); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[2]; __pyx_lineno = 953; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   PyType_Modified(__pyx_memoryviewslice_type);
 
   /* "View.MemoryView":1361
@@ -17971,11 +23134,11 @@ PyMODINIT_FUNC PyInit_peak_direction_getter(void)
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init dipy.reconst.peak_direction_getter", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init dipy.align.transforms", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_DECREF(__pyx_m); __pyx_m = 0;
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init dipy.reconst.peak_direction_getter");
+    PyErr_SetString(PyExc_ImportError, "init dipy.align.transforms");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -18039,6 +23202,45 @@ static void __Pyx_RaiseArgtupleInvalid(
                  "%.200s() takes %.8s %" CYTHON_FORMAT_SSIZE_T "d positional argument%.1s (%" CYTHON_FORMAT_SSIZE_T "d given)",
                  func_name, more_or_less, num_expected,
                  (num_expected == 1) ? "" : "s", num_found);
+}
+
+static CYTHON_INLINE int __Pyx_CheckKeywordStrings(
+    PyObject *kwdict,
+    const char* function_name,
+    int kw_allowed)
+{
+    PyObject* key = 0;
+    Py_ssize_t pos = 0;
+#if CYTHON_COMPILING_IN_PYPY
+    if (!kw_allowed && PyDict_Next(kwdict, &pos, &key, 0))
+        goto invalid_keyword;
+    return 1;
+#else
+    while (PyDict_Next(kwdict, &pos, &key, 0)) {
+        #if PY_MAJOR_VERSION < 3
+        if (unlikely(!PyString_CheckExact(key)) && unlikely(!PyString_Check(key)))
+        #endif
+            if (unlikely(!PyUnicode_Check(key)))
+                goto invalid_keyword_type;
+    }
+    if ((!kw_allowed) && unlikely(key))
+        goto invalid_keyword;
+    return 1;
+invalid_keyword_type:
+    PyErr_Format(PyExc_TypeError,
+        "%.200s() keywords must be strings", function_name);
+    return 0;
+#endif
+invalid_keyword:
+    PyErr_Format(PyExc_TypeError,
+    #if PY_MAJOR_VERSION < 3
+        "%.200s() got an unexpected keyword argument '%.200s'",
+        function_name, PyString_AsString(key));
+    #else
+        "%s() got an unexpected keyword argument '%U'",
+        function_name, key);
+    #endif
+    return 0;
 }
 
 static void __Pyx_RaiseDoubleKeywordsError(
@@ -18171,40 +23373,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
             "NULL result without error in PyObject_Call");
     }
     return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
 
@@ -18396,6 +23564,42 @@ bad:
 }
 #endif
 
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
+    PyObject *result;
+#if CYTHON_COMPILING_IN_CPYTHON
+    result = PyDict_GetItem(__pyx_d, name);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else {
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    if (!result) {
+        PyErr_Clear();
+#endif
+        result = __Pyx_GetBuiltinName(name);
+    }
+    return result;
+}
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
 #if CYTHON_COMPILING_IN_CPYTHON
 static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
     PyObject *result;
@@ -18425,62 +23629,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     return (likely(args)) ? __Pyx_PyObject_Call(func, args, NULL) : NULL;
 }
 #endif
-
-static CYTHON_INLINE int __Pyx_CheckKeywordStrings(
-    PyObject *kwdict,
-    const char* function_name,
-    int kw_allowed)
-{
-    PyObject* key = 0;
-    Py_ssize_t pos = 0;
-#if CYTHON_COMPILING_IN_PYPY
-    if (!kw_allowed && PyDict_Next(kwdict, &pos, &key, 0))
-        goto invalid_keyword;
-    return 1;
-#else
-    while (PyDict_Next(kwdict, &pos, &key, 0)) {
-        #if PY_MAJOR_VERSION < 3
-        if (unlikely(!PyString_CheckExact(key)) && unlikely(!PyString_Check(key)))
-        #endif
-            if (unlikely(!PyUnicode_Check(key)))
-                goto invalid_keyword_type;
-    }
-    if ((!kw_allowed) && unlikely(key))
-        goto invalid_keyword;
-    return 1;
-invalid_keyword_type:
-    PyErr_Format(PyExc_TypeError,
-        "%.200s() keywords must be strings", function_name);
-    return 0;
-#endif
-invalid_keyword:
-    PyErr_Format(PyExc_TypeError,
-    #if PY_MAJOR_VERSION < 3
-        "%.200s() got an unexpected keyword argument '%.200s'",
-        function_name, PyString_AsString(key));
-    #else
-        "%s() got an unexpected keyword argument '%U'",
-        function_name, key);
-    #endif
-    return 0;
-}
-
-static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
-    PyObject *result;
-#if CYTHON_COMPILING_IN_CPYTHON
-    result = PyDict_GetItem(__pyx_d, name);
-    if (likely(result)) {
-        Py_INCREF(result);
-    } else {
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    if (!result) {
-        PyErr_Clear();
-#endif
-        result = __Pyx_GetBuiltinName(name);
-    }
-    return result;
-}
 
 static CYTHON_INLINE int __Pyx_IsLittleEndian(void) {
   unsigned int n = 1;
@@ -19166,9 +24314,31 @@ static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
     }
 }
 
-static void __Pyx_RaiseBufferIndexError(int axis) {
-  PyErr_Format(PyExc_IndexError,
-     "Out of bounds on buffer access (axis %d)", axis);
+static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
+                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
+                                  int full_traceback) {
+    PyObject *old_exc, *old_val, *old_tb;
+    PyObject *ctx;
+    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
+    if (full_traceback) {
+        Py_XINCREF(old_exc);
+        Py_XINCREF(old_val);
+        Py_XINCREF(old_tb);
+        __Pyx_ErrRestore(old_exc, old_val, old_tb);
+        PyErr_PrintEx(1);
+    }
+    #if PY_MAJOR_VERSION < 3
+    ctx = PyString_FromString(name);
+    #else
+    ctx = PyUnicode_FromString(name);
+    #endif
+    __Pyx_ErrRestore(old_exc, old_val, old_tb);
+    if (!ctx) {
+        PyErr_WriteUnraisable(Py_None);
+    } else {
+        PyErr_WriteUnraisable(ctx);
+        Py_DECREF(ctx);
+    }
 }
 
 static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
@@ -19342,13 +24512,6 @@ return_ne:
     #endif
     return (equals == Py_NE);
 #endif
-}
-
-static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
-    Py_ssize_t q = a / b;
-    Py_ssize_t r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
 }
 
 static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
@@ -19578,69 +24741,6 @@ static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
     PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
 }
 
-static CYTHON_INLINE long __Pyx_div_long(long a, long b) {
-    long q = a / b;
-    long r = a - q*b;
-    q -= ((r != 0) & ((r ^ b) < 0));
-    return q;
-}
-
-static void __Pyx_WriteUnraisable(const char *name, CYTHON_UNUSED int clineno,
-                                  CYTHON_UNUSED int lineno, CYTHON_UNUSED const char *filename,
-                                  int full_traceback) {
-    PyObject *old_exc, *old_val, *old_tb;
-    PyObject *ctx;
-    __Pyx_ErrFetch(&old_exc, &old_val, &old_tb);
-    if (full_traceback) {
-        Py_XINCREF(old_exc);
-        Py_XINCREF(old_val);
-        Py_XINCREF(old_tb);
-        __Pyx_ErrRestore(old_exc, old_val, old_tb);
-        PyErr_PrintEx(1);
-    }
-    #if PY_MAJOR_VERSION < 3
-    ctx = PyString_FromString(name);
-    #else
-    ctx = PyUnicode_FromString(name);
-    #endif
-    __Pyx_ErrRestore(old_exc, old_val, old_tb);
-    if (!ctx) {
-        PyErr_WriteUnraisable(Py_None);
-    } else {
-        PyErr_WriteUnraisable(ctx);
-        Py_DECREF(ctx);
-    }
-}
-
-static void __Pyx_call_next_tp_dealloc(PyObject* obj, destructor current_tp_dealloc) {
-    PyTypeObject* type = Py_TYPE(obj);
-    while (type && type->tp_dealloc != current_tp_dealloc)
-        type = type->tp_base;
-    while (type && type->tp_dealloc == current_tp_dealloc)
-        type = type->tp_base;
-    if (type)
-        type->tp_dealloc(obj);
-}
-
-static void* __Pyx_GetVtable(PyObject *dict) {
-    void* ptr;
-    PyObject *ob = PyObject_GetItem(dict, __pyx_n_s_pyx_vtable);
-    if (!ob)
-        goto bad;
-#if PY_VERSION_HEX >= 0x02070000
-    ptr = PyCapsule_GetPointer(ob, 0);
-#else
-    ptr = PyCObject_AsVoidPtr(ob);
-#endif
-    if (!ptr && !PyErr_Occurred())
-        PyErr_SetString(PyExc_RuntimeError, "invalid vtable found for imported type");
-    Py_DECREF(ob);
-    return ptr;
-bad:
-    Py_XDECREF(ob);
-    return NULL;
-}
-
 static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
 #if PY_VERSION_HEX >= 0x02070000
     PyObject *ob = PyCapsule_New(vtable, 0, 0);
@@ -19815,6 +24915,102 @@ static void __Pyx_AddTraceback(const char *funcname, int c_line,
 bad:
     Py_XDECREF(py_code);
     Py_XDECREF(py_frame);
+}
+
+#if PY_MAJOR_VERSION < 3
+static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags) {
+    if (PyObject_CheckBuffer(obj)) return PyObject_GetBuffer(obj, view, flags);
+        if (PyObject_TypeCheck(obj, __pyx_ptype_5numpy_ndarray)) return __pyx_pw_5numpy_7ndarray_1__getbuffer__(obj, view, flags);
+        if (PyObject_TypeCheck(obj, __pyx_array_type)) return __pyx_array_getbuffer(obj, view, flags);
+        if (PyObject_TypeCheck(obj, __pyx_memoryview_type)) return __pyx_memoryview_getbuffer(obj, view, flags);
+    PyErr_Format(PyExc_TypeError, "'%.200s' does not have the buffer interface", Py_TYPE(obj)->tp_name);
+    return -1;
+}
+static void __Pyx_ReleaseBuffer(Py_buffer *view) {
+    PyObject *obj = view->obj;
+    if (!obj) return;
+    if (PyObject_CheckBuffer(obj)) {
+        PyBuffer_Release(view);
+        return;
+    }
+        if (PyObject_TypeCheck(obj, __pyx_ptype_5numpy_ndarray)) { __pyx_pw_5numpy_7ndarray_3__releasebuffer__(obj, view); return; }
+    Py_DECREF(obj);
+    view->obj = NULL;
+}
+#endif
+
+
+        static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
+    PyObject *empty_list = 0;
+    PyObject *module = 0;
+    PyObject *global_dict = 0;
+    PyObject *empty_dict = 0;
+    PyObject *list;
+    #if PY_VERSION_HEX < 0x03030000
+    PyObject *py_import;
+    py_import = __Pyx_PyObject_GetAttrStr(__pyx_b, __pyx_n_s_import);
+    if (!py_import)
+        goto bad;
+    #endif
+    if (from_list)
+        list = from_list;
+    else {
+        empty_list = PyList_New(0);
+        if (!empty_list)
+            goto bad;
+        list = empty_list;
+    }
+    global_dict = PyModule_GetDict(__pyx_m);
+    if (!global_dict)
+        goto bad;
+    empty_dict = PyDict_New();
+    if (!empty_dict)
+        goto bad;
+    {
+        #if PY_MAJOR_VERSION >= 3
+        if (level == -1) {
+            if (strchr(__Pyx_MODULE_NAME, '.')) {
+                #if PY_VERSION_HEX < 0x03030000
+                PyObject *py_level = PyInt_FromLong(1);
+                if (!py_level)
+                    goto bad;
+                module = PyObject_CallFunctionObjArgs(py_import,
+                    name, global_dict, empty_dict, list, py_level, NULL);
+                Py_DECREF(py_level);
+                #else
+                module = PyImport_ImportModuleLevelObject(
+                    name, global_dict, empty_dict, list, 1);
+                #endif
+                if (!module) {
+                    if (!PyErr_ExceptionMatches(PyExc_ImportError))
+                        goto bad;
+                    PyErr_Clear();
+                }
+            }
+            level = 0;
+        }
+        #endif
+        if (!module) {
+            #if PY_VERSION_HEX < 0x03030000
+            PyObject *py_level = PyInt_FromLong(level);
+            if (!py_level)
+                goto bad;
+            module = PyObject_CallFunctionObjArgs(py_import,
+                name, global_dict, empty_dict, list, py_level, NULL);
+            Py_DECREF(py_level);
+            #else
+            module = PyImport_ImportModuleLevelObject(
+                name, global_dict, empty_dict, list, level);
+            #endif
+        }
+    }
+bad:
+    #if PY_VERSION_HEX < 0x03030000
+    Py_XDECREF(py_import);
+    #endif
+    Py_XDECREF(empty_list);
+    Py_XDECREF(empty_dict);
+    return module;
 }
 
 static int
@@ -20038,17 +25234,17 @@ no_fail:
     return retval;
 }
 
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_d_dc_double(PyObject *obj) {
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *obj) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
     int retcode;
     if (obj == Py_None) {
         result.memview = (struct __pyx_memoryview_obj *) Py_None;
         return result;
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 4,
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 1,
                                                  &__Pyx_TypeInfo_double, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
@@ -20060,144 +25256,67 @@ __pyx_fail:
     return result;
 }
 
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
+    const int neg_one = (int) -1, const_zero = 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(int) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+        } else if (sizeof(int) <= sizeof(unsigned long long)) {
+            return PyLong_FromUnsignedLongLong((unsigned long long) value);
+        }
+    } else {
+        if (sizeof(int) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(int) <= sizeof(long long)) {
+            return PyLong_FromLongLong((long long) value);
+        }
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 2,
-                                                 &__Pyx_TypeInfo_double, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
-}
-
-#if PY_MAJOR_VERSION < 3
-static int __Pyx_GetBuffer(PyObject *obj, Py_buffer *view, int flags) {
-    if (PyObject_CheckBuffer(obj)) return PyObject_GetBuffer(obj, view, flags);
-        if (PyObject_TypeCheck(obj, __pyx_ptype_5numpy_ndarray)) return __pyx_pw_5numpy_7ndarray_1__getbuffer__(obj, view, flags);
-        if (PyObject_TypeCheck(obj, __pyx_array_type)) return __pyx_array_getbuffer(obj, view, flags);
-        if (PyObject_TypeCheck(obj, __pyx_memoryview_type)) return __pyx_memoryview_getbuffer(obj, view, flags);
-    PyErr_Format(PyExc_TypeError, "'%.200s' does not have the buffer interface", Py_TYPE(obj)->tp_name);
-    return -1;
-}
-static void __Pyx_ReleaseBuffer(Py_buffer *view) {
-    PyObject *obj = view->obj;
-    if (!obj) return;
-    if (PyObject_CheckBuffer(obj)) {
-        PyBuffer_Release(view);
-        return;
-    }
-        if (PyObject_TypeCheck(obj, __pyx_ptype_5numpy_ndarray)) { __pyx_pw_5numpy_7ndarray_3__releasebuffer__(obj, view); return; }
-    Py_DECREF(obj);
-    view->obj = NULL;
-}
-#endif
-
-
-          static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
-    PyObject *empty_list = 0;
-    PyObject *module = 0;
-    PyObject *global_dict = 0;
-    PyObject *empty_dict = 0;
-    PyObject *list;
-    #if PY_VERSION_HEX < 0x03030000
-    PyObject *py_import;
-    py_import = __Pyx_PyObject_GetAttrStr(__pyx_b, __pyx_n_s_import);
-    if (!py_import)
-        goto bad;
-    #endif
-    if (from_list)
-        list = from_list;
-    else {
-        empty_list = PyList_New(0);
-        if (!empty_list)
-            goto bad;
-        list = empty_list;
-    }
-    global_dict = PyModule_GetDict(__pyx_m);
-    if (!global_dict)
-        goto bad;
-    empty_dict = PyDict_New();
-    if (!empty_dict)
-        goto bad;
     {
-        #if PY_MAJOR_VERSION >= 3
-        if (level == -1) {
-            if (strchr(__Pyx_MODULE_NAME, '.')) {
-                #if PY_VERSION_HEX < 0x03030000
-                PyObject *py_level = PyInt_FromLong(1);
-                if (!py_level)
-                    goto bad;
-                module = PyObject_CallFunctionObjArgs(py_import,
-                    name, global_dict, empty_dict, list, py_level, NULL);
-                Py_DECREF(py_level);
-                #else
-                module = PyImport_ImportModuleLevelObject(
-                    name, global_dict, empty_dict, list, 1);
-                #endif
-                if (!module) {
-                    if (!PyErr_ExceptionMatches(PyExc_ImportError))
-                        goto bad;
-                    PyErr_Clear();
-                }
-            }
-            level = 0;
-        }
-        #endif
-        if (!module) {
-            #if PY_VERSION_HEX < 0x03030000
-            PyObject *py_level = PyInt_FromLong(level);
-            if (!py_level)
-                goto bad;
-            module = PyObject_CallFunctionObjArgs(py_import,
-                name, global_dict, empty_dict, list, py_level, NULL);
-            Py_DECREF(py_level);
-            #else
-            module = PyImport_ImportModuleLevelObject(
-                name, global_dict, empty_dict, list, level);
-            #endif
-        }
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(int),
+                                     little, !is_unsigned);
     }
-bad:
-    #if PY_VERSION_HEX < 0x03030000
-    Py_XDECREF(py_import);
-    #endif
-    Py_XDECREF(empty_list);
-    Py_XDECREF(empty_dict);
-    return module;
 }
 
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
+static PyObject *__pyx_memview_get_double(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
+}
+static int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
+    double value = __pyx_PyFloat_AsDouble(obj);
+    if ((value == (double)-1) && PyErr_Occurred())
+        return 0;
+    *(double *) itemp = value;
+    return 1;
+}
+
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
+    const long neg_one = (long) -1, const_zero = 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(long) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+        } else if (sizeof(long) <= sizeof(unsigned long long)) {
+            return PyLong_FromUnsignedLongLong((unsigned long long) value);
+        }
+    } else {
+        if (sizeof(long) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(long) <= sizeof(long long)) {
+            return PyLong_FromLongLong((long long) value);
+        }
     }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 1,
-                                                 &__Pyx_TypeInfo_double, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(long),
+                                     little, !is_unsigned);
+    }
 }
 
 #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)       \
@@ -20314,259 +25433,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to Py_intptr_t");
     return (Py_intptr_t) -1;
-}
-
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_Py_intptr_t(Py_intptr_t value) {
-    const Py_intptr_t neg_one = (Py_intptr_t) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(Py_intptr_t) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(Py_intptr_t) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(Py_intptr_t) <= sizeof(unsigned long long)) {
-            return PyLong_FromUnsignedLongLong((unsigned long long) value);
-        }
-    } else {
-        if (sizeof(Py_intptr_t) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(Py_intptr_t) <= sizeof(long long)) {
-            return PyLong_FromLongLong((long long) value);
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(Py_intptr_t),
-                                     little, !is_unsigned);
-    }
-}
-
-static PyObject *__pyx_memview_get_double(const char *itemp) {
-    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
-}
-static int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
-    double value = __pyx_PyFloat_AsDouble(obj);
-    if ((value == (double)-1) && PyErr_Occurred())
-        return 0;
-    *(double *) itemp = value;
-    return 1;
-}
-
-static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
-    const int neg_one = (int) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(int) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (int) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-            if (sizeof(int) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(int) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
-            }
-        } else {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (sizeof(int) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
-            } else if (sizeof(int) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            int val;
-            PyObject *v = __Pyx_PyNumber_Int(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (int) -1;
-        }
-    } else {
-        int val;
-        PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (int) -1;
-        val = __Pyx_PyInt_As_int(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to int");
-    return (int) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to int");
-    return (int) -1;
-}
-
-static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
-    const long neg_one = (long) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-#if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_Check(x))) {
-        if (sizeof(long) < sizeof(long)) {
-            __PYX_VERIFY_RETURN_INT(long, long, PyInt_AS_LONG(x))
-        } else {
-            long val = PyInt_AS_LONG(x);
-            if (is_unsigned && unlikely(val < 0)) {
-                goto raise_neg_overflow;
-            }
-            return (long) val;
-        }
-    } else
-#endif
-    if (likely(PyLong_Check(x))) {
-        if (is_unsigned) {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(long, digit, ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (unlikely(Py_SIZE(x) < 0)) {
-                goto raise_neg_overflow;
-            }
-            if (sizeof(long) <= sizeof(unsigned long)) {
-                __PYX_VERIFY_RETURN_INT(long, unsigned long, PyLong_AsUnsignedLong(x))
-            } else if (sizeof(long) <= sizeof(unsigned long long)) {
-                __PYX_VERIFY_RETURN_INT(long, unsigned long long, PyLong_AsUnsignedLongLong(x))
-            }
-        } else {
-#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
- #if CYTHON_USE_PYLONG_INTERNALS
-            switch (Py_SIZE(x)) {
-                case  0: return 0;
-                case  1: __PYX_VERIFY_RETURN_INT(long,  digit, +(((PyLongObject*)x)->ob_digit[0]));
-                case -1: __PYX_VERIFY_RETURN_INT(long, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
-            }
- #endif
-#endif
-            if (sizeof(long) <= sizeof(long)) {
-                __PYX_VERIFY_RETURN_INT(long, long, PyLong_AsLong(x))
-            } else if (sizeof(long) <= sizeof(long long)) {
-                __PYX_VERIFY_RETURN_INT(long, long long, PyLong_AsLongLong(x))
-            }
-        }
-        {
-#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
-            PyErr_SetString(PyExc_RuntimeError,
-                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
-#else
-            long val;
-            PyObject *v = __Pyx_PyNumber_Int(x);
- #if PY_MAJOR_VERSION < 3
-            if (likely(v) && !PyLong_Check(v)) {
-                PyObject *tmp = v;
-                v = PyNumber_Long(tmp);
-                Py_DECREF(tmp);
-            }
- #endif
-            if (likely(v)) {
-                int one = 1; int is_little = (int)*(unsigned char *)&one;
-                unsigned char *bytes = (unsigned char *)&val;
-                int ret = _PyLong_AsByteArray((PyLongObject *)v,
-                                              bytes, sizeof(val),
-                                              is_little, !is_unsigned);
-                Py_DECREF(v);
-                if (likely(!ret))
-                    return val;
-            }
-#endif
-            return (long) -1;
-        }
-    } else {
-        long val;
-        PyObject *tmp = __Pyx_PyNumber_Int(x);
-        if (!tmp) return (long) -1;
-        val = __Pyx_PyInt_As_long(tmp);
-        Py_DECREF(tmp);
-        return val;
-    }
-raise_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "value too large to convert to long");
-    return (long) -1;
-raise_neg_overflow:
-    PyErr_SetString(PyExc_OverflowError,
-        "can't convert negative value to long");
-    return (long) -1;
-}
-
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
-    const int neg_one = (int) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(int) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(int) <= sizeof(unsigned long long)) {
-            return PyLong_FromUnsignedLongLong((unsigned long long) value);
-        }
-    } else {
-        if (sizeof(int) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(int) <= sizeof(long long)) {
-            return PyLong_FromLongLong((long long) value);
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(int),
-                                     little, !is_unsigned);
-    }
 }
 
 #if CYTHON_CCOMPLEX
@@ -20809,6 +25675,101 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value) {
     #endif
 #endif
 
+static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
+    const int neg_one = (int) -1, const_zero = 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(int) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(int, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (int) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
+ #if CYTHON_USE_PYLONG_INTERNALS
+            switch (Py_SIZE(x)) {
+                case  0: return 0;
+                case  1: __PYX_VERIFY_RETURN_INT(int, digit, ((PyLongObject*)x)->ob_digit[0]);
+            }
+ #endif
+#endif
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+            if (sizeof(int) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(int) <= sizeof(unsigned long long)) {
+                __PYX_VERIFY_RETURN_INT(int, unsigned long long, PyLong_AsUnsignedLongLong(x))
+            }
+        } else {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
+ #if CYTHON_USE_PYLONG_INTERNALS
+            switch (Py_SIZE(x)) {
+                case  0: return 0;
+                case  1: __PYX_VERIFY_RETURN_INT(int,  digit, +(((PyLongObject*)x)->ob_digit[0]));
+                case -1: __PYX_VERIFY_RETURN_INT(int, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
+            }
+ #endif
+#endif
+            if (sizeof(int) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT(int, long, PyLong_AsLong(x))
+            } else if (sizeof(int) <= sizeof(long long)) {
+                __PYX_VERIFY_RETURN_INT(int, long long, PyLong_AsLongLong(x))
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            int val;
+            PyObject *v = __Pyx_PyNumber_Int(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (int) -1;
+        }
+    } else {
+        int val;
+        PyObject *tmp = __Pyx_PyNumber_Int(x);
+        if (!tmp) return (int) -1;
+        val = __Pyx_PyInt_As_int(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to int");
+    return (int) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to int");
+    return (int) -1;
+}
+
 static int
 __pyx_memviewslice_is_contig(const __Pyx_memviewslice *mvs,
                              char order, int ndim)
@@ -20944,32 +25905,6 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     return cobj;
 }
 
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
-    const long neg_one = (long) -1, const_zero = 0;
-    const int is_unsigned = neg_one > const_zero;
-    if (is_unsigned) {
-        if (sizeof(long) < sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long)) {
-            return PyLong_FromUnsignedLong((unsigned long) value);
-        } else if (sizeof(long) <= sizeof(unsigned long long)) {
-            return PyLong_FromUnsignedLongLong((unsigned long long) value);
-        }
-    } else {
-        if (sizeof(long) <= sizeof(long)) {
-            return PyInt_FromLong((long) value);
-        } else if (sizeof(long) <= sizeof(long long)) {
-            return PyLong_FromLongLong((long long) value);
-        }
-    }
-    {
-        int one = 1; int little = (int)*(unsigned char *)&one;
-        unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(long),
-                                     little, !is_unsigned);
-    }
-}
-
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *x) {
     const char neg_one = (char) -1, const_zero = 0;
     const int is_unsigned = neg_one > const_zero;
@@ -21065,6 +26000,123 @@ raise_neg_overflow:
     return (char) -1;
 }
 
+static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *x) {
+    const long neg_one = (long) -1, const_zero = 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(long) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(long, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (long) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
+ #if CYTHON_USE_PYLONG_INTERNALS
+            switch (Py_SIZE(x)) {
+                case  0: return 0;
+                case  1: __PYX_VERIFY_RETURN_INT(long, digit, ((PyLongObject*)x)->ob_digit[0]);
+            }
+ #endif
+#endif
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+            if (sizeof(long) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT(long, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(long) <= sizeof(unsigned long long)) {
+                __PYX_VERIFY_RETURN_INT(long, unsigned long long, PyLong_AsUnsignedLongLong(x))
+            }
+        } else {
+#if CYTHON_COMPILING_IN_CPYTHON && PY_MAJOR_VERSION >= 3
+ #if CYTHON_USE_PYLONG_INTERNALS
+            switch (Py_SIZE(x)) {
+                case  0: return 0;
+                case  1: __PYX_VERIFY_RETURN_INT(long,  digit, +(((PyLongObject*)x)->ob_digit[0]));
+                case -1: __PYX_VERIFY_RETURN_INT(long, sdigit, -(sdigit) ((PyLongObject*)x)->ob_digit[0]);
+            }
+ #endif
+#endif
+            if (sizeof(long) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT(long, long, PyLong_AsLong(x))
+            } else if (sizeof(long) <= sizeof(long long)) {
+                __PYX_VERIFY_RETURN_INT(long, long long, PyLong_AsLongLong(x))
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            long val;
+            PyObject *v = __Pyx_PyNumber_Int(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (long) -1;
+        }
+    } else {
+        long val;
+        PyObject *tmp = __Pyx_PyNumber_Int(x);
+        if (!tmp) return (long) -1;
+        val = __Pyx_PyInt_As_long(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to long");
+    return (long) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to long");
+    return (long) -1;
+}
+
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_double(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 2,
+                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
 static int __Pyx_check_binary_version(void) {
     char ctversion[4], rtversion[4];
     PyOS_snprintf(ctversion, 4, "%d.%d", PY_MAJOR_VERSION, PY_MINOR_VERSION);
@@ -21158,59 +26210,6 @@ bad:
     Py_XDECREF(py_module);
     Py_XDECREF(result);
     return NULL;
-}
-#endif
-
-#ifndef __PYX_HAVE_RT_ImportFunction
-#define __PYX_HAVE_RT_ImportFunction
-static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig) {
-    PyObject *d = 0;
-    PyObject *cobj = 0;
-    union {
-        void (*fp)(void);
-        void *p;
-    } tmp;
-    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
-    if (!d)
-        goto bad;
-    cobj = PyDict_GetItemString(d, funcname);
-    if (!cobj) {
-        PyErr_Format(PyExc_ImportError,
-            "%.200s does not export expected C function %.200s",
-                PyModule_GetName(module), funcname);
-        goto bad;
-    }
-#if PY_VERSION_HEX >= 0x02070000
-    if (!PyCapsule_IsValid(cobj, sig)) {
-        PyErr_Format(PyExc_TypeError,
-            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), funcname, sig, PyCapsule_GetName(cobj));
-        goto bad;
-    }
-    tmp.p = PyCapsule_GetPointer(cobj, sig);
-#else
-    {const char *desc, *s1, *s2;
-    desc = (const char *)PyCObject_GetDesc(cobj);
-    if (!desc)
-        goto bad;
-    s1 = desc; s2 = sig;
-    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
-    if (*s1 != *s2) {
-        PyErr_Format(PyExc_TypeError,
-            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
-             PyModule_GetName(module), funcname, sig, desc);
-        goto bad;
-    }
-    tmp.p = PyCObject_AsVoidPtr(cobj);}
-#endif
-    *f = tmp.fp;
-    if (!(*f))
-        goto bad;
-    Py_DECREF(d);
-    return 0;
-bad:
-    Py_XDECREF(d);
-    return -1;
 }
 #endif
 

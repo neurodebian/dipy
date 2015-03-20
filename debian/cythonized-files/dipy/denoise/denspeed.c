@@ -2640,7 +2640,7 @@ static PyObject *__pyx_pf_4dipy_7denoise_8denspeed_2_nlmeans_3d(CYTHON_UNUSED Py
                 #define unlikely(x) (x)
             #endif
             #ifdef _OPENMP
-            #pragma omp parallel  private(__pyx_t_15, __pyx_t_17, __pyx_t_11, __pyx_t_16, __pyx_t_13, __pyx_t_18, __pyx_t_7, __pyx_t_12, __pyx_t_14, __pyx_t_20, __pyx_t_22, __pyx_t_10, __pyx_t_9, __pyx_t_21, __pyx_t_19)
+            #pragma omp parallel  private(__pyx_t_16, __pyx_t_21, __pyx_t_11, __pyx_t_9, __pyx_t_14, __pyx_t_15, __pyx_t_10, __pyx_t_22, __pyx_t_18, __pyx_t_7, __pyx_t_12, __pyx_t_13, __pyx_t_19, __pyx_t_17, __pyx_t_20)
             #endif /* _OPENMP */
             {
 
@@ -2659,14 +2659,14 @@ static PyObject *__pyx_pf_4dipy_7denoise_8denspeed_2_nlmeans_3d(CYTHON_UNUSED Py
                     if (__pyx_t_11 > 0)
                     {
                         #ifdef _OPENMP
-                        #pragma omp for lastprivate(__pyx_v_k) lastprivate(__pyx_v_j) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i)
+                        #pragma omp for lastprivate(__pyx_v_j) lastprivate(__pyx_v_k) firstprivate(__pyx_v_i) lastprivate(__pyx_v_i)
                         #endif /* _OPENMP */
                         for (__pyx_t_10 = 0; __pyx_t_10 < __pyx_t_11; __pyx_t_10++){
                             {
                                 __pyx_v_i = __pyx_t_7 + 1 * __pyx_t_10;
                                 /* Initialize private variables to invalid values */
-                                __pyx_v_k = ((npy_intp)0xbad0bad0);
                                 __pyx_v_j = ((npy_intp)0xbad0bad0);
+                                __pyx_v_k = ((npy_intp)0xbad0bad0);
 
                                 /* "dipy/denoise/denspeed.pyx":85
  *     with nogil, parallel():

@@ -1,3 +1,9 @@
+dipy (0.9.2-1) experimental; urgency=medium
+
+  * New upstream release
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Thu, 19 Mar 2015 22:55:37 -0400
+
 dipy (0.8.0-1) experimental; urgency=medium
 
   * New upstream release
