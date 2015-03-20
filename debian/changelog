@@ -1,6 +1,10 @@
 dipy (0.9.2-1) experimental; urgency=medium
 
   * New upstream release
+  * debian/control
+    - limit to python >= 2.7 to avoid problem while testing scripts while
+      having two Python versions supported
+      (see https://github.com/nipy/dipy/issues/354#issuecomment-69251564)
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Thu, 19 Mar 2015 22:55:37 -0400
 

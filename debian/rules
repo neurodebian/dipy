@@ -11,10 +11,10 @@ endif
 
 # default Python
 PYTHON=$(shell pyversions -d)
-PYVERS = $(shell pyversions -vr)
-PYVER = $(shell pyversions -vd)
-PY3VERS = $(shell py3versions -vr)
-PY3VER = $(shell py3versions -vd)
+#PYVERS = $(shell pyversions -vr)
+#PYVER = $(shell pyversions -vd)
+#PY3VERS = $(shell py3versions -vr)
+#PY3VER = $(shell py3versions -vd)
 
 srcpkg = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Source:' | cut -d ' ' -f 2,2)
 debver = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Version:' | cut -d ' ' -f 2,2 )

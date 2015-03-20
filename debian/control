@@ -16,7 +16,7 @@ Standards-Version: 3.9.6
 Homepage: http://nipy.org/dipy
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-exppsy/dipy.git
 Vcs-Git: git://anonscm.debian.org/pkg-exppsy/dipy.git
-X-Python-Version: >= 2.6
+X-Python-Version: >= 2.7
 
 Package: python-dipy
 Architecture: all
