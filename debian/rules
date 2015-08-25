@@ -22,6 +22,10 @@ upver = $(shell echo $(debver) | cut -d '-' -f 1,1 )
 
 MIN_CYTHONVER = 0.21
 
+LAST_CHANGE = $(shell dpkg-parsechangelog -S Date)
+BUILD_DATE  = $(shell LC_ALL=C date -u "+%B %d, %Y" -d "$(LAST_CHANGE)")
+SPHINXOPTS := -D today=\"$(BUILD_DATE)\"
+
 %:
 	dh --buildsystem=python_distutils $@  --with python2
 
@@ -77,7 +81,7 @@ ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
 	cp -rp doc-examples/doc/examples_built/* doc/examples_built/
 	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages) \
 		   MPLCONFIGDIR=$(CURDIR)/build HOME=$(CURDIR)/build; \
-	cd doc; $(MAKE) html-after-examples
+	cd doc; $(MAKE) html-after-examples SPHINXOPTS="$(SPHINXOPTS)"
 	-rm doc/_build/html/_static/jquery.js
 	-rm -r doc/_build/html/_sources
 	: # objects inventory is of no use for the package
