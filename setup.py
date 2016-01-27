@@ -88,11 +88,6 @@ for modulename, other_sources, language in (
     ('dipy.reconst.recspeed', [], 'c'),
     ('dipy.reconst.vec_val_sum', [], 'c'),
     ('dipy.reconst.quick_squash', [], 'c'),
-    ('dipy.segment.cythonutils', [], 'c'),
-    ('dipy.segment.featurespeed', [], 'c'),
-    ('dipy.segment.metricspeed', [], 'c'),
-    ('dipy.segment.clusteringspeed', [], 'c'),
-    ('dipy.segment.clustering_algorithms', [], 'c'),
     ('dipy.tracking.distances', [], 'c'),
     ('dipy.tracking.streamlinespeed', [], 'c'),
     ('dipy.tracking.local.localtrack', [], 'c'),
@@ -101,13 +96,19 @@ for modulename, other_sources, language in (
     ('dipy.tracking.local.interpolation', [], 'c'),
     ('dipy.tracking.vox2track', [], 'c'),
     ('dipy.tracking.propspeed', [], 'c'),
+    ('dipy.segment.cythonutils', [], 'c'),
+    ('dipy.segment.featurespeed', [], 'c'),
+    ('dipy.segment.metricspeed', [], 'c'),
+    ('dipy.segment.clusteringspeed', [], 'c'),
+    ('dipy.segment.clustering_algorithms', [], 'c'),
     ('dipy.denoise.denspeed', [], 'c'),
     ('dipy.align.vector_fields', [], 'c'),
     ('dipy.align.sumsqdiff', [], 'c'),
     ('dipy.align.expectmax', [], 'c'),
     ('dipy.align.crosscorr', [], 'c'),
     ('dipy.align.bundlemin', [], 'c'),
-    ('dipy.align.transforms', [], 'c')):
+    ('dipy.align.transforms', [], 'c'),
+    ('dipy.align.parzenhist', [], 'c')):
 
     pyx_src = pjoin(*modulename.split('.')) + '.pyx'
     EXTS.append(Extension(modulename, [pyx_src] + other_sources,
@@ -221,7 +222,7 @@ def main(**extra_args):
           # python -- duplicating things into MANIFEST.in but this is admittedly
           # only a workaround to get things started -- not a solution
           package_data = {'dipy':
-                          [pjoin('data', '*')
+                          [pjoin('data', 'files', '*')
                           ]},
           data_files=[('share/doc/dipy/examples',
                        glob(pjoin('doc','examples','*.py')))],

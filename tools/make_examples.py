@@ -109,16 +109,24 @@ sys.path.insert(0, os.getcwd())
 if not os.path.isdir('fig'):
     os.mkdir('fig')
 
-for script in glob('*.py'):
+use_xvfb = os.environ.get('TEST_WITH_XVFB', False)
+
+if use_xvfb:
+    from xvfbwrapper import Xvfb
+    display = Xvfb(width=1920, height=1080)
+    display.start()
+
+for script in validated_examples:
     figure_basename = os.path.join('fig', os.path.splitext(script)[0])
     print script
-
     execfile(script)
     plt.close('all')
+
+if use_xvfb:
+    display.stop()
 
 # clean up stray images, pickles, npy files, etc
 for globber in ('*.nii.gz', '*.dpy', '*.npy', '*.pkl', '*.mat', '*.img',
                 '*.hdr'):
     for fname in glob(globber):
         os.unlink(fname)
-

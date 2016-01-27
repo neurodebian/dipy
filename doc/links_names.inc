@@ -21,13 +21,15 @@
 .. _nibabel pypi: http://pypi.python.org/pypi/nibabel
 .. _nipy development guidelines: http://nipy.org/devel
 .. _buildbots: http://nipy.bic.berkeley.edu/builders
-
+.. _`dipy gitter`: https://gitter.im/nipy/dipy
+.. _neurostars: https://neurostars.org/
 
 .. Packaging
 .. _neurodebian: http://neuro.debian.net
 .. _neurodebian how to: http://neuro.debian.net/#how-to-use-this-repository
 .. _pip: http://www.pip-installer.org/en/latest/
 .. _easy_install: https://pypi.python.org/pypi/setuptools
+.. _homebrew: http://brew.sh/
 
 .. Documentation tools
 .. _graphviz: http://www.graphviz.org/
@@ -48,7 +50,7 @@
 .. _`nipy launchpad`: https://launchpad.net/nipy
 .. _launchpad: https://launchpad.net/
 .. _`nipy trunk`: https://code.launchpad.net/~nipy-developers/nipy/trunk
-.. _`nipy mailing list`: http://projects.scipy.org/mailman/listinfo/nipy-devel
+.. _`nipy mailing list`: https://mail.python.org/mailman/listinfo/neuroimaging
 .. _`nipy bugs`: https://bugs.launchpad.net/nipy
 .. _pep8: http://www.python.org/dev/peps/pep-0008/
 .. _`numpy coding style`: http://scipy.org/scipy/numpy/wiki/CodingStyleGuidelines
@@ -134,6 +136,7 @@
 .. _VTK: http://www.vtk.org/
 .. _ITK: http://www.itk.org/
 .. _swig: http://www.swig.org
+.. _openmp: www.openmp.org/
 
 .. Windows development
 .. _mingw: http://www.mingw.org/wiki/Getting_Started
