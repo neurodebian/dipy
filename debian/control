@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <mih@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), python-all-dev,
-               python-numpy,
+               python-numpy (>= 1:1.7.1~),
                python-scipy,
                cython (>= 0.13),
                python-matplotlib,
@@ -21,7 +21,7 @@ X-Python-Version: >= 2.7
 Package: python-dipy
 Architecture: all
 Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends},
-		 python-numpy, python-scipy,
+		 python-numpy (>= 1:1.7.1~), python-scipy,
 		 python-dipy-lib (>= ${source:Version})
 Recommends: python-matplotlib,
 			python-vtk,

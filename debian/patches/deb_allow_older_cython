@@ -1,8 +1,8 @@
 --- a/dipy/info.py
 +++ b/dipy/info.py
-@@ -80,7 +80,7 @@ under the GPL license.
+@@ -79,7 +79,7 @@ under the GPL license.
  # versions for dependencies
- NUMPY_MIN_VERSION='1.6'
+ NUMPY_MIN_VERSION='1.7.1'
  SCIPY_MIN_VERSION='0.9'
 -CYTHON_MIN_VERSION='0.18'
 +CYTHON_MIN_VERSION='0'  # yoh: adjusted since Debian backport builds would reuse pre-cythonized code
