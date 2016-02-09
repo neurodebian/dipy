@@ -8,8 +8,10 @@ dipy (0.10.1-1) unstable; urgency=medium
 
   [ Yaroslav Halchenko ]
   * Fresh upstream release
+  * debian/patches/up_numpy_compat-PR858.patch - for compatibility with numpy
+    1:1.11.0~b2 
 
- -- Yaroslav Halchenko <debian@onerussian.com>  Tue, 26 Jan 2016 23:27:54 -0500
+ -- Yaroslav Halchenko <debian@onerussian.com>  Mon, 08 Feb 2016 20:04:07 -0500
 
 dipy (0.9.2-1) experimental; urgency=medium
 
