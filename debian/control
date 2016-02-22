@@ -31,31 +31,33 @@ Recommends: python-matplotlib,
 Suggests: ipython
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-Description: toolbox for analysis of MR diffusion imaging data
- Dipy is a toolbox for the analysis of diffusion magnetic resonance
- imaging data. It features:
-  - Reconstruction algorithms, e.g. GQI, DTI
-  - Tractography generation algorithms, e.g. EuDX
-  - Intelligent downsampling of tracks
-  - Ultra fast tractography clustering
-  - Resampling datasets with anisotropic voxels to isotropic
-  - Visualizing multiple brains simultaneously
-  - Finding track correspondence between different brains
-  - Warping tractographies into another space, e.g. MNI space
-  - Reading many different file formats, e.g. Trackvis or NIfTI
-  - Dealing with huge tractographies without memory restrictions
-  - Playing with datasets interactively without storing
 
+Description: A Pythonic library for the analysis of diffusion MRI datasets.
+
+DIPY is a free and open source software project for computational neuroanatomy. It focuses on diffusion magnetic resonance imaging (dMRI) analysis and tractography but also contains implementations of other computational imaging methods such as denoising and registration that are applicable to the greater medical imaging and image processing communities. Additionally, DIPY is an international project which brings together scientists across labs and countries to share their state-of-the-art code and expertise in the same codebase, accelerating scientific research in medical imaging.
+
+Here are some of the highlights:
+ - Reconstruction algorithms: CSD, DSI, GQI, DTI, DKI, QBI, SHORE and MAPMRI.
+ - Fiber tracking algorithms: deterministic and probabilistic.
+ - Native linear and nonlinear registration of images.
+ - Fast operations on streamlines (selection, resampling, registration).
+ - Tractography segmentation and clustering.
+ - Many image operations e.g. reslicing or denoising with NLMEANS.
+ - Calculate distances/correspondences between streamlines.
+ - Connectivity matrices.
+ - Interactive visualization of streamlines in the same space as images.
+
+For more information, please visit http://dipy.org
 
 Package: python-dipy-lib
 Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-Description: toolbox for analysis of MR diffusion imaging data -- extensions
- Dipy is a toolbox for the analysis of diffusion magnetic resonance
+Description: Software library for analysis of MR diffusion imaging data -- extensions
+ Dipy is a library for the analysis of diffusion magnetic resonance
  imaging data.
- .
+
  This package provides architecture-dependent builds of the extensions.
 
 
@@ -64,8 +66,8 @@ Architecture: all
 Section: doc
 Depends: ${misc:Depends}, libjs-jquery
 Suggests: python-dipy
-Description: toolbox for analysis of MR diffusion imaging data -- documentation
- Dipy is a toolbox for the analysis of diffusion magnetic resonance
+Description: Software library for analysis of MR diffusion imaging data -- documentation
+ Dipy is a library for the analysis of diffusion magnetic resonance
  imaging data.
  .
  This package provides the documentation in HTML format.
