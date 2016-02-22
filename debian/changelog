@@ -1,6 +1,8 @@
 dipy (0.11.0-1) unstable; urgency=medium
 
   * Fresh upstream release
+  * debian/control
+    - changed Priority to extra to be inline with suite overrides
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Sun, 21 Feb 2016 19:09:50 -0500
 

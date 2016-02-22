@@ -1,6 +1,6 @@
 Source: dipy
 Section: python
-Priority: optional
+Priority: extra
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <mih@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), python-all-dev,
