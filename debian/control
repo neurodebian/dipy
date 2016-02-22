@@ -12,7 +12,7 @@ Build-Depends: debhelper (>= 7.0.50~), python-all-dev,
                python-nose,
                python-nibabel,
                libgomp1,
-Standards-Version: 3.9.6
+Standards-Version: 3.9.7
 Homepage: http://nipy.org/dipy
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-exppsy/dipy.git
 Vcs-Git: git://anonscm.debian.org/pkg-exppsy/dipy.git
