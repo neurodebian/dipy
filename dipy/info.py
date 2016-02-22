@@ -7,8 +7,8 @@ docs.  In setup.py in particular, we exec this file, so it cannot import dipy
 # full release.  '.dev' as a _version_extra string means this is a development
 # version
 _version_major = 0
-_version_minor = 10
-_version_micro = 1
+_version_minor = 11
+_version_micro = 0
 #_version_extra = 'dev'
 _version_extra = ''
 
@@ -49,7 +49,8 @@ Current information can always be found from the dipy website - http://dipy.org
 Mailing Lists
 =============
 
-Please see the developer's list at https://mail.python.org/mailman/listinfo/neuroimaging
+Please see the developer's list at
+http://mail.scipy.org/mailman/listinfo/nipy-devel
 
 Code
 ====
@@ -77,6 +78,7 @@ under the GPL license.
 """
 
 # versions for dependencies
+# Check these versions against .travis.yml and requirements.txt
 NUMPY_MIN_VERSION='1.7.1'
 SCIPY_MIN_VERSION='0.9'
 CYTHON_MIN_VERSION='0.18'
