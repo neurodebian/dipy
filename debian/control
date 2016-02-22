@@ -13,7 +13,7 @@ Build-Depends: debhelper (>= 7.0.50~), python-all-dev,
                python-nibabel,
                libgomp1,
 Standards-Version: 3.9.7
-Homepage: http://nipy.org/dipy
+Homepage: http://dipy.org
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-exppsy/dipy.git
 Vcs-Git: git://anonscm.debian.org/pkg-exppsy/dipy.git
 X-Python-Version: >= 2.7
@@ -31,33 +31,38 @@ Recommends: python-matplotlib,
 Suggests: ipython
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-
-Description: A Pythonic library for the analysis of diffusion MRI datasets.
-
-DIPY is a free and open source software project for computational neuroanatomy. It focuses on diffusion magnetic resonance imaging (dMRI) analysis and tractography but also contains implementations of other computational imaging methods such as denoising and registration that are applicable to the greater medical imaging and image processing communities. Additionally, DIPY is an international project which brings together scientists across labs and countries to share their state-of-the-art code and expertise in the same codebase, accelerating scientific research in medical imaging.
-
-Here are some of the highlights:
- - Reconstruction algorithms: CSD, DSI, GQI, DTI, DKI, QBI, SHORE and MAPMRI.
- - Fiber tracking algorithms: deterministic and probabilistic.
- - Native linear and nonlinear registration of images.
- - Fast operations on streamlines (selection, resampling, registration).
- - Tractography segmentation and clustering.
- - Many image operations e.g. reslicing or denoising with NLMEANS.
- - Calculate distances/correspondences between streamlines.
- - Connectivity matrices.
- - Interactive visualization of streamlines in the same space as images.
-
-For more information, please visit http://dipy.org
+Description: Python library for the analysis of diffusion MRI datasets
+ DIPY is a software project for computational neuroanatomy. It focuses
+ on diffusion magnetic resonance imaging (dMRI) analysis and
+ tractography but also contains implementations of other computational
+ imaging methods such as denoising and registration that are
+ applicable to the greater medical imaging and image processing
+ communities. Additionally, DIPY is an international project which
+ brings together scientists across labs and countries to share their
+ state-of-the-art code and expertise in the same codebase,
+ accelerating scientific research in medical imaging.
+ .
+ Here are some of the highlights:
+  - Reconstruction algorithms: CSD, DSI, GQI, DTI, DKI, QBI, SHORE
+    and MAPMRI
+  - Fiber tracking algorithms: deterministic and probabilistic
+  - Native linear and nonlinear registration of images
+  - Fast operations on streamlines (selection, resampling, registration)
+  - Tractography segmentation and clustering
+  - Many image operations, e.g., reslicing or denoising with NLMEANS
+  - Estimation of distances/correspondences between streamlines and
+    connectivity matrices
+  - Interactive visualization of streamlines in the space of images
 
 Package: python-dipy-lib
 Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-Description: Software library for analysis of MR diffusion imaging data -- extensions
- Dipy is a library for the analysis of diffusion magnetic resonance
+Description: Python library for the analysis of diffusion MRI datasets -- extensions
+ DIPY is a library for the analysis of diffusion magnetic resonance
  imaging data.
-
+ .
  This package provides architecture-dependent builds of the extensions.
 
 
@@ -66,8 +71,8 @@ Architecture: all
 Section: doc
 Depends: ${misc:Depends}, libjs-jquery
 Suggests: python-dipy
-Description: Software library for analysis of MR diffusion imaging data -- documentation
- Dipy is a library for the analysis of diffusion magnetic resonance
+Description: Python library for the analysis of diffusion MRI datasets -- documentation
+ DIPY is a library for the analysis of diffusion magnetic resonance
  imaging data.
  .
  This package provides the documentation in HTML format.
