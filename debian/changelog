@@ -1,3 +1,10 @@
+dipy (0.12.0-1) unstable; urgency=medium
+
+  * Fresh upstream release
+    - upstream requires cython >= 0.25.1 for recythonization
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Mon, 03 Jul 2017 23:19:57 -0400
+
 dipy (0.11.0-1) unstable; urgency=medium
 
   * Fresh upstream release

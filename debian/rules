@@ -20,7 +20,7 @@ srcpkg = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Source:' | cut -d ' ' -f 
 debver = $(shell LC_ALL=C dpkg-parsechangelog | grep '^Version:' | cut -d ' ' -f 2,2 )
 upver = $(shell echo $(debver) | cut -d '-' -f 1,1 )
 
-MIN_CYTHONVER = 0.21
+MIN_CYTHONVER = 0.25.1
 
 LAST_CHANGE = $(shell dpkg-parsechangelog -S Date)
 BUILD_DATE  = $(shell LC_ALL=C date -u "+%B %d, %Y" -d "$(LAST_CHANGE)")
