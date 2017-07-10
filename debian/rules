@@ -78,7 +78,7 @@ override_dh_auto_install:
 	: # Only now lets build docs
 ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
 	: # Copy pregenerated examples
-	cp -rp doc-examples/doc/examples_built/* doc/examples_built/
+	cp -rp doc-examples/*/examples_built/* doc/examples_built/
 	export PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$(PYTHON)/*-packages) \
 		   MPLCONFIGDIR=$(CURDIR)/build HOME=$(CURDIR)/build; \
 	cd doc; $(MAKE) html-after-examples SPHINXOPTS="$(SPHINXOPTS)"
@@ -97,7 +97,7 @@ ifeq (,$(filter nocheck,$(DEB_BUILD_OPTIONS)))
         PATH=$(INSTALL_PATH)/usr/bin:$$PATH \
 		PYTHONPATH=$$(/bin/ls -d $(INSTALL_PATH)/usr/lib/$$PYTHON/*-packages) \
 		MPLCONFIGDIR=/tmp/ \
-			$$PYTHON /usr/bin/nosetests -sv --exclude test_peaksFromModelParallel dipy; \
+			$$PYTHON /usr/bin/nosetests -sv --exclude 'test_(peaksFromModelParallel|fetcher)' dipy; \
 	done
 endif
 
