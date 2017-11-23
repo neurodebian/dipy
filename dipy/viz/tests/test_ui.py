@@ -9,6 +9,7 @@ from dipy.data import read_viz_icons, fetch_viz_icons
 from dipy.viz import ui
 from dipy.viz import window
 from dipy.data import DATA_DIR
+from nibabel.tmpdirs import InTemporaryDirectory
 
 from dipy.viz.ui import UI
 
@@ -150,11 +151,17 @@ def test_ui_button_panel(recording=False):
     button_test.color = button_color
     # /Button
 
+    # TextBlock
+    text_block_test = ui.TextBlock2D()
+    text_block_test.message = 'TextBlock'
+    text_block_test.color = (0, 0, 0)
+
     # Panel
     panel = ui.Panel2D(center=(440, 90), size=(300, 150),
                        color=(1, 1, 1), align="right")
     panel.add_element(rectangle_test, 'absolute', (580, 150))
     panel.add_element(button_test, 'relative', (0.2, 0.2))
+    panel.add_element(text_block_test, 'relative', (0.7, 0.7))
     npt.assert_raises(ValueError, panel.add_element, another_rectangle_test,
                       'error_string', (1, 2))
     # /Panel
@@ -217,37 +224,36 @@ def test_ui_textbox(recording=False):
 
 @npt.dec.skipif(not have_vtk or skip_it)
 @xvfb_it
-def test_text_actor_2d():
-    # TextActor2D
-    text_actor = ui.TextActor2D()
-    text_actor.message = "Hello World!"
-    npt.assert_equal("Hello World!", text_actor.message)
-    text_actor.font_size = 18
-    npt.assert_equal("18", str(text_actor.font_size))
-    text_actor.font_family = "Arial"
-    npt.assert_equal("Arial", text_actor.font_family)
+def test_text_block_2d():
+    # TextBlock2D
+    text_block = ui.TextBlock2D()
+    text_block.message = "Hello World!"
+    npt.assert_equal("Hello World!", text_block.message)
+    text_block.font_size = 18
+    npt.assert_equal("18", str(text_block.font_size))
+    text_block.font_family = "Arial"
+    npt.assert_equal("Arial", text_block.font_family)
     with npt.assert_raises(ValueError):
-        text_actor.font_family = "Verdana"
-    text_actor.justification = "left"
-    text_actor.justification = "right"
-    text_actor.justification = "center"
-    npt.assert_equal("Centered", text_actor.justification)
+        text_block.font_family = "Verdana"
+    text_block.justification = "left"
+    text_block.justification = "right"
+    text_block.justification = "center"
+    npt.assert_equal("Centered", text_block.justification)
     with npt.assert_raises(ValueError):
-        text_actor.justification = "bottom"
-    text_actor.bold = True
-    text_actor.bold = False
-    npt.assert_equal(False, text_actor.bold)
-    text_actor.italic = True
-    text_actor.italic = False
-    npt.assert_equal(False, text_actor.italic)
-    text_actor.shadow = True
-    text_actor.shadow = False
-    npt.assert_equal(False, text_actor.shadow)
-    text_actor.color = (1, 0, 0)
-    npt.assert_equal((1, 0, 0), text_actor.color)
-    text_actor.position = (2, 3)
-    npt.assert_equal((2, 3), text_actor.position)
-    # /TextActor2D
+        text_block.justification = "bottom"
+    text_block.bold = True
+    text_block.bold = False
+    npt.assert_equal(False, text_block.bold)
+    text_block.italic = True
+    text_block.italic = False
+    npt.assert_equal(False, text_block.italic)
+    text_block.shadow = True
+    text_block.shadow = False
+    npt.assert_equal(False, text_block.shadow)
+    text_block.color = (1, 0, 0)
+    npt.assert_equal((1, 0, 0), text_block.color)
+    text_block.position = (2, 3)
+    npt.assert_equal((2, 3), text_block.position)
 
 
 @npt.dec.skipif(not have_vtk or skip_it)
@@ -314,6 +320,54 @@ def test_ui_disk_slider_2d(recording=False):
         event_counter.check_counts(expected)
 
 
+@npt.dec.skipif(not have_vtk or skip_it)
+@xvfb_it
+def test_ui_file_select_menu_2d(recording=False):
+    filename = "test_ui_file_select_menu_2d"
+    recording_filename = pjoin(DATA_DIR, filename + ".log.gz")
+    expected_events_counts_filename = pjoin(DATA_DIR, filename + ".pkl")
+    with InTemporaryDirectory() as tmpdir:
+        for i in range(10):
+            _ = open("test" + str(i) + ".txt", 'wt').write('some text')
+
+        file_select_menu = ui.FileSelectMenu2D(size=(500, 500),
+                                               position=(300, 300),
+                                               font_size=16,
+                                               extensions=["txt"],
+                                               directory_path=os.getcwd(),
+                                               parent=None)
+        file_select_menu.set_center((300, 300))
+
+        npt.assert_equal(file_select_menu.text_item_list[1].file_name[:4], "test")
+        npt.assert_equal(file_select_menu.text_item_list[5].file_name[:4], "test")
+
+        event_counter = EventCounter()
+        for event in event_counter.events_counts:
+            file_select_menu.add_callback(file_select_menu.buttons["up"].actor,
+                                          event, event_counter.count)
+            file_select_menu.add_callback(file_select_menu.buttons["down"].actor,
+                                          event, event_counter.count)
+            file_select_menu.menu.add_callback(file_select_menu.menu.panel.actor,
+                                               event, event_counter.count)
+            for text_ui in file_select_menu.text_item_list:
+                file_select_menu.add_callback(text_ui.text_actor.get_actors()[0],
+                                              event, event_counter.count)
+
+        current_size = (600, 600)
+        show_manager = window.ShowManager(size=current_size,
+                                          title="DIPY File Select Menu")
+        show_manager.ren.add(file_select_menu)
+
+        if recording:
+            show_manager.record_events_to_file(recording_filename)
+            print(list(event_counter.events_counts.items()))
+            event_counter.save(expected_events_counts_filename)
+
+        else:
+            show_manager.play_events_from_file(recording_filename)
+            expected = EventCounter.load(expected_events_counts_filename)
+            event_counter.check_counts(expected)
+
 if __name__ == "__main__":
     if len(sys.argv) <= 1 or sys.argv[1] == "test_ui_button_panel":
         test_ui_button_panel(recording=True)
@@ -326,3 +380,6 @@ if __name__ == "__main__":
 
     if len(sys.argv) <= 1 or sys.argv[1] == "test_ui_disk_slider_2d":
         test_ui_disk_slider_2d(recording=True)
+
+    if len(sys.argv) <= 1 or sys.argv[1] == "test_ui_file_select_menu_2d":
+        test_ui_file_select_menu_2d(recording=True)
