@@ -1,8 +1,11 @@
 dipy (0.13.0-1) unstable; urgency=medium
 
   * Fresh upstream release
+  * debian/control
+    - python-h5py was added to (Build-)Depends and
+      python-tables was removed from Depends
 
- -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 22 Nov 2017 19:28:17 -0500
+ -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 22 Nov 2017 21:23:41 -0500
 
 dipy (0.12.0-1) unstable; urgency=medium
 
