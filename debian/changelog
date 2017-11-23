@@ -1,3 +1,9 @@
+dipy (0.13.0-1) unstable; urgency=medium
+
+  * Fresh upstream release
+
+ -- Yaroslav Halchenko <debian@onerussian.com>  Wed, 22 Nov 2017 19:28:17 -0500
+
 dipy (0.12.0-1) unstable; urgency=medium
 
   * Fresh upstream release
