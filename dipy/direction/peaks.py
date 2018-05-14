@@ -137,7 +137,7 @@ def peak_directions(odf, sphere, relative_peak_threshold=.5,
     elif n == 1:
         return sphere.vertices[indices], values, indices
 
-    odf_min = odf.min()
+    odf_min = np.min(odf)
     odf_min = odf_min if (odf_min >= 0.) else 0.
     # because of the relative threshold this algorithm will give the same peaks
     # as if we divide (values - odf_min) with (odf_max - odf_min) or not so
@@ -340,8 +340,6 @@ def _peaks_from_model_parallel(model, data, sphere, relative_peak_threshold,
                 pam.shm_coeff[start_pos: end_pos] = pam_res[i].shm_coeff
             if return_odf:
                 pam.odf[start_pos: end_pos] = pam_res[i].odf
-
-        pam_res = None
 
         # load memmaps to arrays and reshape the metric
         shape[-1] = -1

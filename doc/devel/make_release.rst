@@ -75,10 +75,10 @@ Release checklist
   ``README`` in the root directory, maybe with ``vim`` ``diffthis`` command.
   Check all the links are still valid.
 
-* Check all the DIPY builds are green on the `nipy buildbot`_
+* Check all the DIPY builds are green on the `nipy buildbots`_
 
 * If you have travis-ci_ building set up you might want to push the code in its
-current state to a branch that will build, e.g.::
+  current state to a branch that will build, e.g.::
 
     git branch -D pre-release-test # in case branch already exists
     git co -b pre-release-test
@@ -157,10 +157,25 @@ current state to a branch that will build, e.g.::
       * http://nipy.bic.berkeley.edu/builders/dipy-bdist-mpkg-2.6
       * http://nipy.bic.berkeley.edu/builders/dipy-bdist-mpkg-2.7
 
+* Build and test the DIPY wheels.  See the `wheel builder README
+  <https://github.com/MacPython/dipy-wheels>`_ for instructions.  In summary,
+  clone the wheel-building repo, edit the ``.travis.yml`` and ``appveyor.yml``
+  text files (if present) with the branch or commit for the release, commit
+  and then push back up to github.  This will trigger a wheel build and test
+  on OSX, Linux and Windows. Check the build has passed on on the Travis-CI
+  interface at https://travis-ci.org/MacPython/dipy-wheels.  You'll need
+  commit privileges to the ``dipy-wheels`` repo; ask Matthew Brett or on the
+  mailing list if you do not have them.
+
 * The release should now be ready.
 
 Doing the release
 =================
+
+Doing the release! This has two steps:
+
+* build and upload the DIPY wheels;
+* make and upload the DIPY source release.
 
 The trick here is to get all the testing, pushing to upstream done *before* you
 do the final release commit.  There should be only one commit with the release
@@ -168,10 +183,17 @@ version number, so you might want to make the release commit on your local
 machine, push to pypi_, review, fix, rebase, until all is good.  Then and only
 then do you push to upstream on github.
 
-* Make the release commit.  Edit :file:`dipy/info.py` to set ``_version_extra``
-  to ``''``; commit
+* Make the release commit.  Edit :file:`dipy/info.py` to set
+  ``_version_extra`` to ``''``; commit.  Push.
 
-* Build the release files::
+* For the wheel build / upload, follow the `wheel builder README`_
+  instructions again.  Edit the ``.travis.yml`` and ``appveyor.yml`` files (if
+  present) to give the release tag to build.  Check the build has passed on on
+  the Travis-CI interface at https://travis-ci.org/MacPython/dipy-wheels.  Now
+  follow the instructions in the page above to download the built wheels to a
+  local machine and upload to PyPI.
+
+* Now it's time for the source release. Build the release files::
 
     make distclean
     git clean -fxd
@@ -282,7 +304,7 @@ tag to github, so the buildbots can find the released code and build it.
   http://nipy.bic.berkeley.edu/dipy-dist .  Download the eggs and upload to
   pypi.
 
-  Upload the dmg files with the *files* interface for the new dipy release.
+  Upload the dmg files with the *files* interface for the new DIPY release.
 
 * Building OSX dmgs from the mpkg builds.
 
@@ -305,7 +327,7 @@ tag to github, so the buildbots can find the released code and build it.
       https://github.com/matthew-brett/bdist_mpkg.  You need this second for the
       script ``reown_mpkg`` that fixes the permissions.
 
-  Upload the dmg files with the *files* interface for the new dipy release.
+  Upload the dmg files with the *files* interface for the new DIPY release.
 
 Other stuff that needs doing for the release
 ============================================

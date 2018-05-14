@@ -65,6 +65,10 @@ EXTS = []
 ext_kwargs = {'include_dirs': ['src']}  # We add np.get_include() later
 
 for modulename, other_sources, language in (
+        ('dipy.direction.pmf', [], 'c'),
+        ('dipy.direction.probabilistic_direction_getter', [], 'c'),
+        ('dipy.direction.closest_peak_direction_getter', [], 'c'),
+        ('dipy.direction.bootstrap_direction_getter', [], 'c'),
         ('dipy.reconst.peak_direction_getter', [], 'c'),
         ('dipy.reconst.recspeed', [], 'c'),
         ('dipy.reconst.vec_val_sum', [], 'c'),
@@ -96,7 +100,8 @@ for modulename, other_sources, language in (
         ('dipy.align.bundlemin', [], 'c'),
         ('dipy.align.transforms', [], 'c'),
         ('dipy.align.parzenhist', [], 'c'),
-        ('dipy.utils.omp', [], 'c')):
+        ('dipy.utils.omp', [], 'c'),
+        ('dipy.utils.fast_numpy', [], 'c')):
     pyx_src = pjoin(*modulename.split('.')) + '.pyx'
     EXTS.append(Extension(modulename, [pyx_src] + other_sources,
                           language=language,

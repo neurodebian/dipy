@@ -12,7 +12,7 @@ from dipy.sims.voxel import (MultiTensor,
                              single_tensor,
                              cylinders_and_ball_soderman)
 from scipy.special import gamma
-from scipy.misc import factorial
+from math import factorial
 from dipy.data import get_sphere
 from dipy.sims.voxel import add_noise
 import scipy.integrate as integrate
@@ -29,7 +29,6 @@ def int_func(n):
     f = np.sqrt(2) * factorial(n) / float(((gamma(1 + n / 2.0)) *
                                           np.sqrt(2**(n + 1) * factorial(n))))
     return f
-
 
 def generate_signal_crossing(gtab, lambda1, lambda2, lambda3, angle2=60):
     mevals = np.array(([lambda1, lambda2, lambda3],
@@ -72,11 +71,6 @@ def test_orthogonality_basis_functions():
     # do the same for the isotropic mapmri basis functions
     # we already know the spherical harmonics are orthonormal
     # only check j>0, l=0 basis functions
-    C1 = mapmri.mapmri_isotropic_radial_pdf_basis(1, 0, diffusivity, 0)
-    C2 = mapmri.mapmri_isotropic_radial_pdf_basis(2, 0, diffusivity, 0)
-    C3 = mapmri.mapmri_isotropic_radial_pdf_basis(3, 0, diffusivity, 0)
-    C4 = mapmri.mapmri_isotropic_radial_pdf_basis(4, 0, diffusivity, 0)
-    C5 = mapmri.mapmri_isotropic_radial_pdf_basis(4, 0, diffusivity, 0)
 
     int1 = integrate.quad(lambda q:
                           mapmri.mapmri_isotropic_radial_signal_basis(
@@ -632,9 +626,9 @@ def test_positivity_constraint(radial_order=6):
     max_radius = 15e-3  # 20 microns maximum radius
     r_grad = mapmri.create_rspace(gridsize, max_radius)
 
-    # the posivitivity constraint does not make the pdf completely positive
+    # The positivity constraint does not make the pdf completely positive
     # but greatly decreases the amount of negativity in the constrained points.
-    # we test if the amount of negative pdf has decreased more than 90%
+    # We test if the amount of negative pdf has decreased more than 90%
 
     mapmod_no_constraint = MapmriModel(gtab, radial_order=radial_order,
                                        laplacian_regularization=False,

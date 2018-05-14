@@ -22,7 +22,7 @@ set. This method has been used for comparison of models such as DTI and CSD
 differences in the number of parameters in the model, and it can be used to
 compare models that are not nested.
 
-In dipy_, we include an implementation of k-fold cross-validation. In this
+In DIPY_, we include an implementation of k-fold cross-validation. In this
 method, the data is divided into $k$ different segments. In each iteration
 $\frac{1}{k}th$ of the data is held out and the model is fit to the other
 $\frac{k-1}{k}$ parts of the data. A prediction of the held out data is done
@@ -95,8 +95,8 @@ each sub-plot (blue=DTI, red=CSD).
 
 """
 
-fig, ax = plt.subplots(1,2)
-fig.set_size_inches([12,6])
+fig, ax = plt.subplots(1, 2)
+fig.set_size_inches([12, 6])
 ax[0].plot(cc_vox[~gtab.b0s_mask], dti_cc[~gtab.b0s_mask], 'o', color='b')
 ax[0].plot(cc_vox[~gtab.b0s_mask], csd_cc[~gtab.b0s_mask], 'o', color='r')
 ax[1].plot(cso_vox[~gtab.b0s_mask], dti_cso[~gtab.b0s_mask], 'o', color='b', label='DTI')
@@ -124,10 +124,10 @@ R-squared score:
 
 """
 
-cc_dti_r2=stats.pearsonr(cc_vox[~gtab.b0s_mask], dti_cc[~gtab.b0s_mask])[0]**2
-cc_csd_r2=stats.pearsonr(cc_vox[~gtab.b0s_mask], csd_cc[~gtab.b0s_mask])[0]**2
-cso_dti_r2=stats.pearsonr(cso_vox[~gtab.b0s_mask], dti_cso[~gtab.b0s_mask])[0]**2
-cso_csd_r2=stats.pearsonr(cso_vox[~gtab.b0s_mask], csd_cso[~gtab.b0s_mask])[0]**2
+cc_dti_r2 = stats.pearsonr(cc_vox[~gtab.b0s_mask], dti_cc[~gtab.b0s_mask])[0]**2
+cc_csd_r2 = stats.pearsonr(cc_vox[~gtab.b0s_mask], csd_cc[~gtab.b0s_mask])[0]**2
+cso_dti_r2 = stats.pearsonr(cso_vox[~gtab.b0s_mask], dti_cso[~gtab.b0s_mask])[0]**2
+cso_csd_r2 = stats.pearsonr(cso_vox[~gtab.b0s_mask], csd_cso[~gtab.b0s_mask])[0]**2
 
 print("Corpus callosum\n"
       "DTI R2 : %s\n"

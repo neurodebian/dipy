@@ -11,10 +11,8 @@ First import the necessary modules:
 """
 
 from dipy.reconst.shore import ShoreModel
-from dipy.reconst.shm import sh_to_sf
-from dipy.viz import fvtk
+from dipy.viz import window, actor
 from dipy.data import fetch_isbi2013_2shell, read_isbi2013_2shell, get_sphere
-from dipy.core.gradients import gradient_table
 
 """
 Download and read the data for this tutorial.
@@ -84,11 +82,17 @@ print('odf.shape (%d, %d, %d)' % odf.shape)
 Display the ODFs
 """
 
-r = fvtk.ren()
-sfu = fvtk.sphere_funcs(odf[:, None, :], sphere, colormap='jet')
+# Enables/disables interactive visualization
+interactive = False
+
+ren = window.Renderer()
+sfu = actor.odf_slicer(odf[:, None, :], sphere=sphere, colormap='plasma', scale=0.5)
 sfu.RotateX(-90)
-fvtk.add(r, sfu)
-fvtk.record(r, n_frames=1, out_path='odfs.png', size=(600, 600))
+sfu.display(y=0)
+ren.add(sfu)
+window.record(ren, out_path='odfs.png', size=(600, 600))
+if interactive:
+    window.show(ren)
 
 """
 .. figure:: odfs.png
@@ -99,11 +103,11 @@ fvtk.record(r, n_frames=1, out_path='odfs.png', size=(600, 600))
 References
 ----------
 
-.. [Merlet2013] Merlet S. et. al, "Continuous diffusion signal, EAP and ODF
+.. [Merlet2013] Merlet S. et al., "Continuous diffusion signal, EAP and ODF
    estimation via Compressive Sensing in diffusion MRI", Medical Image
    Analysis, 2013.
 
-.. [Cheng2011] Cheng J. et. al, "Theoretical Analysis and Pratical Insights on
+.. [Cheng2011] Cheng J. et al., "Theoretical Analysis and Pratical Insights on
    EAP Estimation via Unified HARDI Framework", MICCAI workshop on
    Computational Diffusion MRI, 2011.
 

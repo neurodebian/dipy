@@ -10,9 +10,9 @@ from dipy.testing import assert_arrays_equal
 
 from nose.tools import assert_true, assert_equal, assert_almost_equal
 from numpy.testing import (assert_array_equal, assert_array_almost_equal,
-                           assert_raises, run_module_suite)
+                           assert_raises, run_module_suite, assert_allclose)
 
-from dipy.tracking import Streamlines
+from dipy.tracking.streamline import Streamlines
 import dipy.tracking.utils as ut
 from dipy.tracking.streamline import (set_number_of_points,
                                       length,
@@ -24,7 +24,8 @@ from dipy.tracking.streamline import (set_number_of_points,
                                       compress_streamlines,
                                       select_by_rois,
                                       orient_by_rois,
-                                      values_from_volume)
+                                      values_from_volume,
+                                      deform_streamlines)
 
 
 streamline = np.array([[82.20181274,  91.36505890,  43.15737152],
@@ -175,7 +176,7 @@ def length_python(xyz, along=False):
 
 def set_number_of_points_python(xyz, n_pols=3):
     def _extrap(xyz, cumlen, distance):
-        ''' Helper function for extrapolate '''
+        """ Helper function for extrapolate """
         ind = np.where((cumlen-distance) > 0)[0][0]
         len0 = cumlen[ind-1]
         len1 = cumlen[ind]
@@ -275,9 +276,9 @@ def test_set_number_of_points():
 
     # Test streamline with integer dtype
     new_streamline = set_number_of_points(streamline.astype(np.int32))
-    assert_true(new_streamline.dtype == np.float32)
+    assert_equal(new_streamline.dtype, np.float32)
     new_streamline = set_number_of_points(streamline.astype(np.int64))
-    assert_true(new_streamline.dtype == np.float64)
+    assert_equal(new_streamline.dtype, np.float64)
 
     # Test empty list
     assert_equal(set_number_of_points([]), [])
@@ -349,7 +350,6 @@ def test_set_number_of_points_memory_leaks():
         streamlines.append(rng.randn(rng.randint(10, 100), 3).astype(dtype))
 
     list_refcount_before = get_type_refcount()["list"]
-
     rstreamlines = set_number_of_points(streamlines, nb_points=2)
     list_refcount_after = get_type_refcount()["list"]
 
@@ -435,7 +435,7 @@ def test_length():
 
     # Test streamline having integer dtype
     length_streamline = length(streamline.astype('int'))
-    assert_true(length_streamline.dtype == np.float64)
+    assert_equal(length_streamline.dtype, np.float64)
 
     # Test empty list
     assert_equal(length([]), 0.0)
@@ -476,7 +476,7 @@ def test_length_memory_leaks():
 
         list_refcount_before = get_type_refcount()["list"]
 
-        lengths = length(streamlines)
+        # lengths = length(streamlines)
         list_refcount_after = get_type_refcount()["list"]
 
         # Calling `length` shouldn't increase the refcount of `list`
@@ -493,7 +493,7 @@ def test_length_memory_leaks():
 
     list_refcount_before = get_type_refcount()["list"]
 
-    lengths = length(streamlines)
+    # lengths = length(streamlines)
     list_refcount_after = get_type_refcount()["list"]
 
     # Calling `length` shouldn't increase the refcount of `list`
@@ -516,9 +516,50 @@ def test_unlist_relist_streamlines():
         assert_array_equal(streamlines[i], streamlines2[i])
 
 
+def test_deform_streamlines():
+    # Create Random deformation field
+    deformation_field = np.random.randn(200, 200, 200, 3)
+    # Specify stream2grid and grid2world
+    stream2grid = np.array([[np.random.randn(1)[0], 0, 0, 0],
+                            [0, np.random.randn(1)[0], 0, 0],
+                            [0, 0, np.random.randn(1)[0], 0],
+                            [0, 0, 0, 1]])
+    grid2world = np.array([[np.random.randn(1)[0], 0, 0, 0],
+                           [0, np.random.randn(1)[0], 0, 0],
+                           [0, 0, np.random.randn(1)[0], 0],
+                           [0, 0, 0, 1]])
+    stream2world = np.dot(stream2grid, grid2world)
+
+    # Deform streamlines (let two grid spaces be the same for simplicity)
+    new_streamlines = deform_streamlines(streamlines,
+                                         deformation_field,
+                                         stream2grid,
+                                         grid2world,
+                                         stream2grid,
+                                         grid2world)
+
+    # Interpolate displacements onto original streamlines
+    streamlines_in_grid = transform_streamlines(streamlines, stream2grid)
+    disps = values_from_volume(deformation_field, streamlines_in_grid)
+
+    # Put new_streamlines into world space
+    new_streamlines_world = transform_streamlines(new_streamlines,
+                                                  stream2world)
+
+    # Subtract disps from new_streamlines in world space
+    orig_streamlines_world = list(np.subtract(new_streamlines_world, disps))
+
+    # Put orig_streamlines_world into voxmm
+    orig_streamlines = transform_streamlines(orig_streamlines_world,
+                                             np.linalg.inv(stream2world))
+    # All close because of floating pt inprecision
+    for o, s in zip(orig_streamlines, streamlines):
+        assert_allclose(s, o, rtol=1e-10, atol=0)
+
+
 def test_center_and_transform():
     A = np.array([[1, 2, 3], [1, 2, 3.]])
-    streamlines = [A for i in range(10)]
+    streamlines = [A for _ in range(10)]
     streamlines2, center = center_streamlines(streamlines)
     B = np.zeros((2, 3))
     assert_array_equal(streamlines2[0], B)
@@ -715,7 +756,6 @@ def test_compress_streamlines_memory_leaks():
         streamlines.append(rng.randn(rng.randint(10, 100), 3).astype(dtype))
 
     list_refcount_before = get_type_refcount()["list"]
-
     cstreamlines = compress_streamlines(streamlines)
     list_refcount_after = get_type_refcount()["list"]
 
@@ -1039,5 +1079,21 @@ def test_values_from_volume():
     npt.assert_equal(values_from_volume(data4D, streamlines).shape, (10, 1, 2))
 
 
+def test_streamlines_generator():
+    # Test generator
+    streamlines_generator = Streamlines(generate_sl(streamlines))
+    npt.assert_equal(len(streamlines_generator), len(streamlines))
+    # Nothing should change
+    streamlines_generator.append(np.array([]))
+    npt.assert_equal(len(streamlines_generator), len(streamlines))
+
+    # Test append error
+    npt.assert_raises(ValueError, streamlines_generator.append, streamlines)
+
+    # Test empty streamlines
+    streamlines_generator = Streamlines(np.array([]))
+    npt.assert_equal(len(streamlines_generator), 0)
+
+
 if __name__ == '__main__':
-    run_module_suite()
+    npt.run_module_suite()

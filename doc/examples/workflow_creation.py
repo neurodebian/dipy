@@ -3,13 +3,13 @@
 Creating a new workflow.
 ============================================================
 
-A workflow is a series of dipy_ operations with fixed inputs and outputs
+A workflow is a series of DIPY_ operations with fixed inputs and outputs
 that is callable via command line or another interface.
 
-For example, after installing dipy_, you can call anywhere from your command
+For example, after installing DIPY_, you can call anywhere from your command
 line::
 
-$ dipy_nlmeans t1.nii.gz t1_denoised.nii.gz
+    dipy_nlmeans t1.nii.gz t1_denoised.nii.gz
 """
 
 """
@@ -125,11 +125,3 @@ Now call it for real with a text file::
 .. include:: ../links_names.inc
 
 """
-
-
-
-
-
-
-
-
