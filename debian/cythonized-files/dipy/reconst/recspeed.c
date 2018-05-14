@@ -1918,6 +1918,26 @@ static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
 /* Capsule.proto */
 static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
 
+/* TypeInfoCompare.proto */
+static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
+
+/* MemviewSliceValidateAndInit.proto */
+static int __Pyx_ValidateAndInit_memviewslice(
+                int *axes_specs,
+                int c_or_f_flag,
+                int buf_flags,
+                int ndim,
+                __Pyx_TypeInfo *dtype,
+                __Pyx_BufFmt_StackElem stack[],
+                __Pyx_memviewslice *memviewslice,
+                PyObject *original_obj);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(PyObject *);
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_Py_intptr_t(Py_intptr_t value);
 
@@ -1926,6 +1946,10 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_npy_int32(npy_int32 value);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
+
+/* MemviewDtypeToObject.proto */
+static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
@@ -2055,26 +2079,6 @@ static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
-
-/* TypeInfoCompare.proto */
-static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
-
-/* MemviewSliceValidateAndInit.proto */
-static int __Pyx_ValidateAndInit_memviewslice(
-                int *axes_specs,
-                int c_or_f_flag,
-                int buf_flags,
-                int ndim,
-                __Pyx_TypeInfo *dtype,
-                __Pyx_BufFmt_StackElem stack[],
-                __Pyx_memviewslice *memviewslice,
-                PyObject *original_obj);
-
-/* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *);
-
-/* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(PyObject *);
 
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *);
@@ -2656,7 +2660,7 @@ static PyObject *__pyx_n_s_zeros;
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_trilinear_interp(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_data, PyArrayObject *__pyx_v_index, PyArrayObject *__pyx_v_voxel_size); /* proto */
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_2remove_similar_vertices(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_vertices, double __pyx_v_theta, int __pyx_v_return_mapping, int __pyx_v_return_index); /* proto */
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_4search_descending(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_a, double __pyx_v_relative_threshold); /* proto */
-static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_odf, PyArrayObject *__pyx_v_edges); /* proto */
+static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_odf, __Pyx_memviewslice __pyx_v_edges); /* proto */
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_8le_to_odf(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_odf, PyArrayObject *__pyx_v_LEs, PyArrayObject *__pyx_v_radius, int __pyx_v_odfn, int __pyx_v_radiusn, int __pyx_v_anglesn); /* proto */
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_10sum_on_blocks_1d(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_arr, PyArrayObject *__pyx_v_blocks, PyArrayObject *__pyx_v_out, int __pyx_v_outn); /* proto */
 static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_12argmax_from_adj(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_vals, PyObject *__pyx_v_vertex_inds, PyObject *__pyx_v_adj_inds); /* proto */
@@ -4865,7 +4869,7 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_4search_descending(CYTHON_UNU
 /* "dipy/reconst/recspeed.pyx":267
  * @cython.boundscheck(False)
  * @cython.profile(True)
- * def local_maxima(cnp.ndarray odf, cnp.ndarray edges):             # <<<<<<<<<<<<<<
+ * def local_maxima(double[:] odf, cnp.uint16_t[:, :] edges):             # <<<<<<<<<<<<<<
  *     """Local maxima of a function evaluated on a discrete set of points.
  * 
  */
@@ -4875,8 +4879,8 @@ static PyObject *__pyx_pw_4dipy_7reconst_8recspeed_7local_maxima(PyObject *__pyx
 static char __pyx_doc_4dipy_7reconst_8recspeed_6local_maxima[] = "Local maxima of a function evaluated on a discrete set of points.\n\n    If a function is evaluated on some set of points where each pair of\n    neighboring points is an edge in edges, find the local maxima.\n\n    Parameters\n    ----------\n    odf : array, 1d, dtype=double\n        The function evaluated on a set of discrete points.\n    edges : array (N, 2)\n        The set of neighbor relations between the points. Every edge, ie\n        `edges[i, :]`, is a pair of neighboring points.\n\n    Returns\n    -------\n    peak_values : ndarray\n        Value of odf at a maximum point. Peak values is sorted in descending\n        order.\n    peak_indices : ndarray\n        Indices of maximum points. Sorted in the same order as `peak_values` so\n        `odf[peak_indices[i]] == peak_values[i]`.\n\n    Note\n    ----\n    A point is a local maximum if it is > at least one neighbor and >= all\n    neighbors. If no points meet the above criteria, 1 maximum is returned such\n    that `odf[maximum] == max(odf)`.\n\n    See Also\n    --------\n    dipy.core.sphere\n    ";
 static PyMethodDef __pyx_mdef_4dipy_7reconst_8recspeed_7local_maxima = {"local_maxima", (PyCFunction)__pyx_pw_4dipy_7reconst_8recspeed_7local_maxima, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_7reconst_8recspeed_6local_maxima};
 static PyObject *__pyx_pw_4dipy_7reconst_8recspeed_7local_maxima(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyArrayObject *__pyx_v_odf = 0;
-  PyArrayObject *__pyx_v_edges = 0;
+  __Pyx_memviewslice __pyx_v_odf = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_edges = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("local_maxima (wrapper)", 0);
@@ -4915,8 +4919,8 @@ static PyObject *__pyx_pw_4dipy_7reconst_8recspeed_7local_maxima(PyObject *__pyx
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
-    __pyx_v_odf = ((PyArrayObject *)values[0]);
-    __pyx_v_edges = ((PyArrayObject *)values[1]);
+    __pyx_v_odf = __Pyx_PyObject_to_MemoryviewSlice_ds_double(values[0]); if (unlikely(!__pyx_v_odf.memview)) __PYX_ERR(0, 267, __pyx_L3_error)
+    __pyx_v_edges = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(values[1]); if (unlikely(!__pyx_v_edges.memview)) __PYX_ERR(0, 267, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
@@ -4926,20 +4930,14 @@ static PyObject *__pyx_pw_4dipy_7reconst_8recspeed_7local_maxima(PyObject *__pyx
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_odf), __pyx_ptype_5numpy_ndarray, 1, "odf", 0))) __PYX_ERR(0, 267, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_edges), __pyx_ptype_5numpy_ndarray, 1, "edges", 0))) __PYX_ERR(0, 267, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(__pyx_self, __pyx_v_odf, __pyx_v_edges);
 
   /* function exit code */
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __pyx_r = NULL;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_odf, PyArrayObject *__pyx_v_edges) {
+static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED PyObject *__pyx_self, __Pyx_memviewslice __pyx_v_odf, __Pyx_memviewslice __pyx_v_edges) {
   PyArrayObject *__pyx_v_wpeak = 0;
   long __pyx_v_count;
   PyObject *__pyx_v_indices = NULL;
@@ -4959,11 +4957,9 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   PyObject *__pyx_t_8 = NULL;
   PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
-  __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_11;
   __Pyx_memviewslice __pyx_t_12 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_13;
-  __Pyx_memviewslice __pyx_t_14 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_15 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_13 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_TraceFrameInit(__pyx_codeobj__3)
   __Pyx_RefNannySetupContext("local_maxima", 0);
   __Pyx_TraceCall("local_maxima", __pyx_f[0], 267, 0, __PYX_ERR(0, 267, __pyx_L1_error));
@@ -4984,7 +4980,7 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_From_Py_intptr_t((__pyx_v_odf->dimensions[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t((__pyx_v_odf.shape[0])); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 302, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5039,18 +5035,8 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
  *     if count == -1:
  *         raise IndexError("Values in edges must be < len(odf)")
  */
-  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(((PyObject *)__pyx_v_odf));
-  if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(((PyObject *)__pyx_v_edges));
-  if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 303, __pyx_L1_error)
-  __pyx_t_13 = 0;
-  __pyx_v_count = __pyx_f_4dipy_7reconst_8recspeed__compare_neighbors(__pyx_t_11, __pyx_t_12, (&(*__Pyx_BufPtrStrided1d(npy_intp *, __pyx_pybuffernd_wpeak.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_wpeak.diminfo[0].strides))));
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
-  __pyx_t_11.memview = NULL;
-  __pyx_t_11.data = NULL;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_12, 1);
-  __pyx_t_12.memview = NULL;
-  __pyx_t_12.data = NULL;
+  __pyx_t_11 = 0;
+  __pyx_v_count = __pyx_f_4dipy_7reconst_8recspeed__compare_neighbors(__pyx_v_odf, __pyx_v_edges, (&(*__Pyx_BufPtrStrided1d(npy_intp *, __pyx_pybuffernd_wpeak.rcbuffer->pybuffer.buf, __pyx_t_11, __pyx_pybuffernd_wpeak.diminfo[0].strides))));
 
   /* "dipy/reconst/recspeed.pyx":304
  *     wpeak = np.zeros((odf.shape[0],), dtype=np.intp)
@@ -5122,7 +5108,7 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
  *         raise ValueError("odf can not have nans")
  *     indices = wpeak[:count].copy()             # <<<<<<<<<<<<<<
  *     # Get peak values return
- *     values = odf.take(indices)
+ *     values = np.take(odf, indices)
  */
   __pyx_t_3 = __Pyx_PyInt_From_long(__pyx_v_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 308, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -5159,76 +5145,85 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   /* "dipy/reconst/recspeed.pyx":310
  *     indices = wpeak[:count].copy()
  *     # Get peak values return
- *     values = odf.take(indices)             # <<<<<<<<<<<<<<
+ *     values = np.take(odf, indices)             # <<<<<<<<<<<<<<
  *     # Sort both values and indices
  *     _cosort(values, indices)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_odf), __pyx_n_s_take); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_1);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_1, function);
-    }
-  }
-  if (!__pyx_t_3) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_indices); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-  } else {
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(__pyx_t_1)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_indices};
-      __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-    } else
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
-      PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_indices};
-      __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_GOTREF(__pyx_t_5);
-    } else
-    #endif
-    {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
-      __Pyx_INCREF(__pyx_v_indices);
-      __Pyx_GIVEREF(__pyx_v_indices);
-      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_indices);
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    }
-  }
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_take); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_odf, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 310, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = NULL;
+  __pyx_t_7 = 0;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
+    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_3);
+    if (likely(__pyx_t_2)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+      __Pyx_INCREF(__pyx_t_2);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_3, function);
+      __pyx_t_7 = 1;
+    }
+  }
+  #if CYTHON_FAST_PYCALL
+  if (PyFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_1, __pyx_v_indices};
+    __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  } else
+  #endif
+  #if CYTHON_FAST_PYCCALL
+  if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
+    PyObject *__pyx_temp[3] = {__pyx_t_2, __pyx_t_1, __pyx_v_indices};
+    __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_7, 2+__pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
+    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  } else
+  #endif
+  {
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_7); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 310, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__pyx_t_2) {
+      __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_7, __pyx_t_1);
+    __Pyx_INCREF(__pyx_v_indices);
+    __Pyx_GIVEREF(__pyx_v_indices);
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_7, __pyx_v_indices);
+    __pyx_t_1 = 0;
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 310, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_values = __pyx_t_5;
   __pyx_t_5 = 0;
 
   /* "dipy/reconst/recspeed.pyx":312
- *     values = odf.take(indices)
+ *     values = np.take(odf, indices)
  *     # Sort both values and indices
  *     _cosort(values, indices)             # <<<<<<<<<<<<<<
  *     return values, indices
  * 
  */
-  __pyx_t_14 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values);
-  if (unlikely(!__pyx_t_14.memview)) __PYX_ERR(0, 312, __pyx_L1_error)
-  __pyx_t_15 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_npy_intp(__pyx_v_indices);
-  if (unlikely(!__pyx_t_15.memview)) __PYX_ERR(0, 312, __pyx_L1_error)
-  __pyx_f_4dipy_7reconst_8recspeed__cosort(__pyx_t_14, __pyx_t_15);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_14, 1);
-  __pyx_t_14.memview = NULL;
-  __pyx_t_14.data = NULL;
-  __PYX_XDEC_MEMVIEW(&__pyx_t_15, 1);
-  __pyx_t_15.memview = NULL;
-  __pyx_t_15.data = NULL;
+  __pyx_t_12 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values);
+  if (unlikely(!__pyx_t_12.memview)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_t_13 = __Pyx_PyObject_to_MemoryviewSlice_dc_nn_npy_intp(__pyx_v_indices);
+  if (unlikely(!__pyx_t_13.memview)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_f_4dipy_7reconst_8recspeed__cosort(__pyx_t_12, __pyx_t_13);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_12, 1);
+  __pyx_t_12.memview = NULL;
+  __pyx_t_12.data = NULL;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_13, 1);
+  __pyx_t_13.memview = NULL;
+  __pyx_t_13.data = NULL;
 
   /* "dipy/reconst/recspeed.pyx":313
  *     # Sort both values and indices
@@ -5253,7 +5248,7 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   /* "dipy/reconst/recspeed.pyx":267
  * @cython.boundscheck(False)
  * @cython.profile(True)
- * def local_maxima(cnp.ndarray odf, cnp.ndarray edges):             # <<<<<<<<<<<<<<
+ * def local_maxima(double[:] odf, cnp.uint16_t[:, :] edges):             # <<<<<<<<<<<<<<
  *     """Local maxima of a function evaluated on a discrete set of points.
  * 
  */
@@ -5265,10 +5260,8 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
   __PYX_XDEC_MEMVIEW(&__pyx_t_12, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_14, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_15, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_13, 1);
   { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
     __Pyx_PyThreadState_declare
     __Pyx_PyThreadState_assign
@@ -5284,6 +5277,8 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_6local_maxima(CYTHON_UNUSED P
   __Pyx_XDECREF((PyObject *)__pyx_v_wpeak);
   __Pyx_XDECREF(__pyx_v_indices);
   __Pyx_XDECREF(__pyx_v_values);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_odf, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_edges, 1);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_TraceReturn(__pyx_r, 0);
   __Pyx_RefNannyFinishContext();
@@ -5836,9 +5831,9 @@ static long __pyx_f_4dipy_7reconst_8recspeed__compare_neighbors(__Pyx_memviewsli
 /* "dipy/reconst/recspeed.pyx":424
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def le_to_odf(cnp.ndarray[double, ndim=1] odf, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[double, ndim=1] LEs,\
- *                  cnp.ndarray[double, ndim=1] radius,\
+ * def le_to_odf(cnp.ndarray[double, ndim=1] odf,             # <<<<<<<<<<<<<<
+ *                  cnp.ndarray[double, ndim=1] LEs,
+ *                  cnp.ndarray[double, ndim=1] radius,
  */
 
 /* Python wrapper */
@@ -6104,9 +6099,9 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_8le_to_odf(CYTHON_UNUSED PyOb
   /* "dipy/reconst/recspeed.pyx":424
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def le_to_odf(cnp.ndarray[double, ndim=1] odf, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[double, ndim=1] LEs,\
- *                  cnp.ndarray[double, ndim=1] radius,\
+ * def le_to_odf(cnp.ndarray[double, ndim=1] odf,             # <<<<<<<<<<<<<<
+ *                  cnp.ndarray[double, ndim=1] LEs,
+ *                  cnp.ndarray[double, ndim=1] radius,
  */
 
   /* function exit code */
@@ -6135,8 +6130,8 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_8le_to_odf(CYTHON_UNUSED PyOb
 /* "dipy/reconst/recspeed.pyx":445
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,\             # <<<<<<<<<<<<<<
- *     cnp.ndarray[long, ndim=1] blocks,\
+ * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,             # <<<<<<<<<<<<<<
+ *     cnp.ndarray[long, ndim=1] blocks,
  *     cnp.ndarray[double, ndim=1] out,int outn):
  */
 
@@ -6404,8 +6399,8 @@ static PyObject *__pyx_pf_4dipy_7reconst_8recspeed_10sum_on_blocks_1d(CYTHON_UNU
   /* "dipy/reconst/recspeed.pyx":445
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,\             # <<<<<<<<<<<<<<
- *     cnp.ndarray[long, ndim=1] blocks,\
+ * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,             # <<<<<<<<<<<<<<
+ *     cnp.ndarray[long, ndim=1] blocks,
  *     cnp.ndarray[double, ndim=1] out,int outn):
  */
 
@@ -25179,7 +25174,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "dipy/reconst/recspeed.pyx":267
  * @cython.boundscheck(False)
  * @cython.profile(True)
- * def local_maxima(cnp.ndarray odf, cnp.ndarray edges):             # <<<<<<<<<<<<<<
+ * def local_maxima(double[:] odf, cnp.uint16_t[:, :] edges):             # <<<<<<<<<<<<<<
  *     """Local maxima of a function evaluated on a discrete set of points.
  * 
  */
@@ -25191,9 +25186,9 @@ static int __Pyx_InitCachedConstants(void) {
   /* "dipy/reconst/recspeed.pyx":424
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def le_to_odf(cnp.ndarray[double, ndim=1] odf, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[double, ndim=1] LEs,\
- *                  cnp.ndarray[double, ndim=1] radius,\
+ * def le_to_odf(cnp.ndarray[double, ndim=1] odf,             # <<<<<<<<<<<<<<
+ *                  cnp.ndarray[double, ndim=1] LEs,
+ *                  cnp.ndarray[double, ndim=1] radius,
  */
   __pyx_tuple__46 = PyTuple_Pack(9, __pyx_n_s_odf, __pyx_n_s_LEs, __pyx_n_s_radius, __pyx_n_s_odfn, __pyx_n_s_radiusn, __pyx_n_s_anglesn, __pyx_n_s_m, __pyx_n_s_i, __pyx_n_s_j); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(0, 424, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__46);
@@ -25203,8 +25198,8 @@ static int __Pyx_InitCachedConstants(void) {
   /* "dipy/reconst/recspeed.pyx":445
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,\             # <<<<<<<<<<<<<<
- *     cnp.ndarray[long, ndim=1] blocks,\
+ * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,             # <<<<<<<<<<<<<<
+ *     cnp.ndarray[long, ndim=1] blocks,
  *     cnp.ndarray[double, ndim=1] out,int outn):
  */
   __pyx_tuple__48 = PyTuple_Pack(8, __pyx_n_s_arr, __pyx_n_s_blocks, __pyx_n_s_out, __pyx_n_s_outn, __pyx_n_s_m, __pyx_n_s_i, __pyx_n_s_j, __pyx_n_s_sum); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(0, 445, __pyx_L1_error)
@@ -25551,7 +25546,7 @@ PyMODINIT_FUNC PyInit_recspeed(void)
   /* "dipy/reconst/recspeed.pyx":267
  * @cython.boundscheck(False)
  * @cython.profile(True)
- * def local_maxima(cnp.ndarray odf, cnp.ndarray edges):             # <<<<<<<<<<<<<<
+ * def local_maxima(double[:] odf, cnp.uint16_t[:, :] edges):             # <<<<<<<<<<<<<<
  *     """Local maxima of a function evaluated on a discrete set of points.
  * 
  */
@@ -25563,9 +25558,9 @@ PyMODINIT_FUNC PyInit_recspeed(void)
   /* "dipy/reconst/recspeed.pyx":424
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def le_to_odf(cnp.ndarray[double, ndim=1] odf, \             # <<<<<<<<<<<<<<
- *                  cnp.ndarray[double, ndim=1] LEs,\
- *                  cnp.ndarray[double, ndim=1] radius,\
+ * def le_to_odf(cnp.ndarray[double, ndim=1] odf,             # <<<<<<<<<<<<<<
+ *                  cnp.ndarray[double, ndim=1] LEs,
+ *                  cnp.ndarray[double, ndim=1] radius,
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_7reconst_8recspeed_9le_to_odf, NULL, __pyx_n_s_dipy_reconst_recspeed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 424, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -25575,8 +25570,8 @@ PyMODINIT_FUNC PyInit_recspeed(void)
   /* "dipy/reconst/recspeed.pyx":445
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,\             # <<<<<<<<<<<<<<
- *     cnp.ndarray[long, ndim=1] blocks,\
+ * def sum_on_blocks_1d(cnp.ndarray[double, ndim=1] arr,             # <<<<<<<<<<<<<<
+ *     cnp.ndarray[long, ndim=1] blocks,
  *     cnp.ndarray[double, ndim=1] out,int outn):
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_7reconst_8recspeed_11sum_on_blocks_1d, NULL, __pyx_n_s_dipy_reconst_recspeed); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 445, __pyx_L1_error)
@@ -28509,6 +28504,275 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     return cobj;
 }
 
+/* TypeInfoCompare */
+          static int
+__pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b)
+{
+    int i;
+    if (!a || !b)
+        return 0;
+    if (a == b)
+        return 1;
+    if (a->size != b->size || a->typegroup != b->typegroup ||
+            a->is_unsigned != b->is_unsigned || a->ndim != b->ndim) {
+        if (a->typegroup == 'H' || b->typegroup == 'H') {
+            return a->size == b->size;
+        } else {
+            return 0;
+        }
+    }
+    if (a->ndim) {
+        for (i = 0; i < a->ndim; i++)
+            if (a->arraysize[i] != b->arraysize[i])
+                return 0;
+    }
+    if (a->typegroup == 'S') {
+        if (a->flags != b->flags)
+            return 0;
+        if (a->fields || b->fields) {
+            if (!(a->fields && b->fields))
+                return 0;
+            for (i = 0; a->fields[i].type && b->fields[i].type; i++) {
+                __Pyx_StructField *field_a = a->fields + i;
+                __Pyx_StructField *field_b = b->fields + i;
+                if (field_a->offset != field_b->offset ||
+                    !__pyx_typeinfo_cmp(field_a->type, field_b->type))
+                    return 0;
+            }
+            return !a->fields[i].type && !b->fields[i].type;
+        }
+    }
+    return 1;
+}
+
+/* MemviewSliceValidateAndInit */
+          static int
+__pyx_check_strides(Py_buffer *buf, int dim, int ndim, int spec)
+{
+    if (buf->shape[dim] <= 1)
+        return 1;
+    if (buf->strides) {
+        if (spec & __Pyx_MEMVIEW_CONTIG) {
+            if (spec & (__Pyx_MEMVIEW_PTR|__Pyx_MEMVIEW_FULL)) {
+                if (buf->strides[dim] != sizeof(void *)) {
+                    PyErr_Format(PyExc_ValueError,
+                                 "Buffer is not indirectly contiguous "
+                                 "in dimension %d.", dim);
+                    goto fail;
+                }
+            } else if (buf->strides[dim] != buf->itemsize) {
+                PyErr_SetString(PyExc_ValueError,
+                                "Buffer and memoryview are not contiguous "
+                                "in the same dimension.");
+                goto fail;
+            }
+        }
+        if (spec & __Pyx_MEMVIEW_FOLLOW) {
+            Py_ssize_t stride = buf->strides[dim];
+            if (stride < 0)
+                stride = -stride;
+            if (stride < buf->itemsize) {
+                PyErr_SetString(PyExc_ValueError,
+                                "Buffer and memoryview are not contiguous "
+                                "in the same dimension.");
+                goto fail;
+            }
+        }
+    } else {
+        if (spec & __Pyx_MEMVIEW_CONTIG && dim != ndim - 1) {
+            PyErr_Format(PyExc_ValueError,
+                         "C-contiguous buffer is not contiguous in "
+                         "dimension %d", dim);
+            goto fail;
+        } else if (spec & (__Pyx_MEMVIEW_PTR)) {
+            PyErr_Format(PyExc_ValueError,
+                         "C-contiguous buffer is not indirect in "
+                         "dimension %d", dim);
+            goto fail;
+        } else if (buf->suboffsets) {
+            PyErr_SetString(PyExc_ValueError,
+                            "Buffer exposes suboffsets but no strides");
+            goto fail;
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int
+__pyx_check_suboffsets(Py_buffer *buf, int dim, CYTHON_UNUSED int ndim, int spec)
+{
+    if (spec & __Pyx_MEMVIEW_DIRECT) {
+        if (buf->suboffsets && buf->suboffsets[dim] >= 0) {
+            PyErr_Format(PyExc_ValueError,
+                         "Buffer not compatible with direct access "
+                         "in dimension %d.", dim);
+            goto fail;
+        }
+    }
+    if (spec & __Pyx_MEMVIEW_PTR) {
+        if (!buf->suboffsets || (buf->suboffsets && buf->suboffsets[dim] < 0)) {
+            PyErr_Format(PyExc_ValueError,
+                         "Buffer is not indirectly accessible "
+                         "in dimension %d.", dim);
+            goto fail;
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int
+__pyx_verify_contig(Py_buffer *buf, int ndim, int c_or_f_flag)
+{
+    int i;
+    if (c_or_f_flag & __Pyx_IS_F_CONTIG) {
+        Py_ssize_t stride = 1;
+        for (i = 0; i < ndim; i++) {
+            if (stride * buf->itemsize != buf->strides[i] &&
+                    buf->shape[i] > 1)
+            {
+                PyErr_SetString(PyExc_ValueError,
+                    "Buffer not fortran contiguous.");
+                goto fail;
+            }
+            stride = stride * buf->shape[i];
+        }
+    } else if (c_or_f_flag & __Pyx_IS_C_CONTIG) {
+        Py_ssize_t stride = 1;
+        for (i = ndim - 1; i >- 1; i--) {
+            if (stride * buf->itemsize != buf->strides[i] &&
+                    buf->shape[i] > 1) {
+                PyErr_SetString(PyExc_ValueError,
+                    "Buffer not C contiguous.");
+                goto fail;
+            }
+            stride = stride * buf->shape[i];
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int __Pyx_ValidateAndInit_memviewslice(
+                int *axes_specs,
+                int c_or_f_flag,
+                int buf_flags,
+                int ndim,
+                __Pyx_TypeInfo *dtype,
+                __Pyx_BufFmt_StackElem stack[],
+                __Pyx_memviewslice *memviewslice,
+                PyObject *original_obj)
+{
+    struct __pyx_memoryview_obj *memview, *new_memview;
+    __Pyx_RefNannyDeclarations
+    Py_buffer *buf;
+    int i, spec = 0, retval = -1;
+    __Pyx_BufFmt_Context ctx;
+    int from_memoryview = __pyx_memoryview_check(original_obj);
+    __Pyx_RefNannySetupContext("ValidateAndInit_memviewslice", 0);
+    if (from_memoryview && __pyx_typeinfo_cmp(dtype, ((struct __pyx_memoryview_obj *)
+                                                            original_obj)->typeinfo)) {
+        memview = (struct __pyx_memoryview_obj *) original_obj;
+        new_memview = NULL;
+    } else {
+        memview = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
+                                            original_obj, buf_flags, 0, dtype);
+        new_memview = memview;
+        if (unlikely(!memview))
+            goto fail;
+    }
+    buf = &memview->view;
+    if (buf->ndim != ndim) {
+        PyErr_Format(PyExc_ValueError,
+                "Buffer has wrong number of dimensions (expected %d, got %d)",
+                ndim, buf->ndim);
+        goto fail;
+    }
+    if (new_memview) {
+        __Pyx_BufFmt_Init(&ctx, stack, dtype);
+        if (!__Pyx_BufFmt_CheckString(&ctx, buf->format)) goto fail;
+    }
+    if ((unsigned) buf->itemsize != dtype->size) {
+        PyErr_Format(PyExc_ValueError,
+                     "Item size of buffer (%" CYTHON_FORMAT_SSIZE_T "u byte%s) "
+                     "does not match size of '%s' (%" CYTHON_FORMAT_SSIZE_T "u byte%s)",
+                     buf->itemsize,
+                     (buf->itemsize > 1) ? "s" : "",
+                     dtype->name,
+                     dtype->size,
+                     (dtype->size > 1) ? "s" : "");
+        goto fail;
+    }
+    for (i = 0; i < ndim; i++) {
+        spec = axes_specs[i];
+        if (!__pyx_check_strides(buf, i, ndim, spec))
+            goto fail;
+        if (!__pyx_check_suboffsets(buf, i, ndim, spec))
+            goto fail;
+    }
+    if (buf->strides && !__pyx_verify_contig(buf, ndim, c_or_f_flag))
+        goto fail;
+    if (unlikely(__Pyx_init_memviewslice(memview, ndim, memviewslice,
+                                         new_memview != NULL) == -1)) {
+        goto fail;
+    }
+    retval = 0;
+    goto no_fail;
+fail:
+    Py_XDECREF(new_memview);
+    retval = -1;
+no_fail:
+    __Pyx_RefNannyFinishContext();
+    return retval;
+}
+
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 1,
+                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 2,
+                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_uint16_t, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
 /* CIntFromPyVerify */
           #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
@@ -28622,6 +28886,18 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
         return _PyLong_FromByteArray(bytes, sizeof(long),
                                      little, !is_unsigned);
     }
+}
+
+/* MemviewDtypeToObject */
+          static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
+}
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
+    double value = __pyx_PyFloat_AsDouble(obj);
+    if ((value == (double)-1) && PyErr_Occurred())
+        return 0;
+    *(double *) itemp = value;
+    return 1;
 }
 
 /* CIntToPy */
@@ -30195,275 +30471,6 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to char");
     return (char) -1;
-}
-
-/* TypeInfoCompare */
-          static int
-__pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b)
-{
-    int i;
-    if (!a || !b)
-        return 0;
-    if (a == b)
-        return 1;
-    if (a->size != b->size || a->typegroup != b->typegroup ||
-            a->is_unsigned != b->is_unsigned || a->ndim != b->ndim) {
-        if (a->typegroup == 'H' || b->typegroup == 'H') {
-            return a->size == b->size;
-        } else {
-            return 0;
-        }
-    }
-    if (a->ndim) {
-        for (i = 0; i < a->ndim; i++)
-            if (a->arraysize[i] != b->arraysize[i])
-                return 0;
-    }
-    if (a->typegroup == 'S') {
-        if (a->flags != b->flags)
-            return 0;
-        if (a->fields || b->fields) {
-            if (!(a->fields && b->fields))
-                return 0;
-            for (i = 0; a->fields[i].type && b->fields[i].type; i++) {
-                __Pyx_StructField *field_a = a->fields + i;
-                __Pyx_StructField *field_b = b->fields + i;
-                if (field_a->offset != field_b->offset ||
-                    !__pyx_typeinfo_cmp(field_a->type, field_b->type))
-                    return 0;
-            }
-            return !a->fields[i].type && !b->fields[i].type;
-        }
-    }
-    return 1;
-}
-
-/* MemviewSliceValidateAndInit */
-          static int
-__pyx_check_strides(Py_buffer *buf, int dim, int ndim, int spec)
-{
-    if (buf->shape[dim] <= 1)
-        return 1;
-    if (buf->strides) {
-        if (spec & __Pyx_MEMVIEW_CONTIG) {
-            if (spec & (__Pyx_MEMVIEW_PTR|__Pyx_MEMVIEW_FULL)) {
-                if (buf->strides[dim] != sizeof(void *)) {
-                    PyErr_Format(PyExc_ValueError,
-                                 "Buffer is not indirectly contiguous "
-                                 "in dimension %d.", dim);
-                    goto fail;
-                }
-            } else if (buf->strides[dim] != buf->itemsize) {
-                PyErr_SetString(PyExc_ValueError,
-                                "Buffer and memoryview are not contiguous "
-                                "in the same dimension.");
-                goto fail;
-            }
-        }
-        if (spec & __Pyx_MEMVIEW_FOLLOW) {
-            Py_ssize_t stride = buf->strides[dim];
-            if (stride < 0)
-                stride = -stride;
-            if (stride < buf->itemsize) {
-                PyErr_SetString(PyExc_ValueError,
-                                "Buffer and memoryview are not contiguous "
-                                "in the same dimension.");
-                goto fail;
-            }
-        }
-    } else {
-        if (spec & __Pyx_MEMVIEW_CONTIG && dim != ndim - 1) {
-            PyErr_Format(PyExc_ValueError,
-                         "C-contiguous buffer is not contiguous in "
-                         "dimension %d", dim);
-            goto fail;
-        } else if (spec & (__Pyx_MEMVIEW_PTR)) {
-            PyErr_Format(PyExc_ValueError,
-                         "C-contiguous buffer is not indirect in "
-                         "dimension %d", dim);
-            goto fail;
-        } else if (buf->suboffsets) {
-            PyErr_SetString(PyExc_ValueError,
-                            "Buffer exposes suboffsets but no strides");
-            goto fail;
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int
-__pyx_check_suboffsets(Py_buffer *buf, int dim, CYTHON_UNUSED int ndim, int spec)
-{
-    if (spec & __Pyx_MEMVIEW_DIRECT) {
-        if (buf->suboffsets && buf->suboffsets[dim] >= 0) {
-            PyErr_Format(PyExc_ValueError,
-                         "Buffer not compatible with direct access "
-                         "in dimension %d.", dim);
-            goto fail;
-        }
-    }
-    if (spec & __Pyx_MEMVIEW_PTR) {
-        if (!buf->suboffsets || (buf->suboffsets && buf->suboffsets[dim] < 0)) {
-            PyErr_Format(PyExc_ValueError,
-                         "Buffer is not indirectly accessible "
-                         "in dimension %d.", dim);
-            goto fail;
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int
-__pyx_verify_contig(Py_buffer *buf, int ndim, int c_or_f_flag)
-{
-    int i;
-    if (c_or_f_flag & __Pyx_IS_F_CONTIG) {
-        Py_ssize_t stride = 1;
-        for (i = 0; i < ndim; i++) {
-            if (stride * buf->itemsize != buf->strides[i] &&
-                    buf->shape[i] > 1)
-            {
-                PyErr_SetString(PyExc_ValueError,
-                    "Buffer not fortran contiguous.");
-                goto fail;
-            }
-            stride = stride * buf->shape[i];
-        }
-    } else if (c_or_f_flag & __Pyx_IS_C_CONTIG) {
-        Py_ssize_t stride = 1;
-        for (i = ndim - 1; i >- 1; i--) {
-            if (stride * buf->itemsize != buf->strides[i] &&
-                    buf->shape[i] > 1) {
-                PyErr_SetString(PyExc_ValueError,
-                    "Buffer not C contiguous.");
-                goto fail;
-            }
-            stride = stride * buf->shape[i];
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int __Pyx_ValidateAndInit_memviewslice(
-                int *axes_specs,
-                int c_or_f_flag,
-                int buf_flags,
-                int ndim,
-                __Pyx_TypeInfo *dtype,
-                __Pyx_BufFmt_StackElem stack[],
-                __Pyx_memviewslice *memviewslice,
-                PyObject *original_obj)
-{
-    struct __pyx_memoryview_obj *memview, *new_memview;
-    __Pyx_RefNannyDeclarations
-    Py_buffer *buf;
-    int i, spec = 0, retval = -1;
-    __Pyx_BufFmt_Context ctx;
-    int from_memoryview = __pyx_memoryview_check(original_obj);
-    __Pyx_RefNannySetupContext("ValidateAndInit_memviewslice", 0);
-    if (from_memoryview && __pyx_typeinfo_cmp(dtype, ((struct __pyx_memoryview_obj *)
-                                                            original_obj)->typeinfo)) {
-        memview = (struct __pyx_memoryview_obj *) original_obj;
-        new_memview = NULL;
-    } else {
-        memview = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
-                                            original_obj, buf_flags, 0, dtype);
-        new_memview = memview;
-        if (unlikely(!memview))
-            goto fail;
-    }
-    buf = &memview->view;
-    if (buf->ndim != ndim) {
-        PyErr_Format(PyExc_ValueError,
-                "Buffer has wrong number of dimensions (expected %d, got %d)",
-                ndim, buf->ndim);
-        goto fail;
-    }
-    if (new_memview) {
-        __Pyx_BufFmt_Init(&ctx, stack, dtype);
-        if (!__Pyx_BufFmt_CheckString(&ctx, buf->format)) goto fail;
-    }
-    if ((unsigned) buf->itemsize != dtype->size) {
-        PyErr_Format(PyExc_ValueError,
-                     "Item size of buffer (%" CYTHON_FORMAT_SSIZE_T "u byte%s) "
-                     "does not match size of '%s' (%" CYTHON_FORMAT_SSIZE_T "u byte%s)",
-                     buf->itemsize,
-                     (buf->itemsize > 1) ? "s" : "",
-                     dtype->name,
-                     dtype->size,
-                     (dtype->size > 1) ? "s" : "");
-        goto fail;
-    }
-    for (i = 0; i < ndim; i++) {
-        spec = axes_specs[i];
-        if (!__pyx_check_strides(buf, i, ndim, spec))
-            goto fail;
-        if (!__pyx_check_suboffsets(buf, i, ndim, spec))
-            goto fail;
-    }
-    if (buf->strides && !__pyx_verify_contig(buf, ndim, c_or_f_flag))
-        goto fail;
-    if (unlikely(__Pyx_init_memviewslice(memview, ndim, memviewslice,
-                                         new_memview != NULL) == -1)) {
-        goto fail;
-    }
-    retval = 0;
-    goto no_fail;
-fail:
-    Py_XDECREF(new_memview);
-    retval = -1;
-no_fail:
-    __Pyx_RefNannyFinishContext();
-    return retval;
-}
-
-/* ObjectToMemviewSlice */
-          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_double(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS, 1,
-                                                 &__Pyx_TypeInfo_double, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
-}
-
-/* ObjectToMemviewSlice */
-          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_uint16_t(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
-                                                 PyBUF_RECORDS, 2,
-                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_uint16_t, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
 }
 
 /* ObjectToMemviewSlice */

@@ -1067,11 +1067,11 @@ typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d;
 
 /* "dipy/tracking/local/interpolation.pxd":5
- * cdef int _trilinear_interpolate_c_4d(double[:, :, :, :] data, double[:] point,
- *                                      double[::1] result) nogil
- * cpdef trilinear_interpolate4d(double[:, :, :, :] data, double[:] point,             # <<<<<<<<<<<<<<
- *                               np.ndarray out=*)
  * 
+ * cpdef trilinear_interpolate4d(
+ *     double[:, :, :, :] data,             # <<<<<<<<<<<<<<
+ *     double[:] point,
+ *     np.ndarray out=*)
  */
 struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d {
   int __pyx_n;
@@ -1324,6 +1324,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
+
+/* BufferIndexError.proto */
+static void __Pyx_RaiseBufferIndexError(int axis);
 
 /* IsLittleEndian.proto */
 static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
@@ -1933,8 +1936,8 @@ static PyObject *contiguous = 0;
 static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
-static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate_c_4d(__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d(__Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d *__pyx_optional_args); /*proto*/
+static int __pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c(__Pyx_memviewslice, double *, __Pyx_memviewslice); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2300,12 +2303,12 @@ static PyObject *__pyx_codeobj__39;
 /* "dipy/tracking/local/interpolation.pyx":11
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * cdef int _trilinear_interpolate_c_4d(double[:, :, :, :] data, double[:] point,             # <<<<<<<<<<<<<<
- *                                      double[::1] result) nogil:
- *     """Tri-linear interpolation along the last dimension of a 4d array
+ * cdef int trilinear_interpolate4d_c(             # <<<<<<<<<<<<<<
+ *         double[:, :, :, :] data,
+ *         double* point,
  */
 
-static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate_c_4d(__Pyx_memviewslice __pyx_v_data, __Pyx_memviewslice __pyx_v_point, __Pyx_memviewslice __pyx_v_result) {
+static int __pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c(__Pyx_memviewslice __pyx_v_data, double *__pyx_v_point, __Pyx_memviewslice __pyx_v_result) {
   npy_intp __pyx_v_flr;
   npy_intp __pyx_v_N;
   double __pyx_v_w;
@@ -2319,54 +2322,21 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
   int __pyx_r;
   int __pyx_t_1;
   long __pyx_t_2;
-  Py_ssize_t __pyx_t_3;
-  int __pyx_t_4;
+  int __pyx_t_3;
+  npy_intp __pyx_t_4;
   Py_ssize_t __pyx_t_5;
-  Py_ssize_t __pyx_t_6;
-  Py_ssize_t __pyx_t_7;
+  long __pyx_t_6;
+  long __pyx_t_7;
   npy_intp __pyx_t_8;
   Py_ssize_t __pyx_t_9;
-  long __pyx_t_10;
-  long __pyx_t_11;
-  npy_intp __pyx_t_12;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
   Py_ssize_t __pyx_t_13;
-  Py_ssize_t __pyx_t_14;
-  Py_ssize_t __pyx_t_15;
-  Py_ssize_t __pyx_t_16;
-  Py_ssize_t __pyx_t_17;
-
-  /* "dipy/tracking/local/interpolation.pyx":41
- *         double weight[3][2]
- * 
- *     if point.shape[0] != 3:             # <<<<<<<<<<<<<<
- *         return -2
- *     if data.shape[3] != result.shape[0]:
- */
-  __pyx_t_1 = (((__pyx_v_point.shape[0]) != 3) != 0);
-  if (__pyx_t_1) {
-
-    /* "dipy/tracking/local/interpolation.pyx":42
- * 
- *     if point.shape[0] != 3:
- *         return -2             # <<<<<<<<<<<<<<
- *     if data.shape[3] != result.shape[0]:
- *         return -3
- */
-    __pyx_r = -2;
-    goto __pyx_L0;
-
-    /* "dipy/tracking/local/interpolation.pyx":41
- *         double weight[3][2]
- * 
- *     if point.shape[0] != 3:             # <<<<<<<<<<<<<<
- *         return -2
- *     if data.shape[3] != result.shape[0]:
- */
-  }
 
   /* "dipy/tracking/local/interpolation.pyx":43
- *     if point.shape[0] != 3:
- *         return -2
+ *         double weight[3][2]
+ * 
  *     if data.shape[3] != result.shape[0]:             # <<<<<<<<<<<<<<
  *         return -3
  * 
@@ -2375,7 +2345,7 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
   if (__pyx_t_1) {
 
     /* "dipy/tracking/local/interpolation.pyx":44
- *         return -2
+ * 
  *     if data.shape[3] != result.shape[0]:
  *         return -3             # <<<<<<<<<<<<<<
  * 
@@ -2385,8 +2355,8 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
     goto __pyx_L0;
 
     /* "dipy/tracking/local/interpolation.pyx":43
- *     if point.shape[0] != 3:
- *         return -2
+ *         double weight[3][2]
+ * 
  *     if data.shape[3] != result.shape[0]:             # <<<<<<<<<<<<<<
  *         return -3
  * 
@@ -2410,17 +2380,15 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *             return -1
  * 
  */
-    __pyx_t_3 = __pyx_v_i;
-    __pyx_t_4 = (((*((double *) ( /* dim=0 */ (__pyx_v_point.data + __pyx_t_3 * __pyx_v_point.strides[0]) ))) < -.5) != 0);
-    if (!__pyx_t_4) {
+    __pyx_t_3 = (((__pyx_v_point[__pyx_v_i]) < -.5) != 0);
+    if (!__pyx_t_3) {
     } else {
-      __pyx_t_1 = __pyx_t_4;
-      goto __pyx_L8_bool_binop_done;
+      __pyx_t_1 = __pyx_t_3;
+      goto __pyx_L7_bool_binop_done;
     }
-    __pyx_t_5 = __pyx_v_i;
-    __pyx_t_4 = (((*((double *) ( /* dim=0 */ (__pyx_v_point.data + __pyx_t_5 * __pyx_v_point.strides[0]) ))) >= ((__pyx_v_data.shape[__pyx_v_i]) - .5)) != 0);
-    __pyx_t_1 = __pyx_t_4;
-    __pyx_L8_bool_binop_done:;
+    __pyx_t_3 = (((__pyx_v_point[__pyx_v_i]) >= ((__pyx_v_data.shape[__pyx_v_i]) - .5)) != 0);
+    __pyx_t_1 = __pyx_t_3;
+    __pyx_L7_bool_binop_done:;
     if (__pyx_t_1) {
 
       /* "dipy/tracking/local/interpolation.pyx":48
@@ -2449,8 +2417,7 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *         rem = point[i] - flr
  * 
  */
-    __pyx_t_6 = __pyx_v_i;
-    __pyx_v_flr = ((npy_intp)floor((*((double *) ( /* dim=0 */ (__pyx_v_point.data + __pyx_t_6 * __pyx_v_point.strides[0]) )))));
+    __pyx_v_flr = ((npy_intp)floor((__pyx_v_point[__pyx_v_i])));
 
     /* "dipy/tracking/local/interpolation.pyx":51
  * 
@@ -2459,8 +2426,7 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  * 
  *         index[i][0] = flr + (flr == -1)
  */
-    __pyx_t_7 = __pyx_v_i;
-    __pyx_v_rem = ((*((double *) ( /* dim=0 */ (__pyx_v_point.data + __pyx_t_7 * __pyx_v_point.strides[0]) ))) - __pyx_v_flr);
+    __pyx_v_rem = ((__pyx_v_point[__pyx_v_i]) - __pyx_v_flr);
 
     /* "dipy/tracking/local/interpolation.pyx":53
  *         rem = point[i] - flr
@@ -2515,8 +2481,8 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *         result[i] = 0
  * 
  */
-  __pyx_t_8 = __pyx_v_N;
-  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_8; __pyx_t_2+=1) {
+  __pyx_t_4 = __pyx_v_N;
+  for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_4; __pyx_t_2+=1) {
     __pyx_v_i = __pyx_t_2;
 
     /* "dipy/tracking/local/interpolation.pyx":60
@@ -2526,8 +2492,8 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  * 
  *     for i in range(2):
  */
-    __pyx_t_9 = __pyx_v_i;
-    *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_result.data) + __pyx_t_9)) )) = 0.0;
+    __pyx_t_5 = __pyx_v_i;
+    *((double *) ( /* dim=0 */ (__pyx_v_result.data + __pyx_t_5 * __pyx_v_result.strides[0]) )) = 0.0;
   }
 
   /* "dipy/tracking/local/interpolation.pyx":62
@@ -2547,8 +2513,8 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *             for k in range(2):
  *                 w = weight[0][i] * weight[1][j] * weight[2][k]
  */
-    for (__pyx_t_10 = 0; __pyx_t_10 < 2; __pyx_t_10+=1) {
-      __pyx_v_j = __pyx_t_10;
+    for (__pyx_t_6 = 0; __pyx_t_6 < 2; __pyx_t_6+=1) {
+      __pyx_v_j = __pyx_t_6;
 
       /* "dipy/tracking/local/interpolation.pyx":64
  *     for i in range(2):
@@ -2557,8 +2523,8 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *                 w = weight[0][i] * weight[1][j] * weight[2][k]
  *                 for L in range(N):
  */
-      for (__pyx_t_11 = 0; __pyx_t_11 < 2; __pyx_t_11+=1) {
-        __pyx_v_k = __pyx_t_11;
+      for (__pyx_t_7 = 0; __pyx_t_7 < 2; __pyx_t_7+=1) {
+        __pyx_v_k = __pyx_t_7;
 
         /* "dipy/tracking/local/interpolation.pyx":65
  *         for j in range(2):
@@ -2576,9 +2542,9 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *                     result[L] += w * data[index[0][i], index[1][j],
  *                                           index[2][k], L]
  */
-        __pyx_t_8 = __pyx_v_N;
-        for (__pyx_t_12 = 0; __pyx_t_12 < __pyx_t_8; __pyx_t_12+=1) {
-          __pyx_v_L = __pyx_t_12;
+        __pyx_t_4 = __pyx_v_N;
+        for (__pyx_t_8 = 0; __pyx_t_8 < __pyx_t_4; __pyx_t_8+=1) {
+          __pyx_v_L = __pyx_t_8;
 
           /* "dipy/tracking/local/interpolation.pyx":67
  *                 w = weight[0][i] * weight[1][j] * weight[2][k]
@@ -2587,12 +2553,12 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
  *                                           index[2][k], L]
  *     return 0
  */
-          __pyx_t_13 = ((__pyx_v_index[0])[__pyx_v_i]);
-          __pyx_t_14 = ((__pyx_v_index[1])[__pyx_v_j]);
-          __pyx_t_15 = ((__pyx_v_index[2])[__pyx_v_k]);
-          __pyx_t_16 = __pyx_v_L;
-          __pyx_t_17 = __pyx_v_L;
-          *((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_result.data) + __pyx_t_17)) )) += (__pyx_v_w * (*((double *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_data.data + __pyx_t_13 * __pyx_v_data.strides[0]) ) + __pyx_t_14 * __pyx_v_data.strides[1]) ) + __pyx_t_15 * __pyx_v_data.strides[2]) ) + __pyx_t_16 * __pyx_v_data.strides[3]) ))));
+          __pyx_t_9 = ((__pyx_v_index[0])[__pyx_v_i]);
+          __pyx_t_10 = ((__pyx_v_index[1])[__pyx_v_j]);
+          __pyx_t_11 = ((__pyx_v_index[2])[__pyx_v_k]);
+          __pyx_t_12 = __pyx_v_L;
+          __pyx_t_13 = __pyx_v_L;
+          *((double *) ( /* dim=0 */ (__pyx_v_result.data + __pyx_t_13 * __pyx_v_result.strides[0]) )) += (__pyx_v_w * (*((double *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_data.data + __pyx_t_9 * __pyx_v_data.strides[0]) ) + __pyx_t_10 * __pyx_v_data.strides[1]) ) + __pyx_t_11 * __pyx_v_data.strides[2]) ) + __pyx_t_12 * __pyx_v_data.strides[3]) ))));
         }
       }
     }
@@ -2611,9 +2577,9 @@ static int __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate
   /* "dipy/tracking/local/interpolation.pyx":11
  * @cython.boundscheck(False)
  * @cython.wraparound(False)
- * cdef int _trilinear_interpolate_c_4d(double[:, :, :, :] data, double[:] point,             # <<<<<<<<<<<<<<
- *                                      double[::1] result) nogil:
- *     """Tri-linear interpolation along the last dimension of a 4d array
+ * cdef int trilinear_interpolate4d_c(             # <<<<<<<<<<<<<<
+ *         double[:, :, :, :] data,
+ *         double* point,
  */
 
   /* function exit code */
@@ -2653,6 +2619,9 @@ static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interp
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
   __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_9;
+  int __pyx_t_10;
+  __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_RefNannySetupContext("trilinear_interpolate4d", 0);
   if (__pyx_optional_args) {
     if (__pyx_optional_args->__pyx_n > 0) {
@@ -2750,7 +2719,7 @@ static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interp
  *         out = np.empty(data.shape[3])
  *     outview = out             # <<<<<<<<<<<<<<
  * 
- *     err = _trilinear_interpolate_c_4d(data, point, out)
+ *     err = trilinear_interpolate4d_c(data, &point[0], out)
  */
   __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(((PyObject *)__pyx_v_out));
   if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 98, __pyx_L1_error)
@@ -2761,19 +2730,29 @@ static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interp
   /* "dipy/tracking/local/interpolation.pyx":100
  *     outview = out
  * 
- *     err = _trilinear_interpolate_c_4d(data, point, out)             # <<<<<<<<<<<<<<
+ *     err = trilinear_interpolate4d_c(data, &point[0], out)             # <<<<<<<<<<<<<<
  * 
  *     if err == 0:
  */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(((PyObject *)__pyx_v_out));
-  if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 100, __pyx_L1_error)
-  __pyx_v_err = __pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate_c_4d(__pyx_v_data, __pyx_v_point, __pyx_t_8);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __pyx_t_8.memview = NULL;
-  __pyx_t_8.data = NULL;
+  __pyx_t_9 = 0;
+  __pyx_t_10 = -1;
+  if (__pyx_t_9 < 0) {
+    __pyx_t_9 += __pyx_v_point.shape[0];
+    if (unlikely(__pyx_t_9 < 0)) __pyx_t_10 = 0;
+  } else if (unlikely(__pyx_t_9 >= __pyx_v_point.shape[0])) __pyx_t_10 = 0;
+  if (unlikely(__pyx_t_10 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_10);
+    __PYX_ERR(0, 100, __pyx_L1_error)
+  }
+  __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_ds_double(((PyObject *)__pyx_v_out));
+  if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 100, __pyx_L1_error)
+  __pyx_v_err = __pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c(__pyx_v_data, (&(*((double *) ( /* dim=0 */ (__pyx_v_point.data + __pyx_t_9 * __pyx_v_point.strides[0]) )))), __pyx_t_11);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
+  __pyx_t_11.memview = NULL;
+  __pyx_t_11.data = NULL;
 
   /* "dipy/tracking/local/interpolation.pyx":102
- *     err = _trilinear_interpolate_c_4d(data, point, out)
+ *     err = trilinear_interpolate4d_c(data, &point[0], out)
  * 
  *     if err == 0:             # <<<<<<<<<<<<<<
  *         return out
@@ -2795,7 +2774,7 @@ static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interp
     goto __pyx_L0;
 
     /* "dipy/tracking/local/interpolation.pyx":102
- *     err = _trilinear_interpolate_c_4d(data, point, out)
+ *     err = trilinear_interpolate4d_c(data, &point[0], out)
  * 
  *     if err == 0:             # <<<<<<<<<<<<<<
  *         return out
@@ -2932,6 +2911,7 @@ static PyObject *__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interp
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
   __Pyx_AddTraceback("dipy.tracking.local.interpolation.trilinear_interpolate4d", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
@@ -19962,8 +19942,8 @@ PyMODINIT_FUNC PyInit_interpolation(void)
   indirect_contiguous = Py_None; Py_INCREF(Py_None);
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
-  if (__Pyx_ExportFunction("_trilinear_interpolate_c_4d", (void (*)(void))__pyx_f_4dipy_8tracking_5local_13interpolation__trilinear_interpolate_c_4d, "int (__Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   if (__Pyx_ExportFunction("trilinear_interpolate4d", (void (*)(void))__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d, "PyObject *(__Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch, struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d *__pyx_optional_args)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_ExportFunction("trilinear_interpolate4d_c", (void (*)(void))__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c, "int (__Pyx_memviewslice, double *, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   /*--- Type init code ---*/
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -20524,6 +20504,12 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     PyErr_Format(PyExc_TypeError, "Cannot convert %.200s to %.200s",
                  Py_TYPE(obj)->tp_name, type->tp_name);
     return 0;
+}
+
+/* BufferIndexError */
+  static void __Pyx_RaiseBufferIndexError(int axis) {
+  PyErr_Format(PyExc_IndexError,
+     "Out of bounds on buffer access (axis %d)", axis);
 }
 
 /* IsLittleEndian */

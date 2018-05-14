@@ -1,4 +1,4 @@
 version=3
 
 opts="filenamemangle=s/.*\/(.*)/dipy-$1/" \
-  http://github.com/nipy/dipy/tags .*archive/(\d[\d\.a-z]+).tar.gz
+  http://github.com/nipy/dipy/releases .*archive/(\d[\d\.a-z]+).tar.gz

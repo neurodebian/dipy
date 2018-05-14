@@ -716,6 +716,16 @@ static const char *__pyx_f[] = {
   "dipy/tracking/local/direction_getter.pxd",
   "dipy/tracking/local/tissue_classifier.pxd",
 };
+/* MemviewSliceStruct.proto */
+struct __pyx_memoryview_obj;
+typedef struct {
+  struct __pyx_memoryview_obj *memview;
+  char *data;
+  Py_ssize_t shape[8];
+  Py_ssize_t strides[8];
+  Py_ssize_t suboffsets[8];
+} __Pyx_memviewslice;
+
 /* BufferFormatStructs.proto */
 #define IS_UNSIGNED(type) (((type) -1) > 0)
 struct __Pyx_StructField_;
@@ -751,16 +761,6 @@ typedef struct {
   char enc_packmode;
   char is_valid_array;
 } __Pyx_BufFmt_Context;
-
-/* MemviewSliceStruct.proto */
-struct __pyx_memoryview_obj;
-typedef struct {
-  struct __pyx_memoryview_obj *memview;
-  char *data;
-  Py_ssize_t shape[8];
-  Py_ssize_t strides[8];
-  Py_ssize_t suboffsets[8];
-} __Pyx_memviewslice;
 
 /* Atomics.proto */
 #include <pythread.h>
@@ -1030,7 +1030,9 @@ struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier;
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier;
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier;
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier;
 struct __pyx_array_obj;
 struct __pyx_MemviewEnum_obj;
 struct __pyx_memoryview_obj;
@@ -1072,7 +1074,8 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 
-/* "tissue_classifier.pxd":1
+/* "tissue_classifier.pxd":2
+ * 
  * cdef enum TissueClass:             # <<<<<<<<<<<<<<
  *     PYERROR = -2
  *     OUTSIDEIMAGE = -1
@@ -1084,13 +1087,26 @@ enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass {
   __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT = 1,
   __pyx_e_4dipy_8tracking_5local_17tissue_classifier_ENDPOINT = 2
 };
+struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d;
 
-/* "direction_getter.pxd":3
+/* "dipy/tracking/local/interpolation.pxd":5
+ * 
+ * cpdef trilinear_interpolate4d(
+ *     double[:, :, :, :] data,             # <<<<<<<<<<<<<<
+ *     double[:] point,
+ *     np.ndarray out=*)
+ */
+struct __pyx_opt_args_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d {
+  int __pyx_n;
+  PyArrayObject *out;
+};
+
+/* "direction_getter.pxd":4
  * cimport numpy as np
  * 
  * cdef class DirectionGetter:             # <<<<<<<<<<<<<<
- *     cpdef int get_direction(self, double[::1] point, double[::1] direction) except -1
- *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(self, double[::1] point)
+ * 
+ *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(
  */
 struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
   PyObject_HEAD
@@ -1098,12 +1114,12 @@ struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
 };
 
 
-/* "tissue_classifier.pxd":9
+/* "tissue_classifier.pxd":10
  * 
  * 
  * cdef class TissueClassifier:             # <<<<<<<<<<<<<<
- *     # Please update doc-string in tissue_classifer.pyx if you change these
- *     # declarations
+ *     cdef:
+ *         double interp_out_double[1]
  */
 struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier {
   PyObject_HEAD
@@ -1113,8 +1129,8 @@ struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier {
 };
 
 
-/* "tissue_classifier.pxd":17
- *     cpdef TissueClass check_point(self, double[::1] point) except PYERROR
+/* "tissue_classifier.pxd":18
+ * 
  * 
  * cdef class BinaryTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
@@ -1126,8 +1142,8 @@ struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifi
 };
 
 
-/* "tissue_classifier.pxd":22
- *     pass
+/* "tissue_classifier.pxd":24
+ * 
  * 
  * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
@@ -1140,17 +1156,44 @@ struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClass
 };
 
 
-/* "tissue_classifier.pxd":28
- *     pass
+/* "tissue_classifier.pxd":31
  * 
- * cdef class ActTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ * 
+ * cdef class ConstrainedTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
  *         double[:, :, :] include_map, exclude_map
  */
-struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier {
   struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
   __Pyx_memviewslice include_map;
   __Pyx_memviewslice exclude_map;
+};
+
+
+/* "tissue_classifier.pxd":41
+ * 
+ * 
+ * cdef class ActTissueClassifier(ConstrainedTissueClassifier):             # <<<<<<<<<<<<<<
+ *     pass
+ * 
+ */
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
+  struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier __pyx_base;
+};
+
+
+/* "tissue_classifier.pxd":45
+ * 
+ * 
+ * cdef class CmcTissueClassifier(ConstrainedTissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double step_size
+ */
+struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier {
+  struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier __pyx_base;
+  double step_size;
+  double average_voxel_size;
+  double correction_factor;
 };
 
 
@@ -1232,37 +1275,39 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "direction_getter.pxd":3
+/* "direction_getter.pxd":4
  * cimport numpy as np
  * 
  * cdef class DirectionGetter:             # <<<<<<<<<<<<<<
- *     cpdef int get_direction(self, double[::1] point, double[::1] direction) except -1
- *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(self, double[::1] point)
+ * 
+ *     cpdef np.ndarray[np.float_t, ndim=2] initial_direction(
  */
 
 struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter {
-  int (*get_direction)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch);
   PyArrayObject *(*initial_direction)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  int (*get_direction)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, __Pyx_memviewslice, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  int (*get_direction_c)(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, double *, double *);
 };
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter;
 
 
-/* "tissue_classifier.pxd":9
+/* "tissue_classifier.pxd":10
  * 
  * 
  * cdef class TissueClassifier:             # <<<<<<<<<<<<<<
- *     # Please update doc-string in tissue_classifer.pyx if you change these
- *     # declarations
+ *     cdef:
+ *         double interp_out_double[1]
  */
 
 struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier {
   enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass (*check_point)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass (*check_point_c)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *, double *);
 };
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier;
 
 
-/* "tissue_classifier.pxd":17
- *     cpdef TissueClass check_point(self, double[::1] point) except PYERROR
+/* "tissue_classifier.pxd":18
+ * 
  * 
  * cdef class BinaryTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
@@ -1275,8 +1320,8 @@ struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueC
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier;
 
 
-/* "tissue_classifier.pxd":22
- *     pass
+/* "tissue_classifier.pxd":24
+ * 
  * 
  * cdef class ThresholdTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
@@ -1289,18 +1334,50 @@ struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTiss
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier;
 
 
-/* "tissue_classifier.pxd":28
- *     pass
+/* "tissue_classifier.pxd":31
  * 
- * cdef class ActTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
+ * 
+ * cdef class ConstrainedTissueClassifier(TissueClassifier):             # <<<<<<<<<<<<<<
  *     cdef:
  *         double[:, :, :] include_map, exclude_map
  */
 
-struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
+struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier {
   struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier __pyx_base;
+  double (*get_exclude)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  double (*get_exclude_c)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, double *);
+  double (*get_include)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, __Pyx_memviewslice, int __pyx_skip_dispatch);
+  double (*get_include_c)(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, double *);
+};
+static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier;
+
+
+/* "tissue_classifier.pxd":41
+ * 
+ * 
+ * cdef class ActTissueClassifier(ConstrainedTissueClassifier):             # <<<<<<<<<<<<<<
+ *     pass
+ * 
+ */
+
+struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier {
+  struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier __pyx_base;
 };
 static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier;
+
+
+/* "tissue_classifier.pxd":45
+ * 
+ * 
+ * cdef class CmcTissueClassifier(ConstrainedTissueClassifier):             # <<<<<<<<<<<<<<
+ *     cdef:
+ *         double step_size
+ */
+
+struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier {
+  struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier __pyx_base;
+};
+static struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier *__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier;
 
 
 /* "View.MemoryView":103
@@ -1449,46 +1526,11 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
 static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, int none_allowed,
     const char *name, int exact);
 
-/* IsLittleEndian.proto */
-static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
-
-/* BufferFormatCheck.proto */
-static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
-    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
-static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
-static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const char* ts);
-static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
-                              __Pyx_BufFmt_StackElem* stack,
-                              __Pyx_TypeInfo* type);
-
-/* PyFunctionFastCall.proto */
-#if CYTHON_FAST_PYCALL
-#define __Pyx_PyFunction_FastCall(func, args, nargs)\
-    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs);
-#else
-#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
-#endif
-#endif
-
 /* PyObjectCall.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
 #define __Pyx_PyObject_Call(func, arg, kw) PyObject_Call(func, arg, kw)
-#endif
-
-/* PyObjectCallMethO.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
-#endif
-
-/* PyObjectCallNoArg.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
-#else
-#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
 /* PyThreadStateGet.proto */
@@ -1518,8 +1560,21 @@ static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject 
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-#define __Pyx_BufPtrStrided1d(type, buf, i0, s0) (type)((char*)buf + i0 * s0)
-#define __Pyx_BufPtrCContig2d(type, buf, i0, s0, i1, s1) ((type)((char*)buf + i0 * s0) + i1)
+/* BufferIndexError.proto */
+static void __Pyx_RaiseBufferIndexError(int axis);
+
+/* IsLittleEndian.proto */
+static CYTHON_INLINE int __Pyx_Is_Little_Endian(void);
+
+/* BufferFormatCheck.proto */
+static CYTHON_INLINE int  __Pyx_GetBufferAndValidate(Py_buffer* buf, PyObject* obj,
+    __Pyx_TypeInfo* dtype, int flags, int nd, int cast, __Pyx_BufFmt_StackElem* stack);
+static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info);
+static const char* __Pyx_BufFmt_CheckString(__Pyx_BufFmt_Context* ctx, const char* ts);
+static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
+                              __Pyx_BufFmt_StackElem* stack,
+                              __Pyx_TypeInfo* type);
+
 /* MemviewSliceInit.proto */
 #define __Pyx_BUF_MAX_NDIMS %(BUF_MAX_NDIMS)d
 #define __Pyx_MEMVIEW_DIRECT   1
@@ -1545,6 +1600,42 @@ static CYTHON_INLINE int __pyx_sub_acquisition_count_locked(
 #define __PYX_XDEC_MEMVIEW(slice, have_gil) __Pyx_XDEC_MEMVIEW(slice, have_gil, __LINE__)
 static CYTHON_INLINE void __Pyx_INC_MEMVIEW(__Pyx_memviewslice *, int, int);
 static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *, int, int);
+
+/* GetModuleGlobalName.proto */
+static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
+
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyFunctionFastCall.proto */
+#if CYTHON_FAST_PYCALL
+#define __Pyx_PyFunction_FastCall(func, args, nargs)\
+    __Pyx_PyFunction_FastCallDict((func), (args), (nargs), NULL)
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs);
+#else
+#define __Pyx_PyFunction_FastCallDict(func, args, nargs, kwargs) _PyFunction_FastCallDict(func, args, nargs, kwargs)
+#endif
+#endif
+
+/* PyObjectCallMethO.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
+/* PyObjectCallNoArg.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
+#else
+#define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
+#endif
 
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
@@ -1657,9 +1748,6 @@ static CYTHON_INLINE PyObject* __Pyx_decode_c_string(
 /* GetAttr3.proto */
 static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *, PyObject *, PyObject *);
 
-/* GetModuleGlobalName.proto */
-static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
-
 /* SwapException.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_ExceptionSwap(type, value, tb)  __Pyx__ExceptionSwap(__pyx_tstate, type, value, tb)
@@ -1670,13 +1758,6 @@ static CYTHON_INLINE void __Pyx_ExceptionSwap(PyObject **type, PyObject **value,
 
 /* Import.proto */
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
-
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
 
 /* GetItemInt.proto */
 #define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
@@ -1779,32 +1860,11 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
-
 /* ImportFrom.proto */
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
 /* HasAttr.proto */
 static CYTHON_INLINE int __Pyx_HasAttr(PyObject *, PyObject *);
-
-/* StringJoin.proto */
-#if PY_MAJOR_VERSION < 3
-#define __Pyx_PyString_Join __Pyx_PyBytes_Join
-#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
-#else
-#define __Pyx_PyString_Join PyUnicode_Join
-#define __Pyx_PyBaseString_Join PyUnicode_Join
-#endif
-#if CYTHON_COMPILING_IN_CPYTHON
-    #if PY_MAJOR_VERSION < 3
-    #define __Pyx_PyBytes_Join _PyString_Join
-    #else
-    #define __Pyx_PyBytes_Join _PyBytes_Join
-    #endif
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
-#endif
 
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
@@ -1876,14 +1936,40 @@ static int __pyx_slices_overlap(__Pyx_memviewslice *slice1,
 /* Capsule.proto */
 static CYTHON_INLINE PyObject *__pyx_capsule_create(void *p, const char *sig);
 
+/* TypeInfoCompare.proto */
+static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
+
+/* MemviewSliceValidateAndInit.proto */
+static int __Pyx_ValidateAndInit_memviewslice(
+                int *axes_specs,
+                int c_or_f_flag,
+                int buf_flags,
+                int ndim,
+                __Pyx_TypeInfo *dtype,
+                __Pyx_BufFmt_StackElem stack[],
+                __Pyx_memviewslice *memviewslice,
+                PyObject *original_obj);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(PyObject *);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_float_t(PyObject *);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsdsdsds_nn___pyx_t_5numpy_float_t(PyObject *);
+
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_int_t(PyObject *);
+
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_Py_intptr_t(Py_intptr_t value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass value);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* CIntToPy.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass value);
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_npy_long(npy_long value);
 
 /* RealImag.proto */
 #if CYTHON_CCOMPLEX
@@ -1993,40 +2079,20 @@ __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
                                  size_t sizeof_dtype, int contig_flag,
                                  int dtype_is_object);
 
-/* TypeInfoToFormat.proto */
-struct __pyx_typeinfo_string {
-    char string[3];
-};
-static struct __pyx_typeinfo_string __Pyx_TypeInfoToFormat(__Pyx_TypeInfo *type);
-
 /* CIntFromPy.proto */
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
+/* CIntFromPy.proto */
+static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *);
+
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value);
 
 /* CIntFromPy.proto */
 static CYTHON_INLINE char __Pyx_PyInt_As_char(PyObject *);
-
-/* TypeInfoCompare.proto */
-static int __pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b);
-
-/* MemviewSliceValidateAndInit.proto */
-static int __Pyx_ValidateAndInit_memviewslice(
-                int *axes_specs,
-                int c_or_f_flag,
-                int buf_flags,
-                int ndim,
-                __Pyx_TypeInfo *dtype,
-                __Pyx_BufFmt_StackElem stack[],
-                __Pyx_memviewslice *memviewslice,
-                PyObject *original_obj);
-
-/* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *);
 
 /* CheckBinaryVersion.proto */
 static int __Pyx_check_binary_version(void);
@@ -2046,6 +2112,9 @@ static PyObject *__Pyx_ImportModule(const char *name);
 /* TypeImport.proto */
 static PyTypeObject *__Pyx_ImportType(const char *module_name, const char *class_name, size_t size, int strict);
 
+/* FunctionImport.proto */
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig);
+
 /* InitStrings.proto */
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
@@ -2061,7 +2130,6 @@ static PyObject *__pyx_memoryviewslice_convert_item_to_object(struct __pyx_memor
 static PyObject *__pyx_memoryviewslice_assign_item_from_object(struct __pyx_memoryviewslice_obj *__pyx_v_self, char *__pyx_v_itemp, PyObject *__pyx_v_value); /* proto*/
 
 /* Module declarations from 'cython.view' */
-static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 
 /* Module declarations from 'cython' */
 
@@ -2101,7 +2169,17 @@ static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_16direction_getter_Direc
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = 0;
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = 0;
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = 0;
+static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier = 0;
 static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = 0;
+static PyTypeObject *__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier = 0;
+
+/* Module declarations from 'dipy.tracking.local.interpolation' */
+static int (*__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c)(__Pyx_memviewslice, double *, __Pyx_memviewslice); /*proto*/
+
+/* Module declarations from 'dipy.utils.fast_numpy' */
+static int (*__pyx_f_4dipy_5utils_10fast_numpy_where_to_insert)(__pyx_t_5numpy_float_t *, __pyx_t_5numpy_float_t, int); /*proto*/
+static void (*__pyx_f_4dipy_5utils_10fast_numpy_cumsum)(__pyx_t_5numpy_float_t *, __pyx_t_5numpy_float_t *, int); /*proto*/
+static void (*__pyx_f_4dipy_5utils_10fast_numpy_copy_point)(double *, double *); /*proto*/
 
 /* Module declarations from 'dipy.tracking.local.localtrack' */
 static PyTypeObject *__pyx_array_type = 0;
@@ -2118,7 +2196,9 @@ static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize(double, double); /*proto*/
 static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double *, double *, double); /*proto*/
 static void __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(double *, double *, double); /*proto*/
-static CYTHON_INLINE void __pyx_f_4dipy_8tracking_5local_10localtrack_copypoint(double *, double *); /*proto*/
+static int __pyx_f_4dipy_8tracking_5local_10localtrack__local_tracker(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *, double *, double *, double *, __Pyx_memviewslice, double, int, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *); /*proto*/
+static PyObject *__pyx_f_4dipy_8tracking_5local_10localtrack__pft_tracker(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, double *, double *, double *, __Pyx_memviewslice, __Pyx_memviewslice, double, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *, int, int, int, int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
+static PyObject *__pyx_f_4dipy_8tracking_5local_10localtrack__pft(__Pyx_memviewslice, int, __Pyx_memviewslice, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *, double *, double, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *, int, int, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice, __Pyx_memviewslice); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2152,9 +2232,8 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
-static PyObject *__pyx_format_from_typeinfo(__Pyx_TypeInfo *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_float_t = { "float_t", NULL, sizeof(__pyx_t_5numpy_float_t), { 0 }, 0, 'R', 0, 0 };
-static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
+static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_int_t = { "int_t", NULL, sizeof(__pyx_t_5numpy_int_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5numpy_int_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5numpy_int_t), 0 };
 #define __Pyx_MODULE_NAME "dipy.tracking.local.localtrack"
 int __pyx_module_is_main_dipy__tracking__local__localtrack = 0;
 
@@ -2170,26 +2249,18 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_O[] = "O";
-static const char __pyx_k_T[] = "T{";
-  static const char __pyx_k_c[] = "c";
-  static const char __pyx_k_i[] = "i";
-  static const char __pyx_k_j[] = "j";
-  static const char __pyx_k_s[] = "(%s)";
-  static const char __pyx_k_dg[] = "dg";
-  static const char __pyx_k_id[] = "id";
-  static const char __pyx_k_tc[] = "tc";
-  static const char __pyx_k_vs[] = "vs";
-  static const char __pyx_k__29[] = "^";
-  static const char __pyx_k__30[] = "";
-  static const char __pyx_k__31[] = ":";
-static const char __pyx_k__32[] = "}";
-static const char __pyx_k__33[] = ",";
+static const char __pyx_k_c[] = "c";
+static const char __pyx_k_i[] = "i";
+static const char __pyx_k_dg[] = "dg";
+static const char __pyx_k_id[] = "id";
+static const char __pyx_k_np[] = "np";
+static const char __pyx_k_tc[] = "tc";
+static const char __pyx_k_vs[] = "vs";
 static const char __pyx_k_dir[] = "dir";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_dict[] = "__dict__";
-static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mode[] = "mode";
 static const char __pyx_k_name[] = "name";
@@ -2202,11 +2273,9 @@ static const char __pyx_k_stop[] = "stop";
 static const char __pyx_k_test[] = "__test__";
 static const char __pyx_k_ASCII[] = "ASCII";
 static const char __pyx_k_class[] = "__class__";
-static const char __pyx_k_dview[] = "dview";
 static const char __pyx_k_error[] = "error";
 static const char __pyx_k_flags[] = "flags";
-static const char __pyx_k_point[] = "point";
-static const char __pyx_k_pview[] = "pview";
+static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_range[] = "range";
 static const char __pyx_k_shape[] = "shape";
 static const char __pyx_k_start[] = "start";
@@ -2215,26 +2284,28 @@ static const char __pyx_k_format[] = "format";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_name_2[] = "__name__";
 static const char __pyx_k_pickle[] = "pickle";
+static const char __pyx_k_random[] = "random";
 static const char __pyx_k_reduce[] = "__reduce__";
 static const char __pyx_k_struct[] = "struct";
 static const char __pyx_k_unpack[] = "unpack";
 static const char __pyx_k_update[] = "update";
-static const char __pyx_k_voxdir[] = "voxdir";
 static const char __pyx_k_fortran[] = "fortran";
 static const char __pyx_k_memview[] = "memview";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_getstate[] = "__getstate__";
 static const char __pyx_k_itemsize[] = "itemsize";
 static const char __pyx_k_pyx_type[] = "__pyx_type";
+static const char __pyx_k_seed_pos[] = "seed_pos";
 static const char __pyx_k_setstate[] = "__setstate__";
-static const char __pyx_k_stepsize[] = "stepsize";
 static const char __pyx_k_TypeError[] = "TypeError";
 static const char __pyx_k_enumerate[] = "enumerate";
 static const char __pyx_k_fixedstep[] = "fixedstep";
 static const char __pyx_k_pyx_state[] = "__pyx_state";
 static const char __pyx_k_reduce_ex[] = "__reduce_ex__";
+static const char __pyx_k_step_size[] = "step_size";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
+static const char __pyx_k_directions[] = "directions";
 static const char __pyx_k_first_step[] = "first_step";
 static const char __pyx_k_pyx_result[] = "__pyx_result";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
@@ -2243,26 +2314,36 @@ static const char __pyx_k_voxel_size[] = "voxel_size";
 static const char __pyx_k_ImportError[] = "ImportError";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_PickleError[] = "PickleError";
+static const char __pyx_k_pft_tracker[] = "pft_tracker";
 static const char __pyx_k_RuntimeError[] = "RuntimeError";
 static const char __pyx_k_pyx_checksum[] = "__pyx_checksum";
 static const char __pyx_k_stringsource[] = "stringsource";
 static const char __pyx_k_tissue_class[] = "tissue_class";
 static const char __pyx_k_local_tracker[] = "local_tracker";
+static const char __pyx_k_particle_dirs[] = "particle_dirs";
 static const char __pyx_k_pyx_getbuffer[] = "__pyx_getbuffer";
 static const char __pyx_k_reduce_cython[] = "__reduce_cython__";
+static const char __pyx_k_particle_count[] = "particle_count";
+static const char __pyx_k_particle_paths[] = "particle_paths";
+static const char __pyx_k_particle_steps[] = "particle_steps";
+static const char __pyx_k_pft_max_trials[] = "pft_max_trials";
 static const char __pyx_k_View_MemoryView[] = "View.MemoryView";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
 static const char __pyx_k_pyx_PickleError[] = "__pyx_PickleError";
 static const char __pyx_k_setstate_cython[] = "__setstate_cython__";
+static const char __pyx_k_particle_weights[] = "particle_weights";
 static const char __pyx_k_pyx_unpickle_Enum[] = "__pyx_unpickle_Enum";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
 static const char __pyx_k_strided_and_indirect[] = "<strided and indirect>";
 static const char __pyx_k_contiguous_and_direct[] = "<contiguous and direct>";
 static const char __pyx_k_MemoryView_of_r_object[] = "<MemoryView of %r object>";
+static const char __pyx_k_pft_max_nbr_back_steps[] = "pft_max_nbr_back_steps";
 static const char __pyx_k_MemoryView_of_r_at_0x_x[] = "<MemoryView of %r at 0x%x>";
 static const char __pyx_k_contiguous_and_indirect[] = "<contiguous and indirect>";
+static const char __pyx_k_particle_tissue_classes[] = "particle_tissue_classes";
+static const char __pyx_k_pft_max_nbr_front_steps[] = "pft_max_nbr_front_steps";
 static const char __pyx_k_Cannot_index_with_type_s[] = "Cannot index with type '%s'";
 static const char __pyx_k_Invalid_shape_in_axis_d_d[] = "Invalid shape in axis %d: %d.";
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
@@ -2278,6 +2359,7 @@ static const char __pyx_k_Empty_shape_tuple_for_cython_arr[] = "Empty shape tupl
 static const char __pyx_k_Format_string_allocated_too_shor[] = "Format string allocated too short, see comment in numpy.pxd";
 static const char __pyx_k_Incompatible_checksums_s_vs_0xb0[] = "Incompatible checksums (%s vs 0xb068931 = (name))";
 static const char __pyx_k_Indirect_dimensions_not_supporte[] = "Indirect dimensions not supported";
+static const char __pyx_k_Invalid_input_parameter_dimensio[] = "Invalid input parameter dimensions.";
 static const char __pyx_k_Invalid_mode_expected_c_or_fortr[] = "Invalid mode, expected 'c' or 'fortran', got %s";
 static const char __pyx_k_Non_native_byte_order_not_suppor[] = "Non-native byte order not supported";
 static const char __pyx_k_Out_of_bounds_on_buffer_access_a[] = "Out of bounds on buffer access (axis %d)";
@@ -2301,6 +2383,7 @@ static PyObject *__pyx_n_s_ImportError;
 static PyObject *__pyx_kp_s_Incompatible_checksums_s_vs_0xb0;
 static PyObject *__pyx_n_s_IndexError;
 static PyObject *__pyx_kp_s_Indirect_dimensions_not_supporte;
+static PyObject *__pyx_kp_s_Invalid_input_parameter_dimensio;
 static PyObject *__pyx_kp_s_Invalid_mode_expected_c_or_fortr;
 static PyObject *__pyx_kp_s_Invalid_shape_in_axis_d_d;
 static PyObject *__pyx_n_s_MemoryError;
@@ -2311,16 +2394,10 @@ static PyObject *__pyx_n_b_O;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_RuntimeError;
-static PyObject *__pyx_kp_b_T;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
-static PyObject *__pyx_kp_b__29;
-static PyObject *__pyx_kp_b__30;
-static PyObject *__pyx_kp_b__31;
-static PyObject *__pyx_kp_b__32;
-static PyObject *__pyx_kp_u__33;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_base;
 static PyObject *__pyx_n_s_c;
@@ -2334,8 +2411,8 @@ static PyObject *__pyx_n_s_dict;
 static PyObject *__pyx_n_s_dipy_tracking_local_localtrack;
 static PyObject *__pyx_kp_s_dipy_tracking_local_localtrack_p;
 static PyObject *__pyx_n_s_dir;
+static PyObject *__pyx_n_s_directions;
 static PyObject *__pyx_n_s_dtype_is_object;
-static PyObject *__pyx_n_s_dview;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_error;
@@ -2352,8 +2429,6 @@ static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
-static PyObject *__pyx_n_s_j;
-static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_local_tracker;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_memview;
@@ -2365,13 +2440,23 @@ static PyObject *__pyx_kp_u_ndarray_is_not_Fortran_contiguou;
 static PyObject *__pyx_n_s_ndim;
 static PyObject *__pyx_n_s_new;
 static PyObject *__pyx_kp_s_no_default___reduce___due_to_non;
+static PyObject *__pyx_n_s_np;
+static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_kp_s_numpy_core_multiarray_failed_to;
 static PyObject *__pyx_kp_s_numpy_core_umath_failed_to_impor;
 static PyObject *__pyx_n_s_obj;
 static PyObject *__pyx_n_s_pack;
+static PyObject *__pyx_n_s_particle_count;
+static PyObject *__pyx_n_s_particle_dirs;
+static PyObject *__pyx_n_s_particle_paths;
+static PyObject *__pyx_n_s_particle_steps;
+static PyObject *__pyx_n_s_particle_tissue_classes;
+static PyObject *__pyx_n_s_particle_weights;
+static PyObject *__pyx_n_s_pft_max_nbr_back_steps;
+static PyObject *__pyx_n_s_pft_max_nbr_front_steps;
+static PyObject *__pyx_n_s_pft_max_trials;
+static PyObject *__pyx_n_s_pft_tracker;
 static PyObject *__pyx_n_s_pickle;
-static PyObject *__pyx_n_s_point;
-static PyObject *__pyx_n_s_pview;
 static PyObject *__pyx_n_s_pyx_PickleError;
 static PyObject *__pyx_n_s_pyx_checksum;
 static PyObject *__pyx_n_s_pyx_getbuffer;
@@ -2380,19 +2465,20 @@ static PyObject *__pyx_n_s_pyx_state;
 static PyObject *__pyx_n_s_pyx_type;
 static PyObject *__pyx_n_s_pyx_unpickle_Enum;
 static PyObject *__pyx_n_s_pyx_vtable;
+static PyObject *__pyx_n_s_random;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
-static PyObject *__pyx_kp_u_s;
 static PyObject *__pyx_n_s_seed;
+static PyObject *__pyx_n_s_seed_pos;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_shape;
 static PyObject *__pyx_n_s_size;
 static PyObject *__pyx_n_s_start;
 static PyObject *__pyx_n_s_step;
-static PyObject *__pyx_n_s_stepsize;
+static PyObject *__pyx_n_s_step_size;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_n_s_streamline;
 static PyObject *__pyx_kp_s_strided_and_direct;
@@ -2408,10 +2494,10 @@ static PyObject *__pyx_kp_s_unable_to_allocate_shape_and_str;
 static PyObject *__pyx_kp_u_unknown_dtype_code_in_numpy_pxd;
 static PyObject *__pyx_n_s_unpack;
 static PyObject *__pyx_n_s_update;
-static PyObject *__pyx_n_s_voxdir;
 static PyObject *__pyx_n_s_voxel_size;
 static PyObject *__pyx_n_s_vs;
-static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, PyArrayObject *__pyx_v_seed, PyArrayObject *__pyx_v_first_step, PyArrayObject *__pyx_v_voxel_size, PyArrayObject *__pyx_v_streamline, double __pyx_v_stepsize, int __pyx_v_fixedstep); /* proto */
+static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, __Pyx_memviewslice __pyx_v_seed_pos, __Pyx_memviewslice __pyx_v_first_step, __Pyx_memviewslice __pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, double __pyx_v_step_size, int __pyx_v_fixedstep); /* proto */
+static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_2pft_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_v_tc, __Pyx_memviewslice __pyx_v_seed_pos, __Pyx_memviewslice __pyx_v_first_step, __Pyx_memviewslice __pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, __Pyx_memviewslice __pyx_v_directions, double __pyx_v_step_size, int __pyx_v_pft_max_nbr_back_steps, int __pyx_v_pft_max_nbr_front_steps, int __pyx_v_pft_max_trials, int __pyx_v_particle_count, __Pyx_memviewslice __pyx_v_particle_paths, __Pyx_memviewslice __pyx_v_particle_dirs, __Pyx_memviewslice __pyx_v_particle_weights, __Pyx_memviewslice __pyx_v_particle_steps, __Pyx_memviewslice __pyx_v_particle_tissue_classes); /* proto */
 static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info, int __pyx_v_flags); /* proto */
 static void __pyx_pf_5numpy_7ndarray_2__releasebuffer__(PyArrayObject *__pyx_v_self, Py_buffer *__pyx_v_info); /* proto */
 static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __pyx_array_obj *__pyx_v_self, PyObject *__pyx_v_shape, Py_ssize_t __pyx_v_itemsize, PyObject *__pyx_v_format, PyObject *__pyx_v_mode, int __pyx_v_allocate_buffer); /* proto */
@@ -2473,9 +2559,9 @@ static PyObject *__pyx_tuple__6;
 static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_slice__23;
-static PyObject *__pyx_slice__24;
 static PyObject *__pyx_slice__25;
+static PyObject *__pyx_slice__26;
+static PyObject *__pyx_slice__27;
 static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
@@ -2489,20 +2575,24 @@ static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__20;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__22;
-static PyObject *__pyx_tuple__26;
-static PyObject *__pyx_tuple__27;
+static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__24;
 static PyObject *__pyx_tuple__28;
-static PyObject *__pyx_tuple__34;
+static PyObject *__pyx_tuple__29;
+static PyObject *__pyx_tuple__30;
+static PyObject *__pyx_tuple__31;
+static PyObject *__pyx_tuple__33;
+static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__36;
 static PyObject *__pyx_tuple__37;
 static PyObject *__pyx_tuple__38;
 static PyObject *__pyx_tuple__39;
 static PyObject *__pyx_tuple__40;
-static PyObject *__pyx_tuple__41;
-static PyObject *__pyx_codeobj__35;
-static PyObject *__pyx_codeobj__42;
+static PyObject *__pyx_codeobj__32;
+static PyObject *__pyx_codeobj__34;
+static PyObject *__pyx_codeobj__41;
 
-/* "dipy/tracking/local/localtrack.pyx":15
+/* "dipy/tracking/local/localtrack.pyx":22
  * 
  * @cython.cdivision(True)
  * cdef inline double stepsize(double point, double increment) nogil:             # <<<<<<<<<<<<<<
@@ -2515,7 +2605,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
   double __pyx_r;
   int __pyx_t_1;
 
-  /* "dipy/tracking/local/localtrack.pyx":19
+  /* "dipy/tracking/local/localtrack.pyx":26
  *     cdef:
  *         double dist
  *     dist = dpy_rint(point) + .5 - dpy_signbit(increment) - point             # <<<<<<<<<<<<<<
@@ -2524,7 +2614,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
  */
   __pyx_v_dist = (((dpy_rint(__pyx_v_point) + .5) - dpy_signbit(__pyx_v_increment)) - __pyx_v_point);
 
-  /* "dipy/tracking/local/localtrack.pyx":20
+  /* "dipy/tracking/local/localtrack.pyx":27
  *         double dist
  *     dist = dpy_rint(point) + .5 - dpy_signbit(increment) - point
  *     if dist == 0:             # <<<<<<<<<<<<<<
@@ -2534,7 +2624,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
   __pyx_t_1 = ((__pyx_v_dist == 0.0) != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/local/localtrack.pyx":23
+    /* "dipy/tracking/local/localtrack.pyx":30
  *         # Point is on an edge, return step size to next edge.  This is most
  *         # likely to come up if overstep is set to 0.
  *         return 1. / abs(increment)             # <<<<<<<<<<<<<<
@@ -2544,7 +2634,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
     __pyx_r = (1. / abs(__pyx_v_increment));
     goto __pyx_L0;
 
-    /* "dipy/tracking/local/localtrack.pyx":20
+    /* "dipy/tracking/local/localtrack.pyx":27
  *         double dist
  *     dist = dpy_rint(point) + .5 - dpy_signbit(increment) - point
  *     if dist == 0:             # <<<<<<<<<<<<<<
@@ -2553,7 +2643,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
  */
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":25
+  /* "dipy/tracking/local/localtrack.pyx":32
  *         return 1. / abs(increment)
  *     else:
  *         return dist / increment             # <<<<<<<<<<<<<<
@@ -2565,7 +2655,7 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
     goto __pyx_L0;
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":15
+  /* "dipy/tracking/local/localtrack.pyx":22
  * 
  * @cython.cdivision(True)
  * cdef inline double stepsize(double point, double increment) nogil:             # <<<<<<<<<<<<<<
@@ -2578,11 +2668,11 @@ static CYTHON_INLINE double __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize
   return __pyx_r;
 }
 
-/* "dipy/tracking/local/localtrack.pyx":28
+/* "dipy/tracking/local/localtrack.pyx":35
  * 
  * 
- * cdef void step_to_boundary(double *point, double *direction,             # <<<<<<<<<<<<<<
- *                           double overstep) nogil:
+ * cdef void step_to_boundary(double * point, double * direction,             # <<<<<<<<<<<<<<
+ *                            double overstep) nogil:
  *     """Takes a step from point in along direction just past a voxel boundary.
  */
 
@@ -2594,7 +2684,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
   int __pyx_t_2;
   long __pyx_t_3;
 
-  /* "dipy/tracking/local/localtrack.pyx":49
+  /* "dipy/tracking/local/localtrack.pyx":56
  *         double smallest_step
  * 
  *     for i in range(3):             # <<<<<<<<<<<<<<
@@ -2604,7 +2694,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
   for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "dipy/tracking/local/localtrack.pyx":50
+    /* "dipy/tracking/local/localtrack.pyx":57
  * 
  *     for i in range(3):
  *         step_sizes[i] = stepsize(point[i], direction[i])             # <<<<<<<<<<<<<<
@@ -2614,7 +2704,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
     (__pyx_v_step_sizes[__pyx_v_i]) = __pyx_f_4dipy_8tracking_5local_10localtrack_stepsize((__pyx_v_point[__pyx_v_i]), (__pyx_v_direction[__pyx_v_i]));
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":52
+  /* "dipy/tracking/local/localtrack.pyx":59
  *         step_sizes[i] = stepsize(point[i], direction[i])
  * 
  *     smallest_step = step_sizes[0]             # <<<<<<<<<<<<<<
@@ -2623,7 +2713,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
  */
   __pyx_v_smallest_step = (__pyx_v_step_sizes[0]);
 
-  /* "dipy/tracking/local/localtrack.pyx":53
+  /* "dipy/tracking/local/localtrack.pyx":60
  * 
  *     smallest_step = step_sizes[0]
  *     for i in range(1, 3):             # <<<<<<<<<<<<<<
@@ -2633,7 +2723,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
   for (__pyx_t_1 = 1; __pyx_t_1 < 3; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "dipy/tracking/local/localtrack.pyx":54
+    /* "dipy/tracking/local/localtrack.pyx":61
  *     smallest_step = step_sizes[0]
  *     for i in range(1, 3):
  *         if step_sizes[i] < smallest_step:             # <<<<<<<<<<<<<<
@@ -2643,7 +2733,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
     __pyx_t_2 = (((__pyx_v_step_sizes[__pyx_v_i]) < __pyx_v_smallest_step) != 0);
     if (__pyx_t_2) {
 
-      /* "dipy/tracking/local/localtrack.pyx":55
+      /* "dipy/tracking/local/localtrack.pyx":62
  *     for i in range(1, 3):
  *         if step_sizes[i] < smallest_step:
  *             smallest_step = step_sizes[i]             # <<<<<<<<<<<<<<
@@ -2652,7 +2742,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
  */
       __pyx_v_smallest_step = (__pyx_v_step_sizes[__pyx_v_i]);
 
-      /* "dipy/tracking/local/localtrack.pyx":54
+      /* "dipy/tracking/local/localtrack.pyx":61
  *     smallest_step = step_sizes[0]
  *     for i in range(1, 3):
  *         if step_sizes[i] < smallest_step:             # <<<<<<<<<<<<<<
@@ -2662,7 +2752,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
     }
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":57
+  /* "dipy/tracking/local/localtrack.pyx":64
  *             smallest_step = step_sizes[i]
  * 
  *     smallest_step += overstep             # <<<<<<<<<<<<<<
@@ -2671,7 +2761,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
  */
   __pyx_v_smallest_step = (__pyx_v_smallest_step + __pyx_v_overstep);
 
-  /* "dipy/tracking/local/localtrack.pyx":58
+  /* "dipy/tracking/local/localtrack.pyx":65
  * 
  *     smallest_step += overstep
  *     for i in range(3):             # <<<<<<<<<<<<<<
@@ -2681,7 +2771,7 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
   for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "dipy/tracking/local/localtrack.pyx":59
+    /* "dipy/tracking/local/localtrack.pyx":66
  *     smallest_step += overstep
  *     for i in range(3):
  *         point[i] += smallest_step * direction[i]             # <<<<<<<<<<<<<<
@@ -2692,55 +2782,55 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary(double 
     (__pyx_v_point[__pyx_t_3]) = ((__pyx_v_point[__pyx_t_3]) + (__pyx_v_smallest_step * (__pyx_v_direction[__pyx_v_i])));
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":28
+  /* "dipy/tracking/local/localtrack.pyx":35
  * 
  * 
- * cdef void step_to_boundary(double *point, double *direction,             # <<<<<<<<<<<<<<
- *                           double overstep) nogil:
+ * cdef void step_to_boundary(double * point, double * direction,             # <<<<<<<<<<<<<<
+ *                            double overstep) nogil:
  *     """Takes a step from point in along direction just past a voxel boundary.
  */
 
   /* function exit code */
 }
 
-/* "dipy/tracking/local/localtrack.pyx":62
+/* "dipy/tracking/local/localtrack.pyx":69
  * 
  * 
- * cdef void fixed_step(double *point, double *direction, double stepsize) nogil:             # <<<<<<<<<<<<<<
+ * cdef void fixed_step(double * point, double * direction, double step_size) nogil:             # <<<<<<<<<<<<<<
  *     """Updates point by stepping in direction.
  * 
  */
 
-static void __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(double *__pyx_v_point, double *__pyx_v_direction, double __pyx_v_stepsize) {
+static void __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(double *__pyx_v_point, double *__pyx_v_direction, double __pyx_v_step_size) {
   long __pyx_v_i;
   long __pyx_t_1;
   long __pyx_t_2;
 
-  /* "dipy/tracking/local/localtrack.pyx":75
+  /* "dipy/tracking/local/localtrack.pyx":82
  * 
  *     """
  *     for i in range(3):             # <<<<<<<<<<<<<<
- *         point[i] += direction[i] * stepsize
+ *         point[i] += direction[i] * step_size
  * 
  */
   for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "dipy/tracking/local/localtrack.pyx":76
+    /* "dipy/tracking/local/localtrack.pyx":83
  *     """
  *     for i in range(3):
- *         point[i] += direction[i] * stepsize             # <<<<<<<<<<<<<<
+ *         point[i] += direction[i] * step_size             # <<<<<<<<<<<<<<
  * 
  * 
  */
     __pyx_t_2 = __pyx_v_i;
-    (__pyx_v_point[__pyx_t_2]) = ((__pyx_v_point[__pyx_t_2]) + ((__pyx_v_direction[__pyx_v_i]) * __pyx_v_stepsize));
+    (__pyx_v_point[__pyx_t_2]) = ((__pyx_v_point[__pyx_t_2]) + ((__pyx_v_direction[__pyx_v_i]) * __pyx_v_step_size));
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":62
+  /* "dipy/tracking/local/localtrack.pyx":69
  * 
  * 
- * cdef void fixed_step(double *point, double *direction, double stepsize) nogil:             # <<<<<<<<<<<<<<
+ * cdef void fixed_step(double * point, double * direction, double step_size) nogil:             # <<<<<<<<<<<<<<
  *     """Updates point by stepping in direction.
  * 
  */
@@ -2748,75 +2838,32 @@ static void __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(double *__pyx
   /* function exit code */
 }
 
-/* "dipy/tracking/local/localtrack.pyx":79
+/* "dipy/tracking/local/localtrack.pyx":86
  * 
  * 
- * cdef inline void copypoint(double *a, double *b) nogil:             # <<<<<<<<<<<<<<
- *     for i in range(3):
- *         b[i] = a[i]
- */
-
-static CYTHON_INLINE void __pyx_f_4dipy_8tracking_5local_10localtrack_copypoint(double *__pyx_v_a, double *__pyx_v_b) {
-  long __pyx_v_i;
-  long __pyx_t_1;
-
-  /* "dipy/tracking/local/localtrack.pyx":80
- * 
- * cdef inline void copypoint(double *a, double *b) nogil:
- *     for i in range(3):             # <<<<<<<<<<<<<<
- *         b[i] = a[i]
- * 
- */
-  for (__pyx_t_1 = 0; __pyx_t_1 < 3; __pyx_t_1+=1) {
-    __pyx_v_i = __pyx_t_1;
-
-    /* "dipy/tracking/local/localtrack.pyx":81
- * cdef inline void copypoint(double *a, double *b) nogil:
- *     for i in range(3):
- *         b[i] = a[i]             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    (__pyx_v_b[__pyx_v_i]) = (__pyx_v_a[__pyx_v_i]);
-  }
-
-  /* "dipy/tracking/local/localtrack.pyx":79
- * 
- * 
- * cdef inline void copypoint(double *a, double *b) nogil:             # <<<<<<<<<<<<<<
- *     for i in range(3):
- *         b[i] = a[i]
- */
-
-  /* function exit code */
-}
-
-/* "dipy/tracking/local/localtrack.pyx":87
- * @cython.wraparound(False)
- * @cython.cdivision(True)
- * def local_tracker(DirectionGetter dg, TissueClassifier tc,             # <<<<<<<<<<<<<<
- *                   np.ndarray[np.float_t, ndim=1] seed,
- *                   np.ndarray[np.float_t, ndim=1] first_step,
+ * def local_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         TissueClassifier tc,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4dipy_8tracking_5local_10localtrack_local_tracker[] = "Tracks one direction from a seed.\n\n    This function is the main workhorse of the ``LocalTracking`` class defined\n    in ``dipy.tracking.local.localtracking``.\n\n    Parameters\n    ----------\n    dg : DirectionGetter\n        Used to choosing tracking directions.\n    tc : TissueClassifier\n        Used to check tissue type along path.\n    seed : array, float, 1d, (3,)\n        First point of the (partial) streamline.\n    first_step : array, float, 1d, (3,)\n        Used as ``prev_dir`` for selecting the step direction from the seed\n        point.\n    voxel_size : array, float, 1d, (3,)\n        Size of voxels in the data set.\n    streamline : array, float, 2d, (N, 3)\n        Output of tracking will be put into this array. The length of this\n        array, ``N``, will set the maximum allowable length of the streamline.\n    stepsize : float\n        Size of tracking steps in mm if ``fixed_step``.\n    fixedstep : bool\n        If true, a fixed stepsize is used, otherwise a variable step size is\n        used.\n\n    Returns\n    -------\n    end : int\n        This function updates the ``streamline`` array with points as it\n        tracks. Points in ``streamline[:abs(end)]`` were updated by the\n        function. The sign of ``end`` and whether the last point was included\n        depend on the reason that the streamline was terminated.\n\n        End reasons:\n            1) maximum length of the streamline was reached.\n                ``end == N``\n            2) ``direction_getter`` could not return a direction.\n                ``end > 0``\n                Last point is the point at which no direction could be found.\n            3) Streamline encountered an ENDPOINT.\n                ``end > 0``\n                Last point is the ENDPOINT.\n            3) Streamline encountered an OUTSIDEIMAGE.\n                ``end > 0``\n                Last point is the point before OUTSIDEIMAGE.\n            5) Streamline encountered an INVALIDPOINT.\n      ""          ``end < 0``\n                Last point is INVALIDPOINT.\n\n    ";
+static char __pyx_doc_4dipy_8tracking_5local_10localtrack_local_tracker[] = "Tracks one direction from a seed.\n\n    This function is the main workhorse of the ``LocalTracking`` class defined\n    in ``dipy.tracking.local.localtracking``.\n\n    Parameters\n    ----------\n    dg : DirectionGetter\n        Used to choosing tracking directions.\n    tc : TissueClassifier\n        Used to check tissue type along path.\n    seed_pos : array, float, 1d, (3,)\n        First point of the (partial) streamline.\n    first_step : array, float, 1d, (3,)\n        Initial seeding direction. Used as ``prev_dir`` for selecting the step\n        direction from the seed point.\n    voxel_size : array, float, 1d, (3,)\n        Size of voxels in the data set.\n    streamline : array, float, 2d, (N, 3)\n        Output of tracking will be put into this array. The length of this\n        array, ``N``, will set the maximum allowable length of the streamline.\n    step_size : float\n        Size of tracking steps in mm if ``fixed_step``.\n    fixedstep : bool\n        If true, a fixed step_size is used, otherwise a variable step size is\n        used.\n\n    Returns\n    -------\n    end : int\n        Length of the tracked streamline\n    tissue_class : TissueClass\n        Ending state of the streamlines as determined by the TissueClassifier.\n    ";
 static PyMethodDef __pyx_mdef_4dipy_8tracking_5local_10localtrack_1local_tracker = {"local_tracker", (PyCFunction)__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_8tracking_5local_10localtrack_local_tracker};
 static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg = 0;
   struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc = 0;
-  PyArrayObject *__pyx_v_seed = 0;
-  PyArrayObject *__pyx_v_first_step = 0;
-  PyArrayObject *__pyx_v_voxel_size = 0;
-  PyArrayObject *__pyx_v_streamline = 0;
-  double __pyx_v_stepsize;
+  __Pyx_memviewslice __pyx_v_seed_pos = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_first_step = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_voxel_size = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_streamline = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_step_size;
   int __pyx_v_fixedstep;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("local_tracker (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_dg,&__pyx_n_s_tc,&__pyx_n_s_seed,&__pyx_n_s_first_step,&__pyx_n_s_voxel_size,&__pyx_n_s_streamline,&__pyx_n_s_stepsize,&__pyx_n_s_fixedstep,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_dg,&__pyx_n_s_tc,&__pyx_n_s_seed_pos,&__pyx_n_s_first_step,&__pyx_n_s_voxel_size,&__pyx_n_s_streamline,&__pyx_n_s_step_size,&__pyx_n_s_fixedstep,0};
     PyObject* values[8] = {0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
@@ -2850,47 +2897,47 @@ static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyO
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tc)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 1); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 1); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_seed)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_seed_pos)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 2); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 2); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_first_step)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 3); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 3); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_voxel_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 4); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 4); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_streamline)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 5); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 5); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  6:
-        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stepsize)) != 0)) kw_args--;
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_step_size)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 6); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 6); __PYX_ERR(0, 86, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  7:
         if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fixedstep)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 7); __PYX_ERR(0, 87, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, 7); __PYX_ERR(0, 86, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "local_tracker") < 0)) __PYX_ERR(0, 87, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "local_tracker") < 0)) __PYX_ERR(0, 86, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
       goto __pyx_L5_argtuple_error;
@@ -2906,28 +2953,24 @@ static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyO
     }
     __pyx_v_dg = ((struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)values[0]);
     __pyx_v_tc = ((struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)values[1]);
-    __pyx_v_seed = ((PyArrayObject *)values[2]);
-    __pyx_v_first_step = ((PyArrayObject *)values[3]);
-    __pyx_v_voxel_size = ((PyArrayObject *)values[4]);
-    __pyx_v_streamline = ((PyArrayObject *)values[5]);
-    __pyx_v_stepsize = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_stepsize == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 92, __pyx_L3_error)
-    __pyx_v_fixedstep = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_fixedstep == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 93, __pyx_L3_error)
+    __pyx_v_seed_pos = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[2]); if (unlikely(!__pyx_v_seed_pos.memview)) __PYX_ERR(0, 89, __pyx_L3_error)
+    __pyx_v_first_step = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[3]); if (unlikely(!__pyx_v_first_step.memview)) __PYX_ERR(0, 90, __pyx_L3_error)
+    __pyx_v_voxel_size = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[4]); if (unlikely(!__pyx_v_voxel_size.memview)) __PYX_ERR(0, 91, __pyx_L3_error)
+    __pyx_v_streamline = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_float_t(values[5]); if (unlikely(!__pyx_v_streamline.memview)) __PYX_ERR(0, 92, __pyx_L3_error)
+    __pyx_v_step_size = __pyx_PyFloat_AsDouble(values[6]); if (unlikely((__pyx_v_step_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 93, __pyx_L3_error)
+    __pyx_v_fixedstep = __Pyx_PyInt_As_int(values[7]); if (unlikely((__pyx_v_fixedstep == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 94, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 87, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("local_tracker", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 86, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.tracking.local.localtrack.local_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dg), __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter, 1, "dg", 0))) __PYX_ERR(0, 87, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_tc), __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier, 1, "tc", 0))) __PYX_ERR(0, 87, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_seed), __pyx_ptype_5numpy_ndarray, 1, "seed", 0))) __PYX_ERR(0, 88, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_first_step), __pyx_ptype_5numpy_ndarray, 1, "first_step", 0))) __PYX_ERR(0, 89, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_voxel_size), __pyx_ptype_5numpy_ndarray, 1, "voxel_size", 0))) __PYX_ERR(0, 90, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_streamline), __pyx_ptype_5numpy_ndarray, 1, "streamline", 0))) __PYX_ERR(0, 91, __pyx_L1_error)
-  __pyx_r = __pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(__pyx_self, __pyx_v_dg, __pyx_v_tc, __pyx_v_seed, __pyx_v_first_step, __pyx_v_voxel_size, __pyx_v_streamline, __pyx_v_stepsize, __pyx_v_fixedstep);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_tc), __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier, 1, "tc", 0))) __PYX_ERR(0, 88, __pyx_L1_error)
+  __pyx_r = __pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(__pyx_self, __pyx_v_dg, __pyx_v_tc, __pyx_v_seed_pos, __pyx_v_first_step, __pyx_v_voxel_size, __pyx_v_streamline, __pyx_v_step_size, __pyx_v_fixedstep);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2938,194 +2981,239 @@ static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_1local_tracker(PyO
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, PyArrayObject *__pyx_v_seed, PyArrayObject *__pyx_v_first_step, PyArrayObject *__pyx_v_voxel_size, PyArrayObject *__pyx_v_streamline, double __pyx_v_stepsize, int __pyx_v_fixedstep) {
-  int __pyx_v_i;
+static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, __Pyx_memviewslice __pyx_v_seed_pos, __Pyx_memviewslice __pyx_v_first_step, __Pyx_memviewslice __pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, double __pyx_v_step_size, int __pyx_v_fixedstep) {
+  size_t __pyx_v_i;
   enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_v_tissue_class;
-  double __pyx_v_point[3];
   double __pyx_v_dir[3];
   double __pyx_v_vs[3];
-  double __pyx_v_voxdir[3];
-  __Pyx_memviewslice __pyx_v_pview = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_dview = { 0, 0, { 0 }, { 0 }, { 0 } };
-  void (*__pyx_v_step)(double *, double *, double);
-  long __pyx_v_j;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_first_step;
-  __Pyx_Buffer __pyx_pybuffer_first_step;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_seed;
-  __Pyx_Buffer __pyx_pybuffer_seed;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_streamline;
-  __Pyx_Buffer __pyx_pybuffer_streamline;
-  __Pyx_LocalBuf_ND __pyx_pybuffernd_voxel_size;
-  __Pyx_Buffer __pyx_pybuffer_voxel_size;
+  double __pyx_v_seed[3];
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
   int __pyx_t_2;
   PyObject *__pyx_t_3 = NULL;
-  struct __pyx_array_obj *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  int __pyx_t_7;
-  Py_ssize_t __pyx_t_8;
-  __pyx_t_5numpy_float_t __pyx_t_9;
-  Py_ssize_t __pyx_t_10;
-  Py_ssize_t __pyx_t_11;
-  Py_ssize_t __pyx_t_12;
-  Py_ssize_t __pyx_t_13;
-  npy_intp __pyx_t_14;
-  int __pyx_t_15;
-  long __pyx_t_16;
-  Py_ssize_t __pyx_t_17;
-  Py_ssize_t __pyx_t_18;
-  enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_t_19;
-  PyObject *__pyx_t_20 = NULL;
+  size_t __pyx_t_4;
+  size_t __pyx_t_5;
+  int __pyx_t_6;
+  size_t __pyx_t_7;
+  size_t __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
   __Pyx_RefNannySetupContext("local_tracker", 0);
-  __pyx_pybuffer_seed.pybuffer.buf = NULL;
-  __pyx_pybuffer_seed.refcount = 0;
-  __pyx_pybuffernd_seed.data = NULL;
-  __pyx_pybuffernd_seed.rcbuffer = &__pyx_pybuffer_seed;
-  __pyx_pybuffer_first_step.pybuffer.buf = NULL;
-  __pyx_pybuffer_first_step.refcount = 0;
-  __pyx_pybuffernd_first_step.data = NULL;
-  __pyx_pybuffernd_first_step.rcbuffer = &__pyx_pybuffer_first_step;
-  __pyx_pybuffer_voxel_size.pybuffer.buf = NULL;
-  __pyx_pybuffer_voxel_size.refcount = 0;
-  __pyx_pybuffernd_voxel_size.data = NULL;
-  __pyx_pybuffernd_voxel_size.rcbuffer = &__pyx_pybuffer_voxel_size;
-  __pyx_pybuffer_streamline.pybuffer.buf = NULL;
-  __pyx_pybuffer_streamline.refcount = 0;
-  __pyx_pybuffernd_streamline.data = NULL;
-  __pyx_pybuffernd_streamline.rcbuffer = &__pyx_pybuffer_streamline;
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_seed.rcbuffer->pybuffer, (PyObject*)__pyx_v_seed, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 87, __pyx_L1_error)
-  }
-  __pyx_pybuffernd_seed.diminfo[0].strides = __pyx_pybuffernd_seed.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_seed.diminfo[0].shape = __pyx_pybuffernd_seed.rcbuffer->pybuffer.shape[0];
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_first_step.rcbuffer->pybuffer, (PyObject*)__pyx_v_first_step, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 87, __pyx_L1_error)
-  }
-  __pyx_pybuffernd_first_step.diminfo[0].strides = __pyx_pybuffernd_first_step.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_first_step.diminfo[0].shape = __pyx_pybuffernd_first_step.rcbuffer->pybuffer.shape[0];
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_voxel_size.rcbuffer->pybuffer, (PyObject*)__pyx_v_voxel_size, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 87, __pyx_L1_error)
-  }
-  __pyx_pybuffernd_voxel_size.diminfo[0].strides = __pyx_pybuffernd_voxel_size.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_voxel_size.diminfo[0].shape = __pyx_pybuffernd_voxel_size.rcbuffer->pybuffer.shape[0];
-  {
-    __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_streamline.rcbuffer->pybuffer, (PyObject*)__pyx_v_streamline, &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, PyBUF_FORMAT| PyBUF_C_CONTIGUOUS| PyBUF_WRITABLE, 2, 0, __pyx_stack) == -1)) __PYX_ERR(0, 87, __pyx_L1_error)
-  }
-  __pyx_pybuffernd_streamline.diminfo[0].strides = __pyx_pybuffernd_streamline.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_streamline.diminfo[0].shape = __pyx_pybuffernd_streamline.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_streamline.diminfo[1].strides = __pyx_pybuffernd_streamline.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_streamline.diminfo[1].shape = __pyx_pybuffernd_streamline.rcbuffer->pybuffer.shape[1];
 
-  /* "dipy/tracking/local/localtrack.pyx":146
+  /* "dipy/tracking/local/localtrack.pyx":136
+ *         double seed[3]
  * 
- *     """
- *     if (seed.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
- *         voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
- *         raise ValueError()
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
  */
-  __pyx_t_2 = (((__pyx_v_seed->dimensions[0]) != 3) != 0);
+  __pyx_t_2 = (((__pyx_v_seed_pos.shape[0]) != 3) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (((__pyx_v_first_step->dimensions[0]) != 3) != 0);
+  __pyx_t_2 = (((__pyx_v_first_step.shape[0]) != 3) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":147
- *     """
- *     if (seed.shape[0] != 3 or first_step.shape[0] != 3 or
- *         voxel_size.shape[0] != 3 or streamline.shape[1] != 3):             # <<<<<<<<<<<<<<
- *         raise ValueError()
+  /* "dipy/tracking/local/localtrack.pyx":137
+ * 
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):             # <<<<<<<<<<<<<<
+ *         raise ValueError('Invalid input parameter dimensions.')
  * 
  */
-  __pyx_t_2 = (((__pyx_v_voxel_size->dimensions[0]) != 3) != 0);
+  __pyx_t_2 = (((__pyx_v_voxel_size.shape[0]) != 3) != 0);
   if (!__pyx_t_2) {
   } else {
     __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = (((__pyx_v_streamline->dimensions[1]) != 3) != 0);
+  __pyx_t_2 = (((__pyx_v_streamline.shape[1]) != 3) != 0);
   __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
 
-  /* "dipy/tracking/local/localtrack.pyx":146
+  /* "dipy/tracking/local/localtrack.pyx":136
+ *         double seed[3]
  * 
- *     """
- *     if (seed.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
- *         voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
- *         raise ValueError()
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
  */
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/local/localtrack.pyx":148
- *     if (seed.shape[0] != 3 or first_step.shape[0] != 3 or
- *         voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
- *         raise ValueError()             # <<<<<<<<<<<<<<
+    /* "dipy/tracking/local/localtrack.pyx":138
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')             # <<<<<<<<<<<<<<
  * 
- *     cdef:
+ *     for i in range(3):
  */
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_builtin_ValueError); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 138, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(0, 148, __pyx_L1_error)
+    __PYX_ERR(0, 138, __pyx_L1_error)
 
-    /* "dipy/tracking/local/localtrack.pyx":146
+    /* "dipy/tracking/local/localtrack.pyx":136
+ *         double seed[3]
  * 
- *     """
- *     if (seed.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
- *         voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
- *         raise ValueError()
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
  */
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":154
- *         TissueClass tissue_class
- *         double point[3], dir[3], vs[3], voxdir[3]
- *         double[::1] pview = point, dview = dir             # <<<<<<<<<<<<<<
- *         void (*step)(double*, double*, double) nogil
+  /* "dipy/tracking/local/localtrack.pyx":140
+ *         raise ValueError('Invalid input parameter dimensions.')
+ * 
+ *     for i in range(3):             # <<<<<<<<<<<<<<
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]
+ */
+  for (__pyx_t_4 = 0; __pyx_t_4 < 3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+
+    /* "dipy/tracking/local/localtrack.pyx":141
+ * 
+ *     for i in range(3):
+ *         dir[i] = first_step[i]             # <<<<<<<<<<<<<<
+ *         vs[i] = voxel_size[i]
+ *         seed[i] = seed_pos[i]
+ */
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_5 >= (size_t)__pyx_v_first_step.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 141, __pyx_L1_error)
+    }
+    (__pyx_v_dir[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_first_step.data + __pyx_t_5 * __pyx_v_first_step.strides[0]) )));
+
+    /* "dipy/tracking/local/localtrack.pyx":142
+ *     for i in range(3):
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]             # <<<<<<<<<<<<<<
+ *         seed[i] = seed_pos[i]
  * 
  */
-  __pyx_t_5 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_double);
-  __pyx_t_3 = Py_BuildValue((char*) "("  __PYX_BUILD_PY_SSIZE_T  ")", ((Py_ssize_t)3));
-  if (unlikely(!__pyx_t_5 || !__pyx_t_3 || !PyBytes_AsString(__pyx_t_5))) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __pyx_array_new(__pyx_t_3, sizeof(double), PyBytes_AS_STRING(__pyx_t_5), (char *) "fortran", (char *) __pyx_v_point);
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(((PyObject *)__pyx_t_4));
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
-  __pyx_v_pview = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
-  __pyx_t_3 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_double);
-  __pyx_t_5 = Py_BuildValue((char*) "("  __PYX_BUILD_PY_SSIZE_T  ")", ((Py_ssize_t)3));
-  if (unlikely(!__pyx_t_3 || !__pyx_t_5 || !PyBytes_AsString(__pyx_t_3))) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __pyx_array_new(__pyx_t_5, sizeof(double), PyBytes_AS_STRING(__pyx_t_3), (char *) "fortran", (char *) __pyx_v_dir);
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(((PyObject *)__pyx_t_4));
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(0, 154, __pyx_L1_error)
-  __Pyx_DECREF(((PyObject *)__pyx_t_4)); __pyx_t_4 = 0;
-  __pyx_v_dview = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
+    __pyx_t_7 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_7 >= (size_t)__pyx_v_voxel_size.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 142, __pyx_L1_error)
+    }
+    (__pyx_v_vs[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_voxel_size.data + __pyx_t_7 * __pyx_v_voxel_size.strides[0]) )));
 
-  /* "dipy/tracking/local/localtrack.pyx":157
+    /* "dipy/tracking/local/localtrack.pyx":143
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]
+ *         seed[i] = seed_pos[i]             # <<<<<<<<<<<<<<
+ * 
+ *     i = _local_tracker(dg, tc, seed, dir, vs, streamline,
+ */
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_seed_pos.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 143, __pyx_L1_error)
+    }
+    (__pyx_v_seed[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_seed_pos.data + __pyx_t_8 * __pyx_v_seed_pos.strides[0]) )));
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":145
+ *         seed[i] = seed_pos[i]
+ * 
+ *     i = _local_tracker(dg, tc, seed, dir, vs, streamline,             # <<<<<<<<<<<<<<
+ *                        step_size, fixedstep, &tissue_class)
+ *     return i, tissue_class
+ */
+  __pyx_v_i = __pyx_f_4dipy_8tracking_5local_10localtrack__local_tracker(__pyx_v_dg, __pyx_v_tc, __pyx_v_seed, __pyx_v_dir, __pyx_v_vs, __pyx_v_streamline, __pyx_v_step_size, __pyx_v_fixedstep, (&__pyx_v_tissue_class));
+
+  /* "dipy/tracking/local/localtrack.pyx":147
+ *     i = _local_tracker(dg, tc, seed, dir, vs, streamline,
+ *                        step_size, fixedstep, &tissue_class)
+ *     return i, tissue_class             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_9 = __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(__pyx_v_tissue_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_9);
+  __pyx_t_3 = 0;
+  __pyx_t_9 = 0;
+  __pyx_r = __pyx_t_10;
+  __pyx_t_10 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/local/localtrack.pyx":86
+ * 
+ * 
+ * def local_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         TissueClassifier tc,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_AddTraceback("dipy.tracking.local.localtrack.local_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_seed_pos, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_first_step, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_voxel_size, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_streamline, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/tracking/local/localtrack.pyx":153
+ * @cython.wraparound(False)
+ * @cython.cdivision(True)
+ * cdef int _local_tracker(DirectionGetter dg,             # <<<<<<<<<<<<<<
+ *                         TissueClassifier tc,
+ *                         double* seed,
+ */
+
+static int __pyx_f_4dipy_8tracking_5local_10localtrack__local_tracker(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *__pyx_v_tc, double *__pyx_v_seed, double *__pyx_v_dir, double *__pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, double __pyx_v_step_size, int __pyx_v_fixedstep, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *__pyx_v_tissue_class) {
+  size_t __pyx_v_i;
+  double __pyx_v_point[3];
+  double __pyx_v_voxdir[3];
+  void (*__pyx_v_step)(double *, double *, double);
+  long __pyx_v_j;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  size_t __pyx_t_5;
+  long __pyx_t_6;
+  size_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  int __pyx_t_9;
+  __Pyx_RefNannySetupContext("_local_tracker", 0);
+
+  /* "dipy/tracking/local/localtrack.pyx":168
  *         void (*step)(double*, double*, double) nogil
  * 
  *     if fixedstep:             # <<<<<<<<<<<<<<
@@ -3135,7 +3223,7 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
   __pyx_t_1 = (__pyx_v_fixedstep != 0);
   if (__pyx_t_1) {
 
-    /* "dipy/tracking/local/localtrack.pyx":158
+    /* "dipy/tracking/local/localtrack.pyx":169
  * 
  *     if fixedstep:
  *         step = fixed_step             # <<<<<<<<<<<<<<
@@ -3144,344 +3232,2596 @@ static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_local_tracker(CYTH
  */
     __pyx_v_step = __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step;
 
-    /* "dipy/tracking/local/localtrack.pyx":157
+    /* "dipy/tracking/local/localtrack.pyx":168
  *         void (*step)(double*, double*, double) nogil
  * 
  *     if fixedstep:             # <<<<<<<<<<<<<<
  *         step = fixed_step
  *     else:
  */
-    goto __pyx_L8;
+    goto __pyx_L3;
   }
 
-  /* "dipy/tracking/local/localtrack.pyx":160
+  /* "dipy/tracking/local/localtrack.pyx":171
  *         step = fixed_step
  *     else:
  *         step = step_to_boundary             # <<<<<<<<<<<<<<
  * 
- *     for i in range(3):
+ *     copy_point(seed, point)
  */
   /*else*/ {
     __pyx_v_step = __pyx_f_4dipy_8tracking_5local_10localtrack_step_to_boundary;
   }
-  __pyx_L8:;
+  __pyx_L3:;
 
-  /* "dipy/tracking/local/localtrack.pyx":162
+  /* "dipy/tracking/local/localtrack.pyx":173
  *         step = step_to_boundary
  * 
- *     for i in range(3):             # <<<<<<<<<<<<<<
- *         streamline[0, i] = point[i] = seed[i]
- *         dir[i] = first_step[i]
- */
-  for (__pyx_t_7 = 0; __pyx_t_7 < 3; __pyx_t_7+=1) {
-    __pyx_v_i = __pyx_t_7;
-
-    /* "dipy/tracking/local/localtrack.pyx":163
- * 
- *     for i in range(3):
- *         streamline[0, i] = point[i] = seed[i]             # <<<<<<<<<<<<<<
- *         dir[i] = first_step[i]
- *         vs[i] = voxel_size[i]
- */
-    __pyx_t_8 = __pyx_v_i;
-    __pyx_t_9 = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_seed.rcbuffer->pybuffer.buf, __pyx_t_8, __pyx_pybuffernd_seed.diminfo[0].strides));
-    __pyx_t_10 = 0;
-    __pyx_t_11 = __pyx_v_i;
-    *__Pyx_BufPtrCContig2d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_streamline.rcbuffer->pybuffer.buf, __pyx_t_10, __pyx_pybuffernd_streamline.diminfo[0].strides, __pyx_t_11, __pyx_pybuffernd_streamline.diminfo[1].strides) = __pyx_t_9;
-    (__pyx_v_point[__pyx_v_i]) = __pyx_t_9;
-
-    /* "dipy/tracking/local/localtrack.pyx":164
- *     for i in range(3):
- *         streamline[0, i] = point[i] = seed[i]
- *         dir[i] = first_step[i]             # <<<<<<<<<<<<<<
- *         vs[i] = voxel_size[i]
+ *     copy_point(seed, point)             # <<<<<<<<<<<<<<
+ *     copy_point(seed, &streamline[0,0])
  * 
  */
-    __pyx_t_12 = __pyx_v_i;
-    (__pyx_v_dir[__pyx_v_i]) = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_first_step.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_first_step.diminfo[0].strides));
+  __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_seed, __pyx_v_point);
 
-    /* "dipy/tracking/local/localtrack.pyx":165
- *         streamline[0, i] = point[i] = seed[i]
- *         dir[i] = first_step[i]
- *         vs[i] = voxel_size[i]             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/local/localtrack.pyx":174
  * 
- *     tissue_class = TRACKPOINT
+ *     copy_point(seed, point)
+ *     copy_point(seed, &streamline[0,0])             # <<<<<<<<<<<<<<
+ * 
+ *     tissue_class[0] = TRACKPOINT
  */
-    __pyx_t_13 = __pyx_v_i;
-    (__pyx_v_vs[__pyx_v_i]) = (*__Pyx_BufPtrStrided1d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_voxel_size.rcbuffer->pybuffer.buf, __pyx_t_13, __pyx_pybuffernd_voxel_size.diminfo[0].strides));
-  }
+  __pyx_t_2 = 0;
+  __pyx_t_3 = 0;
+  __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_seed, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_2 * __pyx_v_streamline.strides[0]) ) + __pyx_t_3 * __pyx_v_streamline.strides[1]) )))));
 
-  /* "dipy/tracking/local/localtrack.pyx":167
- *         vs[i] = voxel_size[i]
+  /* "dipy/tracking/local/localtrack.pyx":176
+ *     copy_point(seed, &streamline[0,0])
  * 
- *     tissue_class = TRACKPOINT             # <<<<<<<<<<<<<<
+ *     tissue_class[0] = TRACKPOINT             # <<<<<<<<<<<<<<
  *     for i in range(1, streamline.shape[0]):
- *         if dg.get_direction(pview, dview):
+ *         if dg.get_direction_c(point, dir):
  */
-  __pyx_v_tissue_class = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
+  (__pyx_v_tissue_class[0]) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
 
-  /* "dipy/tracking/local/localtrack.pyx":168
+  /* "dipy/tracking/local/localtrack.pyx":177
  * 
- *     tissue_class = TRACKPOINT
+ *     tissue_class[0] = TRACKPOINT
  *     for i in range(1, streamline.shape[0]):             # <<<<<<<<<<<<<<
- *         if dg.get_direction(pview, dview):
+ *         if dg.get_direction_c(point, dir):
  *             break
  */
-  __pyx_t_14 = (__pyx_v_streamline->dimensions[0]);
-  for (__pyx_t_7 = 1; __pyx_t_7 < __pyx_t_14; __pyx_t_7+=1) {
-    __pyx_v_i = __pyx_t_7;
+  __pyx_t_4 = (__pyx_v_streamline.shape[0]);
+  for (__pyx_t_5 = 1; __pyx_t_5 < __pyx_t_4; __pyx_t_5+=1) {
+    __pyx_v_i = __pyx_t_5;
 
-    /* "dipy/tracking/local/localtrack.pyx":169
- *     tissue_class = TRACKPOINT
+    /* "dipy/tracking/local/localtrack.pyx":178
+ *     tissue_class[0] = TRACKPOINT
  *     for i in range(1, streamline.shape[0]):
- *         if dg.get_direction(pview, dview):             # <<<<<<<<<<<<<<
+ *         if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
  *             break
  *         for j in range(3):
  */
-    __pyx_t_15 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction(__pyx_v_dg, __pyx_v_pview, __pyx_v_dview, 0); if (unlikely(__pyx_t_15 == -1)) __PYX_ERR(0, 169, __pyx_L1_error)
-    __pyx_t_1 = (__pyx_t_15 != 0);
+    __pyx_t_1 = (((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction_c(__pyx_v_dg, __pyx_v_point, __pyx_v_dir) != 0);
     if (__pyx_t_1) {
 
-      /* "dipy/tracking/local/localtrack.pyx":170
+      /* "dipy/tracking/local/localtrack.pyx":179
  *     for i in range(1, streamline.shape[0]):
- *         if dg.get_direction(pview, dview):
+ *         if dg.get_direction_c(point, dir):
  *             break             # <<<<<<<<<<<<<<
  *         for j in range(3):
- *             voxdir[j] = dir[j] / vs[j]
+ *             voxdir[j] = dir[j] / voxel_size[j]
  */
-      goto __pyx_L12_break;
-
-      /* "dipy/tracking/local/localtrack.pyx":169
- *     tissue_class = TRACKPOINT
- *     for i in range(1, streamline.shape[0]):
- *         if dg.get_direction(pview, dview):             # <<<<<<<<<<<<<<
- *             break
- *         for j in range(3):
- */
-    }
-
-    /* "dipy/tracking/local/localtrack.pyx":171
- *         if dg.get_direction(pview, dview):
- *             break
- *         for j in range(3):             # <<<<<<<<<<<<<<
- *             voxdir[j] = dir[j] / vs[j]
- *         step(point, voxdir, stepsize)
- */
-    for (__pyx_t_16 = 0; __pyx_t_16 < 3; __pyx_t_16+=1) {
-      __pyx_v_j = __pyx_t_16;
-
-      /* "dipy/tracking/local/localtrack.pyx":172
- *             break
- *         for j in range(3):
- *             voxdir[j] = dir[j] / vs[j]             # <<<<<<<<<<<<<<
- *         step(point, voxdir, stepsize)
- *         copypoint(point, &streamline[i, 0])
- */
-      (__pyx_v_voxdir[__pyx_v_j]) = ((__pyx_v_dir[__pyx_v_j]) / (__pyx_v_vs[__pyx_v_j]));
-    }
-
-    /* "dipy/tracking/local/localtrack.pyx":173
- *         for j in range(3):
- *             voxdir[j] = dir[j] / vs[j]
- *         step(point, voxdir, stepsize)             # <<<<<<<<<<<<<<
- *         copypoint(point, &streamline[i, 0])
- *         tissue_class = tc.check_point(pview)
- */
-    __pyx_v_step(__pyx_v_point, __pyx_v_voxdir, __pyx_v_stepsize);
-
-    /* "dipy/tracking/local/localtrack.pyx":174
- *             voxdir[j] = dir[j] / vs[j]
- *         step(point, voxdir, stepsize)
- *         copypoint(point, &streamline[i, 0])             # <<<<<<<<<<<<<<
- *         tissue_class = tc.check_point(pview)
- *         if tissue_class == TRACKPOINT:
- */
-    __pyx_t_17 = __pyx_v_i;
-    __pyx_t_18 = 0;
-    __pyx_f_4dipy_8tracking_5local_10localtrack_copypoint(__pyx_v_point, (&(*__Pyx_BufPtrCContig2d(__pyx_t_5numpy_float_t *, __pyx_pybuffernd_streamline.rcbuffer->pybuffer.buf, __pyx_t_17, __pyx_pybuffernd_streamline.diminfo[0].strides, __pyx_t_18, __pyx_pybuffernd_streamline.diminfo[1].strides))));
-
-    /* "dipy/tracking/local/localtrack.pyx":175
- *         step(point, voxdir, stepsize)
- *         copypoint(point, &streamline[i, 0])
- *         tissue_class = tc.check_point(pview)             # <<<<<<<<<<<<<<
- *         if tissue_class == TRACKPOINT:
- *             continue
- */
-    __pyx_t_19 = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc->__pyx_vtab)->check_point(__pyx_v_tc, __pyx_v_pview, 0); if (unlikely(__pyx_t_19 == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_PYERROR)) __PYX_ERR(0, 175, __pyx_L1_error)
-    __pyx_v_tissue_class = __pyx_t_19;
-
-    /* "dipy/tracking/local/localtrack.pyx":176
- *         copypoint(point, &streamline[i, 0])
- *         tissue_class = tc.check_point(pview)
- *         if tissue_class == TRACKPOINT:             # <<<<<<<<<<<<<<
- *             continue
- *         elif (tissue_class == ENDPOINT or
- */
-    switch (__pyx_v_tissue_class) {
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT:
-
-      /* "dipy/tracking/local/localtrack.pyx":177
- *         tissue_class = tc.check_point(pview)
- *         if tissue_class == TRACKPOINT:
- *             continue             # <<<<<<<<<<<<<<
- *         elif (tissue_class == ENDPOINT or
- *               tissue_class == INVALIDPOINT):
- */
-      goto __pyx_L11_continue;
-
-      /* "dipy/tracking/local/localtrack.pyx":176
- *         copypoint(point, &streamline[i, 0])
- *         tissue_class = tc.check_point(pview)
- *         if tissue_class == TRACKPOINT:             # <<<<<<<<<<<<<<
- *             continue
- *         elif (tissue_class == ENDPOINT or
- */
-      break;
+      goto __pyx_L5_break;
 
       /* "dipy/tracking/local/localtrack.pyx":178
- *         if tissue_class == TRACKPOINT:
+ *     tissue_class[0] = TRACKPOINT
+ *     for i in range(1, streamline.shape[0]):
+ *         if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
+ *             break
+ *         for j in range(3):
+ */
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":180
+ *         if dg.get_direction_c(point, dir):
+ *             break
+ *         for j in range(3):             # <<<<<<<<<<<<<<
+ *             voxdir[j] = dir[j] / voxel_size[j]
+ *         step(point, voxdir, step_size)
+ */
+    for (__pyx_t_6 = 0; __pyx_t_6 < 3; __pyx_t_6+=1) {
+      __pyx_v_j = __pyx_t_6;
+
+      /* "dipy/tracking/local/localtrack.pyx":181
+ *             break
+ *         for j in range(3):
+ *             voxdir[j] = dir[j] / voxel_size[j]             # <<<<<<<<<<<<<<
+ *         step(point, voxdir, step_size)
+ *         copy_point(point, &streamline[i, 0])
+ */
+      (__pyx_v_voxdir[__pyx_v_j]) = ((__pyx_v_dir[__pyx_v_j]) / (__pyx_v_voxel_size[__pyx_v_j]));
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":182
+ *         for j in range(3):
+ *             voxdir[j] = dir[j] / voxel_size[j]
+ *         step(point, voxdir, step_size)             # <<<<<<<<<<<<<<
+ *         copy_point(point, &streamline[i, 0])
+ *         tissue_class[0] = tc.check_point_c(point)
+ */
+    __pyx_v_step(__pyx_v_point, __pyx_v_voxdir, __pyx_v_step_size);
+
+    /* "dipy/tracking/local/localtrack.pyx":183
+ *             voxdir[j] = dir[j] / voxel_size[j]
+ *         step(point, voxdir, step_size)
+ *         copy_point(point, &streamline[i, 0])             # <<<<<<<<<<<<<<
+ *         tissue_class[0] = tc.check_point_c(point)
+ *         if tissue_class[0] == TRACKPOINT:
+ */
+    __pyx_t_7 = __pyx_v_i;
+    __pyx_t_8 = 0;
+    __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_point, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_7 * __pyx_v_streamline.strides[0]) ) + __pyx_t_8 * __pyx_v_streamline.strides[1]) )))));
+
+    /* "dipy/tracking/local/localtrack.pyx":184
+ *         step(point, voxdir, step_size)
+ *         copy_point(point, &streamline[i, 0])
+ *         tissue_class[0] = tc.check_point_c(point)             # <<<<<<<<<<<<<<
+ *         if tissue_class[0] == TRACKPOINT:
  *             continue
- *         elif (tissue_class == ENDPOINT or             # <<<<<<<<<<<<<<
- *               tissue_class == INVALIDPOINT):
+ */
+    (__pyx_v_tissue_class[0]) = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc->__pyx_vtab)->check_point_c(__pyx_v_tc, __pyx_v_point);
+
+    /* "dipy/tracking/local/localtrack.pyx":185
+ *         copy_point(point, &streamline[i, 0])
+ *         tissue_class[0] = tc.check_point_c(point)
+ *         if tissue_class[0] == TRACKPOINT:             # <<<<<<<<<<<<<<
+ *             continue
+ *         elif (tissue_class[0] == ENDPOINT or
+ */
+    __pyx_t_1 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT) != 0);
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/local/localtrack.pyx":186
+ *         tissue_class[0] = tc.check_point_c(point)
+ *         if tissue_class[0] == TRACKPOINT:
+ *             continue             # <<<<<<<<<<<<<<
+ *         elif (tissue_class[0] == ENDPOINT or
+ *               tissue_class[0] == INVALIDPOINT):
+ */
+      goto __pyx_L4_continue;
+
+      /* "dipy/tracking/local/localtrack.pyx":185
+ *         copy_point(point, &streamline[i, 0])
+ *         tissue_class[0] = tc.check_point_c(point)
+ *         if tissue_class[0] == TRACKPOINT:             # <<<<<<<<<<<<<<
+ *             continue
+ *         elif (tissue_class[0] == ENDPOINT or
+ */
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":187
+ *         if tissue_class[0] == TRACKPOINT:
+ *             continue
+ *         elif (tissue_class[0] == ENDPOINT or             # <<<<<<<<<<<<<<
+ *               tissue_class[0] == INVALIDPOINT):
  *             i += 1
  */
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_ENDPOINT:
+    __pyx_t_9 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_ENDPOINT) != 0);
+    if (!__pyx_t_9) {
+    } else {
+      __pyx_t_1 = __pyx_t_9;
+      goto __pyx_L10_bool_binop_done;
+    }
 
-      /* "dipy/tracking/local/localtrack.pyx":179
+    /* "dipy/tracking/local/localtrack.pyx":188
  *             continue
- *         elif (tissue_class == ENDPOINT or
- *               tissue_class == INVALIDPOINT):             # <<<<<<<<<<<<<<
+ *         elif (tissue_class[0] == ENDPOINT or
+ *               tissue_class[0] == INVALIDPOINT):             # <<<<<<<<<<<<<<
  *             i += 1
  *             break
  */
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT:
+    __pyx_t_9 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT) != 0);
+    __pyx_t_1 = __pyx_t_9;
+    __pyx_L10_bool_binop_done:;
 
-      /* "dipy/tracking/local/localtrack.pyx":180
- *         elif (tissue_class == ENDPOINT or
- *               tissue_class == INVALIDPOINT):
+    /* "dipy/tracking/local/localtrack.pyx":187
+ *         if tissue_class[0] == TRACKPOINT:
+ *             continue
+ *         elif (tissue_class[0] == ENDPOINT or             # <<<<<<<<<<<<<<
+ *               tissue_class[0] == INVALIDPOINT):
+ *             i += 1
+ */
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/local/localtrack.pyx":189
+ *         elif (tissue_class[0] == ENDPOINT or
+ *               tissue_class[0] == INVALIDPOINT):
  *             i += 1             # <<<<<<<<<<<<<<
  *             break
- *         elif tissue_class == OUTSIDEIMAGE:
+ *         elif tissue_class[0] == OUTSIDEIMAGE:
  */
       __pyx_v_i = (__pyx_v_i + 1);
 
-      /* "dipy/tracking/local/localtrack.pyx":181
- *               tissue_class == INVALIDPOINT):
+      /* "dipy/tracking/local/localtrack.pyx":190
+ *               tissue_class[0] == INVALIDPOINT):
  *             i += 1
  *             break             # <<<<<<<<<<<<<<
- *         elif tissue_class == OUTSIDEIMAGE:
+ *         elif tissue_class[0] == OUTSIDEIMAGE:
  *             break
  */
-      goto __pyx_L12_break;
+      goto __pyx_L5_break;
 
-      /* "dipy/tracking/local/localtrack.pyx":178
- *         if tissue_class == TRACKPOINT:
+      /* "dipy/tracking/local/localtrack.pyx":187
+ *         if tissue_class[0] == TRACKPOINT:
  *             continue
- *         elif (tissue_class == ENDPOINT or             # <<<<<<<<<<<<<<
- *               tissue_class == INVALIDPOINT):
+ *         elif (tissue_class[0] == ENDPOINT or             # <<<<<<<<<<<<<<
+ *               tissue_class[0] == INVALIDPOINT):
  *             i += 1
  */
-      break;
+    }
 
-      /* "dipy/tracking/local/localtrack.pyx":182
+    /* "dipy/tracking/local/localtrack.pyx":191
  *             i += 1
  *             break
- *         elif tissue_class == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
+ *         elif tissue_class[0] == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
  *             break
  *     else:
  */
-      case __pyx_e_4dipy_8tracking_5local_17tissue_classifier_OUTSIDEIMAGE:
+    __pyx_t_1 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_OUTSIDEIMAGE) != 0);
+    if (__pyx_t_1) {
 
-      /* "dipy/tracking/local/localtrack.pyx":183
+      /* "dipy/tracking/local/localtrack.pyx":192
  *             break
- *         elif tissue_class == OUTSIDEIMAGE:
+ *         elif tissue_class[0] == OUTSIDEIMAGE:
  *             break             # <<<<<<<<<<<<<<
  *     else:
  *         # maximum length of streamline has been reached, return everything
  */
-      goto __pyx_L12_break;
+      goto __pyx_L5_break;
 
-      /* "dipy/tracking/local/localtrack.pyx":182
+      /* "dipy/tracking/local/localtrack.pyx":191
  *             i += 1
  *             break
- *         elif tissue_class == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
+ *         elif tissue_class[0] == OUTSIDEIMAGE:             # <<<<<<<<<<<<<<
  *             break
  *     else:
  */
-      break;
-      default: break;
     }
-    __pyx_L11_continue:;
+    __pyx_L4_continue:;
   }
   /*else*/ {
 
-    /* "dipy/tracking/local/localtrack.pyx":186
+    /* "dipy/tracking/local/localtrack.pyx":195
  *     else:
  *         # maximum length of streamline has been reached, return everything
  *         i = streamline.shape[0]             # <<<<<<<<<<<<<<
- *     return i, tissue_class
+ *     return i
+ * 
  */
-    __pyx_v_i = (__pyx_v_streamline->dimensions[0]);
+    __pyx_v_i = (__pyx_v_streamline.shape[0]);
   }
-  __pyx_L12_break:;
+  __pyx_L5_break:;
 
-  /* "dipy/tracking/local/localtrack.pyx":187
+  /* "dipy/tracking/local/localtrack.pyx":196
  *         # maximum length of streamline has been reached, return everything
  *         i = streamline.shape[0]
- *     return i, tissue_class             # <<<<<<<<<<<<<<
+ *     return i             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(__pyx_v_tissue_class); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_20 = PyTuple_New(2); if (unlikely(!__pyx_t_20)) __PYX_ERR(0, 187, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_20);
-  __Pyx_GIVEREF(__pyx_t_3);
-  PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_5);
-  __pyx_t_3 = 0;
-  __pyx_t_5 = 0;
-  __pyx_r = __pyx_t_20;
-  __pyx_t_20 = 0;
+  __pyx_r = __pyx_v_i;
   goto __pyx_L0;
 
-  /* "dipy/tracking/local/localtrack.pyx":87
+  /* "dipy/tracking/local/localtrack.pyx":153
  * @cython.wraparound(False)
  * @cython.cdivision(True)
- * def local_tracker(DirectionGetter dg, TissueClassifier tc,             # <<<<<<<<<<<<<<
- *                   np.ndarray[np.float_t, ndim=1] seed,
- *                   np.ndarray[np.float_t, ndim=1] first_step,
+ * cdef int _local_tracker(DirectionGetter dg,             # <<<<<<<<<<<<<<
+ *                         TissueClassifier tc,
+ *                         double* seed,
+ */
+
+  /* function exit code */
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/tracking/local/localtrack.pyx":199
+ * 
+ * 
+ * def pft_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         ConstrainedTissueClassifier tc,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_3pft_tracker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4dipy_8tracking_5local_10localtrack_2pft_tracker[] = "Tracks one direction from a seed using the particle filtering algorithm.\n\n    This function is the main workhorse of the ``ParticleFilteringTracking``\n    class defined in ``dipy.tracking.local.localtracking``.\n\n    Parameters\n    ----------\n    dg : DirectionGetter\n        Used to choosing tracking directions.\n    tc : TissueClassifier\n        Used to check tissue type along path.\n    seed_pos : array, float, 1d, (3,)\n        First point of the (partial) streamline.\n    first_step : array, float, 1d, (3,)\n        Initial seeding direction. Used as ``prev_dir`` for selecting the step\n        direction from the seed point.\n    voxel_size : array, float, 1d, (3,)\n        Size of voxels in the data set.\n    streamline : array, float, 2d, (N, 3)\n        Output of tracking will be put into this array. The length of this\n        array, ``N``, will set the maximum allowable length of the streamline.\n    directions : array, float, 2d, (N, 3)\n        Output of tracking directions will be put into this array. The length\n        of this array, ``N``, will set the maximum allowable length of the\n        streamline.\n    step_size : float\n        Size of tracking steps in mm if ``fixed_step``.\n    pft_max_nbr_back_steps : int\n        Number of tracking steps to back track before starting the particle\n        filtering tractography.\n    pft_max_nbr_front_steps : int\n        Number of additional tracking steps to track.\n    pft_max_trials : int\n        Maximum number of trials for the particle filtering tractography\n        (Prevents infinite loops).\n    particle_count : int\n        Number of particles to use in the particle filter.\n    particle_paths : array, float, 4d, (2, particle_count, pft_max_steps, 3)\n        Temporary array for paths followed by all particles.\n    particle_dirs : array, float, 4d, (2, particle_count, pft_max_steps, 3)\n        Temporary array for directions followed by particles.\n    particle_weights : array, float, 1""d (particle_count)\n        Temporary array for the weights of particles.\n    particle_steps : array, float, (2, particle_count)\n        Temporary array for the number of steps of particles.\n    particle_tissue_classes : array, float, (2, particle_count)\n        Temporary array for the tissue classes of particles.\n\n    Returns\n    -------\n    end : int\n        Length of the tracked streamline\n    tissue_class : TissueClass\n        Ending state of the streamlines as determined by the TissueClassifier.\n\n    ";
+static PyMethodDef __pyx_mdef_4dipy_8tracking_5local_10localtrack_3pft_tracker = {"pft_tracker", (PyCFunction)__pyx_pw_4dipy_8tracking_5local_10localtrack_3pft_tracker, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4dipy_8tracking_5local_10localtrack_2pft_tracker};
+static PyObject *__pyx_pw_4dipy_8tracking_5local_10localtrack_3pft_tracker(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg = 0;
+  struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_v_tc = 0;
+  __Pyx_memviewslice __pyx_v_seed_pos = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_first_step = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_voxel_size = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_streamline = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_directions = { 0, 0, { 0 }, { 0 }, { 0 } };
+  double __pyx_v_step_size;
+  int __pyx_v_pft_max_nbr_back_steps;
+  int __pyx_v_pft_max_nbr_front_steps;
+  int __pyx_v_pft_max_trials;
+  int __pyx_v_particle_count;
+  __Pyx_memviewslice __pyx_v_particle_paths = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_particle_dirs = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_particle_weights = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_particle_steps = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_v_particle_tissue_classes = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("pft_tracker (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_dg,&__pyx_n_s_tc,&__pyx_n_s_seed_pos,&__pyx_n_s_first_step,&__pyx_n_s_voxel_size,&__pyx_n_s_streamline,&__pyx_n_s_directions,&__pyx_n_s_step_size,&__pyx_n_s_pft_max_nbr_back_steps,&__pyx_n_s_pft_max_nbr_front_steps,&__pyx_n_s_pft_max_trials,&__pyx_n_s_particle_count,&__pyx_n_s_particle_paths,&__pyx_n_s_particle_dirs,&__pyx_n_s_particle_weights,&__pyx_n_s_particle_steps,&__pyx_n_s_particle_tissue_classes,0};
+    PyObject* values[17] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case 17: values[16] = PyTuple_GET_ITEM(__pyx_args, 16);
+        CYTHON_FALLTHROUGH;
+        case 16: values[15] = PyTuple_GET_ITEM(__pyx_args, 15);
+        CYTHON_FALLTHROUGH;
+        case 15: values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
+        CYTHON_FALLTHROUGH;
+        case 14: values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
+        CYTHON_FALLTHROUGH;
+        case 13: values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+        CYTHON_FALLTHROUGH;
+        case 12: values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+        CYTHON_FALLTHROUGH;
+        case 11: values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+        CYTHON_FALLTHROUGH;
+        case 10: values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+        CYTHON_FALLTHROUGH;
+        case  9: values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+        CYTHON_FALLTHROUGH;
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        CYTHON_FALLTHROUGH;
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        CYTHON_FALLTHROUGH;
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        CYTHON_FALLTHROUGH;
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        CYTHON_FALLTHROUGH;
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        CYTHON_FALLTHROUGH;
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        CYTHON_FALLTHROUGH;
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_dg)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_tc)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 1); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_seed_pos)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 2); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  3:
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_first_step)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 3); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_voxel_size)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 4); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_streamline)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 5); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_directions)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 6); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  7:
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_step_size)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 7); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  8:
+        if (likely((values[8] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pft_max_nbr_back_steps)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 8); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case  9:
+        if (likely((values[9] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pft_max_nbr_front_steps)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 9); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 10:
+        if (likely((values[10] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_pft_max_trials)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 10); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 11:
+        if (likely((values[11] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_count)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 11); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 12:
+        if (likely((values[12] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_paths)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 12); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 13:
+        if (likely((values[13] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_dirs)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 13); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 14:
+        if (likely((values[14] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_weights)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 14); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 15:
+        if (likely((values[15] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_steps)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 15); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+        CYTHON_FALLTHROUGH;
+        case 16:
+        if (likely((values[16] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_particle_tissue_classes)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, 16); __PYX_ERR(0, 199, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "pft_tracker") < 0)) __PYX_ERR(0, 199, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 17) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+      values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+      values[8] = PyTuple_GET_ITEM(__pyx_args, 8);
+      values[9] = PyTuple_GET_ITEM(__pyx_args, 9);
+      values[10] = PyTuple_GET_ITEM(__pyx_args, 10);
+      values[11] = PyTuple_GET_ITEM(__pyx_args, 11);
+      values[12] = PyTuple_GET_ITEM(__pyx_args, 12);
+      values[13] = PyTuple_GET_ITEM(__pyx_args, 13);
+      values[14] = PyTuple_GET_ITEM(__pyx_args, 14);
+      values[15] = PyTuple_GET_ITEM(__pyx_args, 15);
+      values[16] = PyTuple_GET_ITEM(__pyx_args, 16);
+    }
+    __pyx_v_dg = ((struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)values[0]);
+    __pyx_v_tc = ((struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *)values[1]);
+    __pyx_v_seed_pos = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[2]); if (unlikely(!__pyx_v_seed_pos.memview)) __PYX_ERR(0, 202, __pyx_L3_error)
+    __pyx_v_first_step = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[3]); if (unlikely(!__pyx_v_first_step.memview)) __PYX_ERR(0, 203, __pyx_L3_error)
+    __pyx_v_voxel_size = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[4]); if (unlikely(!__pyx_v_voxel_size.memview)) __PYX_ERR(0, 204, __pyx_L3_error)
+    __pyx_v_streamline = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_float_t(values[5]); if (unlikely(!__pyx_v_streamline.memview)) __PYX_ERR(0, 205, __pyx_L3_error)
+    __pyx_v_directions = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_float_t(values[6]); if (unlikely(!__pyx_v_directions.memview)) __PYX_ERR(0, 206, __pyx_L3_error)
+    __pyx_v_step_size = __pyx_PyFloat_AsDouble(values[7]); if (unlikely((__pyx_v_step_size == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 207, __pyx_L3_error)
+    __pyx_v_pft_max_nbr_back_steps = __Pyx_PyInt_As_int(values[8]); if (unlikely((__pyx_v_pft_max_nbr_back_steps == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 208, __pyx_L3_error)
+    __pyx_v_pft_max_nbr_front_steps = __Pyx_PyInt_As_int(values[9]); if (unlikely((__pyx_v_pft_max_nbr_front_steps == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 209, __pyx_L3_error)
+    __pyx_v_pft_max_trials = __Pyx_PyInt_As_int(values[10]); if (unlikely((__pyx_v_pft_max_trials == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_particle_count = __Pyx_PyInt_As_int(values[11]); if (unlikely((__pyx_v_particle_count == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 211, __pyx_L3_error)
+    __pyx_v_particle_paths = __Pyx_PyObject_to_MemoryviewSlice_dsdsdsds_nn___pyx_t_5numpy_float_t(values[12]); if (unlikely(!__pyx_v_particle_paths.memview)) __PYX_ERR(0, 212, __pyx_L3_error)
+    __pyx_v_particle_dirs = __Pyx_PyObject_to_MemoryviewSlice_dsdsdsds_nn___pyx_t_5numpy_float_t(values[13]); if (unlikely(!__pyx_v_particle_dirs.memview)) __PYX_ERR(0, 213, __pyx_L3_error)
+    __pyx_v_particle_weights = __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(values[14]); if (unlikely(!__pyx_v_particle_weights.memview)) __PYX_ERR(0, 214, __pyx_L3_error)
+    __pyx_v_particle_steps = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_int_t(values[15]); if (unlikely(!__pyx_v_particle_steps.memview)) __PYX_ERR(0, 215, __pyx_L3_error)
+    __pyx_v_particle_tissue_classes = __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_int_t(values[16]); if (unlikely(!__pyx_v_particle_tissue_classes.memview)) __PYX_ERR(0, 216, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("pft_tracker", 1, 17, 17, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 199, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("dipy.tracking.local.localtrack.pft_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dg), __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter, 1, "dg", 0))) __PYX_ERR(0, 200, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_tc), __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier, 1, "tc", 0))) __PYX_ERR(0, 201, __pyx_L1_error)
+  __pyx_r = __pyx_pf_4dipy_8tracking_5local_10localtrack_2pft_tracker(__pyx_self, __pyx_v_dg, __pyx_v_tc, __pyx_v_seed_pos, __pyx_v_first_step, __pyx_v_voxel_size, __pyx_v_streamline, __pyx_v_directions, __pyx_v_step_size, __pyx_v_pft_max_nbr_back_steps, __pyx_v_pft_max_nbr_front_steps, __pyx_v_pft_max_trials, __pyx_v_particle_count, __pyx_v_particle_paths, __pyx_v_particle_dirs, __pyx_v_particle_weights, __pyx_v_particle_steps, __pyx_v_particle_tissue_classes);
+
+  /* function exit code */
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4dipy_8tracking_5local_10localtrack_2pft_tracker(CYTHON_UNUSED PyObject *__pyx_self, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_v_tc, __Pyx_memviewslice __pyx_v_seed_pos, __Pyx_memviewslice __pyx_v_first_step, __Pyx_memviewslice __pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, __Pyx_memviewslice __pyx_v_directions, double __pyx_v_step_size, int __pyx_v_pft_max_nbr_back_steps, int __pyx_v_pft_max_nbr_front_steps, int __pyx_v_pft_max_trials, int __pyx_v_particle_count, __Pyx_memviewslice __pyx_v_particle_paths, __Pyx_memviewslice __pyx_v_particle_dirs, __Pyx_memviewslice __pyx_v_particle_weights, __Pyx_memviewslice __pyx_v_particle_steps, __Pyx_memviewslice __pyx_v_particle_tissue_classes) {
+  size_t __pyx_v_i;
+  enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass __pyx_v_tissue_class;
+  double __pyx_v_dir[3];
+  double __pyx_v_vs[3];
+  double __pyx_v_seed[3];
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  size_t __pyx_t_4;
+  size_t __pyx_t_5;
+  int __pyx_t_6;
+  size_t __pyx_t_7;
+  size_t __pyx_t_8;
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  __Pyx_RefNannySetupContext("pft_tracker", 0);
+
+  /* "dipy/tracking/local/localtrack.pyx":280
+ *         double seed[3]
+ * 
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
+ */
+  __pyx_t_2 = (((__pyx_v_seed_pos.shape[0]) != 3) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = (((__pyx_v_first_step.shape[0]) != 3) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":281
+ * 
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):             # <<<<<<<<<<<<<<
+ *         raise ValueError('Invalid input parameter dimensions.')
+ * 
+ */
+  __pyx_t_2 = (((__pyx_v_voxel_size.shape[0]) != 3) != 0);
+  if (!__pyx_t_2) {
+  } else {
+    __pyx_t_1 = __pyx_t_2;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_2 = (((__pyx_v_streamline.shape[1]) != 3) != 0);
+  __pyx_t_1 = __pyx_t_2;
+  __pyx_L4_bool_binop_done:;
+
+  /* "dipy/tracking/local/localtrack.pyx":280
+ *         double seed[3]
+ * 
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
+ */
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/local/localtrack.pyx":282
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(3):
+ */
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 282, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(0, 282, __pyx_L1_error)
+
+    /* "dipy/tracking/local/localtrack.pyx":280
+ *         double seed[3]
+ * 
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or             # <<<<<<<<<<<<<<
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')
+ */
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":284
+ *         raise ValueError('Invalid input parameter dimensions.')
+ * 
+ *     for i in range(3):             # <<<<<<<<<<<<<<
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]
+ */
+  for (__pyx_t_4 = 0; __pyx_t_4 < 3; __pyx_t_4+=1) {
+    __pyx_v_i = __pyx_t_4;
+
+    /* "dipy/tracking/local/localtrack.pyx":285
+ * 
+ *     for i in range(3):
+ *         dir[i] = first_step[i]             # <<<<<<<<<<<<<<
+ *         vs[i] = voxel_size[i]
+ *         seed[i] = seed_pos[i]
+ */
+    __pyx_t_5 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_5 >= (size_t)__pyx_v_first_step.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 285, __pyx_L1_error)
+    }
+    (__pyx_v_dir[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_first_step.data + __pyx_t_5 * __pyx_v_first_step.strides[0]) )));
+
+    /* "dipy/tracking/local/localtrack.pyx":286
+ *     for i in range(3):
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]             # <<<<<<<<<<<<<<
+ *         seed[i] = seed_pos[i]
+ * 
+ */
+    __pyx_t_7 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_7 >= (size_t)__pyx_v_voxel_size.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 286, __pyx_L1_error)
+    }
+    (__pyx_v_vs[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_voxel_size.data + __pyx_t_7 * __pyx_v_voxel_size.strides[0]) )));
+
+    /* "dipy/tracking/local/localtrack.pyx":287
+ *         dir[i] = first_step[i]
+ *         vs[i] = voxel_size[i]
+ *         seed[i] = seed_pos[i]             # <<<<<<<<<<<<<<
+ * 
+ *     i = _pft_tracker(dg, tc, seed, dir, vs, streamline,
+ */
+    __pyx_t_8 = __pyx_v_i;
+    __pyx_t_6 = -1;
+    if (unlikely(__pyx_t_8 >= (size_t)__pyx_v_seed_pos.shape[0])) __pyx_t_6 = 0;
+    if (unlikely(__pyx_t_6 != -1)) {
+      __Pyx_RaiseBufferIndexError(__pyx_t_6);
+      __PYX_ERR(0, 287, __pyx_L1_error)
+    }
+    (__pyx_v_seed[__pyx_v_i]) = (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_seed_pos.data + __pyx_t_8 * __pyx_v_seed_pos.strides[0]) )));
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":289
+ *         seed[i] = seed_pos[i]
+ * 
+ *     i = _pft_tracker(dg, tc, seed, dir, vs, streamline,             # <<<<<<<<<<<<<<
+ *                      directions, step_size, &tissue_class, pft_max_nbr_back_steps,
+ *                      pft_max_nbr_front_steps, pft_max_trials, particle_count,
+ */
+  __pyx_t_3 = __pyx_f_4dipy_8tracking_5local_10localtrack__pft_tracker(__pyx_v_dg, __pyx_v_tc, __pyx_v_seed, __pyx_v_dir, __pyx_v_vs, __pyx_v_streamline, __pyx_v_directions, __pyx_v_step_size, (&__pyx_v_tissue_class), __pyx_v_pft_max_nbr_back_steps, __pyx_v_pft_max_nbr_front_steps, __pyx_v_pft_max_trials, __pyx_v_particle_count, __pyx_v_particle_paths, __pyx_v_particle_dirs, __pyx_v_particle_weights, __pyx_v_particle_steps, __pyx_v_particle_tissue_classes); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_PyInt_As_size_t(__pyx_t_3); if (unlikely((__pyx_t_4 == (size_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_i = __pyx_t_4;
+
+  /* "dipy/tracking/local/localtrack.pyx":294
+ *                      particle_paths, particle_dirs, particle_weights,
+ *                      particle_steps, particle_tissue_classes)
+ *     return i, tissue_class             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_3 = __Pyx_PyInt_FromSize_t(__pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_9 = __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(__pyx_v_tissue_class); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 294, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_9);
+  PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_9);
+  __pyx_t_3 = 0;
+  __pyx_t_9 = 0;
+  __pyx_r = __pyx_t_10;
+  __pyx_t_10 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/local/localtrack.pyx":199
+ * 
+ * 
+ * def pft_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         ConstrainedTissueClassifier tc,
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(((PyObject *)__pyx_t_4));
-  __Pyx_XDECREF(__pyx_t_5);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-  __Pyx_XDECREF(__pyx_t_20);
-  { PyObject *__pyx_type, *__pyx_value, *__pyx_tb;
-    __Pyx_PyThreadState_declare
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_first_step.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_seed.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_streamline.rcbuffer->pybuffer);
-    __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_voxel_size.rcbuffer->pybuffer);
-  __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("dipy.tracking.local.localtrack.local_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_AddTraceback("dipy.tracking.local.localtrack.pft_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
-  goto __pyx_L2;
   __pyx_L0:;
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_first_step.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_seed.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_streamline.rcbuffer->pybuffer);
-  __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_voxel_size.rcbuffer->pybuffer);
-  __pyx_L2:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_pview, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_dview, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_seed_pos, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_first_step, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_voxel_size, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_streamline, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_directions, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_particle_paths, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_particle_dirs, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_particle_weights, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_particle_steps, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_particle_tissue_classes, 1);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/tracking/local/localtrack.pyx":300
+ * @cython.wraparound(False)
+ * @cython.cdivision(True)
+ * cdef _pft_tracker(DirectionGetter dg,             # <<<<<<<<<<<<<<
+ *                   ConstrainedTissueClassifier tc,
+ *                   double* seed,
+ */
+
+static PyObject *__pyx_f_4dipy_8tracking_5local_10localtrack__pft_tracker(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_v_tc, double *__pyx_v_seed, double *__pyx_v_dir, double *__pyx_v_voxel_size, __Pyx_memviewslice __pyx_v_streamline, __Pyx_memviewslice __pyx_v_directions, double __pyx_v_step_size, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *__pyx_v_tissue_class, int __pyx_v_pft_max_nbr_back_steps, int __pyx_v_pft_max_nbr_front_steps, int __pyx_v_pft_max_trials, int __pyx_v_particle_count, __Pyx_memviewslice __pyx_v_particle_paths, __Pyx_memviewslice __pyx_v_particle_dirs, __Pyx_memviewslice __pyx_v_particle_weights, __Pyx_memviewslice __pyx_v_particle_steps, __Pyx_memviewslice __pyx_v_particle_tissue_classes) {
+  int __pyx_v_i;
+  int __pyx_v_pft_trial;
+  int __pyx_v_back_steps;
+  int __pyx_v_front_steps;
+  int __pyx_v_strl_array_len;
+  double __pyx_v_point[3];
+  double __pyx_v_voxdir[3];
+  long __pyx_v_j;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  Py_ssize_t __pyx_t_1;
+  Py_ssize_t __pyx_t_2;
+  Py_ssize_t __pyx_t_3;
+  Py_ssize_t __pyx_t_4;
+  int __pyx_t_5;
+  long __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  int __pyx_t_11;
+  int __pyx_t_12;
+  long __pyx_t_13;
+  PyObject *__pyx_t_14 = NULL;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  __Pyx_RefNannySetupContext("_pft_tracker", 0);
+
+  /* "dipy/tracking/local/localtrack.pyx":325
+ *         void (*step)(double* , double*, double) nogil
+ * 
+ *     copy_point(seed, point)             # <<<<<<<<<<<<<<
+ *     copy_point(seed, &streamline[0,0])
+ *     copy_point(dir, &directions[0, 0])
+ */
+  __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_seed, __pyx_v_point);
+
+  /* "dipy/tracking/local/localtrack.pyx":326
+ * 
+ *     copy_point(seed, point)
+ *     copy_point(seed, &streamline[0,0])             # <<<<<<<<<<<<<<
+ *     copy_point(dir, &directions[0, 0])
+ * 
+ */
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_seed, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_1 * __pyx_v_streamline.strides[0]) ) + __pyx_t_2 * __pyx_v_streamline.strides[1]) )))));
+
+  /* "dipy/tracking/local/localtrack.pyx":327
+ *     copy_point(seed, point)
+ *     copy_point(seed, &streamline[0,0])
+ *     copy_point(dir, &directions[0, 0])             # <<<<<<<<<<<<<<
+ * 
+ *     tissue_class[0] = TRACKPOINT
+ */
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_dir, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_directions.data + __pyx_t_3 * __pyx_v_directions.strides[0]) ) + __pyx_t_4 * __pyx_v_directions.strides[1]) )))));
+
+  /* "dipy/tracking/local/localtrack.pyx":329
+ *     copy_point(dir, &directions[0, 0])
+ * 
+ *     tissue_class[0] = TRACKPOINT             # <<<<<<<<<<<<<<
+ *     pft_trial = 0
+ *     i = 1
+ */
+  (__pyx_v_tissue_class[0]) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
+
+  /* "dipy/tracking/local/localtrack.pyx":330
+ * 
+ *     tissue_class[0] = TRACKPOINT
+ *     pft_trial = 0             # <<<<<<<<<<<<<<
+ *     i = 1
+ *     strl_array_len = streamline.shape[0]
+ */
+  __pyx_v_pft_trial = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":331
+ *     tissue_class[0] = TRACKPOINT
+ *     pft_trial = 0
+ *     i = 1             # <<<<<<<<<<<<<<
+ *     strl_array_len = streamline.shape[0]
+ *     while i < strl_array_len:
+ */
+  __pyx_v_i = 1;
+
+  /* "dipy/tracking/local/localtrack.pyx":332
+ *     pft_trial = 0
+ *     i = 1
+ *     strl_array_len = streamline.shape[0]             # <<<<<<<<<<<<<<
+ *     while i < strl_array_len:
+ *         if dg.get_direction_c(point, dir):
+ */
+  __pyx_v_strl_array_len = (__pyx_v_streamline.shape[0]);
+
+  /* "dipy/tracking/local/localtrack.pyx":333
+ *     i = 1
+ *     strl_array_len = streamline.shape[0]
+ *     while i < strl_array_len:             # <<<<<<<<<<<<<<
+ *         if dg.get_direction_c(point, dir):
+ *             # no valid diffusion direction to follow
+ */
+  while (1) {
+    __pyx_t_5 = ((__pyx_v_i < __pyx_v_strl_array_len) != 0);
+    if (!__pyx_t_5) break;
+
+    /* "dipy/tracking/local/localtrack.pyx":334
+ *     strl_array_len = streamline.shape[0]
+ *     while i < strl_array_len:
+ *         if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
+ *             # no valid diffusion direction to follow
+ *             tissue_class[0] = INVALIDPOINT
+ */
+    __pyx_t_5 = (((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction_c(__pyx_v_dg, __pyx_v_point, __pyx_v_dir) != 0);
+    if (__pyx_t_5) {
+
+      /* "dipy/tracking/local/localtrack.pyx":336
+ *         if dg.get_direction_c(point, dir):
+ *             # no valid diffusion direction to follow
+ *             tissue_class[0] = INVALIDPOINT             # <<<<<<<<<<<<<<
+ *         else:
+ *             for j in range(3):
+ */
+      (__pyx_v_tissue_class[0]) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT;
+
+      /* "dipy/tracking/local/localtrack.pyx":334
+ *     strl_array_len = streamline.shape[0]
+ *     while i < strl_array_len:
+ *         if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
+ *             # no valid diffusion direction to follow
+ *             tissue_class[0] = INVALIDPOINT
+ */
+      goto __pyx_L5;
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":338
+ *             tissue_class[0] = INVALIDPOINT
+ *         else:
+ *             for j in range(3):             # <<<<<<<<<<<<<<
+ *                 voxdir[j] = dir[j] / voxel_size[j]
+ * 
+ */
+    /*else*/ {
+      for (__pyx_t_6 = 0; __pyx_t_6 < 3; __pyx_t_6+=1) {
+        __pyx_v_j = __pyx_t_6;
+
+        /* "dipy/tracking/local/localtrack.pyx":339
+ *         else:
+ *             for j in range(3):
+ *                 voxdir[j] = dir[j] / voxel_size[j]             # <<<<<<<<<<<<<<
+ * 
+ *             fixed_step(point, voxdir, step_size)
+ */
+        (__pyx_v_voxdir[__pyx_v_j]) = ((__pyx_v_dir[__pyx_v_j]) / (__pyx_v_voxel_size[__pyx_v_j]));
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":341
+ *                 voxdir[j] = dir[j] / voxel_size[j]
+ * 
+ *             fixed_step(point, voxdir, step_size)             # <<<<<<<<<<<<<<
+ *             copy_point(point, &streamline[i, 0])
+ *             copy_point(dir, &directions[i, 0])
+ */
+      __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(__pyx_v_point, __pyx_v_voxdir, __pyx_v_step_size);
+
+      /* "dipy/tracking/local/localtrack.pyx":342
+ * 
+ *             fixed_step(point, voxdir, step_size)
+ *             copy_point(point, &streamline[i, 0])             # <<<<<<<<<<<<<<
+ *             copy_point(dir, &directions[i, 0])
+ *             tissue_class[0] = tc.check_point_c(point)
+ */
+      __pyx_t_7 = __pyx_v_i;
+      __pyx_t_8 = 0;
+      __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_point, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_7 * __pyx_v_streamline.strides[0]) ) + __pyx_t_8 * __pyx_v_streamline.strides[1]) )))));
+
+      /* "dipy/tracking/local/localtrack.pyx":343
+ *             fixed_step(point, voxdir, step_size)
+ *             copy_point(point, &streamline[i, 0])
+ *             copy_point(dir, &directions[i, 0])             # <<<<<<<<<<<<<<
+ *             tissue_class[0] = tc.check_point_c(point)
+ *             i += 1
+ */
+      __pyx_t_9 = __pyx_v_i;
+      __pyx_t_10 = 0;
+      __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_dir, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_directions.data + __pyx_t_9 * __pyx_v_directions.strides[0]) ) + __pyx_t_10 * __pyx_v_directions.strides[1]) )))));
+
+      /* "dipy/tracking/local/localtrack.pyx":344
+ *             copy_point(point, &streamline[i, 0])
+ *             copy_point(dir, &directions[i, 0])
+ *             tissue_class[0] = tc.check_point_c(point)             # <<<<<<<<<<<<<<
+ *             i += 1
+ *         if tissue_class[0] == TRACKPOINT:
+ */
+      (__pyx_v_tissue_class[0]) = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *)__pyx_v_tc->__pyx_base.__pyx_vtab)->__pyx_base.check_point_c(((struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc), __pyx_v_point);
+
+      /* "dipy/tracking/local/localtrack.pyx":345
+ *             copy_point(dir, &directions[i, 0])
+ *             tissue_class[0] = tc.check_point_c(point)
+ *             i += 1             # <<<<<<<<<<<<<<
+ *         if tissue_class[0] == TRACKPOINT:
+ *             # The tracking continues normally
+ */
+      __pyx_v_i = (__pyx_v_i + 1);
+    }
+    __pyx_L5:;
+
+    /* "dipy/tracking/local/localtrack.pyx":346
+ *             tissue_class[0] = tc.check_point_c(point)
+ *             i += 1
+ *         if tissue_class[0] == TRACKPOINT:             # <<<<<<<<<<<<<<
+ *             # The tracking continues normally
+ *             continue
+ */
+    __pyx_t_5 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT) != 0);
+    if (__pyx_t_5) {
+
+      /* "dipy/tracking/local/localtrack.pyx":348
+ *         if tissue_class[0] == TRACKPOINT:
+ *             # The tracking continues normally
+ *             continue             # <<<<<<<<<<<<<<
+ *         elif tissue_class[0] == INVALIDPOINT:
+ *             if pft_trial < pft_max_trials and i > 1:
+ */
+      goto __pyx_L3_continue;
+
+      /* "dipy/tracking/local/localtrack.pyx":346
+ *             tissue_class[0] = tc.check_point_c(point)
+ *             i += 1
+ *         if tissue_class[0] == TRACKPOINT:             # <<<<<<<<<<<<<<
+ *             # The tracking continues normally
+ *             continue
+ */
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":349
+ *             # The tracking continues normally
+ *             continue
+ *         elif tissue_class[0] == INVALIDPOINT:             # <<<<<<<<<<<<<<
+ *             if pft_trial < pft_max_trials and i > 1:
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ */
+    __pyx_t_5 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT) != 0);
+    if (__pyx_t_5) {
+
+      /* "dipy/tracking/local/localtrack.pyx":350
+ *             continue
+ *         elif tissue_class[0] == INVALIDPOINT:
+ *             if pft_trial < pft_max_trials and i > 1:             # <<<<<<<<<<<<<<
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ */
+      __pyx_t_11 = ((__pyx_v_pft_trial < __pyx_v_pft_max_trials) != 0);
+      if (__pyx_t_11) {
+      } else {
+        __pyx_t_5 = __pyx_t_11;
+        goto __pyx_L10_bool_binop_done;
+      }
+      __pyx_t_11 = ((__pyx_v_i > 1) != 0);
+      __pyx_t_5 = __pyx_t_11;
+      __pyx_L10_bool_binop_done:;
+      if (__pyx_t_5) {
+
+        /* "dipy/tracking/local/localtrack.pyx":351
+ *         elif tissue_class[0] == INVALIDPOINT:
+ *             if pft_trial < pft_max_trials and i > 1:
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)             # <<<<<<<<<<<<<<
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ *                                   pft_max_nbr_front_steps)
+ */
+        __pyx_t_12 = __pyx_v_pft_max_nbr_back_steps;
+        __pyx_t_6 = (__pyx_v_i - 1);
+        if (((__pyx_t_12 < __pyx_t_6) != 0)) {
+          __pyx_t_13 = __pyx_t_12;
+        } else {
+          __pyx_t_13 = __pyx_t_6;
+        }
+        __pyx_v_back_steps = __pyx_t_13;
+
+        /* "dipy/tracking/local/localtrack.pyx":353
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ *                                   pft_max_nbr_front_steps)             # <<<<<<<<<<<<<<
+ *                 front_steps = max(0, front_steps)
+ *                 i = _pft(streamline, i - back_steps, directions, dg, tc,
+ */
+        __pyx_t_12 = __pyx_v_pft_max_nbr_front_steps;
+
+        /* "dipy/tracking/local/localtrack.pyx":352
+ *             if pft_trial < pft_max_trials and i > 1:
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,             # <<<<<<<<<<<<<<
+ *                                   pft_max_nbr_front_steps)
+ *                 front_steps = max(0, front_steps)
+ */
+        __pyx_t_13 = (((__pyx_v_strl_array_len - __pyx_v_i) - __pyx_v_back_steps) - 1);
+
+        /* "dipy/tracking/local/localtrack.pyx":353
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ *                                   pft_max_nbr_front_steps)             # <<<<<<<<<<<<<<
+ *                 front_steps = max(0, front_steps)
+ *                 i = _pft(streamline, i - back_steps, directions, dg, tc,
+ */
+        if (((__pyx_t_12 < __pyx_t_13) != 0)) {
+          __pyx_t_6 = __pyx_t_12;
+        } else {
+          __pyx_t_6 = __pyx_t_13;
+        }
+        __pyx_v_front_steps = __pyx_t_6;
+
+        /* "dipy/tracking/local/localtrack.pyx":354
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ *                                   pft_max_nbr_front_steps)
+ *                 front_steps = max(0, front_steps)             # <<<<<<<<<<<<<<
+ *                 i = _pft(streamline, i - back_steps, directions, dg, tc,
+ *                          voxel_size, step_size, tissue_class,
+ */
+        __pyx_t_12 = __pyx_v_front_steps;
+        __pyx_t_6 = 0;
+        if (((__pyx_t_12 > __pyx_t_6) != 0)) {
+          __pyx_t_13 = __pyx_t_12;
+        } else {
+          __pyx_t_13 = __pyx_t_6;
+        }
+        __pyx_v_front_steps = __pyx_t_13;
+
+        /* "dipy/tracking/local/localtrack.pyx":355
+ *                                   pft_max_nbr_front_steps)
+ *                 front_steps = max(0, front_steps)
+ *                 i = _pft(streamline, i - back_steps, directions, dg, tc,             # <<<<<<<<<<<<<<
+ *                          voxel_size, step_size, tissue_class,
+ *                          back_steps + front_steps, particle_count,
+ */
+        __pyx_t_14 = __pyx_f_4dipy_8tracking_5local_10localtrack__pft(__pyx_v_streamline, (__pyx_v_i - __pyx_v_back_steps), __pyx_v_directions, __pyx_v_dg, __pyx_v_tc, __pyx_v_voxel_size, __pyx_v_step_size, __pyx_v_tissue_class, (__pyx_v_back_steps + __pyx_v_front_steps), __pyx_v_particle_count, __pyx_v_particle_paths, __pyx_v_particle_dirs, __pyx_v_particle_weights, __pyx_v_particle_steps, __pyx_v_particle_tissue_classes); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 355, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_14);
+        __pyx_t_12 = __Pyx_PyInt_As_int(__pyx_t_14); if (unlikely((__pyx_t_12 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 355, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __pyx_v_i = __pyx_t_12;
+
+        /* "dipy/tracking/local/localtrack.pyx":360
+ *                          particle_paths, particle_dirs, particle_weights,
+ *                          particle_steps, particle_tissue_classes)
+ *                 pft_trial += 1             # <<<<<<<<<<<<<<
+ *                 # update the current point with the PFT results
+ *                 copy_point(&streamline[i-1, 0], point)
+ */
+        __pyx_v_pft_trial = (__pyx_v_pft_trial + 1);
+
+        /* "dipy/tracking/local/localtrack.pyx":362
+ *                 pft_trial += 1
+ *                 # update the current point with the PFT results
+ *                 copy_point(&streamline[i-1, 0], point)             # <<<<<<<<<<<<<<
+ *                 copy_point(&directions[i-1, 0], dir)
+ * 
+ */
+        __pyx_t_15 = (__pyx_v_i - 1);
+        __pyx_t_16 = 0;
+        __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_15 * __pyx_v_streamline.strides[0]) ) + __pyx_t_16 * __pyx_v_streamline.strides[1]) )))), __pyx_v_point);
+
+        /* "dipy/tracking/local/localtrack.pyx":363
+ *                 # update the current point with the PFT results
+ *                 copy_point(&streamline[i-1, 0], point)
+ *                 copy_point(&directions[i-1, 0], dir)             # <<<<<<<<<<<<<<
+ * 
+ *                 if tissue_class[0] != TRACKPOINT:
+ */
+        __pyx_t_17 = (__pyx_v_i - 1);
+        __pyx_t_18 = 0;
+        __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_directions.data + __pyx_t_17 * __pyx_v_directions.strides[0]) ) + __pyx_t_18 * __pyx_v_directions.strides[1]) )))), __pyx_v_dir);
+
+        /* "dipy/tracking/local/localtrack.pyx":365
+ *                 copy_point(&directions[i-1, 0], dir)
+ * 
+ *                 if tissue_class[0] != TRACKPOINT:             # <<<<<<<<<<<<<<
+ *                     # The tracking stops. PFT returned a valid stopping point
+ *                     # (ENDPOINT, OUTSIDEIMAGE) or failed to find one
+ */
+        __pyx_t_5 = (((__pyx_v_tissue_class[0]) != __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT) != 0);
+        if (__pyx_t_5) {
+
+          /* "dipy/tracking/local/localtrack.pyx":369
+ *                     # (ENDPOINT, OUTSIDEIMAGE) or failed to find one
+ *                     # (INVALIDPOINT, PYERROR)
+ *                     break             # <<<<<<<<<<<<<<
+ *             else:
+ *                 # PFT was run more times than `pft_max_trials` without finding
+ */
+          goto __pyx_L4_break;
+
+          /* "dipy/tracking/local/localtrack.pyx":365
+ *                 copy_point(&directions[i-1, 0], dir)
+ * 
+ *                 if tissue_class[0] != TRACKPOINT:             # <<<<<<<<<<<<<<
+ *                     # The tracking stops. PFT returned a valid stopping point
+ *                     # (ENDPOINT, OUTSIDEIMAGE) or failed to find one
+ */
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":350
+ *             continue
+ *         elif tissue_class[0] == INVALIDPOINT:
+ *             if pft_trial < pft_max_trials and i > 1:             # <<<<<<<<<<<<<<
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ *                 front_steps = min(strl_array_len - i - back_steps - 1,
+ */
+        goto __pyx_L9;
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":373
+ *                 # PFT was run more times than `pft_max_trials` without finding
+ *                 # a valid stopping point. The tracking stops with INVALIDPOINT.
+ *                 break             # <<<<<<<<<<<<<<
+ *         else:
+ *             # The tracking stops with a valid point (ENDPOINT, OUTSIDEIMAGE)
+ */
+      /*else*/ {
+        goto __pyx_L4_break;
+      }
+      __pyx_L9:;
+
+      /* "dipy/tracking/local/localtrack.pyx":349
+ *             # The tracking continues normally
+ *             continue
+ *         elif tissue_class[0] == INVALIDPOINT:             # <<<<<<<<<<<<<<
+ *             if pft_trial < pft_max_trials and i > 1:
+ *                 back_steps = min(i - 1, pft_max_nbr_back_steps)
+ */
+      goto __pyx_L8;
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":377
+ *             # The tracking stops with a valid point (ENDPOINT, OUTSIDEIMAGE)
+ *             # or an invalid point (PYERROR)
+ *             break             # <<<<<<<<<<<<<<
+ * 
+ *     if tissue_class[0] == OUTSIDEIMAGE or tissue_class[0] == PYERROR:
+ */
+    /*else*/ {
+      goto __pyx_L4_break;
+    }
+    __pyx_L8:;
+    __pyx_L3_continue:;
+  }
+  __pyx_L4_break:;
+
+  /* "dipy/tracking/local/localtrack.pyx":379
+ *             break
+ * 
+ *     if tissue_class[0] == OUTSIDEIMAGE or tissue_class[0] == PYERROR:             # <<<<<<<<<<<<<<
+ *         i -= 1
+ *     return i
+ */
+  __pyx_t_11 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_OUTSIDEIMAGE) != 0);
+  if (!__pyx_t_11) {
+  } else {
+    __pyx_t_5 = __pyx_t_11;
+    goto __pyx_L14_bool_binop_done;
+  }
+  __pyx_t_11 = (((__pyx_v_tissue_class[0]) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_PYERROR) != 0);
+  __pyx_t_5 = __pyx_t_11;
+  __pyx_L14_bool_binop_done:;
+  if (__pyx_t_5) {
+
+    /* "dipy/tracking/local/localtrack.pyx":380
+ * 
+ *     if tissue_class[0] == OUTSIDEIMAGE or tissue_class[0] == PYERROR:
+ *         i -= 1             # <<<<<<<<<<<<<<
+ *     return i
+ * 
+ */
+    __pyx_v_i = (__pyx_v_i - 1);
+
+    /* "dipy/tracking/local/localtrack.pyx":379
+ *             break
+ * 
+ *     if tissue_class[0] == OUTSIDEIMAGE or tissue_class[0] == PYERROR:             # <<<<<<<<<<<<<<
+ *         i -= 1
+ *     return i
+ */
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":381
+ *     if tissue_class[0] == OUTSIDEIMAGE or tissue_class[0] == PYERROR:
+ *         i -= 1
+ *     return i             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_14 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 381, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_14);
+  __pyx_r = __pyx_t_14;
+  __pyx_t_14 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/local/localtrack.pyx":300
+ * @cython.wraparound(False)
+ * @cython.cdivision(True)
+ * cdef _pft_tracker(DirectionGetter dg,             # <<<<<<<<<<<<<<
+ *                   ConstrainedTissueClassifier tc,
+ *                   double* seed,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_14);
+  __Pyx_AddTraceback("dipy.tracking.local.localtrack._pft_tracker", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "dipy/tracking/local/localtrack.pyx":387
+ * @cython.wraparound(False)
+ * @cython.cdivision(True)
+ * cdef _pft(np.float_t[:, :] streamline,             # <<<<<<<<<<<<<<
+ *           int streamline_i,
+ *           np.float_t[:, :] directions,
+ */
+
+static PyObject *__pyx_f_4dipy_8tracking_5local_10localtrack__pft(__Pyx_memviewslice __pyx_v_streamline, int __pyx_v_streamline_i, __Pyx_memviewslice __pyx_v_directions, struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter *__pyx_v_dg, struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *__pyx_v_tc, double *__pyx_v_voxel_size, double __pyx_v_step_size, enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass *__pyx_v_tissue_class, int __pyx_v_pft_nbr_steps, int __pyx_v_particle_count, __Pyx_memviewslice __pyx_v_particle_paths, __Pyx_memviewslice __pyx_v_particle_dirs, __Pyx_memviewslice __pyx_v_particle_weights, __Pyx_memviewslice __pyx_v_particle_steps, __Pyx_memviewslice __pyx_v_particle_tissue_classes) {
+  double __pyx_v_sum_weights;
+  double __pyx_v_sum_squared;
+  double __pyx_v_N_effective;
+  double __pyx_v_rdm_sample;
+  double __pyx_v_point[3];
+  double __pyx_v_dir[3];
+  double __pyx_v_voxdir[3];
+  double __pyx_v_eps;
+  int __pyx_v_s;
+  int __pyx_v_p;
+  int __pyx_v_j;
+  int __pyx_v_pp;
+  int __pyx_v_ss;
+  int __pyx_v_p_source;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
+  int __pyx_t_4;
+  Py_ssize_t __pyx_t_5;
+  Py_ssize_t __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  Py_ssize_t __pyx_t_11;
+  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_13;
+  Py_ssize_t __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  Py_ssize_t __pyx_t_16;
+  Py_ssize_t __pyx_t_17;
+  Py_ssize_t __pyx_t_18;
+  Py_ssize_t __pyx_t_19;
+  Py_ssize_t __pyx_t_20;
+  Py_ssize_t __pyx_t_21;
+  int __pyx_t_22;
+  int __pyx_t_23;
+  Py_ssize_t __pyx_t_24;
+  Py_ssize_t __pyx_t_25;
+  int __pyx_t_26;
+  Py_ssize_t __pyx_t_27;
+  Py_ssize_t __pyx_t_28;
+  Py_ssize_t __pyx_t_29;
+  Py_ssize_t __pyx_t_30;
+  Py_ssize_t __pyx_t_31;
+  Py_ssize_t __pyx_t_32;
+  Py_ssize_t __pyx_t_33;
+  Py_ssize_t __pyx_t_34;
+  Py_ssize_t __pyx_t_35;
+  Py_ssize_t __pyx_t_36;
+  Py_ssize_t __pyx_t_37;
+  Py_ssize_t __pyx_t_38;
+  Py_ssize_t __pyx_t_39;
+  Py_ssize_t __pyx_t_40;
+  Py_ssize_t __pyx_t_41;
+  Py_ssize_t __pyx_t_42;
+  Py_ssize_t __pyx_t_43;
+  Py_ssize_t __pyx_t_44;
+  Py_ssize_t __pyx_t_45;
+  Py_ssize_t __pyx_t_46;
+  Py_ssize_t __pyx_t_47;
+  Py_ssize_t __pyx_t_48;
+  Py_ssize_t __pyx_t_49;
+  Py_ssize_t __pyx_t_50;
+  Py_ssize_t __pyx_t_51;
+  Py_ssize_t __pyx_t_52;
+  Py_ssize_t __pyx_t_53;
+  Py_ssize_t __pyx_t_54;
+  Py_ssize_t __pyx_t_55;
+  Py_ssize_t __pyx_t_56;
+  Py_ssize_t __pyx_t_57;
+  Py_ssize_t __pyx_t_58;
+  Py_ssize_t __pyx_t_59;
+  Py_ssize_t __pyx_t_60;
+  Py_ssize_t __pyx_t_61;
+  Py_ssize_t __pyx_t_62;
+  int __pyx_t_63;
+  Py_ssize_t __pyx_t_64;
+  Py_ssize_t __pyx_t_65;
+  Py_ssize_t __pyx_t_66;
+  Py_ssize_t __pyx_t_67;
+  Py_ssize_t __pyx_t_68;
+  Py_ssize_t __pyx_t_69;
+  Py_ssize_t __pyx_t_70;
+  Py_ssize_t __pyx_t_71;
+  int __pyx_t_72;
+  Py_ssize_t __pyx_t_73;
+  Py_ssize_t __pyx_t_74;
+  Py_ssize_t __pyx_t_75;
+  Py_ssize_t __pyx_t_76;
+  Py_ssize_t __pyx_t_77;
+  Py_ssize_t __pyx_t_78;
+  Py_ssize_t __pyx_t_79;
+  Py_ssize_t __pyx_t_80;
+  Py_ssize_t __pyx_t_81;
+  Py_ssize_t __pyx_t_82;
+  Py_ssize_t __pyx_t_83;
+  Py_ssize_t __pyx_t_84;
+  Py_ssize_t __pyx_t_85;
+  Py_ssize_t __pyx_t_86;
+  Py_ssize_t __pyx_t_87;
+  Py_ssize_t __pyx_t_88;
+  Py_ssize_t __pyx_t_89;
+  Py_ssize_t __pyx_t_90;
+  Py_ssize_t __pyx_t_91;
+  Py_ssize_t __pyx_t_92;
+  Py_ssize_t __pyx_t_93;
+  Py_ssize_t __pyx_t_94;
+  Py_ssize_t __pyx_t_95;
+  Py_ssize_t __pyx_t_96;
+  Py_ssize_t __pyx_t_97;
+  Py_ssize_t __pyx_t_98;
+  PyObject *__pyx_t_99 = NULL;
+  PyObject *__pyx_t_100 = NULL;
+  Py_ssize_t __pyx_t_101;
+  double __pyx_t_102;
+  Py_ssize_t __pyx_t_103;
+  Py_ssize_t __pyx_t_104;
+  Py_ssize_t __pyx_t_105;
+  Py_ssize_t __pyx_t_106;
+  Py_ssize_t __pyx_t_107;
+  Py_ssize_t __pyx_t_108;
+  Py_ssize_t __pyx_t_109;
+  Py_ssize_t __pyx_t_110;
+  Py_ssize_t __pyx_t_111;
+  Py_ssize_t __pyx_t_112;
+  Py_ssize_t __pyx_t_113;
+  Py_ssize_t __pyx_t_114;
+  Py_ssize_t __pyx_t_115;
+  Py_ssize_t __pyx_t_116;
+  Py_ssize_t __pyx_t_117;
+  Py_ssize_t __pyx_t_118;
+  Py_ssize_t __pyx_t_119;
+  Py_ssize_t __pyx_t_120;
+  Py_ssize_t __pyx_t_121;
+  Py_ssize_t __pyx_t_122;
+  Py_ssize_t __pyx_t_123;
+  Py_ssize_t __pyx_t_124;
+  Py_ssize_t __pyx_t_125;
+  Py_ssize_t __pyx_t_126;
+  Py_ssize_t __pyx_t_127;
+  Py_ssize_t __pyx_t_128;
+  Py_ssize_t __pyx_t_129;
+  Py_ssize_t __pyx_t_130;
+  Py_ssize_t __pyx_t_131;
+  Py_ssize_t __pyx_t_132;
+  Py_ssize_t __pyx_t_133;
+  Py_ssize_t __pyx_t_134;
+  Py_ssize_t __pyx_t_135;
+  __pyx_t_5numpy_int_t __pyx_t_136;
+  Py_ssize_t __pyx_t_137;
+  Py_ssize_t __pyx_t_138;
+  Py_ssize_t __pyx_t_139;
+  Py_ssize_t __pyx_t_140;
+  Py_ssize_t __pyx_t_141;
+  Py_ssize_t __pyx_t_142;
+  Py_ssize_t __pyx_t_143;
+  Py_ssize_t __pyx_t_144;
+  Py_ssize_t __pyx_t_145;
+  Py_ssize_t __pyx_t_146;
+  Py_ssize_t __pyx_t_147;
+  Py_ssize_t __pyx_t_148;
+  Py_ssize_t __pyx_t_149;
+  Py_ssize_t __pyx_t_150;
+  Py_ssize_t __pyx_t_151;
+  Py_ssize_t __pyx_t_152;
+  __Pyx_RefNannySetupContext("_pft", 0);
+
+  /* "dipy/tracking/local/localtrack.pyx":407
+ *         double dir[3]
+ *         double voxdir[3]
+ *         double eps = 1e-16             # <<<<<<<<<<<<<<
+ *         int s, p, j
+ * 
+ */
+  __pyx_v_eps = 1e-16;
+
+  /* "dipy/tracking/local/localtrack.pyx":410
+ *         int s, p, j
+ * 
+ *     if pft_nbr_steps <= 0:             # <<<<<<<<<<<<<<
+ *         return streamline_i
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_pft_nbr_steps <= 0) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/local/localtrack.pyx":411
+ * 
+ *     if pft_nbr_steps <= 0:
+ *         return streamline_i             # <<<<<<<<<<<<<<
+ * 
+ *     for p in range(particle_count):
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_streamline_i); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 411, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_r = __pyx_t_2;
+    __pyx_t_2 = 0;
+    goto __pyx_L0;
+
+    /* "dipy/tracking/local/localtrack.pyx":410
+ *         int s, p, j
+ * 
+ *     if pft_nbr_steps <= 0:             # <<<<<<<<<<<<<<
+ *         return streamline_i
+ * 
+ */
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":413
+ *         return streamline_i
+ * 
+ *     for p in range(particle_count):             # <<<<<<<<<<<<<<
+ *         copy_point(&streamline[streamline_i, 0], &particle_paths[0, p, 0, 0])
+ *         copy_point(&directions[streamline_i, 0], &particle_dirs[0, p, 0, 0])
+ */
+  __pyx_t_3 = __pyx_v_particle_count;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_p = __pyx_t_4;
+
+    /* "dipy/tracking/local/localtrack.pyx":414
+ * 
+ *     for p in range(particle_count):
+ *         copy_point(&streamline[streamline_i, 0], &particle_paths[0, p, 0, 0])             # <<<<<<<<<<<<<<
+ *         copy_point(&directions[streamline_i, 0], &particle_dirs[0, p, 0, 0])
+ *         particle_weights[p] = 1. / particle_count
+ */
+    __pyx_t_5 = __pyx_v_streamline_i;
+    __pyx_t_6 = 0;
+    __pyx_t_7 = 0;
+    __pyx_t_8 = __pyx_v_p;
+    __pyx_t_9 = 0;
+    __pyx_t_10 = 0;
+    __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_5 * __pyx_v_streamline.strides[0]) ) + __pyx_t_6 * __pyx_v_streamline.strides[1]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_7 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_8 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_9 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_10 * __pyx_v_particle_paths.strides[3]) )))));
+
+    /* "dipy/tracking/local/localtrack.pyx":415
+ *     for p in range(particle_count):
+ *         copy_point(&streamline[streamline_i, 0], &particle_paths[0, p, 0, 0])
+ *         copy_point(&directions[streamline_i, 0], &particle_dirs[0, p, 0, 0])             # <<<<<<<<<<<<<<
+ *         particle_weights[p] = 1. / particle_count
+ *         particle_tissue_classes[0, p] = TRACKPOINT
+ */
+    __pyx_t_11 = __pyx_v_streamline_i;
+    __pyx_t_12 = 0;
+    __pyx_t_13 = 0;
+    __pyx_t_14 = __pyx_v_p;
+    __pyx_t_15 = 0;
+    __pyx_t_16 = 0;
+    __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_directions.data + __pyx_t_11 * __pyx_v_directions.strides[0]) ) + __pyx_t_12 * __pyx_v_directions.strides[1]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_13 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_14 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_15 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_16 * __pyx_v_particle_dirs.strides[3]) )))));
+
+    /* "dipy/tracking/local/localtrack.pyx":416
+ *         copy_point(&streamline[streamline_i, 0], &particle_paths[0, p, 0, 0])
+ *         copy_point(&directions[streamline_i, 0], &particle_dirs[0, p, 0, 0])
+ *         particle_weights[p] = 1. / particle_count             # <<<<<<<<<<<<<<
+ *         particle_tissue_classes[0, p] = TRACKPOINT
+ *         particle_steps[0, p] = 0
+ */
+    __pyx_t_17 = __pyx_v_p;
+    *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_17 * __pyx_v_particle_weights.strides[0]) )) = (1. / __pyx_v_particle_count);
+
+    /* "dipy/tracking/local/localtrack.pyx":417
+ *         copy_point(&directions[streamline_i, 0], &particle_dirs[0, p, 0, 0])
+ *         particle_weights[p] = 1. / particle_count
+ *         particle_tissue_classes[0, p] = TRACKPOINT             # <<<<<<<<<<<<<<
+ *         particle_steps[0, p] = 0
+ * 
+ */
+    __pyx_t_18 = 0;
+    __pyx_t_19 = __pyx_v_p;
+    *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_18 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_19 * __pyx_v_particle_tissue_classes.strides[1]) )) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
+
+    /* "dipy/tracking/local/localtrack.pyx":418
+ *         particle_weights[p] = 1. / particle_count
+ *         particle_tissue_classes[0, p] = TRACKPOINT
+ *         particle_steps[0, p] = 0             # <<<<<<<<<<<<<<
+ * 
+ *     for s in range(pft_nbr_steps):
+ */
+    __pyx_t_20 = 0;
+    __pyx_t_21 = __pyx_v_p;
+    *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_20 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_21 * __pyx_v_particle_steps.strides[1]) )) = 0;
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":420
+ *         particle_steps[0, p] = 0
+ * 
+ *     for s in range(pft_nbr_steps):             # <<<<<<<<<<<<<<
+ *         for p in range(particle_count):
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:
+ */
+  __pyx_t_3 = __pyx_v_pft_nbr_steps;
+  for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
+    __pyx_v_s = __pyx_t_4;
+
+    /* "dipy/tracking/local/localtrack.pyx":421
+ * 
+ *     for s in range(pft_nbr_steps):
+ *         for p in range(particle_count):             # <<<<<<<<<<<<<<
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:
+ *                 for j in range(3):
+ */
+    __pyx_t_22 = __pyx_v_particle_count;
+    for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+      __pyx_v_p = __pyx_t_23;
+
+      /* "dipy/tracking/local/localtrack.pyx":422
+ *     for s in range(pft_nbr_steps):
+ *         for p in range(particle_count):
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:             # <<<<<<<<<<<<<<
+ *                 for j in range(3):
+ *                     particle_paths[0, p, s, j] = 0
+ */
+      __pyx_t_24 = 0;
+      __pyx_t_25 = __pyx_v_p;
+      __pyx_t_1 = (((*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_24 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_25 * __pyx_v_particle_tissue_classes.strides[1]) ))) != __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT) != 0);
+      if (__pyx_t_1) {
+
+        /* "dipy/tracking/local/localtrack.pyx":423
+ *         for p in range(particle_count):
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:
+ *                 for j in range(3):             # <<<<<<<<<<<<<<
+ *                     particle_paths[0, p, s, j] = 0
+ *                     particle_dirs[0, p, s, j] = 0
+ */
+        for (__pyx_t_26 = 0; __pyx_t_26 < 3; __pyx_t_26+=1) {
+          __pyx_v_j = __pyx_t_26;
+
+          /* "dipy/tracking/local/localtrack.pyx":424
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:
+ *                 for j in range(3):
+ *                     particle_paths[0, p, s, j] = 0             # <<<<<<<<<<<<<<
+ *                     particle_dirs[0, p, s, j] = 0
+ *                 continue  # move to the next particle
+ */
+          __pyx_t_27 = 0;
+          __pyx_t_28 = __pyx_v_p;
+          __pyx_t_29 = __pyx_v_s;
+          __pyx_t_30 = __pyx_v_j;
+          *((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_27 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_28 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_29 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_30 * __pyx_v_particle_paths.strides[3]) )) = 0.0;
+
+          /* "dipy/tracking/local/localtrack.pyx":425
+ *                 for j in range(3):
+ *                     particle_paths[0, p, s, j] = 0
+ *                     particle_dirs[0, p, s, j] = 0             # <<<<<<<<<<<<<<
+ *                 continue  # move to the next particle
+ *             copy_point(&particle_paths[0, p, s, 0], point)
+ */
+          __pyx_t_31 = 0;
+          __pyx_t_32 = __pyx_v_p;
+          __pyx_t_33 = __pyx_v_s;
+          __pyx_t_34 = __pyx_v_j;
+          *((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_31 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_32 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_33 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_34 * __pyx_v_particle_dirs.strides[3]) )) = 0.0;
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":426
+ *                     particle_paths[0, p, s, j] = 0
+ *                     particle_dirs[0, p, s, j] = 0
+ *                 continue  # move to the next particle             # <<<<<<<<<<<<<<
+ *             copy_point(&particle_paths[0, p, s, 0], point)
+ *             copy_point(&particle_dirs[0, p, s, 0], dir)
+ */
+        goto __pyx_L8_continue;
+
+        /* "dipy/tracking/local/localtrack.pyx":422
+ *     for s in range(pft_nbr_steps):
+ *         for p in range(particle_count):
+ *             if particle_tissue_classes[0, p] != TRACKPOINT:             # <<<<<<<<<<<<<<
+ *                 for j in range(3):
+ *                     particle_paths[0, p, s, j] = 0
+ */
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":427
+ *                     particle_dirs[0, p, s, j] = 0
+ *                 continue  # move to the next particle
+ *             copy_point(&particle_paths[0, p, s, 0], point)             # <<<<<<<<<<<<<<
+ *             copy_point(&particle_dirs[0, p, s, 0], dir)
+ * 
+ */
+      __pyx_t_35 = 0;
+      __pyx_t_36 = __pyx_v_p;
+      __pyx_t_37 = __pyx_v_s;
+      __pyx_t_38 = 0;
+      __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_35 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_36 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_37 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_38 * __pyx_v_particle_paths.strides[3]) )))), __pyx_v_point);
+
+      /* "dipy/tracking/local/localtrack.pyx":428
+ *                 continue  # move to the next particle
+ *             copy_point(&particle_paths[0, p, s, 0], point)
+ *             copy_point(&particle_dirs[0, p, s, 0], dir)             # <<<<<<<<<<<<<<
+ * 
+ *             if dg.get_direction_c(point, dir):
+ */
+      __pyx_t_39 = 0;
+      __pyx_t_40 = __pyx_v_p;
+      __pyx_t_41 = __pyx_v_s;
+      __pyx_t_42 = 0;
+      __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_39 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_40 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_41 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_42 * __pyx_v_particle_dirs.strides[3]) )))), __pyx_v_dir);
+
+      /* "dipy/tracking/local/localtrack.pyx":430
+ *             copy_point(&particle_dirs[0, p, s, 0], dir)
+ * 
+ *             if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
+ *                 particle_tissue_classes[0, p] = INVALIDPOINT
+ *                 particle_weights[p] = 0
+ */
+      __pyx_t_1 = (((struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter *)__pyx_v_dg->__pyx_vtab)->get_direction_c(__pyx_v_dg, __pyx_v_point, __pyx_v_dir) != 0);
+      if (__pyx_t_1) {
+
+        /* "dipy/tracking/local/localtrack.pyx":431
+ * 
+ *             if dg.get_direction_c(point, dir):
+ *                 particle_tissue_classes[0, p] = INVALIDPOINT             # <<<<<<<<<<<<<<
+ *                 particle_weights[p] = 0
+ *             else:
+ */
+        __pyx_t_43 = 0;
+        __pyx_t_44 = __pyx_v_p;
+        *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_43 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_44 * __pyx_v_particle_tissue_classes.strides[1]) )) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT;
+
+        /* "dipy/tracking/local/localtrack.pyx":432
+ *             if dg.get_direction_c(point, dir):
+ *                 particle_tissue_classes[0, p] = INVALIDPOINT
+ *                 particle_weights[p] = 0             # <<<<<<<<<<<<<<
+ *             else:
+ *                 for j in range(3):
+ */
+        __pyx_t_45 = __pyx_v_p;
+        *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_45 * __pyx_v_particle_weights.strides[0]) )) = 0.0;
+
+        /* "dipy/tracking/local/localtrack.pyx":430
+ *             copy_point(&particle_dirs[0, p, s, 0], dir)
+ * 
+ *             if dg.get_direction_c(point, dir):             # <<<<<<<<<<<<<<
+ *                 particle_tissue_classes[0, p] = INVALIDPOINT
+ *                 particle_weights[p] = 0
+ */
+        goto __pyx_L13;
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":434
+ *                 particle_weights[p] = 0
+ *             else:
+ *                 for j in range(3):             # <<<<<<<<<<<<<<
+ *                     voxdir[j] = dir[j] / voxel_size[j]
+ *                 fixed_step(point, voxdir, step_size)
+ */
+      /*else*/ {
+        for (__pyx_t_26 = 0; __pyx_t_26 < 3; __pyx_t_26+=1) {
+          __pyx_v_j = __pyx_t_26;
+
+          /* "dipy/tracking/local/localtrack.pyx":435
+ *             else:
+ *                 for j in range(3):
+ *                     voxdir[j] = dir[j] / voxel_size[j]             # <<<<<<<<<<<<<<
+ *                 fixed_step(point, voxdir, step_size)
+ *                 copy_point(point, &particle_paths[0, p, s + 1, 0])
+ */
+          (__pyx_v_voxdir[__pyx_v_j]) = ((__pyx_v_dir[__pyx_v_j]) / (__pyx_v_voxel_size[__pyx_v_j]));
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":436
+ *                 for j in range(3):
+ *                     voxdir[j] = dir[j] / voxel_size[j]
+ *                 fixed_step(point, voxdir, step_size)             # <<<<<<<<<<<<<<
+ *                 copy_point(point, &particle_paths[0, p, s + 1, 0])
+ *                 copy_point(dir, &particle_dirs[0, p, s + 1, 0])
+ */
+        __pyx_f_4dipy_8tracking_5local_10localtrack_fixed_step(__pyx_v_point, __pyx_v_voxdir, __pyx_v_step_size);
+
+        /* "dipy/tracking/local/localtrack.pyx":437
+ *                     voxdir[j] = dir[j] / voxel_size[j]
+ *                 fixed_step(point, voxdir, step_size)
+ *                 copy_point(point, &particle_paths[0, p, s + 1, 0])             # <<<<<<<<<<<<<<
+ *                 copy_point(dir, &particle_dirs[0, p, s + 1, 0])
+ *                 particle_tissue_classes[0, p] = tc.check_point_c(point)
+ */
+        __pyx_t_46 = 0;
+        __pyx_t_47 = __pyx_v_p;
+        __pyx_t_48 = (__pyx_v_s + 1);
+        __pyx_t_49 = 0;
+        __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_point, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_46 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_47 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_48 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_49 * __pyx_v_particle_paths.strides[3]) )))));
+
+        /* "dipy/tracking/local/localtrack.pyx":438
+ *                 fixed_step(point, voxdir, step_size)
+ *                 copy_point(point, &particle_paths[0, p, s + 1, 0])
+ *                 copy_point(dir, &particle_dirs[0, p, s + 1, 0])             # <<<<<<<<<<<<<<
+ *                 particle_tissue_classes[0, p] = tc.check_point_c(point)
+ *                 particle_steps[0, p] = s + 1
+ */
+        __pyx_t_50 = 0;
+        __pyx_t_51 = __pyx_v_p;
+        __pyx_t_52 = (__pyx_v_s + 1);
+        __pyx_t_53 = 0;
+        __pyx_f_4dipy_5utils_10fast_numpy_copy_point(__pyx_v_dir, (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_50 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_51 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_52 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_53 * __pyx_v_particle_dirs.strides[3]) )))));
+
+        /* "dipy/tracking/local/localtrack.pyx":439
+ *                 copy_point(point, &particle_paths[0, p, s + 1, 0])
+ *                 copy_point(dir, &particle_dirs[0, p, s + 1, 0])
+ *                 particle_tissue_classes[0, p] = tc.check_point_c(point)             # <<<<<<<<<<<<<<
+ *                 particle_steps[0, p] = s + 1
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)
+ */
+        __pyx_t_54 = 0;
+        __pyx_t_55 = __pyx_v_p;
+        *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_54 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_55 * __pyx_v_particle_tissue_classes.strides[1]) )) = ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *)__pyx_v_tc->__pyx_base.__pyx_vtab)->__pyx_base.check_point_c(((struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier *)__pyx_v_tc), __pyx_v_point);
+
+        /* "dipy/tracking/local/localtrack.pyx":440
+ *                 copy_point(dir, &particle_dirs[0, p, s + 1, 0])
+ *                 particle_tissue_classes[0, p] = tc.check_point_c(point)
+ *                 particle_steps[0, p] = s + 1             # <<<<<<<<<<<<<<
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)
+ *                 if particle_weights[p] < eps:
+ */
+        __pyx_t_56 = 0;
+        __pyx_t_57 = __pyx_v_p;
+        *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_56 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_57 * __pyx_v_particle_steps.strides[1]) )) = (__pyx_v_s + 1);
+
+        /* "dipy/tracking/local/localtrack.pyx":441
+ *                 particle_tissue_classes[0, p] = tc.check_point_c(point)
+ *                 particle_steps[0, p] = s + 1
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)             # <<<<<<<<<<<<<<
+ *                 if particle_weights[p] < eps:
+ *                     particle_weights[p] = 0
+ */
+        __pyx_t_58 = __pyx_v_p;
+        *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_58 * __pyx_v_particle_weights.strides[0]) )) *= (1.0 - ((struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier *)__pyx_v_tc->__pyx_base.__pyx_vtab)->get_exclude_c(__pyx_v_tc, __pyx_v_point));
+
+        /* "dipy/tracking/local/localtrack.pyx":442
+ *                 particle_steps[0, p] = s + 1
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)
+ *                 if particle_weights[p] < eps:             # <<<<<<<<<<<<<<
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and
+ */
+        __pyx_t_59 = __pyx_v_p;
+        __pyx_t_1 = (((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_59 * __pyx_v_particle_weights.strides[0]) ))) < __pyx_v_eps) != 0);
+        if (__pyx_t_1) {
+
+          /* "dipy/tracking/local/localtrack.pyx":443
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)
+ *                 if particle_weights[p] < eps:
+ *                     particle_weights[p] = 0             # <<<<<<<<<<<<<<
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and
+ *                         particle_weights[p] > 0):
+ */
+          __pyx_t_60 = __pyx_v_p;
+          *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_60 * __pyx_v_particle_weights.strides[0]) )) = 0.0;
+
+          /* "dipy/tracking/local/localtrack.pyx":442
+ *                 particle_steps[0, p] = s + 1
+ *                 particle_weights[p] *= 1 - tc.get_exclude_c(point)
+ *                 if particle_weights[p] < eps:             # <<<<<<<<<<<<<<
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and
+ */
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":444
+ *                 if particle_weights[p] < eps:
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and             # <<<<<<<<<<<<<<
+ *                         particle_weights[p] > 0):
+ *                     particle_tissue_classes[0, p] = TRACKPOINT
+ */
+        __pyx_t_61 = 0;
+        __pyx_t_62 = __pyx_v_p;
+        __pyx_t_63 = (((*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_61 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_62 * __pyx_v_particle_tissue_classes.strides[1]) ))) == __pyx_e_4dipy_8tracking_5local_17tissue_classifier_INVALIDPOINT) != 0);
+        if (__pyx_t_63) {
+        } else {
+          __pyx_t_1 = __pyx_t_63;
+          goto __pyx_L18_bool_binop_done;
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":445
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and
+ *                         particle_weights[p] > 0):             # <<<<<<<<<<<<<<
+ *                     particle_tissue_classes[0, p] = TRACKPOINT
+ * 
+ */
+        __pyx_t_64 = __pyx_v_p;
+        __pyx_t_63 = (((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_64 * __pyx_v_particle_weights.strides[0]) ))) > 0.0) != 0);
+        __pyx_t_1 = __pyx_t_63;
+        __pyx_L18_bool_binop_done:;
+
+        /* "dipy/tracking/local/localtrack.pyx":444
+ *                 if particle_weights[p] < eps:
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and             # <<<<<<<<<<<<<<
+ *                         particle_weights[p] > 0):
+ *                     particle_tissue_classes[0, p] = TRACKPOINT
+ */
+        if (__pyx_t_1) {
+
+          /* "dipy/tracking/local/localtrack.pyx":446
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and
+ *                         particle_weights[p] > 0):
+ *                     particle_tissue_classes[0, p] = TRACKPOINT             # <<<<<<<<<<<<<<
+ * 
+ *         sum_weights = 0
+ */
+          __pyx_t_65 = 0;
+          __pyx_t_66 = __pyx_v_p;
+          *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_65 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_66 * __pyx_v_particle_tissue_classes.strides[1]) )) = __pyx_e_4dipy_8tracking_5local_17tissue_classifier_TRACKPOINT;
+
+          /* "dipy/tracking/local/localtrack.pyx":444
+ *                 if particle_weights[p] < eps:
+ *                     particle_weights[p] = 0
+ *                 if (particle_tissue_classes[0, p] == INVALIDPOINT and             # <<<<<<<<<<<<<<
+ *                         particle_weights[p] > 0):
+ *                     particle_tissue_classes[0, p] = TRACKPOINT
+ */
+        }
+      }
+      __pyx_L13:;
+      __pyx_L8_continue:;
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":448
+ *                     particle_tissue_classes[0, p] = TRACKPOINT
+ * 
+ *         sum_weights = 0             # <<<<<<<<<<<<<<
+ *         for p in range(particle_count):
+ *             sum_weights += particle_weights[p]
+ */
+    __pyx_v_sum_weights = 0.0;
+
+    /* "dipy/tracking/local/localtrack.pyx":449
+ * 
+ *         sum_weights = 0
+ *         for p in range(particle_count):             # <<<<<<<<<<<<<<
+ *             sum_weights += particle_weights[p]
+ * 
+ */
+    __pyx_t_22 = __pyx_v_particle_count;
+    for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+      __pyx_v_p = __pyx_t_23;
+
+      /* "dipy/tracking/local/localtrack.pyx":450
+ *         sum_weights = 0
+ *         for p in range(particle_count):
+ *             sum_weights += particle_weights[p]             # <<<<<<<<<<<<<<
+ * 
+ *         if sum_weights > 0:
+ */
+      __pyx_t_67 = __pyx_v_p;
+      __pyx_v_sum_weights = (__pyx_v_sum_weights + (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_67 * __pyx_v_particle_weights.strides[0]) ))));
+    }
+
+    /* "dipy/tracking/local/localtrack.pyx":452
+ *             sum_weights += particle_weights[p]
+ * 
+ *         if sum_weights > 0:             # <<<<<<<<<<<<<<
+ *             sum_squared = 0
+ *             for p in range(particle_count):
+ */
+    __pyx_t_1 = ((__pyx_v_sum_weights > 0.0) != 0);
+    if (__pyx_t_1) {
+
+      /* "dipy/tracking/local/localtrack.pyx":453
+ * 
+ *         if sum_weights > 0:
+ *             sum_squared = 0             # <<<<<<<<<<<<<<
+ *             for p in range(particle_count):
+ *                 particle_weights[p] = particle_weights[p] / sum_weights
+ */
+      __pyx_v_sum_squared = 0.0;
+
+      /* "dipy/tracking/local/localtrack.pyx":454
+ *         if sum_weights > 0:
+ *             sum_squared = 0
+ *             for p in range(particle_count):             # <<<<<<<<<<<<<<
+ *                 particle_weights[p] = particle_weights[p] / sum_weights
+ *                 sum_squared += particle_weights[p] * particle_weights[p]
+ */
+      __pyx_t_22 = __pyx_v_particle_count;
+      for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+        __pyx_v_p = __pyx_t_23;
+
+        /* "dipy/tracking/local/localtrack.pyx":455
+ *             sum_squared = 0
+ *             for p in range(particle_count):
+ *                 particle_weights[p] = particle_weights[p] / sum_weights             # <<<<<<<<<<<<<<
+ *                 sum_squared += particle_weights[p] * particle_weights[p]
+ * 
+ */
+        __pyx_t_68 = __pyx_v_p;
+        __pyx_t_69 = __pyx_v_p;
+        *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_69 * __pyx_v_particle_weights.strides[0]) )) = ((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_68 * __pyx_v_particle_weights.strides[0]) ))) / __pyx_v_sum_weights);
+
+        /* "dipy/tracking/local/localtrack.pyx":456
+ *             for p in range(particle_count):
+ *                 particle_weights[p] = particle_weights[p] / sum_weights
+ *                 sum_squared += particle_weights[p] * particle_weights[p]             # <<<<<<<<<<<<<<
+ * 
+ *             # Resample the particles if the weights are too uneven.
+ */
+        __pyx_t_70 = __pyx_v_p;
+        __pyx_t_71 = __pyx_v_p;
+        __pyx_v_sum_squared = (__pyx_v_sum_squared + ((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_70 * __pyx_v_particle_weights.strides[0]) ))) * (*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_71 * __pyx_v_particle_weights.strides[0]) )))));
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":461
+ *             # Particles with negligible weights are replaced by duplicates of
+ *             # those with high weigths through resampling
+ *             N_effective = 1. / sum_squared             # <<<<<<<<<<<<<<
+ *             if N_effective < particle_count / 10.:
+ *                 # copy data in the temp arrays
+ */
+      __pyx_v_N_effective = (1. / __pyx_v_sum_squared);
+
+      /* "dipy/tracking/local/localtrack.pyx":462
+ *             # those with high weigths through resampling
+ *             N_effective = 1. / sum_squared
+ *             if N_effective < particle_count / 10.:             # <<<<<<<<<<<<<<
+ *                 # copy data in the temp arrays
+ *                 for pp in range(particle_count):
+ */
+      __pyx_t_1 = ((__pyx_v_N_effective < (__pyx_v_particle_count / 10.)) != 0);
+      if (__pyx_t_1) {
+
+        /* "dipy/tracking/local/localtrack.pyx":464
+ *             if N_effective < particle_count / 10.:
+ *                 # copy data in the temp arrays
+ *                 for pp in range(particle_count):             # <<<<<<<<<<<<<<
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[0, pp, ss, 0],
+ */
+        __pyx_t_22 = __pyx_v_particle_count;
+        for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+          __pyx_v_pp = __pyx_t_23;
+
+          /* "dipy/tracking/local/localtrack.pyx":465
+ *                 # copy data in the temp arrays
+ *                 for pp in range(particle_count):
+ *                     for ss in range(pft_nbr_steps):             # <<<<<<<<<<<<<<
+ *                         copy_point(&particle_paths[0, pp, ss, 0],
+ *                                   &particle_paths[1, pp, ss, 0])
+ */
+          __pyx_t_26 = __pyx_v_pft_nbr_steps;
+          for (__pyx_t_72 = 0; __pyx_t_72 < __pyx_t_26; __pyx_t_72+=1) {
+            __pyx_v_ss = __pyx_t_72;
+
+            /* "dipy/tracking/local/localtrack.pyx":466
+ *                 for pp in range(particle_count):
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[0, pp, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_paths[1, pp, ss, 0])
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],
+ */
+            __pyx_t_73 = 0;
+            __pyx_t_74 = __pyx_v_pp;
+            __pyx_t_75 = __pyx_v_ss;
+            __pyx_t_76 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":467
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[0, pp, ss, 0],
+ *                                   &particle_paths[1, pp, ss, 0])             # <<<<<<<<<<<<<<
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],
+ *                                   &particle_dirs[1, pp, ss, 0])
+ */
+            __pyx_t_77 = 1;
+            __pyx_t_78 = __pyx_v_pp;
+            __pyx_t_79 = __pyx_v_ss;
+            __pyx_t_80 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":466
+ *                 for pp in range(particle_count):
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[0, pp, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_paths[1, pp, ss, 0])
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],
+ */
+            __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_73 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_74 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_75 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_76 * __pyx_v_particle_paths.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_77 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_78 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_79 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_80 * __pyx_v_particle_paths.strides[3]) )))));
+
+            /* "dipy/tracking/local/localtrack.pyx":468
+ *                         copy_point(&particle_paths[0, pp, ss, 0],
+ *                                   &particle_paths[1, pp, ss, 0])
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_dirs[1, pp, ss, 0])
+ *                     particle_tissue_classes[1, pp] = \
+ */
+            __pyx_t_81 = 0;
+            __pyx_t_82 = __pyx_v_pp;
+            __pyx_t_83 = __pyx_v_ss;
+            __pyx_t_84 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":469
+ *                                   &particle_paths[1, pp, ss, 0])
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],
+ *                                   &particle_dirs[1, pp, ss, 0])             # <<<<<<<<<<<<<<
+ *                     particle_tissue_classes[1, pp] = \
+ *                             particle_tissue_classes[0, pp]
+ */
+            __pyx_t_85 = 1;
+            __pyx_t_86 = __pyx_v_pp;
+            __pyx_t_87 = __pyx_v_ss;
+            __pyx_t_88 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":468
+ *                         copy_point(&particle_paths[0, pp, ss, 0],
+ *                                   &particle_paths[1, pp, ss, 0])
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_dirs[1, pp, ss, 0])
+ *                     particle_tissue_classes[1, pp] = \
+ */
+            __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_81 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_82 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_83 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_84 * __pyx_v_particle_dirs.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_85 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_86 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_87 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_88 * __pyx_v_particle_dirs.strides[3]) )))));
+          }
+
+          /* "dipy/tracking/local/localtrack.pyx":471
+ *                                   &particle_dirs[1, pp, ss, 0])
+ *                     particle_tissue_classes[1, pp] = \
+ *                             particle_tissue_classes[0, pp]             # <<<<<<<<<<<<<<
+ *                     particle_steps[1, pp] = particle_steps[0, pp]
+ * 
+ */
+          __pyx_t_89 = 0;
+          __pyx_t_90 = __pyx_v_pp;
+
+          /* "dipy/tracking/local/localtrack.pyx":470
+ *                         copy_point(&particle_dirs[0, pp, ss, 0],
+ *                                   &particle_dirs[1, pp, ss, 0])
+ *                     particle_tissue_classes[1, pp] = \             # <<<<<<<<<<<<<<
+ *                             particle_tissue_classes[0, pp]
+ *                     particle_steps[1, pp] = particle_steps[0, pp]
+ */
+          __pyx_t_91 = 1;
+          __pyx_t_92 = __pyx_v_pp;
+          *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_91 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_92 * __pyx_v_particle_tissue_classes.strides[1]) )) = (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_89 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_90 * __pyx_v_particle_tissue_classes.strides[1]) )));
+
+          /* "dipy/tracking/local/localtrack.pyx":472
+ *                     particle_tissue_classes[1, pp] = \
+ *                             particle_tissue_classes[0, pp]
+ *                     particle_steps[1, pp] = particle_steps[0, pp]             # <<<<<<<<<<<<<<
+ * 
+ *                 # sample N new particle
+ */
+          __pyx_t_93 = 0;
+          __pyx_t_94 = __pyx_v_pp;
+          __pyx_t_95 = 1;
+          __pyx_t_96 = __pyx_v_pp;
+          *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_95 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_96 * __pyx_v_particle_steps.strides[1]) )) = (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_93 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_94 * __pyx_v_particle_steps.strides[1]) )));
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":475
+ * 
+ *                 # sample N new particle
+ *                 cumsum(&particle_weights[0],             # <<<<<<<<<<<<<<
+ *                        &particle_weights[0],
+ *                        particle_count)
+ */
+        __pyx_t_97 = 0;
+
+        /* "dipy/tracking/local/localtrack.pyx":476
+ *                 # sample N new particle
+ *                 cumsum(&particle_weights[0],
+ *                        &particle_weights[0],             # <<<<<<<<<<<<<<
+ *                        particle_count)
+ *                 for pp in range(particle_count):
+ */
+        __pyx_t_98 = 0;
+
+        /* "dipy/tracking/local/localtrack.pyx":475
+ * 
+ *                 # sample N new particle
+ *                 cumsum(&particle_weights[0],             # <<<<<<<<<<<<<<
+ *                        &particle_weights[0],
+ *                        particle_count)
+ */
+        __pyx_f_4dipy_5utils_10fast_numpy_cumsum((&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_97 * __pyx_v_particle_weights.strides[0]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_98 * __pyx_v_particle_weights.strides[0]) )))), __pyx_v_particle_count);
+
+        /* "dipy/tracking/local/localtrack.pyx":478
+ *                        &particle_weights[0],
+ *                        particle_count)
+ *                 for pp in range(particle_count):             # <<<<<<<<<<<<<<
+ *                     rdm_sample = random() * particle_weights[particle_count - 1]
+ *                     p_source = where_to_insert(&particle_weights[0],
+ */
+        __pyx_t_22 = __pyx_v_particle_count;
+        for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+          __pyx_v_pp = __pyx_t_23;
+
+          /* "dipy/tracking/local/localtrack.pyx":479
+ *                        particle_count)
+ *                 for pp in range(particle_count):
+ *                     rdm_sample = random() * particle_weights[particle_count - 1]             # <<<<<<<<<<<<<<
+ *                     p_source = where_to_insert(&particle_weights[0],
+ *                                                rdm_sample,
+ */
+          __pyx_t_99 = __Pyx_GetModuleGlobalName(__pyx_n_s_random); if (unlikely(!__pyx_t_99)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_99);
+          __pyx_t_100 = NULL;
+          if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_99))) {
+            __pyx_t_100 = PyMethod_GET_SELF(__pyx_t_99);
+            if (likely(__pyx_t_100)) {
+              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_99);
+              __Pyx_INCREF(__pyx_t_100);
+              __Pyx_INCREF(function);
+              __Pyx_DECREF_SET(__pyx_t_99, function);
+            }
+          }
+          if (__pyx_t_100) {
+            __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_99, __pyx_t_100); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 479, __pyx_L1_error)
+            __Pyx_DECREF(__pyx_t_100); __pyx_t_100 = 0;
+          } else {
+            __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_99); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 479, __pyx_L1_error)
+          }
+          __Pyx_GOTREF(__pyx_t_2);
+          __Pyx_DECREF(__pyx_t_99); __pyx_t_99 = 0;
+          __pyx_t_101 = (__pyx_v_particle_count - 1);
+          __pyx_t_99 = PyFloat_FromDouble((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_101 * __pyx_v_particle_weights.strides[0]) )))); if (unlikely(!__pyx_t_99)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_99);
+          __pyx_t_100 = PyNumber_Multiply(__pyx_t_2, __pyx_t_99); if (unlikely(!__pyx_t_100)) __PYX_ERR(0, 479, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_100);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_99); __pyx_t_99 = 0;
+          __pyx_t_102 = __pyx_PyFloat_AsDouble(__pyx_t_100); if (unlikely((__pyx_t_102 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 479, __pyx_L1_error)
+          __Pyx_DECREF(__pyx_t_100); __pyx_t_100 = 0;
+          __pyx_v_rdm_sample = __pyx_t_102;
+
+          /* "dipy/tracking/local/localtrack.pyx":480
+ *                 for pp in range(particle_count):
+ *                     rdm_sample = random() * particle_weights[particle_count - 1]
+ *                     p_source = where_to_insert(&particle_weights[0],             # <<<<<<<<<<<<<<
+ *                                                rdm_sample,
+ *                                                particle_count)
+ */
+          __pyx_t_103 = 0;
+
+          /* "dipy/tracking/local/localtrack.pyx":482
+ *                     p_source = where_to_insert(&particle_weights[0],
+ *                                                rdm_sample,
+ *                                                particle_count)             # <<<<<<<<<<<<<<
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],
+ */
+          __pyx_v_p_source = __pyx_f_4dipy_5utils_10fast_numpy_where_to_insert((&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_103 * __pyx_v_particle_weights.strides[0]) )))), __pyx_v_rdm_sample, __pyx_v_particle_count);
+
+          /* "dipy/tracking/local/localtrack.pyx":483
+ *                                                rdm_sample,
+ *                                                particle_count)
+ *                     for ss in range(pft_nbr_steps):             # <<<<<<<<<<<<<<
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],
+ *                                   &particle_paths[0, pp, ss, 0])
+ */
+          __pyx_t_26 = __pyx_v_pft_nbr_steps;
+          for (__pyx_t_72 = 0; __pyx_t_72 < __pyx_t_26; __pyx_t_72+=1) {
+            __pyx_v_ss = __pyx_t_72;
+
+            /* "dipy/tracking/local/localtrack.pyx":484
+ *                                                particle_count)
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_paths[0, pp, ss, 0])
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],
+ */
+            __pyx_t_104 = 1;
+            __pyx_t_105 = __pyx_v_p_source;
+            __pyx_t_106 = __pyx_v_ss;
+            __pyx_t_107 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":485
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],
+ *                                   &particle_paths[0, pp, ss, 0])             # <<<<<<<<<<<<<<
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],
+ *                                   &particle_dirs[0, pp, ss, 0])
+ */
+            __pyx_t_108 = 0;
+            __pyx_t_109 = __pyx_v_pp;
+            __pyx_t_110 = __pyx_v_ss;
+            __pyx_t_111 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":484
+ *                                                particle_count)
+ *                     for ss in range(pft_nbr_steps):
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_paths[0, pp, ss, 0])
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],
+ */
+            __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_104 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_105 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_106 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_107 * __pyx_v_particle_paths.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_108 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_109 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_110 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_111 * __pyx_v_particle_paths.strides[3]) )))));
+
+            /* "dipy/tracking/local/localtrack.pyx":486
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],
+ *                                   &particle_paths[0, pp, ss, 0])
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_dirs[0, pp, ss, 0])
+ *                     particle_tissue_classes[0, pp] = \
+ */
+            __pyx_t_112 = 1;
+            __pyx_t_113 = __pyx_v_p_source;
+            __pyx_t_114 = __pyx_v_ss;
+            __pyx_t_115 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":487
+ *                                   &particle_paths[0, pp, ss, 0])
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],
+ *                                   &particle_dirs[0, pp, ss, 0])             # <<<<<<<<<<<<<<
+ *                     particle_tissue_classes[0, pp] = \
+ *                             particle_tissue_classes[1, p_source]
+ */
+            __pyx_t_116 = 0;
+            __pyx_t_117 = __pyx_v_pp;
+            __pyx_t_118 = __pyx_v_ss;
+            __pyx_t_119 = 0;
+
+            /* "dipy/tracking/local/localtrack.pyx":486
+ *                         copy_point(&particle_paths[1, p_source, ss, 0],
+ *                                   &particle_paths[0, pp, ss, 0])
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],             # <<<<<<<<<<<<<<
+ *                                   &particle_dirs[0, pp, ss, 0])
+ *                     particle_tissue_classes[0, pp] = \
+ */
+            __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_112 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_113 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_114 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_115 * __pyx_v_particle_dirs.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_116 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_117 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_118 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_119 * __pyx_v_particle_dirs.strides[3]) )))));
+          }
+
+          /* "dipy/tracking/local/localtrack.pyx":489
+ *                                   &particle_dirs[0, pp, ss, 0])
+ *                     particle_tissue_classes[0, pp] = \
+ *                             particle_tissue_classes[1, p_source]             # <<<<<<<<<<<<<<
+ *                     particle_steps[0, pp] = particle_steps[1, p_source]
+ *                 for pp in range(particle_count):
+ */
+          __pyx_t_120 = 1;
+          __pyx_t_121 = __pyx_v_p_source;
+
+          /* "dipy/tracking/local/localtrack.pyx":488
+ *                         copy_point(&particle_dirs[1, p_source, ss, 0],
+ *                                   &particle_dirs[0, pp, ss, 0])
+ *                     particle_tissue_classes[0, pp] = \             # <<<<<<<<<<<<<<
+ *                             particle_tissue_classes[1, p_source]
+ *                     particle_steps[0, pp] = particle_steps[1, p_source]
+ */
+          __pyx_t_122 = 0;
+          __pyx_t_123 = __pyx_v_pp;
+          *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_122 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_123 * __pyx_v_particle_tissue_classes.strides[1]) )) = (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_120 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_121 * __pyx_v_particle_tissue_classes.strides[1]) )));
+
+          /* "dipy/tracking/local/localtrack.pyx":490
+ *                     particle_tissue_classes[0, pp] = \
+ *                             particle_tissue_classes[1, p_source]
+ *                     particle_steps[0, pp] = particle_steps[1, p_source]             # <<<<<<<<<<<<<<
+ *                 for pp in range(particle_count):
+ *                     particle_weights[pp] = 1. / particle_count
+ */
+          __pyx_t_124 = 1;
+          __pyx_t_125 = __pyx_v_p_source;
+          __pyx_t_126 = 0;
+          __pyx_t_127 = __pyx_v_pp;
+          *((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_126 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_127 * __pyx_v_particle_steps.strides[1]) )) = (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_124 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_125 * __pyx_v_particle_steps.strides[1]) )));
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":491
+ *                             particle_tissue_classes[1, p_source]
+ *                     particle_steps[0, pp] = particle_steps[1, p_source]
+ *                 for pp in range(particle_count):             # <<<<<<<<<<<<<<
+ *                     particle_weights[pp] = 1. / particle_count
+ * 
+ */
+        __pyx_t_22 = __pyx_v_particle_count;
+        for (__pyx_t_23 = 0; __pyx_t_23 < __pyx_t_22; __pyx_t_23+=1) {
+          __pyx_v_pp = __pyx_t_23;
+
+          /* "dipy/tracking/local/localtrack.pyx":492
+ *                     particle_steps[0, pp] = particle_steps[1, p_source]
+ *                 for pp in range(particle_count):
+ *                     particle_weights[pp] = 1. / particle_count             # <<<<<<<<<<<<<<
+ * 
+ *     # update the streamline with the trajectory of one particle
+ */
+          __pyx_t_128 = __pyx_v_pp;
+          *((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_128 * __pyx_v_particle_weights.strides[0]) )) = (1. / __pyx_v_particle_count);
+        }
+
+        /* "dipy/tracking/local/localtrack.pyx":462
+ *             # those with high weigths through resampling
+ *             N_effective = 1. / sum_squared
+ *             if N_effective < particle_count / 10.:             # <<<<<<<<<<<<<<
+ *                 # copy data in the temp arrays
+ *                 for pp in range(particle_count):
+ */
+      }
+
+      /* "dipy/tracking/local/localtrack.pyx":452
+ *             sum_weights += particle_weights[p]
+ * 
+ *         if sum_weights > 0:             # <<<<<<<<<<<<<<
+ *             sum_squared = 0
+ *             for p in range(particle_count):
+ */
+    }
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":495
+ * 
+ *     # update the streamline with the trajectory of one particle
+ *     cumsum(&particle_weights[0],             # <<<<<<<<<<<<<<
+ *            &particle_weights[0],
+ *            particle_count)
+ */
+  __pyx_t_129 = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":496
+ *     # update the streamline with the trajectory of one particle
+ *     cumsum(&particle_weights[0],
+ *            &particle_weights[0],             # <<<<<<<<<<<<<<
+ *            particle_count)
+ *     if particle_weights[particle_count - 1] > 0:
+ */
+  __pyx_t_130 = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":495
+ * 
+ *     # update the streamline with the trajectory of one particle
+ *     cumsum(&particle_weights[0],             # <<<<<<<<<<<<<<
+ *            &particle_weights[0],
+ *            particle_count)
+ */
+  __pyx_f_4dipy_5utils_10fast_numpy_cumsum((&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_129 * __pyx_v_particle_weights.strides[0]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_130 * __pyx_v_particle_weights.strides[0]) )))), __pyx_v_particle_count);
+
+  /* "dipy/tracking/local/localtrack.pyx":498
+ *            &particle_weights[0],
+ *            particle_count)
+ *     if particle_weights[particle_count - 1] > 0:             # <<<<<<<<<<<<<<
+ *         rdm_sample = random() * particle_weights[particle_count - 1]
+ *         p = where_to_insert(&particle_weights[0], rdm_sample, particle_count)
+ */
+  __pyx_t_131 = (__pyx_v_particle_count - 1);
+  __pyx_t_1 = (((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_131 * __pyx_v_particle_weights.strides[0]) ))) > 0.0) != 0);
+  if (__pyx_t_1) {
+
+    /* "dipy/tracking/local/localtrack.pyx":499
+ *            particle_count)
+ *     if particle_weights[particle_count - 1] > 0:
+ *         rdm_sample = random() * particle_weights[particle_count - 1]             # <<<<<<<<<<<<<<
+ *         p = where_to_insert(&particle_weights[0], rdm_sample, particle_count)
+ *     else:
+ */
+    __pyx_t_99 = __Pyx_GetModuleGlobalName(__pyx_n_s_random); if (unlikely(!__pyx_t_99)) __PYX_ERR(0, 499, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_99);
+    __pyx_t_2 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_99))) {
+      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_99);
+      if (likely(__pyx_t_2)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_99);
+        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_99, function);
+      }
+    }
+    if (__pyx_t_2) {
+      __pyx_t_100 = __Pyx_PyObject_CallOneArg(__pyx_t_99, __pyx_t_2); if (unlikely(!__pyx_t_100)) __PYX_ERR(0, 499, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    } else {
+      __pyx_t_100 = __Pyx_PyObject_CallNoArg(__pyx_t_99); if (unlikely(!__pyx_t_100)) __PYX_ERR(0, 499, __pyx_L1_error)
+    }
+    __Pyx_GOTREF(__pyx_t_100);
+    __Pyx_DECREF(__pyx_t_99); __pyx_t_99 = 0;
+    __pyx_t_132 = (__pyx_v_particle_count - 1);
+    __pyx_t_99 = PyFloat_FromDouble((*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_132 * __pyx_v_particle_weights.strides[0]) )))); if (unlikely(!__pyx_t_99)) __PYX_ERR(0, 499, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_99);
+    __pyx_t_2 = PyNumber_Multiply(__pyx_t_100, __pyx_t_99); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 499, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __Pyx_DECREF(__pyx_t_100); __pyx_t_100 = 0;
+    __Pyx_DECREF(__pyx_t_99); __pyx_t_99 = 0;
+    __pyx_t_102 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_102 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 499, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_v_rdm_sample = __pyx_t_102;
+
+    /* "dipy/tracking/local/localtrack.pyx":500
+ *     if particle_weights[particle_count - 1] > 0:
+ *         rdm_sample = random() * particle_weights[particle_count - 1]
+ *         p = where_to_insert(&particle_weights[0], rdm_sample, particle_count)             # <<<<<<<<<<<<<<
+ *     else:
+ *         p = 0
+ */
+    __pyx_t_133 = 0;
+    __pyx_v_p = __pyx_f_4dipy_5utils_10fast_numpy_where_to_insert((&(*((__pyx_t_5numpy_float_t *) ( /* dim=0 */ (__pyx_v_particle_weights.data + __pyx_t_133 * __pyx_v_particle_weights.strides[0]) )))), __pyx_v_rdm_sample, __pyx_v_particle_count);
+
+    /* "dipy/tracking/local/localtrack.pyx":498
+ *            &particle_weights[0],
+ *            particle_count)
+ *     if particle_weights[particle_count - 1] > 0:             # <<<<<<<<<<<<<<
+ *         rdm_sample = random() * particle_weights[particle_count - 1]
+ *         p = where_to_insert(&particle_weights[0], rdm_sample, particle_count)
+ */
+    goto __pyx_L36;
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":502
+ *         p = where_to_insert(&particle_weights[0], rdm_sample, particle_count)
+ *     else:
+ *         p = 0             # <<<<<<<<<<<<<<
+ * 
+ *     for s in range(1, particle_steps[0, p]):
+ */
+  /*else*/ {
+    __pyx_v_p = 0;
+  }
+  __pyx_L36:;
+
+  /* "dipy/tracking/local/localtrack.pyx":504
+ *         p = 0
+ * 
+ *     for s in range(1, particle_steps[0, p]):             # <<<<<<<<<<<<<<
+ *         copy_point(&particle_paths[0, p, s, 0],
+ *                    &streamline[streamline_i + s, 0])
+ */
+  __pyx_t_134 = 0;
+  __pyx_t_135 = __pyx_v_p;
+  __pyx_t_136 = (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_134 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_135 * __pyx_v_particle_steps.strides[1]) )));
+  for (__pyx_t_3 = 1; __pyx_t_3 < __pyx_t_136; __pyx_t_3+=1) {
+    __pyx_v_s = __pyx_t_3;
+
+    /* "dipy/tracking/local/localtrack.pyx":505
+ * 
+ *     for s in range(1, particle_steps[0, p]):
+ *         copy_point(&particle_paths[0, p, s, 0],             # <<<<<<<<<<<<<<
+ *                    &streamline[streamline_i + s, 0])
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])
+ */
+    __pyx_t_137 = 0;
+    __pyx_t_138 = __pyx_v_p;
+    __pyx_t_139 = __pyx_v_s;
+    __pyx_t_140 = 0;
+
+    /* "dipy/tracking/local/localtrack.pyx":506
+ *     for s in range(1, particle_steps[0, p]):
+ *         copy_point(&particle_paths[0, p, s, 0],
+ *                    &streamline[streamline_i + s, 0])             # <<<<<<<<<<<<<<
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])
+ *     tissue_class[0] = <TissueClass> particle_tissue_classes[0, p]
+ */
+    __pyx_t_141 = (__pyx_v_streamline_i + __pyx_v_s);
+    __pyx_t_142 = 0;
+
+    /* "dipy/tracking/local/localtrack.pyx":505
+ * 
+ *     for s in range(1, particle_steps[0, p]):
+ *         copy_point(&particle_paths[0, p, s, 0],             # <<<<<<<<<<<<<<
+ *                    &streamline[streamline_i + s, 0])
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])
+ */
+    __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_paths.data + __pyx_t_137 * __pyx_v_particle_paths.strides[0]) ) + __pyx_t_138 * __pyx_v_particle_paths.strides[1]) ) + __pyx_t_139 * __pyx_v_particle_paths.strides[2]) ) + __pyx_t_140 * __pyx_v_particle_paths.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_streamline.data + __pyx_t_141 * __pyx_v_streamline.strides[0]) ) + __pyx_t_142 * __pyx_v_streamline.strides[1]) )))));
+
+    /* "dipy/tracking/local/localtrack.pyx":507
+ *         copy_point(&particle_paths[0, p, s, 0],
+ *                    &streamline[streamline_i + s, 0])
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])             # <<<<<<<<<<<<<<
+ *     tissue_class[0] = <TissueClass> particle_tissue_classes[0, p]
+ *     return streamline_i + particle_steps[0, p]
+ */
+    __pyx_t_143 = 0;
+    __pyx_t_144 = __pyx_v_p;
+    __pyx_t_145 = __pyx_v_s;
+    __pyx_t_146 = 0;
+    __pyx_t_147 = (__pyx_v_streamline_i + __pyx_v_s);
+    __pyx_t_148 = 0;
+    __pyx_f_4dipy_5utils_10fast_numpy_copy_point((&(*((__pyx_t_5numpy_float_t *) ( /* dim=3 */ (( /* dim=2 */ (( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_dirs.data + __pyx_t_143 * __pyx_v_particle_dirs.strides[0]) ) + __pyx_t_144 * __pyx_v_particle_dirs.strides[1]) ) + __pyx_t_145 * __pyx_v_particle_dirs.strides[2]) ) + __pyx_t_146 * __pyx_v_particle_dirs.strides[3]) )))), (&(*((__pyx_t_5numpy_float_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_directions.data + __pyx_t_147 * __pyx_v_directions.strides[0]) ) + __pyx_t_148 * __pyx_v_directions.strides[1]) )))));
+  }
+
+  /* "dipy/tracking/local/localtrack.pyx":508
+ *                    &streamline[streamline_i + s, 0])
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])
+ *     tissue_class[0] = <TissueClass> particle_tissue_classes[0, p]             # <<<<<<<<<<<<<<
+ *     return streamline_i + particle_steps[0, p]
+ */
+  __pyx_t_149 = 0;
+  __pyx_t_150 = __pyx_v_p;
+  (__pyx_v_tissue_class[0]) = ((enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass)(*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_tissue_classes.data + __pyx_t_149 * __pyx_v_particle_tissue_classes.strides[0]) ) + __pyx_t_150 * __pyx_v_particle_tissue_classes.strides[1]) ))));
+
+  /* "dipy/tracking/local/localtrack.pyx":509
+ *         copy_point(&particle_dirs[0, p, s, 0], &directions[streamline_i + s, 0])
+ *     tissue_class[0] = <TissueClass> particle_tissue_classes[0, p]
+ *     return streamline_i + particle_steps[0, p]             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_151 = 0;
+  __pyx_t_152 = __pyx_v_p;
+  __pyx_t_2 = __Pyx_PyInt_From_npy_long((__pyx_v_streamline_i + (*((__pyx_t_5numpy_int_t *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_particle_steps.data + __pyx_t_151 * __pyx_v_particle_steps.strides[0]) ) + __pyx_t_152 * __pyx_v_particle_steps.strides[1]) ))))); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 509, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "dipy/tracking/local/localtrack.pyx":387
+ * @cython.wraparound(False)
+ * @cython.cdivision(True)
+ * cdef _pft(np.float_t[:, :] streamline,             # <<<<<<<<<<<<<<
+ *           int streamline_i,
+ *           np.float_t[:, :] directions,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_99);
+  __Pyx_XDECREF(__pyx_t_100);
+  __Pyx_AddTraceback("dipy.tracking.local.localtrack._pft", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -3656,7 +5996,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple_, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 218, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 218, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -3712,7 +6052,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  * 
  *             info.buf = PyArray_DATA(self)
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 222, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4021,7 +6361,7 @@ static int __pyx_pf_5numpy_7ndarray___getbuffer__(PyArrayObject *__pyx_v_self, P
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 259, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 259, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4836,7 +7176,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 799, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 799, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -4904,7 +7244,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 803, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 803, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_Raise(__pyx_t_3, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -5013,7 +7353,7 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *__pyx
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 823, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_RuntimeError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(1, 823, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_Raise(__pyx_t_4, 0, 0, 0);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -5694,7 +8034,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_array(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 989, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 989, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5825,7 +8165,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_umath(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 995, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 995, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -5953,7 +8293,7 @@ static CYTHON_INLINE int __pyx_f_5numpy_import_ufunc(void) {
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1001, __pyx_L5_except_error)
+      __pyx_t_8 = __Pyx_PyObject_Call(__pyx_builtin_ImportError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_8)) __PYX_ERR(1, 1001, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_8);
       __Pyx_Raise(__pyx_t_8, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -6197,7 +8537,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if itemsize <= 0:
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 131, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6229,7 +8569,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *         if not isinstance(format, bytes):
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 134, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 134, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6264,7 +8604,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  */
     __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_format, __pyx_n_s_encode); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 137, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 137, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_format, __pyx_t_5);
@@ -6340,7 +8680,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  * 
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 146, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 146, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6624,7 +8964,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array___cinit__(struct __
  * 
  *             if self.dtype_is_object:
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 174, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_MemoryError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 174, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -6862,7 +9202,7 @@ static int __pyx_array___pyx_pf_15View_dot_MemoryView_5array_2__getbuffer__(stru
  *         info.buf = self.data
  *         info.len = self.len
  */
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__15, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 190, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7578,7 +9918,7 @@ static PyObject *__pyx_pf___pyx_array___reduce_cython__(CYTHON_UNUSED struct __p
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__16, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7631,7 +9971,7 @@ static PyObject *__pyx_pf___pyx_array_2__setstate_cython__(CYTHON_UNUSED struct 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__17, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -10279,7 +12619,7 @@ static PyObject *__pyx_memoryview_convert_item_to_object(struct __pyx_memoryview
  *         else:
  *             if len(self.view.format) == 1:
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__18, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 486, __pyx_L5_except_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__20, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 486, __pyx_L5_except_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_Raise(__pyx_t_6, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -11120,7 +13460,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_7strides___get__(st
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__19, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 558, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 558, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -11234,7 +13574,7 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_10memoryview_10suboffsets___get_
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_self->view.ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 565, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__20, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 565, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_tuple__22, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 565, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_r = __pyx_t_3;
@@ -12241,7 +14581,7 @@ static PyObject *__pyx_pf___pyx_memoryview___reduce_cython__(CYTHON_UNUSED struc
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__21, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__23, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12294,7 +14634,7 @@ static PyObject *__pyx_pf___pyx_memoryview_2__setstate_cython__(CYTHON_UNUSED st
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__22, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__24, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -12645,9 +14985,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
         __Pyx_GOTREF(__pyx_t_7);
         { Py_ssize_t __pyx_temp;
           for (__pyx_temp=0; __pyx_temp < ((__pyx_v_ndim - __pyx_t_8) + 1); __pyx_temp++) {
-            __Pyx_INCREF(__pyx_slice__23);
-            __Pyx_GIVEREF(__pyx_slice__23);
-            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__23);
+            __Pyx_INCREF(__pyx_slice__25);
+            __Pyx_GIVEREF(__pyx_slice__25);
+            PyList_SET_ITEM(__pyx_t_7, __pyx_temp, __pyx_slice__25);
           }
         }
         __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_7); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(2, 670, __pyx_L1_error)
@@ -12680,7 +15020,7 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
  *         else:
  */
       /*else*/ {
-        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__24); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(2, 673, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_result, __pyx_slice__26); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(2, 673, __pyx_L1_error)
       }
       __pyx_L7:;
 
@@ -12825,9 +15165,9 @@ static PyObject *_unellipsify(PyObject *__pyx_v_index, int __pyx_v_ndim) {
     __Pyx_GOTREF(__pyx_t_3);
     { Py_ssize_t __pyx_temp;
       for (__pyx_temp=0; __pyx_temp < __pyx_v_nslices; __pyx_temp++) {
-        __Pyx_INCREF(__pyx_slice__25);
-        __Pyx_GIVEREF(__pyx_slice__25);
-        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__25);
+        __Pyx_INCREF(__pyx_slice__27);
+        __Pyx_GIVEREF(__pyx_slice__27);
+        PyList_SET_ITEM(__pyx_t_3, __pyx_temp, __pyx_slice__27);
       }
     }
     __pyx_t_9 = __Pyx_PyList_Extend(__pyx_v_result, __pyx_t_3); if (unlikely(__pyx_t_9 == -1)) __PYX_ERR(2, 684, __pyx_L1_error)
@@ -12951,7 +15291,7 @@ static PyObject *assert_direct_dimensions(Py_ssize_t *__pyx_v_suboffsets, int __
  * 
  * 
  */
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 691, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 691, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_Raise(__pyx_t_5, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -15122,7 +17462,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice___reduce_cython__(CYTHON_UNUSED 
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__27, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -15175,7 +17515,7 @@ static PyObject *__pyx_pf___pyx_memoryviewslice_2__setstate_cython__(CYTHON_UNUS
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__28, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__30, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 4, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -18810,355 +21150,6 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-
-/* "BufferFormatFromTypeInfo":1449
- * 
- * @cname('__pyx_format_from_typeinfo')
- * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
- *     cdef __Pyx_StructField *field
- *     cdef __pyx_typeinfo_string fmt
- */
-
-static PyObject *__pyx_format_from_typeinfo(__Pyx_TypeInfo *__pyx_v_type) {
-  __Pyx_StructField *__pyx_v_field;
-  struct __pyx_typeinfo_string __pyx_v_fmt;
-  PyObject *__pyx_v_part = 0;
-  PyObject *__pyx_v_result = 0;
-  PyObject *__pyx_v_alignment = NULL;
-  PyObject *__pyx_v_parts = NULL;
-  PyObject *__pyx_v_extents = NULL;
-  int __pyx_v_i;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  int __pyx_t_1;
-  int __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  __Pyx_StructField *__pyx_t_4;
-  PyObject *__pyx_t_5 = NULL;
-  PyObject *__pyx_t_6 = NULL;
-  int __pyx_t_7;
-  int __pyx_t_8;
-  int __pyx_t_9;
-  __Pyx_RefNannySetupContext("format_from_typeinfo", 0);
-
-  /* "BufferFormatFromTypeInfo":1454
- *     cdef bytes part, result
- * 
- *     if type.typegroup == 'S':             # <<<<<<<<<<<<<<
- *         assert type.fields != NULL and type.fields.type != NULL
- * 
- */
-  __pyx_t_1 = ((__pyx_v_type->typegroup == 'S') != 0);
-  if (__pyx_t_1) {
-
-    /* "BufferFormatFromTypeInfo":1455
- * 
- *     if type.typegroup == 'S':
- *         assert type.fields != NULL and type.fields.type != NULL             # <<<<<<<<<<<<<<
- * 
- *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:
- */
-    #ifndef CYTHON_WITHOUT_ASSERTIONS
-    if (unlikely(!Py_OptimizeFlag)) {
-      __pyx_t_2 = ((__pyx_v_type->fields != NULL) != 0);
-      if (__pyx_t_2) {
-      } else {
-        __pyx_t_1 = __pyx_t_2;
-        goto __pyx_L4_bool_binop_done;
-      }
-      __pyx_t_2 = ((__pyx_v_type->fields->type != NULL) != 0);
-      __pyx_t_1 = __pyx_t_2;
-      __pyx_L4_bool_binop_done:;
-      if (unlikely(!__pyx_t_1)) {
-        PyErr_SetNone(PyExc_AssertionError);
-        __PYX_ERR(2, 1455, __pyx_L1_error)
-      }
-    }
-    #endif
-
-    /* "BufferFormatFromTypeInfo":1457
- *         assert type.fields != NULL and type.fields.type != NULL
- * 
- *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:             # <<<<<<<<<<<<<<
- *             alignment = b'^'
- *         else:
- */
-    __pyx_t_1 = ((__pyx_v_type->flags & __PYX_BUF_FLAGS_PACKED_STRUCT) != 0);
-    if (__pyx_t_1) {
-
-      /* "BufferFormatFromTypeInfo":1458
- * 
- *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:
- *             alignment = b'^'             # <<<<<<<<<<<<<<
- *         else:
- *             alignment = b''
- */
-      __Pyx_INCREF(__pyx_kp_b__29);
-      __pyx_v_alignment = __pyx_kp_b__29;
-
-      /* "BufferFormatFromTypeInfo":1457
- *         assert type.fields != NULL and type.fields.type != NULL
- * 
- *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:             # <<<<<<<<<<<<<<
- *             alignment = b'^'
- *         else:
- */
-      goto __pyx_L6;
-    }
-
-    /* "BufferFormatFromTypeInfo":1460
- *             alignment = b'^'
- *         else:
- *             alignment = b''             # <<<<<<<<<<<<<<
- * 
- *         parts = [b"T{"]
- */
-    /*else*/ {
-      __Pyx_INCREF(__pyx_kp_b__30);
-      __pyx_v_alignment = __pyx_kp_b__30;
-    }
-    __pyx_L6:;
-
-    /* "BufferFormatFromTypeInfo":1462
- *             alignment = b''
- * 
- *         parts = [b"T{"]             # <<<<<<<<<<<<<<
- *         field = type.fields
- * 
- */
-    __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1462, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_INCREF(__pyx_kp_b_T);
-    __Pyx_GIVEREF(__pyx_kp_b_T);
-    PyList_SET_ITEM(__pyx_t_3, 0, __pyx_kp_b_T);
-    __pyx_v_parts = ((PyObject*)__pyx_t_3);
-    __pyx_t_3 = 0;
-
-    /* "BufferFormatFromTypeInfo":1463
- * 
- *         parts = [b"T{"]
- *         field = type.fields             # <<<<<<<<<<<<<<
- * 
- *         while field.type:
- */
-    __pyx_t_4 = __pyx_v_type->fields;
-    __pyx_v_field = __pyx_t_4;
-
-    /* "BufferFormatFromTypeInfo":1465
- *         field = type.fields
- * 
- *         while field.type:             # <<<<<<<<<<<<<<
- *             part = format_from_typeinfo(field.type)
- *             parts.append(part + b':' + field.name + b':')
- */
-    while (1) {
-      __pyx_t_1 = (__pyx_v_field->type != 0);
-      if (!__pyx_t_1) break;
-
-      /* "BufferFormatFromTypeInfo":1466
- * 
- *         while field.type:
- *             part = format_from_typeinfo(field.type)             # <<<<<<<<<<<<<<
- *             parts.append(part + b':' + field.name + b':')
- *             field += 1
- */
-      __pyx_t_3 = __pyx_format_from_typeinfo(__pyx_v_field->type); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1466, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_XDECREF_SET(__pyx_v_part, ((PyObject*)__pyx_t_3));
-      __pyx_t_3 = 0;
-
-      /* "BufferFormatFromTypeInfo":1467
- *         while field.type:
- *             part = format_from_typeinfo(field.type)
- *             parts.append(part + b':' + field.name + b':')             # <<<<<<<<<<<<<<
- *             field += 1
- * 
- */
-      __pyx_t_3 = PyNumber_Add(__pyx_v_part, __pyx_kp_b__31); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1467, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyBytes_FromString(__pyx_v_field->name); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1467, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 1467, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_kp_b__31); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1467, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_parts, __pyx_t_5); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(2, 1467, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-      /* "BufferFormatFromTypeInfo":1468
- *             part = format_from_typeinfo(field.type)
- *             parts.append(part + b':' + field.name + b':')
- *             field += 1             # <<<<<<<<<<<<<<
- * 
- *         result = alignment.join(parts) + b'}'
- */
-      __pyx_v_field = (__pyx_v_field + 1);
-    }
-
-    /* "BufferFormatFromTypeInfo":1470
- *             field += 1
- * 
- *         result = alignment.join(parts) + b'}'             # <<<<<<<<<<<<<<
- *     else:
- *         fmt = __Pyx_TypeInfoToFormat(type)
- */
-    __pyx_t_5 = __Pyx_PyBytes_Join(__pyx_v_alignment, __pyx_v_parts); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1470, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_kp_b__32); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 1470, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (!(likely(PyBytes_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(2, 1470, __pyx_L1_error)
-    __pyx_v_result = ((PyObject*)__pyx_t_6);
-    __pyx_t_6 = 0;
-
-    /* "BufferFormatFromTypeInfo":1454
- *     cdef bytes part, result
- * 
- *     if type.typegroup == 'S':             # <<<<<<<<<<<<<<
- *         assert type.fields != NULL and type.fields.type != NULL
- * 
- */
-    goto __pyx_L3;
-  }
-
-  /* "BufferFormatFromTypeInfo":1472
- *         result = alignment.join(parts) + b'}'
- *     else:
- *         fmt = __Pyx_TypeInfoToFormat(type)             # <<<<<<<<<<<<<<
- *         if type.arraysize[0]:
- *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
- */
-  /*else*/ {
-    __pyx_v_fmt = __Pyx_TypeInfoToFormat(__pyx_v_type);
-
-    /* "BufferFormatFromTypeInfo":1473
- *     else:
- *         fmt = __Pyx_TypeInfoToFormat(type)
- *         if type.arraysize[0]:             # <<<<<<<<<<<<<<
- *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
- *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
- */
-    __pyx_t_1 = ((__pyx_v_type->arraysize[0]) != 0);
-    if (__pyx_t_1) {
-
-      /* "BufferFormatFromTypeInfo":1474
- *         fmt = __Pyx_TypeInfoToFormat(type)
- *         if type.arraysize[0]:
- *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]             # <<<<<<<<<<<<<<
- *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
- *         else:
- */
-      __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 1474, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_8 = __pyx_v_type->ndim;
-      for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
-        __pyx_v_i = __pyx_t_9;
-        __pyx_t_5 = __Pyx_PyInt_FromSize_t((__pyx_v_type->arraysize[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1474, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1474, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_3);
-        __Pyx_GIVEREF(__pyx_t_5);
-        PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
-        __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1474, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_5))) __PYX_ERR(2, 1474, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      }
-      __pyx_v_extents = ((PyObject*)__pyx_t_6);
-      __pyx_t_6 = 0;
-
-      /* "BufferFormatFromTypeInfo":1475
- *         if type.arraysize[0]:
- *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
- *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string             # <<<<<<<<<<<<<<
- *         else:
- *             result = fmt.string
- */
-      __pyx_t_6 = PyUnicode_Join(__pyx_kp_u__33, __pyx_v_extents); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = PyUnicode_Format(__pyx_kp_u_s, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = PyUnicode_AsASCIIString(((PyObject*)__pyx_t_5)); if (unlikely(!__pyx_t_6)) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_5 = __Pyx_PyObject_FromString(__pyx_v_fmt.string); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (!(likely(PyBytes_CheckExact(__pyx_t_3))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(2, 1475, __pyx_L1_error)
-      __pyx_v_result = ((PyObject*)__pyx_t_3);
-      __pyx_t_3 = 0;
-
-      /* "BufferFormatFromTypeInfo":1473
- *     else:
- *         fmt = __Pyx_TypeInfoToFormat(type)
- *         if type.arraysize[0]:             # <<<<<<<<<<<<<<
- *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
- *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
- */
-      goto __pyx_L9;
-    }
-
-    /* "BufferFormatFromTypeInfo":1477
- *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
- *         else:
- *             result = fmt.string             # <<<<<<<<<<<<<<
- * 
- *     return result
- */
-    /*else*/ {
-      __pyx_t_3 = __Pyx_PyObject_FromString(__pyx_v_fmt.string); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 1477, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_v_result = ((PyObject*)__pyx_t_3);
-      __pyx_t_3 = 0;
-    }
-    __pyx_L9:;
-  }
-  __pyx_L3:;
-
-  /* "BufferFormatFromTypeInfo":1479
- *             result = fmt.string
- * 
- *     return result             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_result);
-  __pyx_r = __pyx_v_result;
-  goto __pyx_L0;
-
-  /* "BufferFormatFromTypeInfo":1449
- * 
- * @cname('__pyx_format_from_typeinfo')
- * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
- *     cdef __Pyx_StructField *field
- *     cdef __pyx_typeinfo_string fmt
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("BufferFormatFromTypeInfo.format_from_typeinfo", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_part);
-  __Pyx_XDECREF(__pyx_v_result);
-  __Pyx_XDECREF(__pyx_v_alignment);
-  __Pyx_XDECREF(__pyx_v_parts);
-  __Pyx_XDECREF(__pyx_v_extents);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
 static struct __pyx_vtabstruct_array __pyx_vtable_array;
 
 static PyObject *__pyx_tp_new_array(PyTypeObject *t, PyObject *a, PyObject *k) {
@@ -19866,6 +21857,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Incompatible_checksums_s_vs_0xb0, __pyx_k_Incompatible_checksums_s_vs_0xb0, sizeof(__pyx_k_Incompatible_checksums_s_vs_0xb0), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
   {&__pyx_kp_s_Indirect_dimensions_not_supporte, __pyx_k_Indirect_dimensions_not_supporte, sizeof(__pyx_k_Indirect_dimensions_not_supporte), 0, 0, 1, 0},
+  {&__pyx_kp_s_Invalid_input_parameter_dimensio, __pyx_k_Invalid_input_parameter_dimensio, sizeof(__pyx_k_Invalid_input_parameter_dimensio), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_mode_expected_c_or_fortr, __pyx_k_Invalid_mode_expected_c_or_fortr, sizeof(__pyx_k_Invalid_mode_expected_c_or_fortr), 0, 0, 1, 0},
   {&__pyx_kp_s_Invalid_shape_in_axis_d_d, __pyx_k_Invalid_shape_in_axis_d_d, sizeof(__pyx_k_Invalid_shape_in_axis_d_d), 0, 0, 1, 0},
   {&__pyx_n_s_MemoryError, __pyx_k_MemoryError, sizeof(__pyx_k_MemoryError), 0, 0, 1, 1},
@@ -19876,16 +21868,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
-  {&__pyx_kp_b_T, __pyx_k_T, sizeof(__pyx_k_T), 0, 0, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
-  {&__pyx_kp_b__29, __pyx_k__29, sizeof(__pyx_k__29), 0, 0, 0, 0},
-  {&__pyx_kp_b__30, __pyx_k__30, sizeof(__pyx_k__30), 0, 0, 0, 0},
-  {&__pyx_kp_b__31, __pyx_k__31, sizeof(__pyx_k__31), 0, 0, 0, 0},
-  {&__pyx_kp_b__32, __pyx_k__32, sizeof(__pyx_k__32), 0, 0, 0, 0},
-  {&__pyx_kp_u__33, __pyx_k__33, sizeof(__pyx_k__33), 0, 1, 0, 0},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_base, __pyx_k_base, sizeof(__pyx_k_base), 0, 0, 1, 1},
   {&__pyx_n_s_c, __pyx_k_c, sizeof(__pyx_k_c), 0, 0, 1, 1},
@@ -19899,8 +21885,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_dipy_tracking_local_localtrack, __pyx_k_dipy_tracking_local_localtrack, sizeof(__pyx_k_dipy_tracking_local_localtrack), 0, 0, 1, 1},
   {&__pyx_kp_s_dipy_tracking_local_localtrack_p, __pyx_k_dipy_tracking_local_localtrack_p, sizeof(__pyx_k_dipy_tracking_local_localtrack_p), 0, 0, 1, 0},
   {&__pyx_n_s_dir, __pyx_k_dir, sizeof(__pyx_k_dir), 0, 0, 1, 1},
+  {&__pyx_n_s_directions, __pyx_k_directions, sizeof(__pyx_k_directions), 0, 0, 1, 1},
   {&__pyx_n_s_dtype_is_object, __pyx_k_dtype_is_object, sizeof(__pyx_k_dtype_is_object), 0, 0, 1, 1},
-  {&__pyx_n_s_dview, __pyx_k_dview, sizeof(__pyx_k_dview), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
@@ -19917,8 +21903,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
-  {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
-  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_local_tracker, __pyx_k_local_tracker, sizeof(__pyx_k_local_tracker), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
@@ -19930,13 +21914,23 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ndim, __pyx_k_ndim, sizeof(__pyx_k_ndim), 0, 0, 1, 1},
   {&__pyx_n_s_new, __pyx_k_new, sizeof(__pyx_k_new), 0, 0, 1, 1},
   {&__pyx_kp_s_no_default___reduce___due_to_non, __pyx_k_no_default___reduce___due_to_non, sizeof(__pyx_k_no_default___reduce___due_to_non), 0, 0, 1, 0},
+  {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
+  {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_kp_s_numpy_core_multiarray_failed_to, __pyx_k_numpy_core_multiarray_failed_to, sizeof(__pyx_k_numpy_core_multiarray_failed_to), 0, 0, 1, 0},
   {&__pyx_kp_s_numpy_core_umath_failed_to_impor, __pyx_k_numpy_core_umath_failed_to_impor, sizeof(__pyx_k_numpy_core_umath_failed_to_impor), 0, 0, 1, 0},
   {&__pyx_n_s_obj, __pyx_k_obj, sizeof(__pyx_k_obj), 0, 0, 1, 1},
   {&__pyx_n_s_pack, __pyx_k_pack, sizeof(__pyx_k_pack), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_count, __pyx_k_particle_count, sizeof(__pyx_k_particle_count), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_dirs, __pyx_k_particle_dirs, sizeof(__pyx_k_particle_dirs), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_paths, __pyx_k_particle_paths, sizeof(__pyx_k_particle_paths), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_steps, __pyx_k_particle_steps, sizeof(__pyx_k_particle_steps), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_tissue_classes, __pyx_k_particle_tissue_classes, sizeof(__pyx_k_particle_tissue_classes), 0, 0, 1, 1},
+  {&__pyx_n_s_particle_weights, __pyx_k_particle_weights, sizeof(__pyx_k_particle_weights), 0, 0, 1, 1},
+  {&__pyx_n_s_pft_max_nbr_back_steps, __pyx_k_pft_max_nbr_back_steps, sizeof(__pyx_k_pft_max_nbr_back_steps), 0, 0, 1, 1},
+  {&__pyx_n_s_pft_max_nbr_front_steps, __pyx_k_pft_max_nbr_front_steps, sizeof(__pyx_k_pft_max_nbr_front_steps), 0, 0, 1, 1},
+  {&__pyx_n_s_pft_max_trials, __pyx_k_pft_max_trials, sizeof(__pyx_k_pft_max_trials), 0, 0, 1, 1},
+  {&__pyx_n_s_pft_tracker, __pyx_k_pft_tracker, sizeof(__pyx_k_pft_tracker), 0, 0, 1, 1},
   {&__pyx_n_s_pickle, __pyx_k_pickle, sizeof(__pyx_k_pickle), 0, 0, 1, 1},
-  {&__pyx_n_s_point, __pyx_k_point, sizeof(__pyx_k_point), 0, 0, 1, 1},
-  {&__pyx_n_s_pview, __pyx_k_pview, sizeof(__pyx_k_pview), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_PickleError, __pyx_k_pyx_PickleError, sizeof(__pyx_k_pyx_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_checksum, __pyx_k_pyx_checksum, sizeof(__pyx_k_pyx_checksum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_getbuffer, __pyx_k_pyx_getbuffer, sizeof(__pyx_k_pyx_getbuffer), 0, 0, 1, 1},
@@ -19945,19 +21939,20 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pyx_type, __pyx_k_pyx_type, sizeof(__pyx_k_pyx_type), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_unpickle_Enum, __pyx_k_pyx_unpickle_Enum, sizeof(__pyx_k_pyx_unpickle_Enum), 0, 0, 1, 1},
   {&__pyx_n_s_pyx_vtable, __pyx_k_pyx_vtable, sizeof(__pyx_k_pyx_vtable), 0, 0, 1, 1},
+  {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
-  {&__pyx_kp_u_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 1, 0, 0},
   {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
+  {&__pyx_n_s_seed_pos, __pyx_k_seed_pos, sizeof(__pyx_k_seed_pos), 0, 0, 1, 1},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
   {&__pyx_n_s_size, __pyx_k_size, sizeof(__pyx_k_size), 0, 0, 1, 1},
   {&__pyx_n_s_start, __pyx_k_start, sizeof(__pyx_k_start), 0, 0, 1, 1},
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
-  {&__pyx_n_s_stepsize, __pyx_k_stepsize, sizeof(__pyx_k_stepsize), 0, 0, 1, 1},
+  {&__pyx_n_s_step_size, __pyx_k_step_size, sizeof(__pyx_k_step_size), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_n_s_streamline, __pyx_k_streamline, sizeof(__pyx_k_streamline), 0, 0, 1, 1},
   {&__pyx_kp_s_strided_and_direct, __pyx_k_strided_and_direct, sizeof(__pyx_k_strided_and_direct), 0, 0, 1, 0},
@@ -19973,14 +21968,13 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_u_unknown_dtype_code_in_numpy_pxd, __pyx_k_unknown_dtype_code_in_numpy_pxd, sizeof(__pyx_k_unknown_dtype_code_in_numpy_pxd), 0, 1, 0, 0},
   {&__pyx_n_s_unpack, __pyx_k_unpack, sizeof(__pyx_k_unpack), 0, 0, 1, 1},
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
-  {&__pyx_n_s_voxdir, __pyx_k_voxdir, sizeof(__pyx_k_voxdir), 0, 0, 1, 1},
   {&__pyx_n_s_voxel_size, __pyx_k_voxel_size, sizeof(__pyx_k_voxel_size), 0, 0, 1, 1},
   {&__pyx_n_s_vs, __pyx_k_vs, sizeof(__pyx_k_vs), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 49, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 148, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 56, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 138, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(1, 799, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 989, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(2, 146, __pyx_L1_error)
@@ -19998,6 +21992,28 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
+  /* "dipy/tracking/local/localtrack.pyx":138
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(3):
+ */
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Invalid_input_parameter_dimensio); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 138, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple_);
+  __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "dipy/tracking/local/localtrack.pyx":282
+ *     if (seed_pos.shape[0] != 3 or first_step.shape[0] != 3 or
+ *             voxel_size.shape[0] != 3 or streamline.shape[1] != 3):
+ *         raise ValueError('Invalid input parameter dimensions.')             # <<<<<<<<<<<<<<
+ * 
+ *     for i in range(3):
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Invalid_input_parameter_dimensio); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 282, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":218
  *             if ((flags & pybuf.PyBUF_C_CONTIGUOUS == pybuf.PyBUF_C_CONTIGUOUS)
  *                 and not PyArray_CHKFLAGS(self, NPY_C_CONTIGUOUS)):
@@ -20005,9 +22021,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
  */
-  __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple_)) __PYX_ERR(1, 218, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple_);
-  __Pyx_GIVEREF(__pyx_tuple_);
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_C_contiguous); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 218, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":222
  *             if ((flags & pybuf.PyBUF_F_CONTIGUOUS == pybuf.PyBUF_F_CONTIGUOUS)
@@ -20016,9 +22032,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             info.buf = PyArray_DATA(self)
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(1, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__2);
-  __Pyx_GIVEREF(__pyx_tuple__2);
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_ndarray_is_not_Fortran_contiguou); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 222, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__4);
+  __Pyx_GIVEREF(__pyx_tuple__4);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":259
  *                 if ((descr.byteorder == c'>' and little_endian) or
@@ -20027,9 +22043,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 if   t == NPY_BYTE:        f = "b"
  *                 elif t == NPY_UBYTE:       f = "B"
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(1, 259, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__3);
-  __Pyx_GIVEREF(__pyx_tuple__3);
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 259, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":799
  * 
@@ -20038,9 +22054,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if ((child.byteorder == c'>' and little_endian) or
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(1, 799, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__4);
-  __Pyx_GIVEREF(__pyx_tuple__4);
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 799, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":803
  *         if ((child.byteorder == c'>' and little_endian) or
@@ -20049,9 +22065,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             # One could encode it in the format string and have Cython
  *             # complain instead, BUT: < and > in format strings also imply
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(1, 803, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_u_Non_native_byte_order_not_suppor); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 803, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__7);
+  __Pyx_GIVEREF(__pyx_tuple__7);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":823
  *             t = child.type_num
@@ -20060,9 +22076,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             # Until ticket #99 is fixed, use integers to avoid warnings
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(1, 823, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__6);
-  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_u_Format_string_allocated_too_shor_2); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 823, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__8);
+  __Pyx_GIVEREF(__pyx_tuple__8);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":989
  *         _import_array()
@@ -20071,9 +22087,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_umath() except -1:
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(1, 989, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_multiarray_failed_to); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 989, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":995
  *         _import_umath()
@@ -20082,18 +22098,18 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * cdef inline int import_ufunc() except -1:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(1, 995, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__8);
-  __Pyx_GIVEREF(__pyx_tuple__8);
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(1, 995, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__10);
+  __Pyx_GIVEREF(__pyx_tuple__10);
 
   /* "../../../../../../usr/lib/python2.7/dist-packages/Cython/Includes/numpy/__init__.pxd":1001
  *         _import_umath()
  *     except Exception:
  *         raise ImportError("numpy.core.umath failed to import")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(1, 1001, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_numpy_core_umath_failed_to_impor); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(1, 1001, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
 
   /* "View.MemoryView":131
  * 
@@ -20102,9 +22118,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if itemsize <= 0:
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__10)) __PYX_ERR(2, 131, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__10);
-  __Pyx_GIVEREF(__pyx_tuple__10);
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_kp_s_Empty_shape_tuple_for_cython_arr); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 131, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
 
   /* "View.MemoryView":134
  * 
@@ -20113,9 +22129,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         if not isinstance(format, bytes):
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(2, 134, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_itemsize_0_for_cython_array); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 134, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
 
   /* "View.MemoryView":137
  * 
@@ -20124,9 +22140,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         self._format = format  # keep a reference to the byte string
  *         self.format = self._format
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_n_s_ASCII); if (unlikely(!__pyx_tuple__12)) __PYX_ERR(2, 137, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_n_s_ASCII); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 137, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
 
   /* "View.MemoryView":146
  * 
@@ -20135,9 +22151,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(2, 146, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_shape_and_str); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(2, 146, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
 
   /* "View.MemoryView":174
  *             self.data = <char *>malloc(self.len)
@@ -20146,9 +22162,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *             if self.dtype_is_object:
  */
-  __pyx_tuple__14 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(2, 174, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_unable_to_allocate_array_data); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 174, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
 
   /* "View.MemoryView":190
  *             bufmode = PyBUF_F_CONTIGUOUS | PyBUF_ANY_CONTIGUOUS
@@ -20157,9 +22173,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         info.buf = self.data
  *         info.len = self.len
  */
-  __pyx_tuple__15 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(2, 190, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_Can_only_create_a_buffer_that_is); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(2, 190, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20167,18 +22183,18 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__16 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__16)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__16);
-  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
 
   /* "View.MemoryView":486
  *             result = struct.unpack(self.view.format, bytesitem)
@@ -20187,9 +22203,9 @@ static int __Pyx_InitCachedConstants(void) {
  *         else:
  *             if len(self.view.format) == 1:
  */
-  __pyx_tuple__18 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__18)) __PYX_ERR(2, 486, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__18);
-  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_tuple__20 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_convert_item_to_object); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(2, 486, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
 
   /* "View.MemoryView":558
  *         if self.view.strides == NULL:
@@ -20198,9 +22214,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([stride for stride in self.view.strides[:self.view.ndim]])
  */
-  __pyx_tuple__19 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(2, 558, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__19);
-  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_Buffer_view_does_not_expose_stri); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 558, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
 
   /* "View.MemoryView":565
  *     def suboffsets(self):
@@ -20209,12 +22225,12 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *         return tuple([suboffset for suboffset in self.view.suboffsets[:self.view.ndim]])
  */
-  __pyx_tuple__20 = PyTuple_New(1); if (unlikely(!__pyx_tuple__20)) __PYX_ERR(2, 565, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__20);
+  __pyx_tuple__22 = PyTuple_New(1); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(2, 565, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__22);
   __Pyx_INCREF(__pyx_int_neg_1);
   __Pyx_GIVEREF(__pyx_int_neg_1);
-  PyTuple_SET_ITEM(__pyx_tuple__20, 0, __pyx_int_neg_1);
-  __Pyx_GIVEREF(__pyx_tuple__20);
+  PyTuple_SET_ITEM(__pyx_tuple__22, 0, __pyx_int_neg_1);
+  __Pyx_GIVEREF(__pyx_tuple__22);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20222,18 +22238,18 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__21);
-  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_tuple__23 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__22 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__22)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__22);
-  __Pyx_GIVEREF(__pyx_tuple__22);
+  __pyx_tuple__24 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__24)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__24);
+  __Pyx_GIVEREF(__pyx_tuple__24);
 
   /* "View.MemoryView":670
  *         if item is Ellipsis:
@@ -20242,9 +22258,9 @@ static int __Pyx_InitCachedConstants(void) {
  *                 seen_ellipsis = True
  *             else:
  */
-  __pyx_slice__23 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__23)) __PYX_ERR(2, 670, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__23);
-  __Pyx_GIVEREF(__pyx_slice__23);
+  __pyx_slice__25 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__25)) __PYX_ERR(2, 670, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__25);
+  __Pyx_GIVEREF(__pyx_slice__25);
 
   /* "View.MemoryView":673
  *                 seen_ellipsis = True
@@ -20253,9 +22269,9 @@ static int __Pyx_InitCachedConstants(void) {
  *             have_slices = True
  *         else:
  */
-  __pyx_slice__24 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__24)) __PYX_ERR(2, 673, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__24);
-  __Pyx_GIVEREF(__pyx_slice__24);
+  __pyx_slice__26 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__26)) __PYX_ERR(2, 673, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__26);
+  __Pyx_GIVEREF(__pyx_slice__26);
 
   /* "View.MemoryView":684
  *     nslices = ndim - len(result)
@@ -20264,9 +22280,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  *     return have_slices or nslices, tuple(result)
  */
-  __pyx_slice__25 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__25)) __PYX_ERR(2, 684, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_slice__25);
-  __Pyx_GIVEREF(__pyx_slice__25);
+  __pyx_slice__27 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__27)) __PYX_ERR(2, 684, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_slice__27);
+  __Pyx_GIVEREF(__pyx_slice__27);
 
   /* "View.MemoryView":691
  *     for suboffset in suboffsets[:ndim]:
@@ -20275,9 +22291,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__26 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(2, 691, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__26);
-  __Pyx_GIVEREF(__pyx_tuple__26);
+  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_Indirect_dimensions_not_supporte); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(2, 691, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__28);
+  __Pyx_GIVEREF(__pyx_tuple__28);
 
   /* "(tree fragment)":2
  * def __reduce_cython__(self):
@@ -20285,30 +22301,42 @@ static int __Pyx_InitCachedConstants(void) {
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  */
-  __pyx_tuple__27 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__27)) __PYX_ERR(2, 2, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__27);
-  __Pyx_GIVEREF(__pyx_tuple__27);
+  __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__29)) __PYX_ERR(2, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__29);
+  __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "(tree fragment)":4
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")
  * def __setstate_cython__(self, __pyx_state):
  *     raise TypeError("no default __reduce__ due to non-trivial __cinit__")             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__28 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__28)) __PYX_ERR(2, 4, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__28);
-  __Pyx_GIVEREF(__pyx_tuple__28);
+  __pyx_tuple__30 = PyTuple_Pack(1, __pyx_kp_s_no_default___reduce___due_to_non); if (unlikely(!__pyx_tuple__30)) __PYX_ERR(2, 4, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__30);
+  __Pyx_GIVEREF(__pyx_tuple__30);
 
-  /* "dipy/tracking/local/localtrack.pyx":87
- * @cython.wraparound(False)
- * @cython.cdivision(True)
- * def local_tracker(DirectionGetter dg, TissueClassifier tc,             # <<<<<<<<<<<<<<
- *                   np.ndarray[np.float_t, ndim=1] seed,
- *                   np.ndarray[np.float_t, ndim=1] first_step,
+  /* "dipy/tracking/local/localtrack.pyx":86
+ * 
+ * 
+ * def local_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         TissueClassifier tc,
  */
-  __pyx_tuple__34 = PyTuple_Pack(18, __pyx_n_s_dg, __pyx_n_s_tc, __pyx_n_s_seed, __pyx_n_s_first_step, __pyx_n_s_voxel_size, __pyx_n_s_streamline, __pyx_n_s_stepsize, __pyx_n_s_fixedstep, __pyx_n_s_i, __pyx_n_s_tissue_class, __pyx_n_s_point, __pyx_n_s_dir, __pyx_n_s_vs, __pyx_n_s_voxdir, __pyx_n_s_pview, __pyx_n_s_dview, __pyx_n_s_step, __pyx_n_s_j); if (unlikely(!__pyx_tuple__34)) __PYX_ERR(0, 87, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__34);
-  __Pyx_GIVEREF(__pyx_tuple__34);
-  __pyx_codeobj__35 = (PyObject*)__Pyx_PyCode_New(8, 0, 18, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__34, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dipy_tracking_local_localtrack_p, __pyx_n_s_local_tracker, 87, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__35)) __PYX_ERR(0, 87, __pyx_L1_error)
+  __pyx_tuple__31 = PyTuple_Pack(13, __pyx_n_s_dg, __pyx_n_s_tc, __pyx_n_s_seed_pos, __pyx_n_s_first_step, __pyx_n_s_voxel_size, __pyx_n_s_streamline, __pyx_n_s_step_size, __pyx_n_s_fixedstep, __pyx_n_s_i, __pyx_n_s_tissue_class, __pyx_n_s_dir, __pyx_n_s_vs, __pyx_n_s_seed); if (unlikely(!__pyx_tuple__31)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__31);
+  __Pyx_GIVEREF(__pyx_tuple__31);
+  __pyx_codeobj__32 = (PyObject*)__Pyx_PyCode_New(8, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__31, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dipy_tracking_local_localtrack_p, __pyx_n_s_local_tracker, 86, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__32)) __PYX_ERR(0, 86, __pyx_L1_error)
+
+  /* "dipy/tracking/local/localtrack.pyx":199
+ * 
+ * 
+ * def pft_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         ConstrainedTissueClassifier tc,
+ */
+  __pyx_tuple__33 = PyTuple_Pack(22, __pyx_n_s_dg, __pyx_n_s_tc, __pyx_n_s_seed_pos, __pyx_n_s_first_step, __pyx_n_s_voxel_size, __pyx_n_s_streamline, __pyx_n_s_directions, __pyx_n_s_step_size, __pyx_n_s_pft_max_nbr_back_steps, __pyx_n_s_pft_max_nbr_front_steps, __pyx_n_s_pft_max_trials, __pyx_n_s_particle_count, __pyx_n_s_particle_paths, __pyx_n_s_particle_dirs, __pyx_n_s_particle_weights, __pyx_n_s_particle_steps, __pyx_n_s_particle_tissue_classes, __pyx_n_s_i, __pyx_n_s_tissue_class, __pyx_n_s_dir, __pyx_n_s_vs, __pyx_n_s_seed); if (unlikely(!__pyx_tuple__33)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__33);
+  __Pyx_GIVEREF(__pyx_tuple__33);
+  __pyx_codeobj__34 = (PyObject*)__Pyx_PyCode_New(17, 0, 22, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__33, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_dipy_tracking_local_localtrack_p, __pyx_n_s_pft_tracker, 199, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__34)) __PYX_ERR(0, 199, __pyx_L1_error)
 
   /* "View.MemoryView":284
  *         return self.name
@@ -20317,9 +22345,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(2, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__36);
-  __Pyx_GIVEREF(__pyx_tuple__36);
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__35)) __PYX_ERR(2, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__35);
+  __Pyx_GIVEREF(__pyx_tuple__35);
 
   /* "View.MemoryView":285
  * 
@@ -20328,9 +22356,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(2, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
+  __pyx_tuple__36 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__36)) __PYX_ERR(2, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__36);
+  __Pyx_GIVEREF(__pyx_tuple__36);
 
   /* "View.MemoryView":286
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -20339,9 +22367,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(2, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__38);
-  __Pyx_GIVEREF(__pyx_tuple__38);
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(2, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__37);
+  __Pyx_GIVEREF(__pyx_tuple__37);
 
   /* "View.MemoryView":289
  * 
@@ -20350,9 +22378,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(2, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__38)) __PYX_ERR(2, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__38);
+  __Pyx_GIVEREF(__pyx_tuple__38);
 
   /* "View.MemoryView":290
  * 
@@ -20361,19 +22389,19 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(2, 290, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__40);
-  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(2, 290, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__39);
+  __Pyx_GIVEREF(__pyx_tuple__39);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     if __pyx_checksum != 0xb068931:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_tuple__41 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __pyx_tuple__40 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__40)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__40);
+  __Pyx_GIVEREF(__pyx_tuple__40);
+  __pyx_codeobj__41 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__40, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__41)) __PYX_ERR(2, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -20382,11 +22410,11 @@ static int __Pyx_InitCachedConstants(void) {
 }
 
 static int __Pyx_InitGlobals(void) {
-  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
+  __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_int_184977713 = PyInt_FromLong(184977713L); if (unlikely(!__pyx_int_184977713)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 2, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -20401,7 +22429,10 @@ PyMODINIT_FUNC PyInit_localtrack(void)
 #endif
 {
   PyObject *__pyx_t_1 = NULL;
-  static PyThread_type_lock __pyx_t_2[8];
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  static PyThread_type_lock __pyx_t_5[8];
   __Pyx_RefNannyDeclarations
   #if CYTHON_REFNANNY
   __Pyx_RefNanny = __Pyx_RefNannyImportAPI("refnanny");
@@ -20413,24 +22444,24 @@ PyMODINIT_FUNC PyInit_localtrack(void)
   }
   #endif
   __Pyx_RefNannySetupContext("PyMODINIT_FUNC PyInit_localtrack(void)", 0);
-  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_empty_tuple = PyTuple_New(0); if (unlikely(!__pyx_empty_tuple)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_empty_bytes = PyBytes_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_bytes)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_empty_unicode = PyUnicode_FromStringAndSize("", 0); if (unlikely(!__pyx_empty_unicode)) __PYX_ERR(0, 2, __pyx_L1_error)
   #ifdef __Pyx_CyFunction_USED
-  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_CyFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   #ifdef __Pyx_FusedFunction_USED
-  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_FusedFunction_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Coroutine_USED
-  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_Coroutine_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   #ifdef __Pyx_Generator_USED
-  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_Generator_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   #ifdef __Pyx_StopAsyncIteration_USED
-  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__pyx_StopAsyncIteration_init() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   /*--- Library function declarations ---*/
   /*--- Threads initialization code ---*/
@@ -20445,35 +22476,35 @@ PyMODINIT_FUNC PyInit_localtrack(void)
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
-  if (unlikely(!__pyx_m)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (unlikely(!__pyx_m)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_d = PyModule_GetDict(__pyx_m); if (unlikely(!__pyx_d)) __PYX_ERR(0, 2, __pyx_L1_error)
   Py_INCREF(__pyx_d);
-  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_b = PyImport_AddModule(__Pyx_BUILTIN_MODULE_NAME); if (unlikely(!__pyx_b)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_cython_runtime = PyImport_AddModule((char *) "cython_runtime"); if (unlikely(!__pyx_cython_runtime)) __PYX_ERR(0, 2, __pyx_L1_error)
   #if CYTHON_COMPILING_IN_PYPY
   Py_INCREF(__pyx_b);
   #endif
-  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
+  if (PyObject_SetAttrString(__pyx_m, "__builtins__", __pyx_b) < 0) __PYX_ERR(0, 2, __pyx_L1_error);
   /*--- Initialize various global constants etc. ---*/
-  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_InitGlobals() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
-  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
   if (__pyx_module_is_main_dipy__tracking__local__localtrack) {
-    if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (PyObject_SetAttrString(__pyx_m, "__name__", __pyx_n_s_main) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
-    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
+    PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 2, __pyx_L1_error)
     if (!PyDict_GetItemString(modules, "dipy.tracking.local.localtrack")) {
-      if (unlikely(PyDict_SetItemString(modules, "dipy.tracking.local.localtrack", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+      if (unlikely(PyDict_SetItemString(modules, "dipy.tracking.local.localtrack", __pyx_m) < 0)) __PYX_ERR(0, 2, __pyx_L1_error)
     }
   }
   #endif
   /*--- Builtin init code ---*/
-  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_InitCachedBuiltins() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   /*--- Constants init code ---*/
-  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_InitCachedConstants() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   /*--- Global init code ---*/
   generic = Py_None; Py_INCREF(Py_None);
   strided = Py_None; Py_INCREF(Py_None);
@@ -20530,44 +22561,101 @@ PyMODINIT_FUNC PyInit_localtrack(void)
   __pyx_ptype_5numpy_broadcast = __Pyx_ImportType("numpy", "broadcast", sizeof(PyArrayMultiIterObject), 0); if (unlikely(!__pyx_ptype_5numpy_broadcast)) __PYX_ERR(1, 172, __pyx_L1_error)
   __pyx_ptype_5numpy_ndarray = __Pyx_ImportType("numpy", "ndarray", sizeof(PyArrayObject), 0); if (unlikely(!__pyx_ptype_5numpy_ndarray)) __PYX_ERR(1, 181, __pyx_L1_error)
   __pyx_ptype_5numpy_ufunc = __Pyx_ImportType("numpy", "ufunc", sizeof(PyUFuncObject), 0); if (unlikely(!__pyx_ptype_5numpy_ufunc)) __PYX_ERR(1, 861, __pyx_L1_error)
-  __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter = __Pyx_ImportType("dipy.tracking.local.direction_getter", "DirectionGetter", sizeof(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) __PYX_ERR(4, 3, __pyx_L1_error)
-  __pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter = (struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) __PYX_ERR(4, 3, __pyx_L1_error)
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "TissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) __PYX_ERR(5, 9, __pyx_L1_error)
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) __PYX_ERR(5, 9, __pyx_L1_error)
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "BinaryTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) __PYX_ERR(5, 17, __pyx_L1_error)
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) __PYX_ERR(5, 17, __pyx_L1_error)
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ThresholdTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) __PYX_ERR(5, 22, __pyx_L1_error)
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) __PYX_ERR(5, 22, __pyx_L1_error)
-  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ActTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) __PYX_ERR(5, 28, __pyx_L1_error)
-  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) __PYX_ERR(5, 28, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter = __Pyx_ImportType("dipy.tracking.local.direction_getter", "DirectionGetter", sizeof(struct __pyx_obj_4dipy_8tracking_5local_16direction_getter_DirectionGetter), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) __PYX_ERR(4, 4, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter = (struct __pyx_vtabstruct_4dipy_8tracking_5local_16direction_getter_DirectionGetter*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_16direction_getter_DirectionGetter->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_16direction_getter_DirectionGetter)) __PYX_ERR(4, 4, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "TissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) __PYX_ERR(5, 10, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_TissueClassifier)) __PYX_ERR(5, 10, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "BinaryTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) __PYX_ERR(5, 18, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_BinaryTissueClassifier)) __PYX_ERR(5, 18, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ThresholdTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) __PYX_ERR(5, 24, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ThresholdTissueClassifier)) __PYX_ERR(5, 24, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ConstrainedTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier)) __PYX_ERR(5, 31, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ConstrainedTissueClassifier)) __PYX_ERR(5, 31, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "ActTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) __PYX_ERR(5, 41, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_ActTissueClassifier)) __PYX_ERR(5, 41, __pyx_L1_error)
+  __pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier = __Pyx_ImportType("dipy.tracking.local.tissue_classifier", "CmcTissueClassifier", sizeof(struct __pyx_obj_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier), 1); if (unlikely(!__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier)) __PYX_ERR(5, 45, __pyx_L1_error)
+  __pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier = (struct __pyx_vtabstruct_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier*)__Pyx_GetVtable(__pyx_ptype_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier->tp_dict); if (unlikely(!__pyx_vtabptr_4dipy_8tracking_5local_17tissue_classifier_CmcTissueClassifier)) __PYX_ERR(5, 45, __pyx_L1_error)
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
+  __pyx_t_1 = __Pyx_ImportModule("dipy.tracking.local.interpolation"); if (!__pyx_t_1) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_1, "trilinear_interpolate4d_c", (void (**)(void))&__pyx_f_4dipy_8tracking_5local_13interpolation_trilinear_interpolate4d_c, "int (__Pyx_memviewslice, double *, __Pyx_memviewslice)") < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  Py_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = __Pyx_ImportModule("dipy.utils.fast_numpy"); if (!__pyx_t_2) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_2, "where_to_insert", (void (**)(void))&__pyx_f_4dipy_5utils_10fast_numpy_where_to_insert, "int (__pyx_t_5numpy_float_t *, __pyx_t_5numpy_float_t, int)") < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_2, "cumsum", (void (**)(void))&__pyx_f_4dipy_5utils_10fast_numpy_cumsum, "void (__pyx_t_5numpy_float_t *, __pyx_t_5numpy_float_t *, int)") < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (__Pyx_ImportFunction(__pyx_t_2, "copy_point", (void (**)(void))&__pyx_f_4dipy_5utils_10fast_numpy_copy_point, "void (double *, double *)") < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  Py_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   /*--- Execution code ---*/
   #if defined(__Pyx_Generator_USED) || defined(__Pyx_Coroutine_USED)
-  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   #endif
 
-  /* "dipy/tracking/local/localtrack.pyx":87
- * @cython.wraparound(False)
- * @cython.cdivision(True)
- * def local_tracker(DirectionGetter dg, TissueClassifier tc,             # <<<<<<<<<<<<<<
- *                   np.ndarray[np.float_t, ndim=1] seed,
- *                   np.ndarray[np.float_t, ndim=1] first_step,
+  /* "dipy/tracking/local/localtrack.pyx":2
+ * 
+ * from random import random             # <<<<<<<<<<<<<<
+ * 
+ * cimport cython
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_5local_10localtrack_1local_tracker, NULL, __pyx_n_s_dipy_tracking_local_localtrack); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 87, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_local_tracker, __pyx_t_1) < 0) __PYX_ERR(0, 87, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_INCREF(__pyx_n_s_random);
+  __Pyx_GIVEREF(__pyx_n_s_random);
+  PyList_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_random);
+  __pyx_t_4 = __Pyx_Import(__pyx_n_s_random, __pyx_t_3, -1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_3 = __Pyx_ImportFrom(__pyx_t_4, __pyx_n_s_random); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_random, __pyx_t_3) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "dipy/tracking/local/localtrack.pyx":1
- * cimport cython             # <<<<<<<<<<<<<<
+  /* "dipy/tracking/local/localtrack.pyx":6
+ * cimport cython
  * cimport numpy as np
+ * import numpy as np             # <<<<<<<<<<<<<<
  * from .direction_getter cimport DirectionGetter
+ * from .tissue_classifier cimport(
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_4) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":86
+ * 
+ * 
+ * def local_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         TissueClassifier tc,
+ */
+  __pyx_t_4 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_5local_10localtrack_1local_tracker, NULL, __pyx_n_s_dipy_tracking_local_localtrack); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_local_tracker, __pyx_t_4) < 0) __PYX_ERR(0, 86, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":199
+ * 
+ * 
+ * def pft_tracker(             # <<<<<<<<<<<<<<
+ *         DirectionGetter dg,
+ *         ConstrainedTissueClassifier tc,
+ */
+  __pyx_t_4 = PyCFunction_NewEx(&__pyx_mdef_4dipy_8tracking_5local_10localtrack_3pft_tracker, NULL, __pyx_n_s_dipy_tracking_local_localtrack); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pft_tracker, __pyx_t_4) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "dipy/tracking/local/localtrack.pyx":2
+ * 
+ * from random import random             # <<<<<<<<<<<<<<
+ * 
+ * cimport cython
+ */
+  __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_4) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "View.MemoryView":207
  *         info.obj = self
@@ -20576,10 +22664,10 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * 
  *     def __dealloc__(array self):
  */
-  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 207, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) __PYX_ERR(2, 207, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_array_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 207, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem((PyObject *)__pyx_array_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(2, 207, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   PyType_Modified(__pyx_array_type);
 
   /* "View.MemoryView":284
@@ -20589,12 +22677,12 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XGOTREF(generic);
-  __Pyx_DECREF_SET(generic, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
+  __Pyx_DECREF_SET(generic, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
 
   /* "View.MemoryView":285
  * 
@@ -20603,12 +22691,12 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XGOTREF(strided);
-  __Pyx_DECREF_SET(strided, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
+  __Pyx_DECREF_SET(strided, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
 
   /* "View.MemoryView":286
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -20617,12 +22705,12 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XGOTREF(indirect);
-  __Pyx_DECREF_SET(indirect, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
+  __Pyx_DECREF_SET(indirect, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
 
   /* "View.MemoryView":289
  * 
@@ -20631,12 +22719,12 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__38, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XGOTREF(contiguous);
-  __Pyx_DECREF_SET(contiguous, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
+  __Pyx_DECREF_SET(contiguous, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
 
   /* "View.MemoryView":290
  * 
@@ -20645,12 +22733,12 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__40, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 290, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 290, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_XGOTREF(indirect_contiguous);
-  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_1);
-  __Pyx_GIVEREF(__pyx_t_1);
-  __pyx_t_1 = 0;
+  __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_4);
+  __pyx_t_4 = 0;
 
   /* "View.MemoryView":314
  * 
@@ -20668,15 +22756,15 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  *     PyThread_allocate_lock(),
  *     PyThread_allocate_lock(),
  */
-  __pyx_t_2[0] = PyThread_allocate_lock();
-  __pyx_t_2[1] = PyThread_allocate_lock();
-  __pyx_t_2[2] = PyThread_allocate_lock();
-  __pyx_t_2[3] = PyThread_allocate_lock();
-  __pyx_t_2[4] = PyThread_allocate_lock();
-  __pyx_t_2[5] = PyThread_allocate_lock();
-  __pyx_t_2[6] = PyThread_allocate_lock();
-  __pyx_t_2[7] = PyThread_allocate_lock();
-  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_2, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
+  __pyx_t_5[0] = PyThread_allocate_lock();
+  __pyx_t_5[1] = PyThread_allocate_lock();
+  __pyx_t_5[2] = PyThread_allocate_lock();
+  __pyx_t_5[3] = PyThread_allocate_lock();
+  __pyx_t_5[4] = PyThread_allocate_lock();
+  __pyx_t_5[5] = PyThread_allocate_lock();
+  __pyx_t_5[6] = PyThread_allocate_lock();
+  __pyx_t_5[7] = PyThread_allocate_lock();
+  memcpy(&(__pyx_memoryview_thread_locks[0]), __pyx_t_5, sizeof(__pyx_memoryview_thread_locks[0]) * (8));
 
   /* "View.MemoryView":537
  *         info.obj = self
@@ -20685,10 +22773,10 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * 
  * 
  */
-  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 537, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) __PYX_ERR(2, 537, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 537, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem((PyObject *)__pyx_memoryview_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(2, 537, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   PyType_Modified(__pyx_memoryview_type);
 
   /* "View.MemoryView":983
@@ -20698,10 +22786,10 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  * 
  * 
  */
-  __pyx_t_1 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 983, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem((PyObject *)__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_1) < 0) __PYX_ERR(2, 983, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = __pyx_capsule_create(((void *)(&__pyx_memoryview_getbuffer)), ((char *)"getbuffer(obj, view, flags)")); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 983, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem((PyObject *)__pyx_memoryviewslice_type->tp_dict, __pyx_n_s_pyx_getbuffer, __pyx_t_4) < 0) __PYX_ERR(2, 983, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   PyType_Modified(__pyx_memoryviewslice_type);
 
   /* "(tree fragment)":1
@@ -20709,17 +22797,17 @@ PyMODINIT_FUNC PyInit_localtrack(void)
  *     if __pyx_checksum != 0xb068931:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum, NULL, __pyx_n_s_View_MemoryView); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Enum, __pyx_t_1) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_4 = PyCFunction_NewEx(&__pyx_mdef_15View_dot_MemoryView_1__pyx_unpickle_Enum, NULL, __pyx_n_s_View_MemoryView); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Enum, __pyx_t_4) < 0) __PYX_ERR(2, 1, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "BufferFormatFromTypeInfo":1449
- * 
- * @cname('__pyx_format_from_typeinfo')
- * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
- *     cdef __Pyx_StructField *field
- *     cdef __pyx_typeinfo_string fmt
+  /* "(tree fragment)":9
+ *         __pyx_unpickle_Enum__set_state(<Enum> __pyx_result, __pyx_state)
+ *     return __pyx_result
+ * cdef __pyx_unpickle_Enum__set_state(Enum __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
+ *     __pyx_result.name = __pyx_state[0]
+ *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
  */
 
   /*--- Wrapped vars code ---*/
@@ -20727,6 +22815,9 @@ PyMODINIT_FUNC PyInit_localtrack(void)
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init dipy.tracking.local.localtrack", 0, __pyx_lineno, __pyx_filename);
@@ -20945,8 +23036,221 @@ static CYTHON_INLINE int __Pyx_ArgTypeTest(PyObject *obj, PyTypeObject *type, in
     return 0;
 }
 
+/* PyObjectCall */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
+    PyObject *result;
+    ternaryfunc call = func->ob_type->tp_call;
+    if (unlikely(!call))
+        return PyObject_Call(func, arg, kw);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = (*call)(func, arg, kw);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyErrFetchRestore */
+#if CYTHON_FAST_THREAD_STATE
+static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
+    PyObject *tmp_type, *tmp_value, *tmp_tb;
+    tmp_type = tstate->curexc_type;
+    tmp_value = tstate->curexc_value;
+    tmp_tb = tstate->curexc_traceback;
+    tstate->curexc_type = type;
+    tstate->curexc_value = value;
+    tstate->curexc_traceback = tb;
+    Py_XDECREF(tmp_type);
+    Py_XDECREF(tmp_value);
+    Py_XDECREF(tmp_tb);
+}
+static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
+    *type = tstate->curexc_type;
+    *value = tstate->curexc_value;
+    *tb = tstate->curexc_traceback;
+    tstate->curexc_type = 0;
+    tstate->curexc_value = 0;
+    tstate->curexc_traceback = 0;
+}
+#endif
+
+/* RaiseException */
+#if PY_MAJOR_VERSION < 3
+static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb,
+                        CYTHON_UNUSED PyObject *cause) {
+    __Pyx_PyThreadState_declare
+    Py_XINCREF(type);
+    if (!value || value == Py_None)
+        value = NULL;
+    else
+        Py_INCREF(value);
+    if (!tb || tb == Py_None)
+        tb = NULL;
+    else {
+        Py_INCREF(tb);
+        if (!PyTraceBack_Check(tb)) {
+            PyErr_SetString(PyExc_TypeError,
+                "raise: arg 3 must be a traceback or None");
+            goto raise_error;
+        }
+    }
+    if (PyType_Check(type)) {
+#if CYTHON_COMPILING_IN_PYPY
+        if (!value) {
+            Py_INCREF(Py_None);
+            value = Py_None;
+        }
+#endif
+        PyErr_NormalizeException(&type, &value, &tb);
+    } else {
+        if (value) {
+            PyErr_SetString(PyExc_TypeError,
+                "instance exception may not have a separate value");
+            goto raise_error;
+        }
+        value = type;
+        type = (PyObject*) Py_TYPE(type);
+        Py_INCREF(type);
+        if (!PyType_IsSubtype((PyTypeObject *)type, (PyTypeObject *)PyExc_BaseException)) {
+            PyErr_SetString(PyExc_TypeError,
+                "raise: exception class must be a subclass of BaseException");
+            goto raise_error;
+        }
+    }
+    __Pyx_PyThreadState_assign
+    __Pyx_ErrRestore(type, value, tb);
+    return;
+raise_error:
+    Py_XDECREF(value);
+    Py_XDECREF(type);
+    Py_XDECREF(tb);
+    return;
+}
+#else
+static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause) {
+    PyObject* owned_instance = NULL;
+    if (tb == Py_None) {
+        tb = 0;
+    } else if (tb && !PyTraceBack_Check(tb)) {
+        PyErr_SetString(PyExc_TypeError,
+            "raise: arg 3 must be a traceback or None");
+        goto bad;
+    }
+    if (value == Py_None)
+        value = 0;
+    if (PyExceptionInstance_Check(type)) {
+        if (value) {
+            PyErr_SetString(PyExc_TypeError,
+                "instance exception may not have a separate value");
+            goto bad;
+        }
+        value = type;
+        type = (PyObject*) Py_TYPE(value);
+    } else if (PyExceptionClass_Check(type)) {
+        PyObject *instance_class = NULL;
+        if (value && PyExceptionInstance_Check(value)) {
+            instance_class = (PyObject*) Py_TYPE(value);
+            if (instance_class != type) {
+                int is_subclass = PyObject_IsSubclass(instance_class, type);
+                if (!is_subclass) {
+                    instance_class = NULL;
+                } else if (unlikely(is_subclass == -1)) {
+                    goto bad;
+                } else {
+                    type = instance_class;
+                }
+            }
+        }
+        if (!instance_class) {
+            PyObject *args;
+            if (!value)
+                args = PyTuple_New(0);
+            else if (PyTuple_Check(value)) {
+                Py_INCREF(value);
+                args = value;
+            } else
+                args = PyTuple_Pack(1, value);
+            if (!args)
+                goto bad;
+            owned_instance = PyObject_Call(type, args, NULL);
+            Py_DECREF(args);
+            if (!owned_instance)
+                goto bad;
+            value = owned_instance;
+            if (!PyExceptionInstance_Check(value)) {
+                PyErr_Format(PyExc_TypeError,
+                             "calling %R should have returned an instance of "
+                             "BaseException, not %R",
+                             type, Py_TYPE(value));
+                goto bad;
+            }
+        }
+    } else {
+        PyErr_SetString(PyExc_TypeError,
+            "raise: exception class must be a subclass of BaseException");
+        goto bad;
+    }
+#if PY_VERSION_HEX >= 0x03030000
+    if (cause) {
+#else
+    if (cause && cause != Py_None) {
+#endif
+        PyObject *fixed_cause;
+        if (cause == Py_None) {
+            fixed_cause = NULL;
+        } else if (PyExceptionClass_Check(cause)) {
+            fixed_cause = PyObject_CallObject(cause, NULL);
+            if (fixed_cause == NULL)
+                goto bad;
+        } else if (PyExceptionInstance_Check(cause)) {
+            fixed_cause = cause;
+            Py_INCREF(fixed_cause);
+        } else {
+            PyErr_SetString(PyExc_TypeError,
+                            "exception causes must derive from "
+                            "BaseException");
+            goto bad;
+        }
+        PyException_SetCause(value, fixed_cause);
+    }
+    PyErr_SetObject(type, value);
+    if (tb) {
+#if CYTHON_COMPILING_IN_PYPY
+        PyObject *tmp_type, *tmp_value, *tmp_tb;
+        PyErr_Fetch(&tmp_type, &tmp_value, &tmp_tb);
+        Py_INCREF(tb);
+        PyErr_Restore(tmp_type, tmp_value, tb);
+        Py_XDECREF(tmp_tb);
+#else
+        PyThreadState *tstate = PyThreadState_GET();
+        PyObject* tmp_tb = tstate->curexc_traceback;
+        if (tb != tmp_tb) {
+            Py_INCREF(tb);
+            tstate->curexc_traceback = tb;
+            Py_XDECREF(tmp_tb);
+        }
+#endif
+    }
+bad:
+    Py_XDECREF(owned_instance);
+    return;
+}
+#endif
+
+/* BufferIndexError */
+  static void __Pyx_RaiseBufferIndexError(int axis) {
+  PyErr_Format(PyExc_IndexError,
+     "Out of bounds on buffer access (axis %d)", axis);
+}
+
 /* IsLittleEndian */
-static CYTHON_INLINE int __Pyx_Is_Little_Endian(void)
+  static CYTHON_INLINE int __Pyx_Is_Little_Endian(void)
 {
   union {
     uint32_t u32;
@@ -20957,7 +23261,7 @@ static CYTHON_INLINE int __Pyx_Is_Little_Endian(void)
 }
 
 /* BufferFormatCheck */
-static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
+  static void __Pyx_BufFmt_Init(__Pyx_BufFmt_Context* ctx,
                               __Pyx_BufFmt_StackElem* stack,
                               __Pyx_TypeInfo* type) {
   stack[0].field = &ctx->root;
@@ -21502,376 +23806,8 @@ static CYTHON_INLINE void __Pyx_SafeReleaseBuffer(Py_buffer* info) {
   __Pyx_ReleaseBuffer(info);
 }
 
-/* PyFunctionFastCall */
-  #if CYTHON_FAST_PYCALL
-#include "frameobject.h"
-static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
-                                               PyObject *globals) {
-    PyFrameObject *f;
-    PyThreadState *tstate = PyThreadState_GET();
-    PyObject **fastlocals;
-    Py_ssize_t i;
-    PyObject *result;
-    assert(globals != NULL);
-    /* XXX Perhaps we should create a specialized
-       PyFrame_New() that doesn't take locals, but does
-       take builtins without sanity checking them.
-       */
-    assert(tstate != NULL);
-    f = PyFrame_New(tstate, co, globals, NULL);
-    if (f == NULL) {
-        return NULL;
-    }
-    fastlocals = f->f_localsplus;
-    for (i = 0; i < na; i++) {
-        Py_INCREF(*args);
-        fastlocals[i] = *args++;
-    }
-    result = PyEval_EvalFrameEx(f,0);
-    ++tstate->recursion_depth;
-    Py_DECREF(f);
-    --tstate->recursion_depth;
-    return result;
-}
-#if 1 || PY_VERSION_HEX < 0x030600B1
-static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs) {
-    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
-    PyObject *globals = PyFunction_GET_GLOBALS(func);
-    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
-    PyObject *closure;
-#if PY_MAJOR_VERSION >= 3
-    PyObject *kwdefs;
-#endif
-    PyObject *kwtuple, **k;
-    PyObject **d;
-    Py_ssize_t nd;
-    Py_ssize_t nk;
-    PyObject *result;
-    assert(kwargs == NULL || PyDict_Check(kwargs));
-    nk = kwargs ? PyDict_Size(kwargs) : 0;
-    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
-        return NULL;
-    }
-    if (
-#if PY_MAJOR_VERSION >= 3
-            co->co_kwonlyargcount == 0 &&
-#endif
-            likely(kwargs == NULL || nk == 0) &&
-            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
-        if (argdefs == NULL && co->co_argcount == nargs) {
-            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
-            goto done;
-        }
-        else if (nargs == 0 && argdefs != NULL
-                 && co->co_argcount == Py_SIZE(argdefs)) {
-            /* function called with no arguments, but all parameters have
-               a default value: use default values as arguments .*/
-            args = &PyTuple_GET_ITEM(argdefs, 0);
-            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
-            goto done;
-        }
-    }
-    if (kwargs != NULL) {
-        Py_ssize_t pos, i;
-        kwtuple = PyTuple_New(2 * nk);
-        if (kwtuple == NULL) {
-            result = NULL;
-            goto done;
-        }
-        k = &PyTuple_GET_ITEM(kwtuple, 0);
-        pos = i = 0;
-        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
-            Py_INCREF(k[i]);
-            Py_INCREF(k[i+1]);
-            i += 2;
-        }
-        nk = i / 2;
-    }
-    else {
-        kwtuple = NULL;
-        k = NULL;
-    }
-    closure = PyFunction_GET_CLOSURE(func);
-#if PY_MAJOR_VERSION >= 3
-    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
-#endif
-    if (argdefs != NULL) {
-        d = &PyTuple_GET_ITEM(argdefs, 0);
-        nd = Py_SIZE(argdefs);
-    }
-    else {
-        d = NULL;
-        nd = 0;
-    }
-#if PY_MAJOR_VERSION >= 3
-    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
-                               args, nargs,
-                               k, (int)nk,
-                               d, (int)nd, kwdefs, closure);
-#else
-    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
-                               args, nargs,
-                               k, (int)nk,
-                               d, (int)nd, closure);
-#endif
-    Py_XDECREF(kwtuple);
-done:
-    Py_LeaveRecursiveCall();
-    return result;
-}
-#endif
-#endif
-
-/* PyObjectCall */
-  #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw) {
-    PyObject *result;
-    ternaryfunc call = func->ob_type->tp_call;
-    if (unlikely(!call))
-        return PyObject_Call(func, arg, kw);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = (*call)(func, arg, kw);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallMethO */
-  #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
-    PyObject *self, *result;
-    PyCFunction cfunc;
-    cfunc = PyCFunction_GET_FUNCTION(func);
-    self = PyCFunction_GET_SELF(func);
-    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
-        return NULL;
-    result = cfunc(self, arg);
-    Py_LeaveRecursiveCall();
-    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
-        PyErr_SetString(
-            PyExc_SystemError,
-            "NULL result without error in PyObject_Call");
-    }
-    return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-  #if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
-#else
-    if (likely(PyCFunction_Check(func))) {
-#endif
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
-}
-#endif
-
-/* PyErrFetchRestore */
-    #if CYTHON_FAST_THREAD_STATE
-static CYTHON_INLINE void __Pyx_ErrRestoreInState(PyThreadState *tstate, PyObject *type, PyObject *value, PyObject *tb) {
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-}
-static CYTHON_INLINE void __Pyx_ErrFetchInState(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-}
-#endif
-
-/* RaiseException */
-    #if PY_MAJOR_VERSION < 3
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb,
-                        CYTHON_UNUSED PyObject *cause) {
-    __Pyx_PyThreadState_declare
-    Py_XINCREF(type);
-    if (!value || value == Py_None)
-        value = NULL;
-    else
-        Py_INCREF(value);
-    if (!tb || tb == Py_None)
-        tb = NULL;
-    else {
-        Py_INCREF(tb);
-        if (!PyTraceBack_Check(tb)) {
-            PyErr_SetString(PyExc_TypeError,
-                "raise: arg 3 must be a traceback or None");
-            goto raise_error;
-        }
-    }
-    if (PyType_Check(type)) {
-#if CYTHON_COMPILING_IN_PYPY
-        if (!value) {
-            Py_INCREF(Py_None);
-            value = Py_None;
-        }
-#endif
-        PyErr_NormalizeException(&type, &value, &tb);
-    } else {
-        if (value) {
-            PyErr_SetString(PyExc_TypeError,
-                "instance exception may not have a separate value");
-            goto raise_error;
-        }
-        value = type;
-        type = (PyObject*) Py_TYPE(type);
-        Py_INCREF(type);
-        if (!PyType_IsSubtype((PyTypeObject *)type, (PyTypeObject *)PyExc_BaseException)) {
-            PyErr_SetString(PyExc_TypeError,
-                "raise: exception class must be a subclass of BaseException");
-            goto raise_error;
-        }
-    }
-    __Pyx_PyThreadState_assign
-    __Pyx_ErrRestore(type, value, tb);
-    return;
-raise_error:
-    Py_XDECREF(value);
-    Py_XDECREF(type);
-    Py_XDECREF(tb);
-    return;
-}
-#else
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause) {
-    PyObject* owned_instance = NULL;
-    if (tb == Py_None) {
-        tb = 0;
-    } else if (tb && !PyTraceBack_Check(tb)) {
-        PyErr_SetString(PyExc_TypeError,
-            "raise: arg 3 must be a traceback or None");
-        goto bad;
-    }
-    if (value == Py_None)
-        value = 0;
-    if (PyExceptionInstance_Check(type)) {
-        if (value) {
-            PyErr_SetString(PyExc_TypeError,
-                "instance exception may not have a separate value");
-            goto bad;
-        }
-        value = type;
-        type = (PyObject*) Py_TYPE(value);
-    } else if (PyExceptionClass_Check(type)) {
-        PyObject *instance_class = NULL;
-        if (value && PyExceptionInstance_Check(value)) {
-            instance_class = (PyObject*) Py_TYPE(value);
-            if (instance_class != type) {
-                int is_subclass = PyObject_IsSubclass(instance_class, type);
-                if (!is_subclass) {
-                    instance_class = NULL;
-                } else if (unlikely(is_subclass == -1)) {
-                    goto bad;
-                } else {
-                    type = instance_class;
-                }
-            }
-        }
-        if (!instance_class) {
-            PyObject *args;
-            if (!value)
-                args = PyTuple_New(0);
-            else if (PyTuple_Check(value)) {
-                Py_INCREF(value);
-                args = value;
-            } else
-                args = PyTuple_Pack(1, value);
-            if (!args)
-                goto bad;
-            owned_instance = PyObject_Call(type, args, NULL);
-            Py_DECREF(args);
-            if (!owned_instance)
-                goto bad;
-            value = owned_instance;
-            if (!PyExceptionInstance_Check(value)) {
-                PyErr_Format(PyExc_TypeError,
-                             "calling %R should have returned an instance of "
-                             "BaseException, not %R",
-                             type, Py_TYPE(value));
-                goto bad;
-            }
-        }
-    } else {
-        PyErr_SetString(PyExc_TypeError,
-            "raise: exception class must be a subclass of BaseException");
-        goto bad;
-    }
-#if PY_VERSION_HEX >= 0x03030000
-    if (cause) {
-#else
-    if (cause && cause != Py_None) {
-#endif
-        PyObject *fixed_cause;
-        if (cause == Py_None) {
-            fixed_cause = NULL;
-        } else if (PyExceptionClass_Check(cause)) {
-            fixed_cause = PyObject_CallObject(cause, NULL);
-            if (fixed_cause == NULL)
-                goto bad;
-        } else if (PyExceptionInstance_Check(cause)) {
-            fixed_cause = cause;
-            Py_INCREF(fixed_cause);
-        } else {
-            PyErr_SetString(PyExc_TypeError,
-                            "exception causes must derive from "
-                            "BaseException");
-            goto bad;
-        }
-        PyException_SetCause(value, fixed_cause);
-    }
-    PyErr_SetObject(type, value);
-    if (tb) {
-#if CYTHON_COMPILING_IN_PYPY
-        PyObject *tmp_type, *tmp_value, *tmp_tb;
-        PyErr_Fetch(&tmp_type, &tmp_value, &tmp_tb);
-        Py_INCREF(tb);
-        PyErr_Restore(tmp_type, tmp_value, tb);
-        Py_XDECREF(tmp_tb);
-#else
-        PyThreadState *tstate = PyThreadState_GET();
-        PyObject* tmp_tb = tstate->curexc_traceback;
-        if (tb != tmp_tb) {
-            Py_INCREF(tb);
-            tstate->curexc_traceback = tb;
-            Py_XDECREF(tmp_tb);
-        }
-#endif
-    }
-bad:
-    Py_XDECREF(owned_instance);
-    return;
-}
-#endif
-
 /* MemviewSliceInit */
-      static int
+    static int
 __Pyx_init_memviewslice(struct __pyx_memoryview_obj *memview,
                         int ndim,
                         __Pyx_memviewslice *memviewslice,
@@ -22005,26 +23941,268 @@ static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
     }
 }
 
+/* GetModuleGlobalName */
+    static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+    result = PyDict_GetItem(__pyx_d, name);
+    if (likely(result)) {
+        Py_INCREF(result);
+    } else {
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    if (!result) {
+        PyErr_Clear();
+#endif
+        result = __Pyx_GetBuiltinName(name);
+    }
+    return result;
+}
+
+/* PyCFunctionFastCall */
+      #if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)meth)) (self, args, nargs);
+    }
+}
+#endif
+
+/* PyFunctionFastCall */
+      #if CYTHON_FAST_PYCALL
+#include "frameobject.h"
+static PyObject* __Pyx_PyFunction_FastCallNoKw(PyCodeObject *co, PyObject **args, Py_ssize_t na,
+                                               PyObject *globals) {
+    PyFrameObject *f;
+    PyThreadState *tstate = PyThreadState_GET();
+    PyObject **fastlocals;
+    Py_ssize_t i;
+    PyObject *result;
+    assert(globals != NULL);
+    /* XXX Perhaps we should create a specialized
+       PyFrame_New() that doesn't take locals, but does
+       take builtins without sanity checking them.
+       */
+    assert(tstate != NULL);
+    f = PyFrame_New(tstate, co, globals, NULL);
+    if (f == NULL) {
+        return NULL;
+    }
+    fastlocals = f->f_localsplus;
+    for (i = 0; i < na; i++) {
+        Py_INCREF(*args);
+        fastlocals[i] = *args++;
+    }
+    result = PyEval_EvalFrameEx(f,0);
+    ++tstate->recursion_depth;
+    Py_DECREF(f);
+    --tstate->recursion_depth;
+    return result;
+}
+#if 1 || PY_VERSION_HEX < 0x030600B1
+static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, int nargs, PyObject *kwargs) {
+    PyCodeObject *co = (PyCodeObject *)PyFunction_GET_CODE(func);
+    PyObject *globals = PyFunction_GET_GLOBALS(func);
+    PyObject *argdefs = PyFunction_GET_DEFAULTS(func);
+    PyObject *closure;
+#if PY_MAJOR_VERSION >= 3
+    PyObject *kwdefs;
+#endif
+    PyObject *kwtuple, **k;
+    PyObject **d;
+    Py_ssize_t nd;
+    Py_ssize_t nk;
+    PyObject *result;
+    assert(kwargs == NULL || PyDict_Check(kwargs));
+    nk = kwargs ? PyDict_Size(kwargs) : 0;
+    if (Py_EnterRecursiveCall((char*)" while calling a Python object")) {
+        return NULL;
+    }
+    if (
+#if PY_MAJOR_VERSION >= 3
+            co->co_kwonlyargcount == 0 &&
+#endif
+            likely(kwargs == NULL || nk == 0) &&
+            co->co_flags == (CO_OPTIMIZED | CO_NEWLOCALS | CO_NOFREE)) {
+        if (argdefs == NULL && co->co_argcount == nargs) {
+            result = __Pyx_PyFunction_FastCallNoKw(co, args, nargs, globals);
+            goto done;
+        }
+        else if (nargs == 0 && argdefs != NULL
+                 && co->co_argcount == Py_SIZE(argdefs)) {
+            /* function called with no arguments, but all parameters have
+               a default value: use default values as arguments .*/
+            args = &PyTuple_GET_ITEM(argdefs, 0);
+            result =__Pyx_PyFunction_FastCallNoKw(co, args, Py_SIZE(argdefs), globals);
+            goto done;
+        }
+    }
+    if (kwargs != NULL) {
+        Py_ssize_t pos, i;
+        kwtuple = PyTuple_New(2 * nk);
+        if (kwtuple == NULL) {
+            result = NULL;
+            goto done;
+        }
+        k = &PyTuple_GET_ITEM(kwtuple, 0);
+        pos = i = 0;
+        while (PyDict_Next(kwargs, &pos, &k[i], &k[i+1])) {
+            Py_INCREF(k[i]);
+            Py_INCREF(k[i+1]);
+            i += 2;
+        }
+        nk = i / 2;
+    }
+    else {
+        kwtuple = NULL;
+        k = NULL;
+    }
+    closure = PyFunction_GET_CLOSURE(func);
+#if PY_MAJOR_VERSION >= 3
+    kwdefs = PyFunction_GET_KW_DEFAULTS(func);
+#endif
+    if (argdefs != NULL) {
+        d = &PyTuple_GET_ITEM(argdefs, 0);
+        nd = Py_SIZE(argdefs);
+    }
+    else {
+        d = NULL;
+        nd = 0;
+    }
+#if PY_MAJOR_VERSION >= 3
+    result = PyEval_EvalCodeEx((PyObject*)co, globals, (PyObject *)NULL,
+                               args, nargs,
+                               k, (int)nk,
+                               d, (int)nd, kwdefs, closure);
+#else
+    result = PyEval_EvalCodeEx(co, globals, (PyObject *)NULL,
+                               args, nargs,
+                               k, (int)nk,
+                               d, (int)nd, closure);
+#endif
+    Py_XDECREF(kwtuple);
+done:
+    Py_LeaveRecursiveCall();
+    return result;
+}
+#endif
+#endif
+
+/* PyObjectCallMethO */
+      #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
+    PyObject *self, *result;
+    PyCFunction cfunc;
+    cfunc = PyCFunction_GET_FUNCTION(func);
+    self = PyCFunction_GET_SELF(func);
+    if (unlikely(Py_EnterRecursiveCall((char*)" while calling a Python object")))
+        return NULL;
+    result = cfunc(self, arg);
+    Py_LeaveRecursiveCall();
+    if (unlikely(!result) && unlikely(!PyErr_Occurred())) {
+        PyErr_SetString(
+            PyExc_SystemError,
+            "NULL result without error in PyObject_Call");
+    }
+    return result;
+}
+#endif
+
+/* PyObjectCallOneArg */
+      #if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_New(1);
+    if (unlikely(!args)) return NULL;
+    Py_INCREF(arg);
+    PyTuple_SET_ITEM(args, 0, arg);
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, &arg, 1);
+    }
+#endif
+    if (likely(PyCFunction_Check(func))) {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
+            return __Pyx_PyObject_CallMethO(func, arg);
+#if CYTHON_FAST_PYCCALL
+        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
+            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
+#endif
+        }
+    }
+    return __Pyx__PyObject_CallOneArg(func, arg);
+}
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
+    PyObject *result;
+    PyObject *args = PyTuple_Pack(1, arg);
+    if (unlikely(!args)) return NULL;
+    result = __Pyx_PyObject_Call(func, args, NULL);
+    Py_DECREF(args);
+    return result;
+}
+#endif
+
+/* PyObjectCallNoArg */
+      #if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || PyObject_TypeCheck(func, __pyx_CyFunctionType))) {
+#else
+    if (likely(PyCFunction_Check(func))) {
+#endif
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
 /* RaiseTooManyValuesToUnpack */
-      static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+        static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
     PyErr_Format(PyExc_ValueError,
                  "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
 }
 
 /* RaiseNeedMoreValuesToUnpack */
-      static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+        static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
     PyErr_Format(PyExc_ValueError,
                  "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
                  index, (index == 1) ? "" : "s");
 }
 
 /* RaiseNoneIterError */
-      static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
+        static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
 }
 
 /* ExtTypeTest */
-      static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
+        static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type) {
     if (unlikely(!type)) {
         PyErr_SetString(PyExc_SystemError, "Missing type object");
         return 0;
@@ -22037,7 +24215,7 @@ static CYTHON_INLINE void __Pyx_XDEC_MEMVIEW(__Pyx_memviewslice *memslice,
 }
 
 /* SaveResetException */
-      #if CYTHON_FAST_THREAD_STATE
+        #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE void __Pyx__ExceptionSave(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
     *type = tstate->exc_type;
     *value = tstate->exc_value;
@@ -22061,7 +24239,7 @@ static CYTHON_INLINE void __Pyx__ExceptionReset(PyThreadState *tstate, PyObject 
 #endif
 
 /* PyErrExceptionMatches */
-      #if CYTHON_FAST_THREAD_STATE
+        #if CYTHON_FAST_THREAD_STATE
 static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tstate, PyObject* err) {
     PyObject *exc_type = tstate->curexc_type;
     if (exc_type == err) return 1;
@@ -22071,7 +24249,7 @@ static CYTHON_INLINE int __Pyx_PyErr_ExceptionMatchesInState(PyThreadState* tsta
 #endif
 
 /* GetException */
-      #if CYTHON_FAST_THREAD_STATE
+        #if CYTHON_FAST_THREAD_STATE
 static int __Pyx__GetException(PyThreadState *tstate, PyObject **type, PyObject **value, PyObject **tb) {
 #else
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb) {
@@ -22132,7 +24310,7 @@ bad:
 }
 
 /* BytesEquals */
-        static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
+          static CYTHON_INLINE int __Pyx_PyBytes_Equals(PyObject* s1, PyObject* s2, int equals) {
 #if CYTHON_COMPILING_IN_PYPY
     return PyObject_RichCompareBool(s1, s2, equals);
 #else
@@ -22179,7 +24357,7 @@ bad:
 }
 
 /* UnicodeEquals */
-        static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
+          static CYTHON_INLINE int __Pyx_PyUnicode_Equals(PyObject* s1, PyObject* s2, int equals) {
 #if CYTHON_COMPILING_IN_PYPY
     return PyObject_RichCompareBool(s1, s2, equals);
 #else
@@ -22278,7 +24456,7 @@ return_ne:
 }
 
 /* None */
-        static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
+          static CYTHON_INLINE Py_ssize_t __Pyx_div_Py_ssize_t(Py_ssize_t a, Py_ssize_t b) {
     Py_ssize_t q = a / b;
     Py_ssize_t r = a - q*b;
     q -= ((r != 0) & ((r ^ b) < 0));
@@ -22286,7 +24464,7 @@ return_ne:
 }
 
 /* GetAttr */
-        static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
+          static CYTHON_INLINE PyObject *__Pyx_GetAttr(PyObject *o, PyObject *n) {
 #if CYTHON_COMPILING_IN_CPYTHON
 #if PY_MAJOR_VERSION >= 3
     if (likely(PyUnicode_Check(n)))
@@ -22299,7 +24477,7 @@ return_ne:
 }
 
 /* decode_c_string */
-        static CYTHON_INLINE PyObject* __Pyx_decode_c_string(
+          static CYTHON_INLINE PyObject* __Pyx_decode_c_string(
          const char* cstring, Py_ssize_t start, Py_ssize_t stop,
          const char* encoding, const char* errors,
          PyObject* (*decode_func)(const char *s, Py_ssize_t size, const char *errors)) {
@@ -22332,7 +24510,7 @@ return_ne:
 }
 
 /* GetAttr3 */
-        static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
+          static CYTHON_INLINE PyObject *__Pyx_GetAttr3(PyObject *o, PyObject *n, PyObject *d) {
     PyObject *r = __Pyx_GetAttr(o, n);
     if (unlikely(!r)) {
         if (!PyErr_ExceptionMatches(PyExc_AttributeError))
@@ -22344,24 +24522,6 @@ return_ne:
     return r;
 bad:
     return NULL;
-}
-
-/* GetModuleGlobalName */
-        static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
-    PyObject *result;
-#if !CYTHON_AVOID_BORROWED_REFS
-    result = PyDict_GetItem(__pyx_d, name);
-    if (likely(result)) {
-        Py_INCREF(result);
-    } else {
-#else
-    result = PyObject_GetItem(__pyx_d, name);
-    if (!result) {
-        PyErr_Clear();
-#endif
-        result = __Pyx_GetBuiltinName(name);
-    }
-    return result;
 }
 
 /* SwapException */
@@ -22462,29 +24622,6 @@ bad:
     Py_XDECREF(empty_dict);
     return module;
 }
-
-/* PyCFunctionFastCall */
-          #if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)meth)) (self, args, nargs);
-    }
-}
-#endif
 
 /* GetItemInt */
           static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
@@ -22744,46 +24881,6 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 #endif
 }
 
-/* PyObjectCallOneArg */
-          #if CYTHON_COMPILING_IN_CPYTHON
-static PyObject* __Pyx__PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_New(1);
-    if (unlikely(!args)) return NULL;
-    Py_INCREF(arg);
-    PyTuple_SET_ITEM(args, 0, arg);
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, &arg, 1);
-    }
-#endif
-    if (likely(PyCFunction_Check(func))) {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_O)) {
-            return __Pyx_PyObject_CallMethO(func, arg);
-#if CYTHON_FAST_PYCCALL
-        } else if (PyCFunction_GET_FLAGS(func) & METH_FASTCALL) {
-            return __Pyx_PyCFunction_FastCall(func, &arg, 1);
-#endif
-        }
-    }
-    return __Pyx__PyObject_CallOneArg(func, arg);
-}
-#else
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg) {
-    PyObject *result;
-    PyObject *args = PyTuple_Pack(1, arg);
-    if (unlikely(!args)) return NULL;
-    result = __Pyx_PyObject_Call(func, args, NULL);
-    Py_DECREF(args);
-    return result;
-}
-#endif
-
 /* ImportFrom */
           static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
     PyObject* value = __Pyx_PyObject_GetAttrStr(module, name);
@@ -22815,13 +24912,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
         return 1;
     }
 }
-
-/* StringJoin */
-          #if !CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
-    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
-}
-#endif
 
 /* SetVTable */
           static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
@@ -23233,6 +25323,275 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     return cobj;
 }
 
+/* TypeInfoCompare */
+          static int
+__pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b)
+{
+    int i;
+    if (!a || !b)
+        return 0;
+    if (a == b)
+        return 1;
+    if (a->size != b->size || a->typegroup != b->typegroup ||
+            a->is_unsigned != b->is_unsigned || a->ndim != b->ndim) {
+        if (a->typegroup == 'H' || b->typegroup == 'H') {
+            return a->size == b->size;
+        } else {
+            return 0;
+        }
+    }
+    if (a->ndim) {
+        for (i = 0; i < a->ndim; i++)
+            if (a->arraysize[i] != b->arraysize[i])
+                return 0;
+    }
+    if (a->typegroup == 'S') {
+        if (a->flags != b->flags)
+            return 0;
+        if (a->fields || b->fields) {
+            if (!(a->fields && b->fields))
+                return 0;
+            for (i = 0; a->fields[i].type && b->fields[i].type; i++) {
+                __Pyx_StructField *field_a = a->fields + i;
+                __Pyx_StructField *field_b = b->fields + i;
+                if (field_a->offset != field_b->offset ||
+                    !__pyx_typeinfo_cmp(field_a->type, field_b->type))
+                    return 0;
+            }
+            return !a->fields[i].type && !b->fields[i].type;
+        }
+    }
+    return 1;
+}
+
+/* MemviewSliceValidateAndInit */
+          static int
+__pyx_check_strides(Py_buffer *buf, int dim, int ndim, int spec)
+{
+    if (buf->shape[dim] <= 1)
+        return 1;
+    if (buf->strides) {
+        if (spec & __Pyx_MEMVIEW_CONTIG) {
+            if (spec & (__Pyx_MEMVIEW_PTR|__Pyx_MEMVIEW_FULL)) {
+                if (buf->strides[dim] != sizeof(void *)) {
+                    PyErr_Format(PyExc_ValueError,
+                                 "Buffer is not indirectly contiguous "
+                                 "in dimension %d.", dim);
+                    goto fail;
+                }
+            } else if (buf->strides[dim] != buf->itemsize) {
+                PyErr_SetString(PyExc_ValueError,
+                                "Buffer and memoryview are not contiguous "
+                                "in the same dimension.");
+                goto fail;
+            }
+        }
+        if (spec & __Pyx_MEMVIEW_FOLLOW) {
+            Py_ssize_t stride = buf->strides[dim];
+            if (stride < 0)
+                stride = -stride;
+            if (stride < buf->itemsize) {
+                PyErr_SetString(PyExc_ValueError,
+                                "Buffer and memoryview are not contiguous "
+                                "in the same dimension.");
+                goto fail;
+            }
+        }
+    } else {
+        if (spec & __Pyx_MEMVIEW_CONTIG && dim != ndim - 1) {
+            PyErr_Format(PyExc_ValueError,
+                         "C-contiguous buffer is not contiguous in "
+                         "dimension %d", dim);
+            goto fail;
+        } else if (spec & (__Pyx_MEMVIEW_PTR)) {
+            PyErr_Format(PyExc_ValueError,
+                         "C-contiguous buffer is not indirect in "
+                         "dimension %d", dim);
+            goto fail;
+        } else if (buf->suboffsets) {
+            PyErr_SetString(PyExc_ValueError,
+                            "Buffer exposes suboffsets but no strides");
+            goto fail;
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int
+__pyx_check_suboffsets(Py_buffer *buf, int dim, CYTHON_UNUSED int ndim, int spec)
+{
+    if (spec & __Pyx_MEMVIEW_DIRECT) {
+        if (buf->suboffsets && buf->suboffsets[dim] >= 0) {
+            PyErr_Format(PyExc_ValueError,
+                         "Buffer not compatible with direct access "
+                         "in dimension %d.", dim);
+            goto fail;
+        }
+    }
+    if (spec & __Pyx_MEMVIEW_PTR) {
+        if (!buf->suboffsets || (buf->suboffsets && buf->suboffsets[dim] < 0)) {
+            PyErr_Format(PyExc_ValueError,
+                         "Buffer is not indirectly accessible "
+                         "in dimension %d.", dim);
+            goto fail;
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int
+__pyx_verify_contig(Py_buffer *buf, int ndim, int c_or_f_flag)
+{
+    int i;
+    if (c_or_f_flag & __Pyx_IS_F_CONTIG) {
+        Py_ssize_t stride = 1;
+        for (i = 0; i < ndim; i++) {
+            if (stride * buf->itemsize != buf->strides[i] &&
+                    buf->shape[i] > 1)
+            {
+                PyErr_SetString(PyExc_ValueError,
+                    "Buffer not fortran contiguous.");
+                goto fail;
+            }
+            stride = stride * buf->shape[i];
+        }
+    } else if (c_or_f_flag & __Pyx_IS_C_CONTIG) {
+        Py_ssize_t stride = 1;
+        for (i = ndim - 1; i >- 1; i--) {
+            if (stride * buf->itemsize != buf->strides[i] &&
+                    buf->shape[i] > 1) {
+                PyErr_SetString(PyExc_ValueError,
+                    "Buffer not C contiguous.");
+                goto fail;
+            }
+            stride = stride * buf->shape[i];
+        }
+    }
+    return 1;
+fail:
+    return 0;
+}
+static int __Pyx_ValidateAndInit_memviewslice(
+                int *axes_specs,
+                int c_or_f_flag,
+                int buf_flags,
+                int ndim,
+                __Pyx_TypeInfo *dtype,
+                __Pyx_BufFmt_StackElem stack[],
+                __Pyx_memviewslice *memviewslice,
+                PyObject *original_obj)
+{
+    struct __pyx_memoryview_obj *memview, *new_memview;
+    __Pyx_RefNannyDeclarations
+    Py_buffer *buf;
+    int i, spec = 0, retval = -1;
+    __Pyx_BufFmt_Context ctx;
+    int from_memoryview = __pyx_memoryview_check(original_obj);
+    __Pyx_RefNannySetupContext("ValidateAndInit_memviewslice", 0);
+    if (from_memoryview && __pyx_typeinfo_cmp(dtype, ((struct __pyx_memoryview_obj *)
+                                                            original_obj)->typeinfo)) {
+        memview = (struct __pyx_memoryview_obj *) original_obj;
+        new_memview = NULL;
+    } else {
+        memview = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
+                                            original_obj, buf_flags, 0, dtype);
+        new_memview = memview;
+        if (unlikely(!memview))
+            goto fail;
+    }
+    buf = &memview->view;
+    if (buf->ndim != ndim) {
+        PyErr_Format(PyExc_ValueError,
+                "Buffer has wrong number of dimensions (expected %d, got %d)",
+                ndim, buf->ndim);
+        goto fail;
+    }
+    if (new_memview) {
+        __Pyx_BufFmt_Init(&ctx, stack, dtype);
+        if (!__Pyx_BufFmt_CheckString(&ctx, buf->format)) goto fail;
+    }
+    if ((unsigned) buf->itemsize != dtype->size) {
+        PyErr_Format(PyExc_ValueError,
+                     "Item size of buffer (%" CYTHON_FORMAT_SSIZE_T "u byte%s) "
+                     "does not match size of '%s' (%" CYTHON_FORMAT_SSIZE_T "u byte%s)",
+                     buf->itemsize,
+                     (buf->itemsize > 1) ? "s" : "",
+                     dtype->name,
+                     dtype->size,
+                     (dtype->size > 1) ? "s" : "");
+        goto fail;
+    }
+    for (i = 0; i < ndim; i++) {
+        spec = axes_specs[i];
+        if (!__pyx_check_strides(buf, i, ndim, spec))
+            goto fail;
+        if (!__pyx_check_suboffsets(buf, i, ndim, spec))
+            goto fail;
+    }
+    if (buf->strides && !__pyx_verify_contig(buf, ndim, c_or_f_flag))
+        goto fail;
+    if (unlikely(__Pyx_init_memviewslice(memview, ndim, memviewslice,
+                                         new_memview != NULL) == -1)) {
+        goto fail;
+    }
+    retval = 0;
+    goto no_fail;
+fail:
+    Py_XDECREF(new_memview);
+    retval = -1;
+no_fail:
+    __Pyx_RefNannyFinishContext();
+    return retval;
+}
+
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_ds_nn___pyx_t_5numpy_float_t(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 1,
+                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_float_t(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 2,
+                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
 /* CIntFromPyVerify */
           #define __PYX_VERIFY_RETURN_INT(target_type, func_type, func_value)\
     __PYX__VERIFY_RETURN_INT(target_type, func_type, func_value, 0)
@@ -23255,25 +25614,71 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
         return (target_type) value;\
     }
 
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsdsdsds_nn___pyx_t_5numpy_float_t(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 4,
+                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_float_t, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dsds_nn___pyx_t_5numpy_int_t(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_STRIDED) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, 0,
+                                                 PyBUF_RECORDS, 2,
+                                                 &__Pyx_TypeInfo_nn___pyx_t_5numpy_int_t, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
 /* CIntToPy */
-          static CYTHON_INLINE PyObject* __Pyx_PyInt_From_Py_intptr_t(Py_intptr_t value) {
-    const Py_intptr_t neg_one = (Py_intptr_t) -1, const_zero = (Py_intptr_t) 0;
+          static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass value) {
+    const enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass neg_one = (enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) -1, const_zero = (enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(Py_intptr_t) < sizeof(long)) {
+        if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(Py_intptr_t) <= sizeof(unsigned long)) {
+        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(Py_intptr_t) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(Py_intptr_t) <= sizeof(long)) {
+        if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(Py_intptr_t) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -23281,7 +25686,7 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(Py_intptr_t),
+        return _PyLong_FromByteArray(bytes, sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass),
                                      little, !is_unsigned);
     }
 }
@@ -23318,24 +25723,24 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
 }
 
 /* CIntToPy */
-          static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass value) {
-    const enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass neg_one = (enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) -1, const_zero = (enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) 0;
+          static CYTHON_INLINE PyObject* __Pyx_PyInt_From_npy_long(npy_long value) {
+    const npy_long neg_one = (npy_long) -1, const_zero = (npy_long) 0;
     const int is_unsigned = neg_one > const_zero;
     if (is_unsigned) {
-        if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) < sizeof(long)) {
+        if (sizeof(npy_long) < sizeof(long)) {
             return PyInt_FromLong((long) value);
-        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(unsigned long)) {
+        } else if (sizeof(npy_long) <= sizeof(unsigned long)) {
             return PyLong_FromUnsignedLong((unsigned long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(unsigned PY_LONG_LONG)) {
+        } else if (sizeof(npy_long) <= sizeof(unsigned PY_LONG_LONG)) {
             return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
 #endif
         }
     } else {
-        if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(long)) {
+        if (sizeof(npy_long) <= sizeof(long)) {
             return PyInt_FromLong((long) value);
 #ifdef HAVE_LONG_LONG
-        } else if (sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass) <= sizeof(PY_LONG_LONG)) {
+        } else if (sizeof(npy_long) <= sizeof(PY_LONG_LONG)) {
             return PyLong_FromLongLong((PY_LONG_LONG) value);
 #endif
         }
@@ -23343,7 +25748,7 @@ __pyx_capsule_create(void *p, CYTHON_UNUSED const char *sig)
     {
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
-        return _PyLong_FromByteArray(bytes, sizeof(enum __pyx_t_4dipy_8tracking_5local_17tissue_classifier_TissueClass),
+        return _PyLong_FromByteArray(bytes, sizeof(npy_long),
                                      little, !is_unsigned);
     }
 }
@@ -23756,50 +26161,6 @@ no_fail:
     return new_mvs;
 }
 
-/* TypeInfoToFormat */
-          static struct __pyx_typeinfo_string __Pyx_TypeInfoToFormat(__Pyx_TypeInfo *type) {
-    struct __pyx_typeinfo_string result = { {0} };
-    char *buf = (char *) result.string;
-    size_t size = type->size;
-    switch (type->typegroup) {
-        case 'H':
-            *buf = 'c';
-            break;
-        case 'I':
-        case 'U':
-            if (size == 1)
-                *buf = (type->is_unsigned) ? 'B' : 'b';
-            else if (size == 2)
-                *buf = (type->is_unsigned) ? 'H' : 'h';
-            else if (size == 4)
-                *buf = (type->is_unsigned) ? 'I' : 'i';
-            else if (size == 8)
-                *buf = (type->is_unsigned) ? 'Q' : 'q';
-            break;
-        case 'P':
-            *buf = 'P';
-            break;
-        case 'C':
-         {
-            __Pyx_TypeInfo complex_type = *type;
-            complex_type.typegroup = 'R';
-            complex_type.size /= 2;
-            *buf++ = 'Z';
-            *buf = __Pyx_TypeInfoToFormat(&complex_type).string[0];
-            break;
-         }
-        case 'R':
-            if (size == 4)
-                *buf = 'f';
-            else if (size == 8)
-                *buf = 'd';
-            else
-                *buf = 'g';
-            break;
-    }
-    return result;
-}
-
 /* CIntFromPy */
           static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *x) {
     const int neg_one = (int) -1, const_zero = (int) 0;
@@ -24178,6 +26539,195 @@ raise_neg_overflow:
     return (long) -1;
 }
 
+/* CIntFromPy */
+          static CYTHON_INLINE size_t __Pyx_PyInt_As_size_t(PyObject *x) {
+    const size_t neg_one = (size_t) -1, const_zero = (size_t) 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(size_t) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(size_t, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (size_t) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(size_t, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 2 * PyLong_SHIFT) {
+                            return (size_t) (((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 3 * PyLong_SHIFT) {
+                            return (size_t) (((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) >= 4 * PyLong_SHIFT) {
+                            return (size_t) (((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (size_t) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(size_t) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned long, PyLong_AsUnsignedLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(size_t) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+#endif
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (size_t) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(size_t, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(size_t,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(size_t) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(size_t) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                            return (size_t) ((((((size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(size_t) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(size_t) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                            return (size_t) ((((((((size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(size_t) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (size_t) (((size_t)-1)*(((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(size_t) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(size_t, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(size_t) - 1 > 4 * PyLong_SHIFT) {
+                            return (size_t) ((((((((((size_t)digits[3]) << PyLong_SHIFT) | (size_t)digits[2]) << PyLong_SHIFT) | (size_t)digits[1]) << PyLong_SHIFT) | (size_t)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(size_t) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, long, PyLong_AsLong(x))
+#ifdef HAVE_LONG_LONG
+            } else if (sizeof(size_t) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(size_t, PY_LONG_LONG, PyLong_AsLongLong(x))
+#endif
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            size_t val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (size_t) -1;
+        }
+    } else {
+        size_t val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (size_t) -1;
+        val = __Pyx_PyInt_As_size_t(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to size_t");
+    return (size_t) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to size_t");
+    return (size_t) -1;
+}
+
 /* CIntToPy */
           static CYTHON_INLINE PyObject* __Pyx_PyInt_From_long(long value) {
     const long neg_one = (long) -1, const_zero = (long) 0;
@@ -24398,252 +26948,6 @@ raise_neg_overflow:
     return (char) -1;
 }
 
-/* TypeInfoCompare */
-          static int
-__pyx_typeinfo_cmp(__Pyx_TypeInfo *a, __Pyx_TypeInfo *b)
-{
-    int i;
-    if (!a || !b)
-        return 0;
-    if (a == b)
-        return 1;
-    if (a->size != b->size || a->typegroup != b->typegroup ||
-            a->is_unsigned != b->is_unsigned || a->ndim != b->ndim) {
-        if (a->typegroup == 'H' || b->typegroup == 'H') {
-            return a->size == b->size;
-        } else {
-            return 0;
-        }
-    }
-    if (a->ndim) {
-        for (i = 0; i < a->ndim; i++)
-            if (a->arraysize[i] != b->arraysize[i])
-                return 0;
-    }
-    if (a->typegroup == 'S') {
-        if (a->flags != b->flags)
-            return 0;
-        if (a->fields || b->fields) {
-            if (!(a->fields && b->fields))
-                return 0;
-            for (i = 0; a->fields[i].type && b->fields[i].type; i++) {
-                __Pyx_StructField *field_a = a->fields + i;
-                __Pyx_StructField *field_b = b->fields + i;
-                if (field_a->offset != field_b->offset ||
-                    !__pyx_typeinfo_cmp(field_a->type, field_b->type))
-                    return 0;
-            }
-            return !a->fields[i].type && !b->fields[i].type;
-        }
-    }
-    return 1;
-}
-
-/* MemviewSliceValidateAndInit */
-          static int
-__pyx_check_strides(Py_buffer *buf, int dim, int ndim, int spec)
-{
-    if (buf->shape[dim] <= 1)
-        return 1;
-    if (buf->strides) {
-        if (spec & __Pyx_MEMVIEW_CONTIG) {
-            if (spec & (__Pyx_MEMVIEW_PTR|__Pyx_MEMVIEW_FULL)) {
-                if (buf->strides[dim] != sizeof(void *)) {
-                    PyErr_Format(PyExc_ValueError,
-                                 "Buffer is not indirectly contiguous "
-                                 "in dimension %d.", dim);
-                    goto fail;
-                }
-            } else if (buf->strides[dim] != buf->itemsize) {
-                PyErr_SetString(PyExc_ValueError,
-                                "Buffer and memoryview are not contiguous "
-                                "in the same dimension.");
-                goto fail;
-            }
-        }
-        if (spec & __Pyx_MEMVIEW_FOLLOW) {
-            Py_ssize_t stride = buf->strides[dim];
-            if (stride < 0)
-                stride = -stride;
-            if (stride < buf->itemsize) {
-                PyErr_SetString(PyExc_ValueError,
-                                "Buffer and memoryview are not contiguous "
-                                "in the same dimension.");
-                goto fail;
-            }
-        }
-    } else {
-        if (spec & __Pyx_MEMVIEW_CONTIG && dim != ndim - 1) {
-            PyErr_Format(PyExc_ValueError,
-                         "C-contiguous buffer is not contiguous in "
-                         "dimension %d", dim);
-            goto fail;
-        } else if (spec & (__Pyx_MEMVIEW_PTR)) {
-            PyErr_Format(PyExc_ValueError,
-                         "C-contiguous buffer is not indirect in "
-                         "dimension %d", dim);
-            goto fail;
-        } else if (buf->suboffsets) {
-            PyErr_SetString(PyExc_ValueError,
-                            "Buffer exposes suboffsets but no strides");
-            goto fail;
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int
-__pyx_check_suboffsets(Py_buffer *buf, int dim, CYTHON_UNUSED int ndim, int spec)
-{
-    if (spec & __Pyx_MEMVIEW_DIRECT) {
-        if (buf->suboffsets && buf->suboffsets[dim] >= 0) {
-            PyErr_Format(PyExc_ValueError,
-                         "Buffer not compatible with direct access "
-                         "in dimension %d.", dim);
-            goto fail;
-        }
-    }
-    if (spec & __Pyx_MEMVIEW_PTR) {
-        if (!buf->suboffsets || (buf->suboffsets && buf->suboffsets[dim] < 0)) {
-            PyErr_Format(PyExc_ValueError,
-                         "Buffer is not indirectly accessible "
-                         "in dimension %d.", dim);
-            goto fail;
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int
-__pyx_verify_contig(Py_buffer *buf, int ndim, int c_or_f_flag)
-{
-    int i;
-    if (c_or_f_flag & __Pyx_IS_F_CONTIG) {
-        Py_ssize_t stride = 1;
-        for (i = 0; i < ndim; i++) {
-            if (stride * buf->itemsize != buf->strides[i] &&
-                    buf->shape[i] > 1)
-            {
-                PyErr_SetString(PyExc_ValueError,
-                    "Buffer not fortran contiguous.");
-                goto fail;
-            }
-            stride = stride * buf->shape[i];
-        }
-    } else if (c_or_f_flag & __Pyx_IS_C_CONTIG) {
-        Py_ssize_t stride = 1;
-        for (i = ndim - 1; i >- 1; i--) {
-            if (stride * buf->itemsize != buf->strides[i] &&
-                    buf->shape[i] > 1) {
-                PyErr_SetString(PyExc_ValueError,
-                    "Buffer not C contiguous.");
-                goto fail;
-            }
-            stride = stride * buf->shape[i];
-        }
-    }
-    return 1;
-fail:
-    return 0;
-}
-static int __Pyx_ValidateAndInit_memviewslice(
-                int *axes_specs,
-                int c_or_f_flag,
-                int buf_flags,
-                int ndim,
-                __Pyx_TypeInfo *dtype,
-                __Pyx_BufFmt_StackElem stack[],
-                __Pyx_memviewslice *memviewslice,
-                PyObject *original_obj)
-{
-    struct __pyx_memoryview_obj *memview, *new_memview;
-    __Pyx_RefNannyDeclarations
-    Py_buffer *buf;
-    int i, spec = 0, retval = -1;
-    __Pyx_BufFmt_Context ctx;
-    int from_memoryview = __pyx_memoryview_check(original_obj);
-    __Pyx_RefNannySetupContext("ValidateAndInit_memviewslice", 0);
-    if (from_memoryview && __pyx_typeinfo_cmp(dtype, ((struct __pyx_memoryview_obj *)
-                                                            original_obj)->typeinfo)) {
-        memview = (struct __pyx_memoryview_obj *) original_obj;
-        new_memview = NULL;
-    } else {
-        memview = (struct __pyx_memoryview_obj *) __pyx_memoryview_new(
-                                            original_obj, buf_flags, 0, dtype);
-        new_memview = memview;
-        if (unlikely(!memview))
-            goto fail;
-    }
-    buf = &memview->view;
-    if (buf->ndim != ndim) {
-        PyErr_Format(PyExc_ValueError,
-                "Buffer has wrong number of dimensions (expected %d, got %d)",
-                ndim, buf->ndim);
-        goto fail;
-    }
-    if (new_memview) {
-        __Pyx_BufFmt_Init(&ctx, stack, dtype);
-        if (!__Pyx_BufFmt_CheckString(&ctx, buf->format)) goto fail;
-    }
-    if ((unsigned) buf->itemsize != dtype->size) {
-        PyErr_Format(PyExc_ValueError,
-                     "Item size of buffer (%" CYTHON_FORMAT_SSIZE_T "u byte%s) "
-                     "does not match size of '%s' (%" CYTHON_FORMAT_SSIZE_T "u byte%s)",
-                     buf->itemsize,
-                     (buf->itemsize > 1) ? "s" : "",
-                     dtype->name,
-                     dtype->size,
-                     (dtype->size > 1) ? "s" : "");
-        goto fail;
-    }
-    for (i = 0; i < ndim; i++) {
-        spec = axes_specs[i];
-        if (!__pyx_check_strides(buf, i, ndim, spec))
-            goto fail;
-        if (!__pyx_check_suboffsets(buf, i, ndim, spec))
-            goto fail;
-    }
-    if (buf->strides && !__pyx_verify_contig(buf, ndim, c_or_f_flag))
-        goto fail;
-    if (unlikely(__Pyx_init_memviewslice(memview, ndim, memviewslice,
-                                         new_memview != NULL) == -1)) {
-        goto fail;
-    }
-    retval = 0;
-    goto no_fail;
-fail:
-    Py_XDECREF(new_memview);
-    retval = -1;
-no_fail:
-    __Pyx_RefNannyFinishContext();
-    return retval;
-}
-
-/* ObjectToMemviewSlice */
-          static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj) {
-    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
-    __Pyx_BufFmt_StackElem stack[1];
-    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
-    int retcode;
-    if (obj == Py_None) {
-        result.memview = (struct __pyx_memoryview_obj *) Py_None;
-        return result;
-    }
-    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
-                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 1,
-                                                 &__Pyx_TypeInfo_double, stack,
-                                                 &result, obj);
-    if (unlikely(retcode == -1))
-        goto __pyx_fail;
-    return result;
-__pyx_fail:
-    result.memview = NULL;
-    result.data = NULL;
-    return result;
-}
-
 /* CheckBinaryVersion */
           static int __Pyx_check_binary_version(void) {
     char ctversion[4], rtversion[4];
@@ -24740,6 +27044,60 @@ bad:
     Py_XDECREF(py_module);
     Py_XDECREF(result);
     return NULL;
+}
+#endif
+
+/* FunctionImport */
+          #ifndef __PYX_HAVE_RT_ImportFunction
+#define __PYX_HAVE_RT_ImportFunction
+static int __Pyx_ImportFunction(PyObject *module, const char *funcname, void (**f)(void), const char *sig) {
+    PyObject *d = 0;
+    PyObject *cobj = 0;
+    union {
+        void (*fp)(void);
+        void *p;
+    } tmp;
+    d = PyObject_GetAttrString(module, (char *)"__pyx_capi__");
+    if (!d)
+        goto bad;
+    cobj = PyDict_GetItemString(d, funcname);
+    if (!cobj) {
+        PyErr_Format(PyExc_ImportError,
+            "%.200s does not export expected C function %.200s",
+                PyModule_GetName(module), funcname);
+        goto bad;
+    }
+#if PY_VERSION_HEX >= 0x02070000
+    if (!PyCapsule_IsValid(cobj, sig)) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, PyCapsule_GetName(cobj));
+        goto bad;
+    }
+    tmp.p = PyCapsule_GetPointer(cobj, sig);
+#else
+    {const char *desc, *s1, *s2;
+    desc = (const char *)PyCObject_GetDesc(cobj);
+    if (!desc)
+        goto bad;
+    s1 = desc; s2 = sig;
+    while (*s1 != '\0' && *s1 == *s2) { s1++; s2++; }
+    if (*s1 != *s2) {
+        PyErr_Format(PyExc_TypeError,
+            "C function %.200s.%.200s has wrong signature (expected %.500s, got %.500s)",
+             PyModule_GetName(module), funcname, sig, desc);
+        goto bad;
+    }
+    tmp.p = PyCObject_AsVoidPtr(cobj);}
+#endif
+    *f = tmp.fp;
+    if (!(*f))
+        goto bad;
+    Py_DECREF(d);
+    return 0;
+bad:
+    Py_XDECREF(d);
+    return -1;
 }
 #endif
 

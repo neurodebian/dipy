@@ -4913,14 +4913,14 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
   /* "dipy/denoise/enhancement_kernel.pyx":233
  * 
  *         # evaluate at origin
- *         self.kernelmax = self.k2(x, y, r, v);             # <<<<<<<<<<<<<<
+ *         self.kernelmax = self.k2(x, y, r, v)             # <<<<<<<<<<<<<<
  * 
  *         with nogil:
  */
   __pyx_v_self->kernelmax = ((struct __pyx_vtabstruct_4dipy_7denoise_18enhancement_kernel_EnhancementKernel *)__pyx_v_self->__pyx_vtab)->k2(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_v_r, __pyx_v_v);
 
   /* "dipy/denoise/enhancement_kernel.pyx":235
- *         self.kernelmax = self.k2(x, y, r, v);
+ *         self.kernelmax = self.k2(x, y, r, v)
  * 
  *         with nogil:             # <<<<<<<<<<<<<<
  * 
@@ -4976,7 +4976,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
  *                 x[2] = i
  *                 kval = self.k2(x, y, r, v) / self.kernelmax             # <<<<<<<<<<<<<<
  *                 if(kval < 0.1):
- *                     break;
+ *                     break
  */
           __pyx_v_kval = (((struct __pyx_vtabstruct_4dipy_7denoise_18enhancement_kernel_EnhancementKernel *)__pyx_v_self->__pyx_vtab)->k2(__pyx_v_self, __pyx_v_x, __pyx_v_y, __pyx_v_r, __pyx_v_v) / __pyx_v_self->kernelmax);
 
@@ -4984,7 +4984,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
  *                 x[2] = i
  *                 kval = self.k2(x, y, r, v) / self.kernelmax
  *                 if(kval < 0.1):             # <<<<<<<<<<<<<<
- *                     break;
+ *                     break
  * 
  */
           __pyx_t_8 = ((__pyx_v_kval < 0.1) != 0);
@@ -4993,7 +4993,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
             /* "dipy/denoise/enhancement_kernel.pyx":244
  *                 kval = self.k2(x, y, r, v) / self.kernelmax
  *                 if(kval < 0.1):
- *                     break;             # <<<<<<<<<<<<<<
+ *                     break             # <<<<<<<<<<<<<<
  * 
  *         N = ceil(i) * 2
  */
@@ -5003,7 +5003,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
  *                 x[2] = i
  *                 kval = self.k2(x, y, r, v) / self.kernelmax
  *                 if(kval < 0.1):             # <<<<<<<<<<<<<<
- *                     break;
+ *                     break
  * 
  */
           }
@@ -5012,7 +5012,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
       }
 
       /* "dipy/denoise/enhancement_kernel.pyx":235
- *         self.kernelmax = self.k2(x, y, r, v);
+ *         self.kernelmax = self.k2(x, y, r, v)
  * 
  *         with nogil:             # <<<<<<<<<<<<<<
  * 
@@ -5031,7 +5031,7 @@ static void __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_esti
   }
 
   /* "dipy/denoise/enhancement_kernel.pyx":246
- *                     break;
+ *                     break
  * 
  *         N = ceil(i) * 2             # <<<<<<<<<<<<<<
  *         if N % 2 == 0:
@@ -6122,7 +6122,7 @@ static double __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_ke
  *         output *= exp(-sqrt((c[0]*c[0] + c[1]*c[1]) / (self.D33*self.D44) + \
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) * \             # <<<<<<<<<<<<<<
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) + \
- *                     c[5]*c[5]/self.D44) / (4*self.t));
+ *                     c[5]*c[5]/self.D44) / (4*self.t))
  */
   __pyx_t_5 = 2;
   __pyx_t_6 = 2;
@@ -6135,7 +6135,7 @@ static double __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_ke
  *         output *= exp(-sqrt((c[0]*c[0] + c[1]*c[1]) / (self.D33*self.D44) + \
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) * \
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) + \             # <<<<<<<<<<<<<<
- *                     c[5]*c[5]/self.D44) / (4*self.t));
+ *                     c[5]*c[5]/self.D44) / (4*self.t))
  *         return output
  */
   __pyx_t_11 = 2;
@@ -6148,7 +6148,7 @@ static double __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_ke
   /* "dipy/denoise/enhancement_kernel.pyx":387
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) * \
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) + \
- *                     c[5]*c[5]/self.D44) / (4*self.t));             # <<<<<<<<<<<<<<
+ *                     c[5]*c[5]/self.D44) / (4*self.t))             # <<<<<<<<<<<<<<
  *         return output
  * 
  */
@@ -6166,7 +6166,7 @@ static double __pyx_f_4dipy_7denoise_18enhancement_kernel_17EnhancementKernel_ke
 
   /* "dipy/denoise/enhancement_kernel.pyx":388
  *                    (c[2]*c[2] / self.D33 + (c[3]*c[3]+c[4]*c[4]) / self.D44) + \
- *                     c[5]*c[5]/self.D44) / (4*self.t));
+ *                     c[5]*c[5]/self.D44) / (4*self.t))
  *         return output             # <<<<<<<<<<<<<<
  * 
  * cdef double PI = 3.1415926535897932

@@ -1155,7 +1155,7 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
 struct __pyx_opt_args_4dipy_7segment_11metricspeed_distance_matrix;
 
-/* "dipy/segment/metricspeed.pyx":368
+/* "dipy/segment/metricspeed.pyx":370
  * 
  * 
  * cpdef distance_matrix(Metric metric, data1, data2=None):             # <<<<<<<<<<<<<<
@@ -1232,7 +1232,7 @@ struct __pyx_obj_4dipy_7segment_11metricspeed_Metric {
 };
 
 
-/* "dipy/segment/metricspeed.pyx":97
+/* "dipy/segment/metricspeed.pyx":99
  * 
  * 
  * cdef class CythonMetric(Metric):             # <<<<<<<<<<<<<<
@@ -1244,7 +1244,7 @@ struct __pyx_obj_4dipy_7segment_11metricspeed_CythonMetric {
 };
 
 
-/* "dipy/segment/metricspeed.pyx":197
+/* "dipy/segment/metricspeed.pyx":199
  * 
  * 
  * cdef class SumPointwiseEuclideanMetric(CythonMetric):             # <<<<<<<<<<<<<<
@@ -1256,7 +1256,7 @@ struct __pyx_obj_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric {
 };
 
 
-/* "dipy/segment/metricspeed.pyx":249
+/* "dipy/segment/metricspeed.pyx":251
  * 
  * 
  * cdef class AveragePointwiseEuclideanMetric(SumPointwiseEuclideanMetric):             # <<<<<<<<<<<<<<
@@ -1268,7 +1268,7 @@ struct __pyx_obj_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric {
 };
 
 
-/* "dipy/segment/metricspeed.pyx":287
+/* "dipy/segment/metricspeed.pyx":289
  * 
  * 
  * cdef class MinimumAverageDirectFlipMetric(AveragePointwiseEuclideanMetric):             # <<<<<<<<<<<<<<
@@ -1280,7 +1280,7 @@ struct __pyx_obj_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric {
 };
 
 
-/* "dipy/segment/metricspeed.pyx":325
+/* "dipy/segment/metricspeed.pyx":327
  * 
  * 
  * cdef class CosineMetric(CythonMetric):             # <<<<<<<<<<<<<<
@@ -1445,7 +1445,7 @@ struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric {
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *__pyx_vtabptr_4dipy_7segment_11metricspeed_Metric;
 
 
-/* "dipy/segment/metricspeed.pyx":97
+/* "dipy/segment/metricspeed.pyx":99
  * 
  * 
  * cdef class CythonMetric(Metric):             # <<<<<<<<<<<<<<
@@ -1459,7 +1459,7 @@ struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric {
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *__pyx_vtabptr_4dipy_7segment_11metricspeed_CythonMetric;
 
 
-/* "dipy/segment/metricspeed.pyx":197
+/* "dipy/segment/metricspeed.pyx":199
  * 
  * 
  * cdef class SumPointwiseEuclideanMetric(CythonMetric):             # <<<<<<<<<<<<<<
@@ -1473,7 +1473,7 @@ struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric *__pyx_vtabptr_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric;
 
 
-/* "dipy/segment/metricspeed.pyx":249
+/* "dipy/segment/metricspeed.pyx":251
  * 
  * 
  * cdef class AveragePointwiseEuclideanMetric(SumPointwiseEuclideanMetric):             # <<<<<<<<<<<<<<
@@ -1487,7 +1487,7 @@ struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMe
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric *__pyx_vtabptr_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric;
 
 
-/* "dipy/segment/metricspeed.pyx":287
+/* "dipy/segment/metricspeed.pyx":289
  * 
  * 
  * cdef class MinimumAverageDirectFlipMetric(AveragePointwiseEuclideanMetric):             # <<<<<<<<<<<<<<
@@ -1501,7 +1501,7 @@ struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMet
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric *__pyx_vtabptr_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric;
 
 
-/* "dipy/segment/metricspeed.pyx":325
+/* "dipy/segment/metricspeed.pyx":327
  * 
  * 
  * cdef class CosineMetric(CythonMetric):             # <<<<<<<<<<<<<<
@@ -1993,6 +1993,24 @@ static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
 
+/* StringJoin.proto */
+#if PY_MAJOR_VERSION < 3
+#define __Pyx_PyString_Join __Pyx_PyBytes_Join
+#define __Pyx_PyBaseString_Join(s, v) (PyUnicode_CheckExact(s) ? PyUnicode_Join(s, v) : __Pyx_PyBytes_Join(s, v))
+#else
+#define __Pyx_PyString_Join PyUnicode_Join
+#define __Pyx_PyBaseString_Join PyUnicode_Join
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION < 3
+    #define __Pyx_PyBytes_Join _PyString_Join
+    #else
+    #define __Pyx_PyBytes_Join _PyBytes_Join
+    #endif
+#else
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values);
+#endif
+
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
 
@@ -2180,6 +2198,12 @@ static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 /* CIntFromPy.proto */
 static CYTHON_INLINE long __Pyx_PyInt_As_long(PyObject *);
 
+/* TypeInfoToFormat.proto */
+struct __pyx_typeinfo_string {
+    char string[3];
+};
+static struct __pyx_typeinfo_string __Pyx_TypeInfoToFormat(__Pyx_TypeInfo *type);
+
 /* MemviewSliceCopyTemplate.proto */
 static __Pyx_memviewslice
 __pyx_memoryview_copy_new_contig(const __Pyx_memviewslice *from_mvs,
@@ -2356,6 +2380,7 @@ static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
+static PyObject *__pyx_format_from_typeinfo(__Pyx_TypeInfo *); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
 #define __Pyx_MODULE_NAME "dipy.segment.metricspeed"
 int __pyx_module_is_main_dipy__segment__metricspeed = 0;
@@ -2374,16 +2399,24 @@ static PyObject *__pyx_builtin_Ellipsis;
 static PyObject *__pyx_builtin_id;
 static PyObject *__pyx_builtin_IndexError;
 static const char __pyx_k_O[] = "O";
-static const char __pyx_k_c[] = "c";
-static const char __pyx_k_id[] = "id";
-static const char __pyx_k_np[] = "np";
-static const char __pyx_k_pi[] = "pi";
+static const char __pyx_k_T[] = "T{";
+  static const char __pyx_k_c[] = "c";
+  static const char __pyx_k_s[] = "(%s)";
+  static const char __pyx_k_id[] = "id";
+  static const char __pyx_k_np[] = "np";
+  static const char __pyx_k_pi[] = "pi";
+  static const char __pyx_k__37[] = "^";
+  static const char __pyx_k__38[] = "";
+  static const char __pyx_k__39[] = ":";
+static const char __pyx_k__40[] = "}";
+static const char __pyx_k__41[] = ",";
 static const char __pyx_k_new[] = "__new__";
 static const char __pyx_k_obj[] = "obj";
 static const char __pyx_k_base[] = "base";
 static const char __pyx_k_dict[] = "__dict__";
 static const char __pyx_k_dist[] = "dist";
 static const char __pyx_k_init[] = "__init__";
+static const char __pyx_k_join[] = "join";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_math[] = "math";
 static const char __pyx_k_mode[] = "mode";
@@ -2535,10 +2568,16 @@ static PyObject *__pyx_kp_s_Only_scalar_1D_or_2D_array_featu_2;
 static PyObject *__pyx_kp_s_Out_of_bounds_on_buffer_access_a;
 static PyObject *__pyx_n_s_PickleError;
 static PyObject *__pyx_n_s_RuntimeError;
+static PyObject *__pyx_kp_b_T;
 static PyObject *__pyx_n_s_TypeError;
 static PyObject *__pyx_kp_s_Unable_to_convert_item_to_object;
 static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_n_s_View_MemoryView;
+static PyObject *__pyx_kp_b__37;
+static PyObject *__pyx_kp_b__38;
+static PyObject *__pyx_kp_b__39;
+static PyObject *__pyx_kp_b__40;
+static PyObject *__pyx_kp_u__41;
 static PyObject *__pyx_n_s_allocate_buffer;
 static PyObject *__pyx_n_s_are_compatible;
 static PyObject *__pyx_n_s_asarray;
@@ -2579,6 +2618,7 @@ static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_itemsize;
 static PyObject *__pyx_kp_s_itemsize_0_for_cython_array;
+static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_math;
 static PyObject *__pyx_n_s_memview;
@@ -2618,6 +2658,7 @@ static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_reduce;
 static PyObject *__pyx_n_s_reduce_cython;
 static PyObject *__pyx_n_s_reduce_ex;
+static PyObject *__pyx_kp_u_s;
 static PyObject *__pyx_n_s_setstate;
 static PyObject *__pyx_n_s_setstate_cython;
 static PyObject *__pyx_n_s_shape;
@@ -2766,25 +2807,25 @@ static PyObject *__pyx_tuple__30;
 static PyObject *__pyx_tuple__34;
 static PyObject *__pyx_tuple__35;
 static PyObject *__pyx_tuple__36;
-static PyObject *__pyx_tuple__37;
-static PyObject *__pyx_tuple__39;
-static PyObject *__pyx_tuple__41;
-static PyObject *__pyx_tuple__43;
-static PyObject *__pyx_tuple__45;
-static PyObject *__pyx_tuple__47;
-static PyObject *__pyx_tuple__49;
+static PyObject *__pyx_tuple__42;
+static PyObject *__pyx_tuple__44;
+static PyObject *__pyx_tuple__46;
+static PyObject *__pyx_tuple__48;
 static PyObject *__pyx_tuple__50;
-static PyObject *__pyx_tuple__51;
 static PyObject *__pyx_tuple__52;
-static PyObject *__pyx_tuple__53;
 static PyObject *__pyx_tuple__54;
-static PyObject *__pyx_codeobj__38;
-static PyObject *__pyx_codeobj__40;
-static PyObject *__pyx_codeobj__42;
-static PyObject *__pyx_codeobj__44;
-static PyObject *__pyx_codeobj__46;
-static PyObject *__pyx_codeobj__48;
-static PyObject *__pyx_codeobj__55;
+static PyObject *__pyx_tuple__55;
+static PyObject *__pyx_tuple__56;
+static PyObject *__pyx_tuple__57;
+static PyObject *__pyx_tuple__58;
+static PyObject *__pyx_tuple__59;
+static PyObject *__pyx_codeobj__43;
+static PyObject *__pyx_codeobj__45;
+static PyObject *__pyx_codeobj__47;
+static PyObject *__pyx_codeobj__49;
+static PyObject *__pyx_codeobj__51;
+static PyObject *__pyx_codeobj__53;
+static PyObject *__pyx_codeobj__60;
 
 /* "dipy/segment/metricspeed.pyx":35
  *     `are_compatible` methods.
@@ -3161,13 +3202,15 @@ static int __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_are_compatible(struct 
  */
 
 static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *__pyx_v_self, __pyx_t_4dipy_7segment_11cythonutils_Data2D __pyx_v_features1, __pyx_t_4dipy_7segment_11cythonutils_Data2D __pyx_v_features2) {
+  PyObject *__pyx_v__features1 = NULL;
+  PyObject *__pyx_v__features2 = NULL;
   double __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
+  float *__pyx_t_4;
+  struct __pyx_array_obj *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   double __pyx_t_7;
   #ifdef WITH_THREAD
@@ -3183,7 +3226,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
  *     cdef double c_dist(Metric self, Data2D features1, Data2D features2) nogil except -1:
  *         """ Cython version of `Metric.dist`. """             # <<<<<<<<<<<<<<
  *         with gil:
- *             return self.dist(np.asarray(features1), np.asarray(features2))
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
  */
   /*try:*/ {
 
@@ -3191,8 +3234,8 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
  *     cdef double c_dist(Metric self, Data2D features1, Data2D features2) nogil except -1:
  *         """ Cython version of `Metric.dist`. """
  *         with gil:             # <<<<<<<<<<<<<<
- *             return self.dist(np.asarray(features1), np.asarray(features2))
- * 
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
+ *             _features2 = np.asarray(<float[:features2.shape[0], :features2.shape[1]]> <float*> features2._data)
  */
     {
         #ifdef WITH_THREAD
@@ -3203,119 +3246,163 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
           /* "dipy/segment/metricspeed.pyx":57
  *         """ Cython version of `Metric.dist`. """
  *         with gil:
- *             return self.dist(np.asarray(features1), np.asarray(features2))             # <<<<<<<<<<<<<<
- * 
- *     cpdef are_compatible(Metric self, shape1, shape2):
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)             # <<<<<<<<<<<<<<
+ *             _features2 = np.asarray(<float[:features2.shape[0], :features2.shape[1]]> <float*> features2._data)
+ *             return self.dist(_features1, _features2)
  */
           __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
           __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __pyx_memoryview_fromslice(__pyx_v_features1, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L7_error)
+          __pyx_t_4 = ((float *)__pyx_v_features1.data);
+          if (!__pyx_t_4) {
+            PyErr_SetString(PyExc_ValueError,"Cannot create cython.array from NULL pointer");
+            __PYX_ERR(0, 57, __pyx_L7_error)
+          }
+          __pyx_t_6 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_float);
+          __pyx_t_2 = Py_BuildValue((char*) "("  __PYX_BUILD_PY_SSIZE_T  __PYX_BUILD_PY_SSIZE_T  ")", ((Py_ssize_t)(__pyx_v_features1.shape[0])), ((Py_ssize_t)(__pyx_v_features1.shape[1])));
+          if (unlikely(!__pyx_t_6 || !__pyx_t_2 || !PyBytes_AsString(__pyx_t_6))) __PYX_ERR(0, 57, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_6);
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_4 = NULL;
+          __pyx_t_5 = __pyx_array_new(__pyx_t_2, sizeof(float), PyBytes_AS_STRING(__pyx_t_6), (char *) "c", (char *) __pyx_t_4);
+          if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_5);
+          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __pyx_t_6 = NULL;
           if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_4)) {
+            __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_3);
+            if (likely(__pyx_t_6)) {
               PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_4);
+              __Pyx_INCREF(__pyx_t_6);
               __Pyx_INCREF(function);
               __Pyx_DECREF_SET(__pyx_t_3, function);
             }
           }
-          if (!__pyx_t_4) {
-            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+          if (!__pyx_t_6) {
+            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, ((PyObject *)__pyx_t_5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
+            __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
             __Pyx_GOTREF(__pyx_t_1);
           } else {
             #if CYTHON_FAST_PYCALL
             if (PyFunction_Check(__pyx_t_3)) {
-              PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
+              PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_t_5)};
               __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
               __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
             } else
             #endif
             #if CYTHON_FAST_PYCCALL
             if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
-              PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_2};
+              PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_t_5)};
               __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+              __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
               __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+              __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
             } else
             #endif
             {
-              __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_GOTREF(__pyx_t_5);
-              __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
-              __Pyx_GIVEREF(__pyx_t_2);
-              PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_2);
-              __pyx_t_2 = 0;
-              __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
+              __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_2);
+              __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_6); __pyx_t_6 = NULL;
+              __Pyx_GIVEREF(((PyObject *)__pyx_t_5));
+              PyTuple_SET_ITEM(__pyx_t_2, 0+1, ((PyObject *)__pyx_t_5));
+              __pyx_t_5 = 0;
+              __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_1);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
             }
           }
           __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L7_error)
-          __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L7_error)
+          __pyx_v__features1 = __pyx_t_1;
+          __pyx_t_1 = 0;
+
+          /* "dipy/segment/metricspeed.pyx":58
+ *         with gil:
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
+ *             _features2 = np.asarray(<float[:features2.shape[0], :features2.shape[1]]> <float*> features2._data)             # <<<<<<<<<<<<<<
+ *             return self.dist(_features1, _features2)
+ * 
+ */
+          __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 58, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-          __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_features2, 2, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L7_error)
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __pyx_t_4 = ((float *)__pyx_v_features2.data);
+          if (!__pyx_t_4) {
+            PyErr_SetString(PyExc_ValueError,"Cannot create cython.array from NULL pointer");
+            __PYX_ERR(0, 58, __pyx_L7_error)
+          }
+          __pyx_t_6 = __pyx_format_from_typeinfo(&__Pyx_TypeInfo_float);
+          __pyx_t_3 = Py_BuildValue((char*) "("  __PYX_BUILD_PY_SSIZE_T  __PYX_BUILD_PY_SSIZE_T  ")", ((Py_ssize_t)(__pyx_v_features2.shape[0])), ((Py_ssize_t)(__pyx_v_features2.shape[1])));
+          if (unlikely(!__pyx_t_6 || !__pyx_t_3 || !PyBytes_AsString(__pyx_t_6))) __PYX_ERR(0, 58, __pyx_L7_error)
+          __Pyx_GOTREF(__pyx_t_6);
+          __Pyx_GOTREF(__pyx_t_3);
+          __pyx_t_5 = __pyx_array_new(__pyx_t_3, sizeof(float), PyBytes_AS_STRING(__pyx_t_6), (char *) "c", (char *) __pyx_t_4);
+          if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 58, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_5);
-          __pyx_t_4 = NULL;
+          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __pyx_t_6 = NULL;
           if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_4)) {
+            __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
+            if (likely(__pyx_t_6)) {
               PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_4);
+              __Pyx_INCREF(__pyx_t_6);
               __Pyx_INCREF(function);
               __Pyx_DECREF_SET(__pyx_t_2, function);
             }
           }
-          if (!__pyx_t_4) {
-            __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L7_error)
-            __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-            __Pyx_GOTREF(__pyx_t_3);
+          if (!__pyx_t_6) {
+            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, ((PyObject *)__pyx_t_5)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L7_error)
+            __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
+            __Pyx_GOTREF(__pyx_t_1);
           } else {
             #if CYTHON_FAST_PYCALL
             if (PyFunction_Check(__pyx_t_2)) {
-              PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_5};
-              __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_t_5)};
+              __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L7_error)
+              __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
             } else
             #endif
             #if CYTHON_FAST_PYCCALL
             if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-              PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_5};
-              __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-              __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+              PyObject *__pyx_temp[2] = {__pyx_t_6, ((PyObject *)__pyx_t_5)};
+              __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L7_error)
+              __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(((PyObject *)__pyx_t_5)); __pyx_t_5 = 0;
             } else
             #endif
             {
-              __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L7_error)
-              __Pyx_GOTREF(__pyx_t_6);
-              __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
-              __Pyx_GIVEREF(__pyx_t_5);
-              PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_5);
-              __pyx_t_5 = 0;
-              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 57, __pyx_L7_error)
+              __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 58, __pyx_L7_error)
               __Pyx_GOTREF(__pyx_t_3);
-              __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+              __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6); __pyx_t_6 = NULL;
+              __Pyx_GIVEREF(((PyObject *)__pyx_t_5));
+              PyTuple_SET_ITEM(__pyx_t_3, 0+1, ((PyObject *)__pyx_t_5));
+              __pyx_t_5 = 0;
+              __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L7_error)
+              __Pyx_GOTREF(__pyx_t_1);
+              __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
             }
           }
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_7 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self->__pyx_vtab)->dist(__pyx_v_self, __pyx_t_1, __pyx_t_3, 0); if (unlikely(__pyx_t_7 == -1.0)) __PYX_ERR(0, 57, __pyx_L7_error)
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+          __pyx_v__features2 = __pyx_t_1;
+          __pyx_t_1 = 0;
+
+          /* "dipy/segment/metricspeed.pyx":59
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
+ *             _features2 = np.asarray(<float[:features2.shape[0], :features2.shape[1]]> <float*> features2._data)
+ *             return self.dist(_features1, _features2)             # <<<<<<<<<<<<<<
+ * 
+ *     cpdef are_compatible(Metric self, shape1, shape2):
+ */
+          __pyx_t_7 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self->__pyx_vtab)->dist(__pyx_v_self, __pyx_v__features1, __pyx_v__features2, 0); if (unlikely(__pyx_t_7 == -1.0)) __PYX_ERR(0, 59, __pyx_L7_error)
           __pyx_r = __pyx_t_7;
           goto __pyx_L6_return;
         }
@@ -3324,8 +3411,8 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
  *     cdef double c_dist(Metric self, Data2D features1, Data2D features2) nogil except -1:
  *         """ Cython version of `Metric.dist`. """
  *         with gil:             # <<<<<<<<<<<<<<
- *             return self.dist(np.asarray(features1), np.asarray(features2))
- * 
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
+ *             _features2 = np.asarray(<float[:features2.shape[0], :features2.shape[1]]> <float*> features2._data)
  */
         /*finally:*/ {
           __pyx_L6_return: {
@@ -3349,7 +3436,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
  *     cdef double c_dist(Metric self, Data2D features1, Data2D features2) nogil except -1:
  *         """ Cython version of `Metric.dist`. """             # <<<<<<<<<<<<<<
  *         with gil:
- *             return self.dist(np.asarray(features1), np.asarray(features2))
+ *             _features1 = np.asarray(<float[:features1.shape[0], :features1.shape[1]]> <float*> features1._data)
  */
   /*finally:*/ {
     __pyx_L3_return: {
@@ -3381,20 +3468,21 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_c_dist(struct __pyx_o
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(((PyObject *)__pyx_t_5));
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_AddTraceback("dipy.segment.metricspeed.Metric.c_dist", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1.0;
   __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v__features1);
+  __Pyx_XDECREF(__pyx_v__features2);
   #ifdef WITH_THREAD
   __Pyx_PyGILState_Release(__pyx_gilstate_save);
   #endif
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":59
- *             return self.dist(np.asarray(features1), np.asarray(features2))
+/* "dipy/segment/metricspeed.pyx":61
+ *             return self.dist(_features1, _features2)
  * 
  *     cpdef are_compatible(Metric self, shape1, shape2):             # <<<<<<<<<<<<<<
  *         """ Checks if features can be used by `metric.dist` based on their shape.
@@ -3416,7 +3504,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(CYT
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_are_compatible); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_are_compatible); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_4dipy_7segment_11metricspeed_6Metric_3are_compatible)) {
       __Pyx_XDECREF(__pyx_r);
@@ -3436,7 +3524,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(CYT
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_shape1, __pyx_v_shape2};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -3444,13 +3532,13 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(CYT
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_shape1, __pyx_v_shape2};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3461,7 +3549,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(CYT
         __Pyx_INCREF(__pyx_v_shape2);
         __Pyx_GIVEREF(__pyx_v_shape2);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_shape2);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 59, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -3474,21 +3562,21 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(CYT
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dipy/segment/metricspeed.pyx":77
+  /* "dipy/segment/metricspeed.pyx":79
  *             whether or not shapes are compatible
  *         """
  *         raise NotImplementedError("Metric's subclasses must implement method `are_compatible(self, shape1, shape2)`!")             # <<<<<<<<<<<<<<
  * 
  *     cpdef double dist(Metric self, features1, features2) except -1:
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 77, __pyx_L1_error)
+  __PYX_ERR(0, 79, __pyx_L1_error)
 
-  /* "dipy/segment/metricspeed.pyx":59
- *             return self.dist(np.asarray(features1), np.asarray(features2))
+  /* "dipy/segment/metricspeed.pyx":61
+ *             return self.dist(_features1, _features2)
  * 
  *     cpdef are_compatible(Metric self, shape1, shape2):             # <<<<<<<<<<<<<<
  *         """ Checks if features can be used by `metric.dist` based on their shape.
@@ -3542,11 +3630,11 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_6Metric_3are_compatible(P
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_shape2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, 1); __PYX_ERR(0, 59, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, 1); __PYX_ERR(0, 61, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "are_compatible") < 0)) __PYX_ERR(0, 59, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "are_compatible") < 0)) __PYX_ERR(0, 61, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3559,7 +3647,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_6Metric_3are_compatible(P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 59, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 61, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.Metric.are_compatible", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3578,7 +3666,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_6Metric_2are_compatible(s
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("are_compatible", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(__pyx_v_self, __pyx_v_shape1, __pyx_v_shape2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_6Metric_are_compatible(__pyx_v_self, __pyx_v_shape1, __pyx_v_shape2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3595,7 +3683,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_6Metric_2are_compatible(s
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":79
+/* "dipy/segment/metricspeed.pyx":81
  *         raise NotImplementedError("Metric's subclasses must implement method `are_compatible(self, shape1, shape2)`!")
  * 
  *     cpdef double dist(Metric self, features1, features2) except -1:             # <<<<<<<<<<<<<<
@@ -3619,7 +3707,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(CYTHON_UNUSED st
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 79, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_4dipy_7segment_11metricspeed_6Metric_5dist)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -3638,7 +3726,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(CYTHON_UNUSED st
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_features1, __pyx_v_features2};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -3646,13 +3734,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(CYTHON_UNUSED st
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_features1, __pyx_v_features2};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 79, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 81, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -3663,12 +3751,12 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(CYTHON_UNUSED st
         __Pyx_INCREF(__pyx_v_features2);
         __Pyx_GIVEREF(__pyx_v_features2);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_features2);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 79, __pyx_L1_error)
+      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 81, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_7;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -3677,20 +3765,20 @@ static double __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(CYTHON_UNUSED st
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dipy/segment/metricspeed.pyx":94
+  /* "dipy/segment/metricspeed.pyx":96
  *             Distance between two data points.
  *         """
  *         raise NotImplementedError("Metric's subclasses must implement method `dist(self, features1, features2)`!")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_tuple__3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_Raise(__pyx_t_1, 0, 0, 0);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __PYX_ERR(0, 94, __pyx_L1_error)
+  __PYX_ERR(0, 96, __pyx_L1_error)
 
-  /* "dipy/segment/metricspeed.pyx":79
+  /* "dipy/segment/metricspeed.pyx":81
  *         raise NotImplementedError("Metric's subclasses must implement method `are_compatible(self, shape1, shape2)`!")
  * 
  *     cpdef double dist(Metric self, features1, features2) except -1:             # <<<<<<<<<<<<<<
@@ -3744,11 +3832,11 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_6Metric_5dist(PyObject *_
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_features2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, 1); __PYX_ERR(0, 79, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, 1); __PYX_ERR(0, 81, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 79, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 81, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -3761,7 +3849,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_6Metric_5dist(PyObject *_
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 79, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 81, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.Metric.dist", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -3781,8 +3869,8 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_6Metric_4dist(struct __py
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("dist", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(__pyx_v_self, __pyx_v_features1, __pyx_v_features2, 1); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 79, __pyx_L1_error)
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_6Metric_dist(__pyx_v_self, __pyx_v_features1, __pyx_v_features2, 1); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 81, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 81, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -4091,7 +4179,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_6Metric_8__setstate_cytho
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":115
+/* "dipy/segment/metricspeed.pyx":117
  *     `c_are_compatible` methods.
  *     """
  *     cpdef are_compatible(CythonMetric self, shape1, shape2):             # <<<<<<<<<<<<<<
@@ -4120,7 +4208,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_are_compatible); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_are_compatible); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_1are_compatible)) {
       __Pyx_XDECREF(__pyx_r);
@@ -4140,7 +4228,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_shape1, __pyx_v_shape2};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -4148,13 +4236,13 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_shape1, __pyx_v_shape2};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 117, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4165,7 +4253,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
         __Pyx_INCREF(__pyx_v_shape2);
         __Pyx_GIVEREF(__pyx_v_shape2);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_shape2);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 115, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 117, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
@@ -4178,16 +4266,16 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dipy/segment/metricspeed.pyx":137
+  /* "dipy/segment/metricspeed.pyx":139
  *         This method calls its Cython version `self.c_are_compatible` accordingly.
  *         """
  *         if np.asarray(shape1).ndim == 0:             # <<<<<<<<<<<<<<
  *             shape1 = (1, shape1)
  *         elif len(shape1) == 1:
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4201,13 +4289,13 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_shape1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_shape1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_shape1};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -4215,42 +4303,42 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_shape1};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_shape1);
       __Pyx_GIVEREF(__pyx_v_shape1);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_shape1);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 137, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 139, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_7) {
 
-    /* "dipy/segment/metricspeed.pyx":138
+    /* "dipy/segment/metricspeed.pyx":140
  *         """
  *         if np.asarray(shape1).ndim == 0:
  *             shape1 = (1, shape1)             # <<<<<<<<<<<<<<
  *         elif len(shape1) == 1:
  *             shape1 = (1,) + shape1
  */
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 138, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_int_1);
     __Pyx_GIVEREF(__pyx_int_1);
@@ -4261,7 +4349,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     __Pyx_DECREF_SET(__pyx_v_shape1, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":137
+    /* "dipy/segment/metricspeed.pyx":139
  *         This method calls its Cython version `self.c_are_compatible` accordingly.
  *         """
  *         if np.asarray(shape1).ndim == 0:             # <<<<<<<<<<<<<<
@@ -4271,30 +4359,30 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     goto __pyx_L3;
   }
 
-  /* "dipy/segment/metricspeed.pyx":139
+  /* "dipy/segment/metricspeed.pyx":141
  *         if np.asarray(shape1).ndim == 0:
  *             shape1 = (1, shape1)
  *         elif len(shape1) == 1:             # <<<<<<<<<<<<<<
  *             shape1 = (1,) + shape1
  * 
  */
-  __pyx_t_8 = PyObject_Length(__pyx_v_shape1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 139, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_v_shape1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 141, __pyx_L1_error)
   __pyx_t_7 = ((__pyx_t_8 == 1) != 0);
   if (__pyx_t_7) {
 
-    /* "dipy/segment/metricspeed.pyx":140
+    /* "dipy/segment/metricspeed.pyx":142
  *             shape1 = (1, shape1)
  *         elif len(shape1) == 1:
  *             shape1 = (1,) + shape1             # <<<<<<<<<<<<<<
  * 
  *         if np.asarray(shape2).ndim == 0:
  */
-    __pyx_t_1 = PyNumber_Add(__pyx_tuple__4, __pyx_v_shape1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 140, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_tuple__4, __pyx_v_shape1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_shape1, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":139
+    /* "dipy/segment/metricspeed.pyx":141
  *         if np.asarray(shape1).ndim == 0:
  *             shape1 = (1, shape1)
  *         elif len(shape1) == 1:             # <<<<<<<<<<<<<<
@@ -4304,16 +4392,16 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
   }
   __pyx_L3:;
 
-  /* "dipy/segment/metricspeed.pyx":142
+  /* "dipy/segment/metricspeed.pyx":144
  *             shape1 = (1,) + shape1
  * 
  *         if np.asarray(shape2).ndim == 0:             # <<<<<<<<<<<<<<
  *             shape2 = (1, shape2)
  *         elif len(shape2) == 1:
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4327,13 +4415,13 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_shape2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_shape2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_shape2};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -4341,42 +4429,42 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_shape2};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_shape2);
       __Pyx_GIVEREF(__pyx_v_shape2);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_shape2);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 142, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 144, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_7) {
 
-    /* "dipy/segment/metricspeed.pyx":143
+    /* "dipy/segment/metricspeed.pyx":145
  * 
  *         if np.asarray(shape2).ndim == 0:
  *             shape2 = (1, shape2)             # <<<<<<<<<<<<<<
  *         elif len(shape2) == 1:
  *             shape2 = (1,) + shape2
  */
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 143, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_int_1);
     __Pyx_GIVEREF(__pyx_int_1);
@@ -4387,7 +4475,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     __Pyx_DECREF_SET(__pyx_v_shape2, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":142
+    /* "dipy/segment/metricspeed.pyx":144
  *             shape1 = (1,) + shape1
  * 
  *         if np.asarray(shape2).ndim == 0:             # <<<<<<<<<<<<<<
@@ -4397,30 +4485,30 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
     goto __pyx_L4;
   }
 
-  /* "dipy/segment/metricspeed.pyx":144
+  /* "dipy/segment/metricspeed.pyx":146
  *         if np.asarray(shape2).ndim == 0:
  *             shape2 = (1, shape2)
  *         elif len(shape2) == 1:             # <<<<<<<<<<<<<<
  *             shape2 = (1,) + shape2
  * 
  */
-  __pyx_t_8 = PyObject_Length(__pyx_v_shape2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_v_shape2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 146, __pyx_L1_error)
   __pyx_t_7 = ((__pyx_t_8 == 1) != 0);
   if (__pyx_t_7) {
 
-    /* "dipy/segment/metricspeed.pyx":145
+    /* "dipy/segment/metricspeed.pyx":147
  *             shape2 = (1, shape2)
  *         elif len(shape2) == 1:
  *             shape2 = (1,) + shape2             # <<<<<<<<<<<<<<
  * 
  *         return self.c_are_compatible(tuple2shape(shape1), tuple2shape(shape2)) == 1
  */
-    __pyx_t_1 = PyNumber_Add(__pyx_tuple__5, __pyx_v_shape2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 145, __pyx_L1_error)
+    __pyx_t_1 = PyNumber_Add(__pyx_tuple__5, __pyx_v_shape2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF_SET(__pyx_v_shape2, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":144
+    /* "dipy/segment/metricspeed.pyx":146
  *         if np.asarray(shape2).ndim == 0:
  *             shape2 = (1, shape2)
  *         elif len(shape2) == 1:             # <<<<<<<<<<<<<<
@@ -4430,7 +4518,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
   }
   __pyx_L4:;
 
-  /* "dipy/segment/metricspeed.pyx":147
+  /* "dipy/segment/metricspeed.pyx":149
  *             shape2 = (1,) + shape2
  * 
  *         return self.c_are_compatible(tuple2shape(shape1), tuple2shape(shape2)) == 1             # <<<<<<<<<<<<<<
@@ -4438,16 +4526,16 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compati
  *     cpdef double dist(CythonMetric self, features1, features2) except -1:
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_9 = __pyx_f_4dipy_7segment_11cythonutils_tuple2shape(__pyx_v_shape1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
-  __pyx_t_10 = __pyx_f_4dipy_7segment_11cythonutils_tuple2shape(__pyx_v_shape2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 147, __pyx_L1_error)
-  __pyx_t_5 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.c_are_compatible(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_9, __pyx_t_10); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 147, __pyx_L1_error)
-  __pyx_t_1 = __Pyx_PyBool_FromLong((__pyx_t_5 == 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_4dipy_7segment_11cythonutils_tuple2shape(__pyx_v_shape1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_10 = __pyx_f_4dipy_7segment_11cythonutils_tuple2shape(__pyx_v_shape2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.c_are_compatible(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_9, __pyx_t_10); if (unlikely(__pyx_t_5 == -1)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyBool_FromLong((__pyx_t_5 == 1)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":115
+  /* "dipy/segment/metricspeed.pyx":117
  *     `c_are_compatible` methods.
  *     """
  *     cpdef are_compatible(CythonMetric self, shape1, shape2):             # <<<<<<<<<<<<<<
@@ -4504,11 +4592,11 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_1are_compa
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_shape2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, 1); __PYX_ERR(0, 115, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, 1); __PYX_ERR(0, 117, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "are_compatible") < 0)) __PYX_ERR(0, 115, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "are_compatible") < 0)) __PYX_ERR(0, 117, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -4521,7 +4609,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_1are_compa
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 115, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("are_compatible", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 117, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.CythonMetric.are_compatible", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -4540,7 +4628,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_12CythonMetric_are_compat
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("are_compatible", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compatible(__pyx_v_self, __pyx_v_shape1, __pyx_v_shape2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compatible(__pyx_v_self, __pyx_v_shape1, __pyx_v_shape2, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 117, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4557,7 +4645,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_12CythonMetric_are_compat
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":149
+/* "dipy/segment/metricspeed.pyx":151
  *         return self.c_are_compatible(tuple2shape(shape1), tuple2shape(shape2)) == 1
  * 
  *     cpdef double dist(CythonMetric self, features1, features2) except -1:             # <<<<<<<<<<<<<<
@@ -4587,7 +4675,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
   if (unlikely(__pyx_skip_dispatch)) ;
   /* Check if overridden in Python */
   else if (unlikely(Py_TYPE(((PyObject *)__pyx_v_self))->tp_dictoffset != 0)) {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 149, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_dist); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (!PyCFunction_Check(__pyx_t_1) || (PyCFunction_GET_FUNCTION(__pyx_t_1) != (PyCFunction)__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_3dist)) {
       __Pyx_INCREF(__pyx_t_1);
@@ -4606,7 +4694,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_features1, __pyx_v_features2};
-        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
@@ -4614,13 +4702,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
         PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_features1, __pyx_v_features2};
-        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-__pyx_t_5, 2+__pyx_t_5); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_GOTREF(__pyx_t_2);
       } else
       #endif
       {
-        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 149, __pyx_L1_error)
+        __pyx_t_6 = PyTuple_New(2+__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 151, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         if (__pyx_t_4) {
           __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -4631,12 +4719,12 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
         __Pyx_INCREF(__pyx_v_features2);
         __Pyx_GIVEREF(__pyx_v_features2);
         PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_5, __pyx_v_features2);
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_2);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 149, __pyx_L1_error)
+      __pyx_t_7 = __pyx_PyFloat_AsDouble(__pyx_t_2); if (unlikely((__pyx_t_7 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __pyx_r = __pyx_t_7;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -4645,16 +4733,16 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   }
 
-  /* "dipy/segment/metricspeed.pyx":169
+  /* "dipy/segment/metricspeed.pyx":171
  *         """
  *         # If needed, we convert features to 2D arrays.
  *         features1 = np.asarray(features1)             # <<<<<<<<<<<<<<
  *         if features1.ndim == 0:
  *             features1 = features1[np.newaxis, np.newaxis]
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -4668,13 +4756,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_features1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_features1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_features1};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -4682,19 +4770,19 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
       PyObject *__pyx_temp[2] = {__pyx_t_2, __pyx_v_features1};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_2); __pyx_t_2 = NULL;
       __Pyx_INCREF(__pyx_v_features1);
       __Pyx_GIVEREF(__pyx_v_features1);
       PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_features1);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
@@ -4703,40 +4791,40 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
   __Pyx_DECREF_SET(__pyx_v_features1, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":170
+  /* "dipy/segment/metricspeed.pyx":172
  *         # If needed, we convert features to 2D arrays.
  *         features1 = np.asarray(features1)
  *         if features1.ndim == 0:             # <<<<<<<<<<<<<<
  *             features1 = features1[np.newaxis, np.newaxis]
  *         elif features1.ndim == 1:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_8) {
 
-    /* "dipy/segment/metricspeed.pyx":171
+    /* "dipy/segment/metricspeed.pyx":173
  *         features1 = np.asarray(features1)
  *         if features1.ndim == 0:
  *             features1 = features1[np.newaxis, np.newaxis]             # <<<<<<<<<<<<<<
  *         elif features1.ndim == 1:
  *             features1 = features1[np.newaxis]
  */
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_1);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
@@ -4744,13 +4832,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_6);
     __pyx_t_1 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_6 = PyObject_GetItem(__pyx_v_features1, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 171, __pyx_L1_error)
+    __pyx_t_6 = PyObject_GetItem(__pyx_v_features1, __pyx_t_3); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF_SET(__pyx_v_features1, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":170
+    /* "dipy/segment/metricspeed.pyx":172
  *         # If needed, we convert features to 2D arrays.
  *         features1 = np.asarray(features1)
  *         if features1.ndim == 0:             # <<<<<<<<<<<<<<
@@ -4760,41 +4848,41 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     goto __pyx_L3;
   }
 
-  /* "dipy/segment/metricspeed.pyx":172
+  /* "dipy/segment/metricspeed.pyx":174
  *         if features1.ndim == 0:
  *             features1 = features1[np.newaxis, np.newaxis]
  *         elif features1.ndim == 1:             # <<<<<<<<<<<<<<
  *             features1 = features1[np.newaxis]
  *         elif features1.ndim == 2:
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_8) {
 
-    /* "dipy/segment/metricspeed.pyx":173
+    /* "dipy/segment/metricspeed.pyx":175
  *             features1 = features1[np.newaxis, np.newaxis]
  *         elif features1.ndim == 1:
  *             features1 = features1[np.newaxis]             # <<<<<<<<<<<<<<
  *         elif features1.ndim == 2:
  *             pass
  */
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_3 = PyObject_GetItem(__pyx_v_features1, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 173, __pyx_L1_error)
+    __pyx_t_3 = PyObject_GetItem(__pyx_v_features1, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 175, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF_SET(__pyx_v_features1, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":172
+    /* "dipy/segment/metricspeed.pyx":174
  *         if features1.ndim == 0:
  *             features1 = features1[np.newaxis, np.newaxis]
  *         elif features1.ndim == 1:             # <<<<<<<<<<<<<<
@@ -4804,25 +4892,25 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     goto __pyx_L3;
   }
 
-  /* "dipy/segment/metricspeed.pyx":174
+  /* "dipy/segment/metricspeed.pyx":176
  *         elif features1.ndim == 1:
  *             features1 = features1[np.newaxis]
  *         elif features1.ndim == 2:             # <<<<<<<<<<<<<<
  *             pass
  *         else:
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_ndim); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_EqObjC(__pyx_t_3, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 174, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   if (__pyx_t_8) {
     goto __pyx_L3;
   }
 
-  /* "dipy/segment/metricspeed.pyx":177
+  /* "dipy/segment/metricspeed.pyx":179
  *             pass
  *         else:
  *             raise TypeError("Only scalar, 1D or 2D array features are"             # <<<<<<<<<<<<<<
@@ -4830,24 +4918,24 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
  * 
  */
   /*else*/ {
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 177, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__6, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 179, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __PYX_ERR(0, 177, __pyx_L1_error)
+    __PYX_ERR(0, 179, __pyx_L1_error)
   }
   __pyx_L3:;
 
-  /* "dipy/segment/metricspeed.pyx":180
+  /* "dipy/segment/metricspeed.pyx":182
  *                             " supported for parameter 'features1'!")
  * 
  *         features2 = np.asarray(features2)             # <<<<<<<<<<<<<<
  *         if features2.ndim == 0:
  *             features2 = features2[np.newaxis, np.newaxis]
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 180, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_asarray); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -4861,13 +4949,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_features2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_features2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_features2};
-      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else
@@ -4875,19 +4963,19 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_1)) {
       PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_v_features2};
-      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_1, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else
     #endif
     {
-      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 180, __pyx_L1_error)
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
       __Pyx_INCREF(__pyx_v_features2);
       __Pyx_GIVEREF(__pyx_v_features2);
       PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_features2);
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 180, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     }
@@ -4896,40 +4984,40 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
   __Pyx_DECREF_SET(__pyx_v_features2, __pyx_t_6);
   __pyx_t_6 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":181
+  /* "dipy/segment/metricspeed.pyx":183
  * 
  *         features2 = np.asarray(features2)
  *         if features2.ndim == 0:             # <<<<<<<<<<<<<<
  *             features2 = features2[np.newaxis, np.newaxis]
  *         elif features2.ndim == 1:
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_6, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 181, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_8) {
 
-    /* "dipy/segment/metricspeed.pyx":182
+    /* "dipy/segment/metricspeed.pyx":184
  *         features2 = np.asarray(features2)
  *         if features2.ndim == 0:
  *             features2 = features2[np.newaxis, np.newaxis]             # <<<<<<<<<<<<<<
  *         elif features2.ndim == 1:
  *             features2 = features2[np.newaxis]
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_6);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6);
@@ -4937,13 +5025,13 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_2);
     __pyx_t_6 = 0;
     __pyx_t_2 = 0;
-    __pyx_t_2 = PyObject_GetItem(__pyx_v_features2, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 182, __pyx_L1_error)
+    __pyx_t_2 = PyObject_GetItem(__pyx_v_features2, __pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF_SET(__pyx_v_features2, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":181
+    /* "dipy/segment/metricspeed.pyx":183
  * 
  *         features2 = np.asarray(features2)
  *         if features2.ndim == 0:             # <<<<<<<<<<<<<<
@@ -4953,41 +5041,41 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     goto __pyx_L4;
   }
 
-  /* "dipy/segment/metricspeed.pyx":183
+  /* "dipy/segment/metricspeed.pyx":185
  *         if features2.ndim == 0:
  *             features2 = features2[np.newaxis, np.newaxis]
  *         elif features2.ndim == 1:             # <<<<<<<<<<<<<<
  *             features2 = features2[np.newaxis]
  *         elif features2.ndim == 2:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_8) {
 
-    /* "dipy/segment/metricspeed.pyx":184
+    /* "dipy/segment/metricspeed.pyx":186
  *             features2 = features2[np.newaxis, np.newaxis]
  *         elif features2.ndim == 1:
  *             features2 = features2[np.newaxis]             # <<<<<<<<<<<<<<
  *         elif features2.ndim == 2:
  *             pass
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_newaxis); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_GetItem(__pyx_v_features2, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_1 = PyObject_GetItem(__pyx_v_features2, __pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_features2, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":183
+    /* "dipy/segment/metricspeed.pyx":185
  *         if features2.ndim == 0:
  *             features2 = features2[np.newaxis, np.newaxis]
  *         elif features2.ndim == 1:             # <<<<<<<<<<<<<<
@@ -4997,25 +5085,25 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
     goto __pyx_L4;
   }
 
-  /* "dipy/segment/metricspeed.pyx":185
+  /* "dipy/segment/metricspeed.pyx":187
  *         elif features2.ndim == 1:
  *             features2 = features2[np.newaxis]
  *         elif features2.ndim == 2:             # <<<<<<<<<<<<<<
  *             pass
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_ndim); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_t_1, __pyx_int_2, 2, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_8) {
     goto __pyx_L4;
   }
 
-  /* "dipy/segment/metricspeed.pyx":188
+  /* "dipy/segment/metricspeed.pyx":190
  *             pass
  *         else:
  *             raise TypeError("Only scalar, 1D or 2D array features are"             # <<<<<<<<<<<<<<
@@ -5023,48 +5111,48 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
  * 
  */
   /*else*/ {
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_TypeError, __pyx_tuple__7, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_Raise(__pyx_t_2, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __PYX_ERR(0, 188, __pyx_L1_error)
+    __PYX_ERR(0, 190, __pyx_L1_error)
   }
   __pyx_L4:;
 
-  /* "dipy/segment/metricspeed.pyx":191
+  /* "dipy/segment/metricspeed.pyx":193
  *                             " supported for parameter 'features2'!")
  * 
  *         if not self.are_compatible(features1.shape, features2.shape):             # <<<<<<<<<<<<<<
  *             raise ValueError("Features are not compatible according to this metric!")
  * 
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_features1, __pyx_n_s_shape); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_features2, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_6 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.are_compatible(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_2, __pyx_t_1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_6 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.are_compatible(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_2, __pyx_t_1, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 191, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 193, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_9 = ((!__pyx_t_8) != 0);
   if (__pyx_t_9) {
 
-    /* "dipy/segment/metricspeed.pyx":192
+    /* "dipy/segment/metricspeed.pyx":194
  * 
  *         if not self.are_compatible(features1.shape, features2.shape):
  *             raise ValueError("Features are not compatible according to this metric!")             # <<<<<<<<<<<<<<
  * 
  *         return self.c_dist(features1, features2)
  */
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 192, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 194, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_Raise(__pyx_t_6, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __PYX_ERR(0, 192, __pyx_L1_error)
+    __PYX_ERR(0, 194, __pyx_L1_error)
 
-    /* "dipy/segment/metricspeed.pyx":191
+    /* "dipy/segment/metricspeed.pyx":193
  *                             " supported for parameter 'features2'!")
  * 
  *         if not self.are_compatible(features1.shape, features2.shape):             # <<<<<<<<<<<<<<
@@ -5073,7 +5161,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
  */
   }
 
-  /* "dipy/segment/metricspeed.pyx":194
+  /* "dipy/segment/metricspeed.pyx":196
  *             raise ValueError("Features are not compatible according to this metric!")
  * 
  *         return self.c_dist(features1, features2)             # <<<<<<<<<<<<<<
@@ -5081,10 +5169,10 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
  * 
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_features1);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 196, __pyx_L1_error)
   __pyx_t_11 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_features2);
-  if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 194, __pyx_L1_error)
-  __pyx_t_7 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_10, __pyx_t_11); if (unlikely(__pyx_t_7 == -1.0)) __PYX_ERR(0, 194, __pyx_L1_error)
+  if (unlikely(!__pyx_t_11.memview)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_7 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_CythonMetric *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *)__pyx_v_self), __pyx_t_10, __pyx_t_11); if (unlikely(__pyx_t_7 == -1.0)) __PYX_ERR(0, 196, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
@@ -5094,7 +5182,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(struct __
   __pyx_r = __pyx_t_7;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":149
+  /* "dipy/segment/metricspeed.pyx":151
  *         return self.c_are_compatible(tuple2shape(shape1), tuple2shape(shape2)) == 1
  * 
  *     cpdef double dist(CythonMetric self, features1, features2) except -1:             # <<<<<<<<<<<<<<
@@ -5152,11 +5240,11 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_3dist(PyOb
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_features2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, 1); __PYX_ERR(0, 149, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, 1); __PYX_ERR(0, 151, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 149, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 151, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -5169,7 +5257,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_12CythonMetric_3dist(PyOb
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 149, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("dist", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 151, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.CythonMetric.dist", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5189,8 +5277,8 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_12CythonMetric_2dist(stru
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("dist", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(__pyx_v_self, __pyx_v_features1, __pyx_v_features2, 1); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 149, __pyx_L1_error)
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist(__pyx_v_self, __pyx_v_features1, __pyx_v_features2, 1); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 151, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -5499,7 +5587,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_12CythonMetric_6__setstat
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":229
+/* "dipy/segment/metricspeed.pyx":231
  *     s2[0], $b$ between s1[1] and s2[1] and $c$ between s1[2] and s2[2].
  *     """
  *     cdef double c_dist(SumPointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -5525,7 +5613,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
   Py_ssize_t __pyx_t_7;
   Py_ssize_t __pyx_t_8;
 
-  /* "dipy/segment/metricspeed.pyx":231
+  /* "dipy/segment/metricspeed.pyx":233
  *     cdef double c_dist(SumPointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef :
  *             int N = features1.shape[0], D = features1.shape[1]             # <<<<<<<<<<<<<<
@@ -5535,7 +5623,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
   __pyx_v_N = (__pyx_v_features1.shape[0]);
   __pyx_v_D = (__pyx_v_features1.shape[1]);
 
-  /* "dipy/segment/metricspeed.pyx":233
+  /* "dipy/segment/metricspeed.pyx":235
  *             int N = features1.shape[0], D = features1.shape[1]
  *             int n, d
  *             double dd, dist_n, dist = 0.0             # <<<<<<<<<<<<<<
@@ -5544,7 +5632,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
  */
   __pyx_v_dist = 0.0;
 
-  /* "dipy/segment/metricspeed.pyx":235
+  /* "dipy/segment/metricspeed.pyx":237
  *             double dd, dist_n, dist = 0.0
  * 
  *         for n in range(N):             # <<<<<<<<<<<<<<
@@ -5555,7 +5643,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_n = __pyx_t_2;
 
-    /* "dipy/segment/metricspeed.pyx":236
+    /* "dipy/segment/metricspeed.pyx":238
  * 
  *         for n in range(N):
  *             dist_n = 0.0             # <<<<<<<<<<<<<<
@@ -5564,7 +5652,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
  */
     __pyx_v_dist_n = 0.0;
 
-    /* "dipy/segment/metricspeed.pyx":237
+    /* "dipy/segment/metricspeed.pyx":239
  *         for n in range(N):
  *             dist_n = 0.0
  *             for d in range(D):             # <<<<<<<<<<<<<<
@@ -5575,7 +5663,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
     for (__pyx_t_4 = 0; __pyx_t_4 < __pyx_t_3; __pyx_t_4+=1) {
       __pyx_v_d = __pyx_t_4;
 
-      /* "dipy/segment/metricspeed.pyx":238
+      /* "dipy/segment/metricspeed.pyx":240
  *             dist_n = 0.0
  *             for d in range(D):
  *                 dd = features1[n, d] - features2[n, d]             # <<<<<<<<<<<<<<
@@ -5588,7 +5676,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
       __pyx_t_8 = __pyx_v_d;
       __pyx_v_dd = ((*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features1.data + __pyx_t_5 * __pyx_v_features1.strides[0]) ) + __pyx_t_6 * __pyx_v_features1.strides[1]) ))) - (*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features2.data + __pyx_t_7 * __pyx_v_features2.strides[0]) ) + __pyx_t_8 * __pyx_v_features2.strides[1]) ))));
 
-      /* "dipy/segment/metricspeed.pyx":239
+      /* "dipy/segment/metricspeed.pyx":241
  *             for d in range(D):
  *                 dd = features1[n, d] - features2[n, d]
  *                 dist_n += dd*dd             # <<<<<<<<<<<<<<
@@ -5598,7 +5686,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
       __pyx_v_dist_n = (__pyx_v_dist_n + (__pyx_v_dd * __pyx_v_dd));
     }
 
-    /* "dipy/segment/metricspeed.pyx":241
+    /* "dipy/segment/metricspeed.pyx":243
  *                 dist_n += dd*dd
  * 
  *             dist += sqrt(dist_n)             # <<<<<<<<<<<<<<
@@ -5608,7 +5696,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
     __pyx_v_dist = (__pyx_v_dist + sqrt(__pyx_v_dist_n));
   }
 
-  /* "dipy/segment/metricspeed.pyx":243
+  /* "dipy/segment/metricspeed.pyx":245
  *             dist += sqrt(dist_n)
  * 
  *         return dist             # <<<<<<<<<<<<<<
@@ -5618,7 +5706,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
   __pyx_r = __pyx_v_dist;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":229
+  /* "dipy/segment/metricspeed.pyx":231
  *     s2[0], $b$ between s1[1] and s2[1] and $c$ between s1[2] and s2[2].
  *     """
  *     cdef double c_dist(SumPointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -5631,7 +5719,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":245
+/* "dipy/segment/metricspeed.pyx":247
  *         return dist
  * 
  *     cdef int c_are_compatible(SumPointwiseEuclideanMetric self, Shape shape1, Shape shape2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -5642,7 +5730,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric
 static int __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_are_compatible(CYTHON_UNUSED struct __pyx_obj_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric *__pyx_v_self, struct __pyx_t_4dipy_7segment_11cythonutils_Shape __pyx_v_shape1, struct __pyx_t_4dipy_7segment_11cythonutils_Shape __pyx_v_shape2) {
   int __pyx_r;
 
-  /* "dipy/segment/metricspeed.pyx":246
+  /* "dipy/segment/metricspeed.pyx":248
  * 
  *     cdef int c_are_compatible(SumPointwiseEuclideanMetric self, Shape shape1, Shape shape2) nogil except -1:
  *         return same_shape(shape1, shape2)             # <<<<<<<<<<<<<<
@@ -5652,7 +5740,7 @@ static int __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_
   __pyx_r = __pyx_f_4dipy_7segment_11cythonutils_same_shape(__pyx_v_shape1, __pyx_v_shape2);
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":245
+  /* "dipy/segment/metricspeed.pyx":247
  *         return dist
  * 
  *     cdef int c_are_compatible(SumPointwiseEuclideanMetric self, Shape shape1, Shape shape2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -5957,7 +6045,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMe
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":281
+/* "dipy/segment/metricspeed.pyx":283
  *     s2[0], $b$ between s1[1] and s2[1] and $c$ between s1[2] and s2[2].
  *     """
  *     cdef double c_dist(AveragePointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -5971,7 +6059,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMe
   double __pyx_r;
   double __pyx_t_1;
 
-  /* "dipy/segment/metricspeed.pyx":282
+  /* "dipy/segment/metricspeed.pyx":284
  *     """
  *     cdef double c_dist(AveragePointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef int N = features1.shape[0]             # <<<<<<<<<<<<<<
@@ -5980,17 +6068,17 @@ static double __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMe
  */
   __pyx_v_N = (__pyx_v_features1.shape[0]);
 
-  /* "dipy/segment/metricspeed.pyx":283
+  /* "dipy/segment/metricspeed.pyx":285
  *     cdef double c_dist(AveragePointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef int N = features1.shape[0]
  *         cdef double dist = SumPointwiseEuclideanMetric.c_dist(self, features1, features2)             # <<<<<<<<<<<<<<
  *         return dist / N
  * 
  */
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 283, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 285, __pyx_L1_error)
   __pyx_v_dist = __pyx_t_1;
 
-  /* "dipy/segment/metricspeed.pyx":284
+  /* "dipy/segment/metricspeed.pyx":286
  *         cdef int N = features1.shape[0]
  *         cdef double dist = SumPointwiseEuclideanMetric.c_dist(self, features1, features2)
  *         return dist / N             # <<<<<<<<<<<<<<
@@ -6000,7 +6088,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMe
   __pyx_r = (__pyx_v_dist / __pyx_v_N);
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":281
+  /* "dipy/segment/metricspeed.pyx":283
  *     s2[0], $b$ between s1[1] and s2[1] and $c$ between s1[2] and s2[2].
  *     """
  *     cdef double c_dist(AveragePointwiseEuclideanMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6316,7 +6404,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_31AveragePointwiseEuclide
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":316
+/* "dipy/segment/metricspeed.pyx":318
  *     property is_order_invariant:
  *         """ Is this metric invariant to the sequence's ordering """
  *         def __get__(MinimumAverageDirectFlipMetric self):             # <<<<<<<<<<<<<<
@@ -6342,7 +6430,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_30MinimumAverageDirectFli
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "dipy/segment/metricspeed.pyx":317
+  /* "dipy/segment/metricspeed.pyx":319
  *         """ Is this metric invariant to the sequence's ordering """
  *         def __get__(MinimumAverageDirectFlipMetric self):
  *             return True  # Ordering is handled in the distance computation             # <<<<<<<<<<<<<<
@@ -6354,7 +6442,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_30MinimumAverageDirectFli
   __pyx_r = Py_True;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":316
+  /* "dipy/segment/metricspeed.pyx":318
  *     property is_order_invariant:
  *         """ Is this metric invariant to the sequence's ordering """
  *         def __get__(MinimumAverageDirectFlipMetric self):             # <<<<<<<<<<<<<<
@@ -6369,7 +6457,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_30MinimumAverageDirectFli
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":319
+/* "dipy/segment/metricspeed.pyx":321
  *             return True  # Ordering is handled in the distance computation
  * 
  *     cdef double c_dist(MinimumAverageDirectFlipMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6387,17 +6475,17 @@ static double __pyx_f_4dipy_7segment_11metricspeed_30MinimumAverageDirectFlipMet
   double __pyx_t_4;
   double __pyx_t_5;
 
-  /* "dipy/segment/metricspeed.pyx":320
+  /* "dipy/segment/metricspeed.pyx":322
  * 
  *     cdef double c_dist(MinimumAverageDirectFlipMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef double dist_direct = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2)             # <<<<<<<<<<<<<<
  *         cdef double dist_flipped = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2[::-1])
  *         return min(dist_direct, dist_flipped)
  */
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 320, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 322, __pyx_L1_error)
   __pyx_v_dist_direct = __pyx_t_1;
 
-  /* "dipy/segment/metricspeed.pyx":321
+  /* "dipy/segment/metricspeed.pyx":323
  *     cdef double c_dist(MinimumAverageDirectFlipMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef double dist_direct = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2)
  *         cdef double dist_flipped = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2[::-1])             # <<<<<<<<<<<<<<
@@ -6422,20 +6510,20 @@ static double __pyx_f_4dipy_7segment_11metricspeed_30MinimumAverageDirectFlipMet
     1,
     1) < 0))
 {
-    __PYX_ERR(0, 321, __pyx_L1_error)
+    __PYX_ERR(0, 323, __pyx_L1_error)
 }
 
 __pyx_t_2.shape[1] = __pyx_v_features2.shape[1];
 __pyx_t_2.strides[1] = __pyx_v_features2.strides[1];
     __pyx_t_2.suboffsets[1] = -1;
 
-__pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_t_2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 321, __pyx_L1_error)
+__pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetric_c_dist(((struct __pyx_obj_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric *)__pyx_v_self), __pyx_v_features1, __pyx_t_2); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 323, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 0);
   __pyx_t_2.memview = NULL;
   __pyx_t_2.data = NULL;
   __pyx_v_dist_flipped = __pyx_t_1;
 
-  /* "dipy/segment/metricspeed.pyx":322
+  /* "dipy/segment/metricspeed.pyx":324
  *         cdef double dist_direct = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2)
  *         cdef double dist_flipped = AveragePointwiseEuclideanMetric.c_dist(self, features1, features2[::-1])
  *         return min(dist_direct, dist_flipped)             # <<<<<<<<<<<<<<
@@ -6452,7 +6540,7 @@ __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetr
   __pyx_r = __pyx_t_5;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":319
+  /* "dipy/segment/metricspeed.pyx":321
  *             return True  # Ordering is handled in the distance computation
  * 
  *     cdef double c_dist(MinimumAverageDirectFlipMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6769,7 +6857,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_30MinimumAverageDirectFli
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":337
+/* "dipy/segment/metricspeed.pyx":339
  *     and is bounded within $[0,1]$.
  *     """
  *     def __init__(CosineMetric self, Feature feature):             # <<<<<<<<<<<<<<
@@ -6803,7 +6891,7 @@ static int __pyx_pw_4dipy_7segment_11metricspeed_12CosineMetric_1__init__(PyObje
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 337, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 339, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
@@ -6814,13 +6902,13 @@ static int __pyx_pw_4dipy_7segment_11metricspeed_12CosineMetric_1__init__(PyObje
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 337, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 339, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.CosineMetric.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_feature), __pyx_ptype_4dipy_7segment_12featurespeed_Feature, 1, "feature", 0))) __PYX_ERR(0, 337, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_feature), __pyx_ptype_4dipy_7segment_12featurespeed_Feature, 1, "feature", 0))) __PYX_ERR(0, 339, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dipy_7segment_11metricspeed_12CosineMetric___init__(((struct __pyx_obj_4dipy_7segment_11metricspeed_CosineMetric *)__pyx_v_self), __pyx_v_feature);
 
   /* function exit code */
@@ -6840,14 +6928,14 @@ static int __pyx_pf_4dipy_7segment_11metricspeed_12CosineMetric___init__(struct 
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "dipy/segment/metricspeed.pyx":338
+  /* "dipy/segment/metricspeed.pyx":340
  *     """
  *     def __init__(CosineMetric self, Feature feature):
  *         super(CosineMetric, self).__init__(feature=feature)             # <<<<<<<<<<<<<<
  * 
  *     cdef int c_are_compatible(CosineMetric self, Shape shape1, Shape shape2) nogil except -1:
  */
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(((PyObject *)__pyx_ptype_4dipy_7segment_11metricspeed_CosineMetric));
   __Pyx_GIVEREF(((PyObject *)__pyx_ptype_4dipy_7segment_11metricspeed_CosineMetric));
@@ -6855,22 +6943,22 @@ static int __pyx_pf_4dipy_7segment_11metricspeed_12CosineMetric___init__(struct 
   __Pyx_INCREF(((PyObject *)__pyx_v_self));
   __Pyx_GIVEREF(((PyObject *)__pyx_v_self));
   PyTuple_SET_ITEM(__pyx_t_1, 1, ((PyObject *)__pyx_v_self));
-  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(__pyx_builtin_super, __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_init); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_feature, ((PyObject *)__pyx_v_feature)) < 0) __PYX_ERR(0, 338, __pyx_L1_error)
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 338, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_feature, ((PyObject *)__pyx_v_feature)) < 0) __PYX_ERR(0, 340, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_empty_tuple, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":337
+  /* "dipy/segment/metricspeed.pyx":339
  *     and is bounded within $[0,1]$.
  *     """
  *     def __init__(CosineMetric self, Feature feature):             # <<<<<<<<<<<<<<
@@ -6892,7 +6980,7 @@ static int __pyx_pf_4dipy_7segment_11metricspeed_12CosineMetric___init__(struct 
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":340
+/* "dipy/segment/metricspeed.pyx":342
  *         super(CosineMetric, self).__init__(feature=feature)
  * 
  *     cdef int c_are_compatible(CosineMetric self, Shape shape1, Shape shape2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6905,7 +6993,7 @@ static int __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_are_compatible(
   int __pyx_t_1;
   int __pyx_t_2;
 
-  /* "dipy/segment/metricspeed.pyx":341
+  /* "dipy/segment/metricspeed.pyx":343
  * 
  *     cdef int c_are_compatible(CosineMetric self, Shape shape1, Shape shape2) nogil except -1:
  *         return same_shape(shape1, shape2) != 0 and shape1.dims[0] == 1             # <<<<<<<<<<<<<<
@@ -6924,7 +7012,7 @@ static int __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_are_compatible(
   __pyx_r = __pyx_t_1;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":340
+  /* "dipy/segment/metricspeed.pyx":342
  *         super(CosineMetric, self).__init__(feature=feature)
  * 
  *     cdef int c_are_compatible(CosineMetric self, Shape shape1, Shape shape2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6937,7 +7025,7 @@ static int __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_are_compatible(
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":343
+/* "dipy/segment/metricspeed.pyx":345
  *         return same_shape(shape1, shape2) != 0 and shape1.dims[0] == 1
  * 
  *     cdef double c_dist(CosineMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -6971,7 +7059,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   double __pyx_t_17;
   double __pyx_t_18;
 
-  /* "dipy/segment/metricspeed.pyx":345
+  /* "dipy/segment/metricspeed.pyx":347
  *     cdef double c_dist(CosineMetric self, Data2D features1, Data2D features2) nogil except -1:
  *         cdef :
  *             int d, D = features1.shape[1]             # <<<<<<<<<<<<<<
@@ -6980,7 +7068,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
  */
   __pyx_v_D = (__pyx_v_features1.shape[1]);
 
-  /* "dipy/segment/metricspeed.pyx":346
+  /* "dipy/segment/metricspeed.pyx":348
  *         cdef :
  *             int d, D = features1.shape[1]
  *             double sqr_norm_features1 = 0.0, sqr_norm_features2 = 0.0             # <<<<<<<<<<<<<<
@@ -6990,7 +7078,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   __pyx_v_sqr_norm_features1 = 0.0;
   __pyx_v_sqr_norm_features2 = 0.0;
 
-  /* "dipy/segment/metricspeed.pyx":347
+  /* "dipy/segment/metricspeed.pyx":349
  *             int d, D = features1.shape[1]
  *             double sqr_norm_features1 = 0.0, sqr_norm_features2 = 0.0
  *             double cos_theta = 0.0             # <<<<<<<<<<<<<<
@@ -6999,7 +7087,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
  */
   __pyx_v_cos_theta = 0.0;
 
-  /* "dipy/segment/metricspeed.pyx":349
+  /* "dipy/segment/metricspeed.pyx":351
  *             double cos_theta = 0.0
  * 
  *         for d in range(D):             # <<<<<<<<<<<<<<
@@ -7010,7 +7098,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   for (__pyx_t_2 = 0; __pyx_t_2 < __pyx_t_1; __pyx_t_2+=1) {
     __pyx_v_d = __pyx_t_2;
 
-    /* "dipy/segment/metricspeed.pyx":350
+    /* "dipy/segment/metricspeed.pyx":352
  * 
  *         for d in range(D):
  *             cos_theta += features1[0, d] * features2[0, d]             # <<<<<<<<<<<<<<
@@ -7023,7 +7111,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
     __pyx_t_6 = __pyx_v_d;
     __pyx_v_cos_theta = (__pyx_v_cos_theta + ((*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features1.data + __pyx_t_3 * __pyx_v_features1.strides[0]) ) + __pyx_t_4 * __pyx_v_features1.strides[1]) ))) * (*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features2.data + __pyx_t_5 * __pyx_v_features2.strides[0]) ) + __pyx_t_6 * __pyx_v_features2.strides[1]) )))));
 
-    /* "dipy/segment/metricspeed.pyx":351
+    /* "dipy/segment/metricspeed.pyx":353
  *         for d in range(D):
  *             cos_theta += features1[0, d] * features2[0, d]
  *             sqr_norm_features1 += features1[0, d] * features1[0, d]             # <<<<<<<<<<<<<<
@@ -7036,7 +7124,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
     __pyx_t_10 = __pyx_v_d;
     __pyx_v_sqr_norm_features1 = (__pyx_v_sqr_norm_features1 + ((*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features1.data + __pyx_t_7 * __pyx_v_features1.strides[0]) ) + __pyx_t_8 * __pyx_v_features1.strides[1]) ))) * (*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features1.data + __pyx_t_9 * __pyx_v_features1.strides[0]) ) + __pyx_t_10 * __pyx_v_features1.strides[1]) )))));
 
-    /* "dipy/segment/metricspeed.pyx":352
+    /* "dipy/segment/metricspeed.pyx":354
  *             cos_theta += features1[0, d] * features2[0, d]
  *             sqr_norm_features1 += features1[0, d] * features1[0, d]
  *             sqr_norm_features2 += features2[0, d] * features2[0, d]             # <<<<<<<<<<<<<<
@@ -7050,7 +7138,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
     __pyx_v_sqr_norm_features2 = (__pyx_v_sqr_norm_features2 + ((*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features2.data + __pyx_t_11 * __pyx_v_features2.strides[0]) ) + __pyx_t_12 * __pyx_v_features2.strides[1]) ))) * (*((float *) ( /* dim=1 */ (( /* dim=0 */ (__pyx_v_features2.data + __pyx_t_13 * __pyx_v_features2.strides[0]) ) + __pyx_t_14 * __pyx_v_features2.strides[1]) )))));
   }
 
-  /* "dipy/segment/metricspeed.pyx":354
+  /* "dipy/segment/metricspeed.pyx":356
  *             sqr_norm_features2 += features2[0, d] * features2[0, d]
  * 
  *         if sqr_norm_features1 == 0.:             # <<<<<<<<<<<<<<
@@ -7060,7 +7148,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   __pyx_t_15 = ((__pyx_v_sqr_norm_features1 == 0.) != 0);
   if (__pyx_t_15) {
 
-    /* "dipy/segment/metricspeed.pyx":355
+    /* "dipy/segment/metricspeed.pyx":357
  * 
  *         if sqr_norm_features1 == 0.:
  *             if sqr_norm_features2 == 0.:             # <<<<<<<<<<<<<<
@@ -7070,7 +7158,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
     __pyx_t_15 = ((__pyx_v_sqr_norm_features2 == 0.) != 0);
     if (__pyx_t_15) {
 
-      /* "dipy/segment/metricspeed.pyx":356
+      /* "dipy/segment/metricspeed.pyx":358
  *         if sqr_norm_features1 == 0.:
  *             if sqr_norm_features2 == 0.:
  *                 return 0.             # <<<<<<<<<<<<<<
@@ -7080,7 +7168,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
       __pyx_r = 0.;
       goto __pyx_L0;
 
-      /* "dipy/segment/metricspeed.pyx":355
+      /* "dipy/segment/metricspeed.pyx":357
  * 
  *         if sqr_norm_features1 == 0.:
  *             if sqr_norm_features2 == 0.:             # <<<<<<<<<<<<<<
@@ -7089,7 +7177,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
  */
     }
 
-    /* "dipy/segment/metricspeed.pyx":358
+    /* "dipy/segment/metricspeed.pyx":360
  *                 return 0.
  *             else:
  *                 return 1.             # <<<<<<<<<<<<<<
@@ -7101,7 +7189,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
       goto __pyx_L0;
     }
 
-    /* "dipy/segment/metricspeed.pyx":354
+    /* "dipy/segment/metricspeed.pyx":356
  *             sqr_norm_features2 += features2[0, d] * features2[0, d]
  * 
  *         if sqr_norm_features1 == 0.:             # <<<<<<<<<<<<<<
@@ -7110,7 +7198,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
  */
   }
 
-  /* "dipy/segment/metricspeed.pyx":360
+  /* "dipy/segment/metricspeed.pyx":362
  *                 return 1.
  * 
  *         cos_theta /= sqrt(sqr_norm_features1) * sqrt(sqr_norm_features2)             # <<<<<<<<<<<<<<
@@ -7119,7 +7207,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
  */
   __pyx_v_cos_theta = (__pyx_v_cos_theta / (sqrt(__pyx_v_sqr_norm_features1) * sqrt(__pyx_v_sqr_norm_features2)));
 
-  /* "dipy/segment/metricspeed.pyx":363
+  /* "dipy/segment/metricspeed.pyx":365
  * 
  *         # Make sure it's in [-1, 1], i.e. within domain of arccosine
  *         cos_theta = min(cos_theta, 1.)             # <<<<<<<<<<<<<<
@@ -7135,7 +7223,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   }
   __pyx_v_cos_theta = __pyx_t_18;
 
-  /* "dipy/segment/metricspeed.pyx":364
+  /* "dipy/segment/metricspeed.pyx":366
  *         # Make sure it's in [-1, 1], i.e. within domain of arccosine
  *         cos_theta = min(cos_theta, 1.)
  *         cos_theta = max(cos_theta, -1.)             # <<<<<<<<<<<<<<
@@ -7151,7 +7239,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   }
   __pyx_v_cos_theta = __pyx_t_17;
 
-  /* "dipy/segment/metricspeed.pyx":365
+  /* "dipy/segment/metricspeed.pyx":367
  *         cos_theta = min(cos_theta, 1.)
  *         cos_theta = max(cos_theta, -1.)
  *         return acos(cos_theta) / PI  # Normalized cosine distance             # <<<<<<<<<<<<<<
@@ -7161,7 +7249,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist(CYTHON_
   __pyx_r = (acos(__pyx_v_cos_theta) / __pyx_v_4dipy_7segment_11metricspeed_PI);
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":343
+  /* "dipy/segment/metricspeed.pyx":345
  *         return same_shape(shape1, shape2) != 0 and shape1.dims[0] == 1
  * 
  *     cdef double c_dist(CosineMetric self, Data2D features1, Data2D features2) nogil except -1:             # <<<<<<<<<<<<<<
@@ -7466,7 +7554,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_12CosineMetric_4__setstat
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":368
+/* "dipy/segment/metricspeed.pyx":370
  * 
  * 
  * cpdef distance_matrix(Metric metric, data1, data2=None):             # <<<<<<<<<<<<<<
@@ -7510,7 +7598,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   }
   __Pyx_INCREF(__pyx_v_data2);
 
-  /* "dipy/segment/metricspeed.pyx":392
+  /* "dipy/segment/metricspeed.pyx":394
  *     """
  *     cdef int i, j
  *     if data2 is None:             # <<<<<<<<<<<<<<
@@ -7521,7 +7609,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "dipy/segment/metricspeed.pyx":393
+    /* "dipy/segment/metricspeed.pyx":395
  *     cdef int i, j
  *     if data2 is None:
  *         data2 = data1             # <<<<<<<<<<<<<<
@@ -7531,7 +7619,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     __Pyx_INCREF(__pyx_v_data1);
     __Pyx_DECREF_SET(__pyx_v_data2, __pyx_v_data1);
 
-    /* "dipy/segment/metricspeed.pyx":392
+    /* "dipy/segment/metricspeed.pyx":394
  *     """
  *     cdef int i, j
  *     if data2 is None:             # <<<<<<<<<<<<<<
@@ -7540,21 +7628,21 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
  */
   }
 
-  /* "dipy/segment/metricspeed.pyx":395
+  /* "dipy/segment/metricspeed.pyx":397
  *         data2 = data1
  * 
  *     shape = metric.feature.infer_shape(data1[0].astype(np.float32))             # <<<<<<<<<<<<<<
  *     distance_matrix = np.zeros((len(data1), len(data2)), dtype=np.float64)
  *     cdef:
  */
-  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_data1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetItemInt(__pyx_v_data1, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 0); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_4 = NULL;
@@ -7568,14 +7656,14 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     }
   }
   if (!__pyx_t_4) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -7584,50 +7672,50 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
       PyObject *__pyx_temp[2] = {__pyx_t_4, __pyx_t_6};
-      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else
     #endif
     {
-      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
       __Pyx_GIVEREF(__pyx_t_6);
       PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
       __pyx_t_6 = 0;
-      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 395, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_7, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 397, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     }
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->infer_shape(__pyx_v_metric->feature, __pyx_t_3, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 395, __pyx_L1_error)
+  __pyx_t_5 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->infer_shape(__pyx_v_metric->feature, __pyx_t_3, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 397, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_v_shape = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":396
+  /* "dipy/segment/metricspeed.pyx":398
  * 
  *     shape = metric.feature.infer_shape(data1[0].astype(np.float32))
  *     distance_matrix = np.zeros((len(data1), len(data2)), dtype=np.float64)             # <<<<<<<<<<<<<<
  *     cdef:
  *         Data2D features1 = np.empty(shape, np.float32)
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_zeros); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_8 = PyObject_Length(__pyx_v_data1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 396, __pyx_L1_error)
-  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_v_data1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_5 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_8 = PyObject_Length(__pyx_v_data2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 396, __pyx_L1_error)
-  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_v_data2); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5);
@@ -7635,21 +7723,21 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_7);
   __pyx_t_5 = 0;
   __pyx_t_7 = 0;
-  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_6);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_6);
   __pyx_t_6 = 0;
-  __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 396, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 396, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_7, __pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7657,21 +7745,21 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   __pyx_v_distance_matrix = __pyx_t_4;
   __pyx_t_4 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":398
+  /* "dipy/segment/metricspeed.pyx":400
  *     distance_matrix = np.zeros((len(data1), len(data2)), dtype=np.float64)
  *     cdef:
  *         Data2D features1 = np.empty(shape, np.float32)             # <<<<<<<<<<<<<<
  *         Data2D features2 = np.empty(shape, np.float32)
  * 
  */
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_empty); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 398, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
@@ -7689,7 +7777,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_7)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_shape, __pyx_t_3};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7698,14 +7786,14 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_7)) {
     PyObject *__pyx_temp[3] = {__pyx_t_6, __pyx_v_shape, __pyx_t_3};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_7, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_5 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     if (__pyx_t_6) {
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_6); __pyx_t_6 = NULL;
@@ -7716,33 +7804,33 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_9, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 398, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 400, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   }
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_t_4);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 398, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 400, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_features1 = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":399
+  /* "dipy/segment/metricspeed.pyx":401
  *     cdef:
  *         Data2D features1 = np.empty(shape, np.float32)
  *         Data2D features2 = np.empty(shape, np.float32)             # <<<<<<<<<<<<<<
  * 
  *     for i in range(len(data1)):
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_empty); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 399, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __pyx_t_7 = NULL;
@@ -7760,7 +7848,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_shape, __pyx_t_3};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -7769,14 +7857,14 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_v_shape, __pyx_t_3};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_9, 2+__pyx_t_9); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 401, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_7) {
       __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -7787,59 +7875,59 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_9, __pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 399, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 401, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_t_4);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 399, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 401, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_v_features2 = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":401
+  /* "dipy/segment/metricspeed.pyx":403
  *         Data2D features2 = np.empty(shape, np.float32)
  * 
  *     for i in range(len(data1)):             # <<<<<<<<<<<<<<
  *         datum1 = data1[i] if data1[i].flags.writeable and data1[i].dtype is np.float32 else data1[i].astype(np.float32)
  *         metric.feature.c_extract(datum1, features1)
  */
-  __pyx_t_8 = PyObject_Length(__pyx_v_data1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 401, __pyx_L1_error)
+  __pyx_t_8 = PyObject_Length(__pyx_v_data1); if (unlikely(__pyx_t_8 == -1)) __PYX_ERR(0, 403, __pyx_L1_error)
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "dipy/segment/metricspeed.pyx":402
+    /* "dipy/segment/metricspeed.pyx":404
  * 
  *     for i in range(len(data1)):
  *         datum1 = data1[i] if data1[i].flags.writeable and data1[i].dtype is np.float32 else data1[i].astype(np.float32)             # <<<<<<<<<<<<<<
  *         metric.feature.c_extract(datum1, features1)
  *         for j in range(len(data2)):
  */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_flags); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_flags); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_writeable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_writeable); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_1) {
     } else {
       __pyx_t_2 = __pyx_t_1;
       goto __pyx_L6_bool_binop_done;
     }
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_dtype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_dtype); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_1 = (__pyx_t_6 == __pyx_t_3);
@@ -7849,19 +7937,19 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     __pyx_t_2 = __pyx_t_11;
     __pyx_L6_bool_binop_done:;
     if (__pyx_t_2) {
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_4 = __pyx_t_3;
       __pyx_t_3 = 0;
     } else {
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_data1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 402, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_astype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 402, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 402, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 404, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
@@ -7875,14 +7963,14 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
         }
       }
       if (!__pyx_t_6) {
-        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else {
         #if CYTHON_FAST_PYCALL
         if (PyFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -7891,20 +7979,20 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
         #if CYTHON_FAST_PYCCALL
         if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
           PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_7};
-          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
           __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         } else
         #endif
         {
-          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 402, __pyx_L1_error)
+          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 404, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_6); __pyx_t_6 = NULL;
           __Pyx_GIVEREF(__pyx_t_7);
           PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_7);
           __pyx_t_7 = 0;
-          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 402, __pyx_L1_error)
+          __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 404, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_3);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
@@ -7916,7 +8004,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
     __Pyx_XDECREF_SET(__pyx_v_datum1, __pyx_t_4);
     __pyx_t_4 = 0;
 
-    /* "dipy/segment/metricspeed.pyx":403
+    /* "dipy/segment/metricspeed.pyx":405
  *     for i in range(len(data1)):
  *         datum1 = data1[i] if data1[i].flags.writeable and data1[i].dtype is np.float32 else data1[i].astype(np.float32)
  *         metric.feature.c_extract(datum1, features1)             # <<<<<<<<<<<<<<
@@ -7924,53 +8012,53 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
  *             datum2 = data2[j] if data2[j].flags.writeable and data2[j].dtype is np.float32 else data2[j].astype(np.float32)
  */
     __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum1);
-    if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 403, __pyx_L1_error)
-    ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 403, __pyx_L1_error)
+    if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 405, __pyx_L1_error)
+    ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 405, __pyx_L1_error)
     __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
     __pyx_t_10.memview = NULL;
     __pyx_t_10.data = NULL;
 
-    /* "dipy/segment/metricspeed.pyx":404
+    /* "dipy/segment/metricspeed.pyx":406
  *         datum1 = data1[i] if data1[i].flags.writeable and data1[i].dtype is np.float32 else data1[i].astype(np.float32)
  *         metric.feature.c_extract(datum1, features1)
  *         for j in range(len(data2)):             # <<<<<<<<<<<<<<
  *             datum2 = data2[j] if data2[j].flags.writeable and data2[j].dtype is np.float32 else data2[j].astype(np.float32)
  *             metric.feature.c_extract(datum2, features2)
  */
-    __pyx_t_13 = PyObject_Length(__pyx_v_data2); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 404, __pyx_L1_error)
+    __pyx_t_13 = PyObject_Length(__pyx_v_data2); if (unlikely(__pyx_t_13 == -1)) __PYX_ERR(0, 406, __pyx_L1_error)
     for (__pyx_t_14 = 0; __pyx_t_14 < __pyx_t_13; __pyx_t_14+=1) {
       __pyx_v_j = __pyx_t_14;
 
-      /* "dipy/segment/metricspeed.pyx":405
+      /* "dipy/segment/metricspeed.pyx":407
  *         metric.feature.c_extract(datum1, features1)
  *         for j in range(len(data2)):
  *             datum2 = data2[j] if data2[j].flags.writeable and data2[j].dtype is np.float32 else data2[j].astype(np.float32)             # <<<<<<<<<<<<<<
  *             metric.feature.c_extract(datum2, features2)
  *             distance_matrix[i, j] = metric.c_dist(features1, features2)
  */
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flags); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_flags); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_writeable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_writeable); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_11 < 0)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       if (__pyx_t_11) {
       } else {
         __pyx_t_2 = __pyx_t_11;
         goto __pyx_L10_bool_binop_done;
       }
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_dtype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_dtype); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_11 = (__pyx_t_5 == __pyx_t_12);
@@ -7980,19 +8068,19 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
       __pyx_t_2 = __pyx_t_1;
       __pyx_L10_bool_binop_done:;
       if (__pyx_t_2) {
-        __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+        __pyx_t_12 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_12);
         __pyx_t_4 = __pyx_t_12;
         __pyx_t_12 = 0;
       } else {
-        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_data2, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 0, 0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 407, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_astype); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 405, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_astype); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-        __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 405, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 407, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 405, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_float32); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 407, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __pyx_t_5 = NULL;
@@ -8006,14 +8094,14 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
           }
         }
         if (!__pyx_t_5) {
-          __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+          __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_7); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_GOTREF(__pyx_t_12);
         } else {
           #if CYTHON_FAST_PYCALL
           if (PyFunction_Check(__pyx_t_3)) {
             PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-            __pyx_t_12 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+            __pyx_t_12 = __Pyx_PyFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
             __Pyx_GOTREF(__pyx_t_12);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -8022,20 +8110,20 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
           #if CYTHON_FAST_PYCCALL
           if (__Pyx_PyFastCFunction_Check(__pyx_t_3)) {
             PyObject *__pyx_temp[2] = {__pyx_t_5, __pyx_t_7};
-            __pyx_t_12 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+            __pyx_t_12 = __Pyx_PyCFunction_FastCall(__pyx_t_3, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
             __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
             __Pyx_GOTREF(__pyx_t_12);
             __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           } else
           #endif
           {
-            __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 405, __pyx_L1_error)
+            __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 407, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_6);
             __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_5); __pyx_t_5 = NULL;
             __Pyx_GIVEREF(__pyx_t_7);
             PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_7);
             __pyx_t_7 = 0;
-            __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 405, __pyx_L1_error)
+            __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_6, NULL); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
             __Pyx_GOTREF(__pyx_t_12);
             __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           }
@@ -8047,7 +8135,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
       __Pyx_XDECREF_SET(__pyx_v_datum2, __pyx_t_4);
       __pyx_t_4 = 0;
 
-      /* "dipy/segment/metricspeed.pyx":406
+      /* "dipy/segment/metricspeed.pyx":408
  *         for j in range(len(data2)):
  *             datum2 = data2[j] if data2[j].flags.writeable and data2[j].dtype is np.float32 else data2[j].astype(np.float32)
  *             metric.feature.c_extract(datum2, features2)             # <<<<<<<<<<<<<<
@@ -8055,27 +8143,27 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
  * 
  */
       __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum2);
-      if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 406, __pyx_L1_error)
-      ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 406, __pyx_L1_error)
+      if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 408, __pyx_L1_error)
+      ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 408, __pyx_L1_error)
       __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
       __pyx_t_10.memview = NULL;
       __pyx_t_10.data = NULL;
 
-      /* "dipy/segment/metricspeed.pyx":407
+      /* "dipy/segment/metricspeed.pyx":409
  *             datum2 = data2[j] if data2[j].flags.writeable and data2[j].dtype is np.float32 else data2[j].astype(np.float32)
  *             metric.feature.c_extract(datum2, features2)
  *             distance_matrix[i, j] = metric.c_dist(features1, features2)             # <<<<<<<<<<<<<<
  * 
  *     return distance_matrix
  */
-      __pyx_t_15 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_metric->__pyx_vtab)->c_dist(__pyx_v_metric, __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_15 == -1.0)) __PYX_ERR(0, 407, __pyx_L1_error)
-      __pyx_t_4 = PyFloat_FromDouble(__pyx_t_15); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_15 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_metric->__pyx_vtab)->c_dist(__pyx_v_metric, __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_15 == -1.0)) __PYX_ERR(0, 409, __pyx_L1_error)
+      __pyx_t_4 = PyFloat_FromDouble(__pyx_t_15); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_12 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_12)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 407, __pyx_L1_error)
+      __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GIVEREF(__pyx_t_12);
       PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_12);
@@ -8083,13 +8171,13 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
       PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_3);
       __pyx_t_12 = 0;
       __pyx_t_3 = 0;
-      if (unlikely(PyObject_SetItem(__pyx_v_distance_matrix, __pyx_t_6, __pyx_t_4) < 0)) __PYX_ERR(0, 407, __pyx_L1_error)
+      if (unlikely(PyObject_SetItem(__pyx_v_distance_matrix, __pyx_t_6, __pyx_t_4) < 0)) __PYX_ERR(0, 409, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
   }
 
-  /* "dipy/segment/metricspeed.pyx":409
+  /* "dipy/segment/metricspeed.pyx":411
  *             distance_matrix[i, j] = metric.c_dist(features1, features2)
  * 
  *     return distance_matrix             # <<<<<<<<<<<<<<
@@ -8101,7 +8189,7 @@ static PyObject *__pyx_f_4dipy_7segment_11metricspeed_distance_matrix(struct __p
   __pyx_r = __pyx_v_distance_matrix;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":368
+  /* "dipy/segment/metricspeed.pyx":370
  * 
  * 
  * cpdef distance_matrix(Metric metric, data1, data2=None):             # <<<<<<<<<<<<<<
@@ -8169,7 +8257,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_1distance_matrix(PyObject
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_data1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("distance_matrix", 0, 2, 3, 1); __PYX_ERR(0, 368, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("distance_matrix", 0, 2, 3, 1); __PYX_ERR(0, 370, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -8179,7 +8267,7 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_1distance_matrix(PyObject
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "distance_matrix") < 0)) __PYX_ERR(0, 368, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "distance_matrix") < 0)) __PYX_ERR(0, 370, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -8197,13 +8285,13 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_1distance_matrix(PyObject
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("distance_matrix", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 368, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("distance_matrix", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 370, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.distance_matrix", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric), __pyx_ptype_4dipy_7segment_11metricspeed_Metric, 1, "metric", 0))) __PYX_ERR(0, 368, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric), __pyx_ptype_4dipy_7segment_11metricspeed_Metric, 1, "metric", 0))) __PYX_ERR(0, 370, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dipy_7segment_11metricspeed_distance_matrix(__pyx_self, __pyx_v_metric, __pyx_v_data1, __pyx_v_data2);
 
   /* function exit code */
@@ -8224,7 +8312,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_distance_matrix(CYTHON_UN
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.data2 = __pyx_v_data2;
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_distance_matrix(__pyx_v_metric, __pyx_v_data1, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 368, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_distance_matrix(__pyx_v_metric, __pyx_v_data1, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 370, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8241,7 +8329,7 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_distance_matrix(CYTHON_UN
   return __pyx_r;
 }
 
-/* "dipy/segment/metricspeed.pyx":412
+/* "dipy/segment/metricspeed.pyx":414
  * 
  * 
  * cpdef double dist(Metric metric, datum1, datum2) except -1:             # <<<<<<<<<<<<<<
@@ -8274,30 +8362,30 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   __Pyx_INCREF(__pyx_v_datum1);
   __Pyx_INCREF(__pyx_v_datum2);
 
-  /* "dipy/segment/metricspeed.pyx":432
+  /* "dipy/segment/metricspeed.pyx":434
  *         Distance between two data points.
  *     """
  *     datum1 = datum1 if datum1.flags.writeable and datum1.dtype is np.float32 else datum1.astype(np.float32)             # <<<<<<<<<<<<<<
  *     datum2 = datum2 if datum2.flags.writeable and datum2.dtype is np.float32 else datum2.astype(np.float32)
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_flags); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_flags); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_writeable); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_writeable); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_5) {
   } else {
     __pyx_t_2 = __pyx_t_5;
     goto __pyx_L3_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_dtype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_dtype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 432, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_5 = (__pyx_t_4 == __pyx_t_6);
@@ -8310,11 +8398,11 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
     __Pyx_INCREF(__pyx_v_datum1);
     __pyx_t_1 = __pyx_v_datum1;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_astype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum1, __pyx_n_s_astype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 434, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 434, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 432, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 434, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_3 = NULL;
@@ -8328,14 +8416,14 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
       }
     }
     if (!__pyx_t_3) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 432, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_8};
-        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 432, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -8344,20 +8432,20 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_3, __pyx_t_8};
-        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 432, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       } else
       #endif
       {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 432, __pyx_L1_error)
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 434, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_3); __pyx_t_3 = NULL;
         __Pyx_GIVEREF(__pyx_t_8);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_8);
         __pyx_t_8 = 0;
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 432, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 434, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
@@ -8369,30 +8457,30 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   __Pyx_DECREF_SET(__pyx_v_datum1, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":433
+  /* "dipy/segment/metricspeed.pyx":435
  *     """
  *     datum1 = datum1 if datum1.flags.writeable and datum1.dtype is np.float32 else datum1.astype(np.float32)
  *     datum2 = datum2 if datum2.flags.writeable and datum2.dtype is np.float32 else datum2.astype(np.float32)             # <<<<<<<<<<<<<<
  * 
  *     cdef:
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_flags); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_flags); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_writeable); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_writeable); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (__pyx_t_7) {
   } else {
     __pyx_t_2 = __pyx_t_7;
     goto __pyx_L5_bool_binop_done;
   }
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_dtype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_dtype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_7 = (__pyx_t_4 == __pyx_t_9);
@@ -8405,11 +8493,11 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
     __Pyx_INCREF(__pyx_v_datum2);
     __pyx_t_1 = __pyx_v_datum2;
   } else {
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_astype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_datum2, __pyx_n_s_astype); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 435, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 435, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 433, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 435, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
@@ -8423,14 +8511,14 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+      __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_GOTREF(__pyx_t_9);
     } else {
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-        __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -8439,20 +8527,20 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
         PyObject *__pyx_temp[2] = {__pyx_t_6, __pyx_t_8};
-        __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-1, 1+1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       } else
       #endif
       {
-        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_GIVEREF(__pyx_t_8);
         PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_8);
         __pyx_t_8 = 0;
-        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 433, __pyx_L1_error)
+        __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 435, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       }
@@ -8464,7 +8552,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   __Pyx_DECREF_SET(__pyx_v_datum2, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "dipy/segment/metricspeed.pyx":436
+  /* "dipy/segment/metricspeed.pyx":438
  * 
  *     cdef:
  *         Shape shape1 = metric.feature.c_infer_shape(datum1)             # <<<<<<<<<<<<<<
@@ -8472,14 +8560,14 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
  *         Data2D features1 = np.empty(shape2tuple(shape1), np.float32)
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum1);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 436, __pyx_L1_error)
-  __pyx_t_11 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_infer_shape(__pyx_v_metric->feature, __pyx_t_10); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 436, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_11 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_infer_shape(__pyx_v_metric->feature, __pyx_t_10); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 438, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
   __pyx_v_shape1 = __pyx_t_11;
 
-  /* "dipy/segment/metricspeed.pyx":437
+  /* "dipy/segment/metricspeed.pyx":439
  *     cdef:
  *         Shape shape1 = metric.feature.c_infer_shape(datum1)
  *         Shape shape2 = metric.feature.c_infer_shape(datum2)             # <<<<<<<<<<<<<<
@@ -8487,30 +8575,30 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
  *         Data2D features2 = np.empty(shape2tuple(shape2), np.float32)
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum2);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 437, __pyx_L1_error)
-  __pyx_t_11 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_infer_shape(__pyx_v_metric->feature, __pyx_t_10); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 437, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_11 = ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_infer_shape(__pyx_v_metric->feature, __pyx_t_10); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 439, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
   __pyx_v_shape2 = __pyx_t_11;
 
-  /* "dipy/segment/metricspeed.pyx":438
+  /* "dipy/segment/metricspeed.pyx":440
  *         Shape shape1 = metric.feature.c_infer_shape(datum1)
  *         Shape shape2 = metric.feature.c_infer_shape(datum2)
  *         Data2D features1 = np.empty(shape2tuple(shape1), np.float32)             # <<<<<<<<<<<<<<
  *         Data2D features2 = np.empty(shape2tuple(shape2), np.float32)
  * 
  */
-  __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_empty); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __pyx_f_4dipy_7segment_11cythonutils_shape2tuple(__pyx_v_shape1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_9 = __pyx_f_4dipy_7segment_11cythonutils_shape2tuple(__pyx_v_shape1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 438, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_float32); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_3 = NULL;
@@ -8528,7 +8616,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_9, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 438, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -8538,7 +8626,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_4)) {
     PyObject *__pyx_temp[3] = {__pyx_t_3, __pyx_t_9, __pyx_t_8};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 438, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_4, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
@@ -8546,7 +8634,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   } else
   #endif
   {
-    __pyx_t_6 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 438, __pyx_L1_error)
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 440, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -8557,35 +8645,35 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
     PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_12, __pyx_t_8);
     __pyx_t_9 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 438, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 440, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_t_1);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 438, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 440, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_features1 = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":439
+  /* "dipy/segment/metricspeed.pyx":441
  *         Shape shape2 = metric.feature.c_infer_shape(datum2)
  *         Data2D features1 = np.empty(shape2tuple(shape1), np.float32)
  *         Data2D features2 = np.empty(shape2tuple(shape2), np.float32)             # <<<<<<<<<<<<<<
  * 
  *     metric.feature.c_extract(datum1, features1)
  */
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_empty); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __pyx_f_4dipy_7segment_11cythonutils_shape2tuple(__pyx_v_shape2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_4 = __pyx_f_4dipy_7segment_11cythonutils_shape2tuple(__pyx_v_shape2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_float32); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 439, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_float32); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __pyx_t_8 = NULL;
@@ -8603,7 +8691,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8613,7 +8701,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
     PyObject *__pyx_temp[3] = {__pyx_t_8, __pyx_t_4, __pyx_t_9};
-    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -8621,7 +8709,7 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
   } else
   #endif
   {
-    __pyx_t_3 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 439, __pyx_L1_error)
+    __pyx_t_3 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 441, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     if (__pyx_t_8) {
       __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_8); __pyx_t_8 = NULL;
@@ -8632,19 +8720,19 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
     PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_12, __pyx_t_9);
     __pyx_t_4 = 0;
     __pyx_t_9 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 439, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 441, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_t_1);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 439, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 441, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_features2 = __pyx_t_10;
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":441
+  /* "dipy/segment/metricspeed.pyx":443
  *         Data2D features2 = np.empty(shape2tuple(shape2), np.float32)
  * 
  *     metric.feature.c_extract(datum1, features1)             # <<<<<<<<<<<<<<
@@ -8652,35 +8740,35 @@ static double __pyx_f_4dipy_7segment_11metricspeed_dist(struct __pyx_obj_4dipy_7
  *     return metric.c_dist(features1, features2)
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum1);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 441, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 441, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 443, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features1); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 443, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":442
+  /* "dipy/segment/metricspeed.pyx":444
  * 
  *     metric.feature.c_extract(datum1, features1)
  *     metric.feature.c_extract(datum2, features2)             # <<<<<<<<<<<<<<
  *     return metric.c_dist(features1, features2)
  */
   __pyx_t_10 = __Pyx_PyObject_to_MemoryviewSlice_dsds_float(__pyx_v_datum2);
-  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 442, __pyx_L1_error)
-  ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 442, __pyx_L1_error)
+  if (unlikely(!__pyx_t_10.memview)) __PYX_ERR(0, 444, __pyx_L1_error)
+  ((struct __pyx_vtabstruct_4dipy_7segment_12featurespeed_Feature *)__pyx_v_metric->feature->__pyx_vtab)->c_extract(__pyx_v_metric->feature, __pyx_t_10, __pyx_v_features2); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 444, __pyx_L1_error)
   __PYX_XDEC_MEMVIEW(&__pyx_t_10, 1);
   __pyx_t_10.memview = NULL;
   __pyx_t_10.data = NULL;
 
-  /* "dipy/segment/metricspeed.pyx":443
+  /* "dipy/segment/metricspeed.pyx":445
  *     metric.feature.c_extract(datum1, features1)
  *     metric.feature.c_extract(datum2, features2)
  *     return metric.c_dist(features1, features2)             # <<<<<<<<<<<<<<
  */
-  __pyx_t_13 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_metric->__pyx_vtab)->c_dist(__pyx_v_metric, __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_13 == -1.0)) __PYX_ERR(0, 443, __pyx_L1_error)
+  __pyx_t_13 = ((struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric *)__pyx_v_metric->__pyx_vtab)->c_dist(__pyx_v_metric, __pyx_v_features1, __pyx_v_features2); if (unlikely(__pyx_t_13 == -1.0)) __PYX_ERR(0, 445, __pyx_L1_error)
   __pyx_r = __pyx_t_13;
   goto __pyx_L0;
 
-  /* "dipy/segment/metricspeed.pyx":412
+  /* "dipy/segment/metricspeed.pyx":414
  * 
  * 
  * cpdef double dist(Metric metric, datum1, datum2) except -1:             # <<<<<<<<<<<<<<
@@ -8743,17 +8831,17 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_3dist(PyObject *__pyx_sel
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_datum1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, 1); __PYX_ERR(0, 412, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, 1); __PYX_ERR(0, 414, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_datum2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, 2); __PYX_ERR(0, 412, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, 2); __PYX_ERR(0, 414, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 412, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "dist") < 0)) __PYX_ERR(0, 414, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8768,13 +8856,13 @@ static PyObject *__pyx_pw_4dipy_7segment_11metricspeed_3dist(PyObject *__pyx_sel
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 412, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("dist", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 414, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("dipy.segment.metricspeed.dist", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric), __pyx_ptype_4dipy_7segment_11metricspeed_Metric, 1, "metric", 0))) __PYX_ERR(0, 412, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_metric), __pyx_ptype_4dipy_7segment_11metricspeed_Metric, 1, "metric", 0))) __PYX_ERR(0, 414, __pyx_L1_error)
   __pyx_r = __pyx_pf_4dipy_7segment_11metricspeed_2dist(__pyx_self, __pyx_v_metric, __pyx_v_datum1, __pyx_v_datum2);
 
   /* function exit code */
@@ -8793,8 +8881,8 @@ static PyObject *__pyx_pf_4dipy_7segment_11metricspeed_2dist(CYTHON_UNUSED PyObj
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("dist", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_dist(__pyx_v_metric, __pyx_v_datum1, __pyx_v_datum2, 0); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 412, __pyx_L1_error)
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 412, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_4dipy_7segment_11metricspeed_dist(__pyx_v_metric, __pyx_v_datum1, __pyx_v_datum2, 0); if (unlikely(__pyx_t_1 == -1.0)) __PYX_ERR(0, 414, __pyx_L1_error)
+  __pyx_t_2 = PyFloat_FromDouble(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 414, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -27008,6 +27096,355 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
+
+/* "BufferFormatFromTypeInfo":1449
+ * 
+ * @cname('__pyx_format_from_typeinfo')
+ * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
+ *     cdef __Pyx_StructField *field
+ *     cdef __pyx_typeinfo_string fmt
+ */
+
+static PyObject *__pyx_format_from_typeinfo(__Pyx_TypeInfo *__pyx_v_type) {
+  __Pyx_StructField *__pyx_v_field;
+  struct __pyx_typeinfo_string __pyx_v_fmt;
+  PyObject *__pyx_v_part = 0;
+  PyObject *__pyx_v_result = 0;
+  PyObject *__pyx_v_alignment = NULL;
+  PyObject *__pyx_v_parts = NULL;
+  PyObject *__pyx_v_extents = NULL;
+  int __pyx_v_i;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_t_1;
+  int __pyx_t_2;
+  PyObject *__pyx_t_3 = NULL;
+  __Pyx_StructField *__pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  int __pyx_t_8;
+  int __pyx_t_9;
+  __Pyx_RefNannySetupContext("format_from_typeinfo", 0);
+
+  /* "BufferFormatFromTypeInfo":1454
+ *     cdef bytes part, result
+ * 
+ *     if type.typegroup == 'S':             # <<<<<<<<<<<<<<
+ *         assert type.fields != NULL and type.fields.type != NULL
+ * 
+ */
+  __pyx_t_1 = ((__pyx_v_type->typegroup == 'S') != 0);
+  if (__pyx_t_1) {
+
+    /* "BufferFormatFromTypeInfo":1455
+ * 
+ *     if type.typegroup == 'S':
+ *         assert type.fields != NULL and type.fields.type != NULL             # <<<<<<<<<<<<<<
+ * 
+ *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:
+ */
+    #ifndef CYTHON_WITHOUT_ASSERTIONS
+    if (unlikely(!Py_OptimizeFlag)) {
+      __pyx_t_2 = ((__pyx_v_type->fields != NULL) != 0);
+      if (__pyx_t_2) {
+      } else {
+        __pyx_t_1 = __pyx_t_2;
+        goto __pyx_L4_bool_binop_done;
+      }
+      __pyx_t_2 = ((__pyx_v_type->fields->type != NULL) != 0);
+      __pyx_t_1 = __pyx_t_2;
+      __pyx_L4_bool_binop_done:;
+      if (unlikely(!__pyx_t_1)) {
+        PyErr_SetNone(PyExc_AssertionError);
+        __PYX_ERR(1, 1455, __pyx_L1_error)
+      }
+    }
+    #endif
+
+    /* "BufferFormatFromTypeInfo":1457
+ *         assert type.fields != NULL and type.fields.type != NULL
+ * 
+ *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:             # <<<<<<<<<<<<<<
+ *             alignment = b'^'
+ *         else:
+ */
+    __pyx_t_1 = ((__pyx_v_type->flags & __PYX_BUF_FLAGS_PACKED_STRUCT) != 0);
+    if (__pyx_t_1) {
+
+      /* "BufferFormatFromTypeInfo":1458
+ * 
+ *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:
+ *             alignment = b'^'             # <<<<<<<<<<<<<<
+ *         else:
+ *             alignment = b''
+ */
+      __Pyx_INCREF(__pyx_kp_b__37);
+      __pyx_v_alignment = __pyx_kp_b__37;
+
+      /* "BufferFormatFromTypeInfo":1457
+ *         assert type.fields != NULL and type.fields.type != NULL
+ * 
+ *         if type.flags & __PYX_BUF_FLAGS_PACKED_STRUCT:             # <<<<<<<<<<<<<<
+ *             alignment = b'^'
+ *         else:
+ */
+      goto __pyx_L6;
+    }
+
+    /* "BufferFormatFromTypeInfo":1460
+ *             alignment = b'^'
+ *         else:
+ *             alignment = b''             # <<<<<<<<<<<<<<
+ * 
+ *         parts = [b"T{"]
+ */
+    /*else*/ {
+      __Pyx_INCREF(__pyx_kp_b__38);
+      __pyx_v_alignment = __pyx_kp_b__38;
+    }
+    __pyx_L6:;
+
+    /* "BufferFormatFromTypeInfo":1462
+ *             alignment = b''
+ * 
+ *         parts = [b"T{"]             # <<<<<<<<<<<<<<
+ *         field = type.fields
+ * 
+ */
+    __pyx_t_3 = PyList_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1462, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_kp_b_T);
+    __Pyx_GIVEREF(__pyx_kp_b_T);
+    PyList_SET_ITEM(__pyx_t_3, 0, __pyx_kp_b_T);
+    __pyx_v_parts = ((PyObject*)__pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "BufferFormatFromTypeInfo":1463
+ * 
+ *         parts = [b"T{"]
+ *         field = type.fields             # <<<<<<<<<<<<<<
+ * 
+ *         while field.type:
+ */
+    __pyx_t_4 = __pyx_v_type->fields;
+    __pyx_v_field = __pyx_t_4;
+
+    /* "BufferFormatFromTypeInfo":1465
+ *         field = type.fields
+ * 
+ *         while field.type:             # <<<<<<<<<<<<<<
+ *             part = format_from_typeinfo(field.type)
+ *             parts.append(part + b':' + field.name + b':')
+ */
+    while (1) {
+      __pyx_t_1 = (__pyx_v_field->type != 0);
+      if (!__pyx_t_1) break;
+
+      /* "BufferFormatFromTypeInfo":1466
+ * 
+ *         while field.type:
+ *             part = format_from_typeinfo(field.type)             # <<<<<<<<<<<<<<
+ *             parts.append(part + b':' + field.name + b':')
+ *             field += 1
+ */
+      __pyx_t_3 = __pyx_format_from_typeinfo(__pyx_v_field->type); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1466, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_XDECREF_SET(__pyx_v_part, ((PyObject*)__pyx_t_3));
+      __pyx_t_3 = 0;
+
+      /* "BufferFormatFromTypeInfo":1467
+ *         while field.type:
+ *             part = format_from_typeinfo(field.type)
+ *             parts.append(part + b':' + field.name + b':')             # <<<<<<<<<<<<<<
+ *             field += 1
+ * 
+ */
+      __pyx_t_3 = PyNumber_Add(__pyx_v_part, __pyx_kp_b__39); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1467, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_t_5 = __Pyx_PyBytes_FromString(__pyx_v_field->name); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1467, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_6 = PyNumber_Add(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1467, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_kp_b__39); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1467, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_7 = __Pyx_PyList_Append(__pyx_v_parts, __pyx_t_5); if (unlikely(__pyx_t_7 == -1)) __PYX_ERR(1, 1467, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+      /* "BufferFormatFromTypeInfo":1468
+ *             part = format_from_typeinfo(field.type)
+ *             parts.append(part + b':' + field.name + b':')
+ *             field += 1             # <<<<<<<<<<<<<<
+ * 
+ *         result = alignment.join(parts) + b'}'
+ */
+      __pyx_v_field = (__pyx_v_field + 1);
+    }
+
+    /* "BufferFormatFromTypeInfo":1470
+ *             field += 1
+ * 
+ *         result = alignment.join(parts) + b'}'             # <<<<<<<<<<<<<<
+ *     else:
+ *         fmt = __Pyx_TypeInfoToFormat(type)
+ */
+    __pyx_t_5 = __Pyx_PyBytes_Join(__pyx_v_alignment, __pyx_v_parts); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1470, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = PyNumber_Add(__pyx_t_5, __pyx_kp_b__40); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1470, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (!(likely(PyBytes_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(1, 1470, __pyx_L1_error)
+    __pyx_v_result = ((PyObject*)__pyx_t_6);
+    __pyx_t_6 = 0;
+
+    /* "BufferFormatFromTypeInfo":1454
+ *     cdef bytes part, result
+ * 
+ *     if type.typegroup == 'S':             # <<<<<<<<<<<<<<
+ *         assert type.fields != NULL and type.fields.type != NULL
+ * 
+ */
+    goto __pyx_L3;
+  }
+
+  /* "BufferFormatFromTypeInfo":1472
+ *         result = alignment.join(parts) + b'}'
+ *     else:
+ *         fmt = __Pyx_TypeInfoToFormat(type)             # <<<<<<<<<<<<<<
+ *         if type.arraysize[0]:
+ *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
+ */
+  /*else*/ {
+    __pyx_v_fmt = __Pyx_TypeInfoToFormat(__pyx_v_type);
+
+    /* "BufferFormatFromTypeInfo":1473
+ *     else:
+ *         fmt = __Pyx_TypeInfoToFormat(type)
+ *         if type.arraysize[0]:             # <<<<<<<<<<<<<<
+ *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
+ *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
+ */
+    __pyx_t_1 = ((__pyx_v_type->arraysize[0]) != 0);
+    if (__pyx_t_1) {
+
+      /* "BufferFormatFromTypeInfo":1474
+ *         fmt = __Pyx_TypeInfoToFormat(type)
+ *         if type.arraysize[0]:
+ *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]             # <<<<<<<<<<<<<<
+ *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
+ *         else:
+ */
+      __pyx_t_6 = PyList_New(0); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1474, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_8 = __pyx_v_type->ndim;
+      for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
+        __pyx_v_i = __pyx_t_9;
+        __pyx_t_5 = __Pyx_PyInt_FromSize_t((__pyx_v_type->arraysize[__pyx_v_i])); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1474, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1474, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_GIVEREF(__pyx_t_5);
+        PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_5);
+        __pyx_t_5 = 0;
+        __pyx_t_5 = __Pyx_PyObject_Call(((PyObject *)(&PyUnicode_Type)), __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1474, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_6, (PyObject*)__pyx_t_5))) __PYX_ERR(1, 1474, __pyx_L1_error)
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      }
+      __pyx_v_extents = ((PyObject*)__pyx_t_6);
+      __pyx_t_6 = 0;
+
+      /* "BufferFormatFromTypeInfo":1475
+ *         if type.arraysize[0]:
+ *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
+ *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string             # <<<<<<<<<<<<<<
+ *         else:
+ *             result = fmt.string
+ */
+      __pyx_t_6 = PyUnicode_Join(__pyx_kp_u__41, __pyx_v_extents); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_5 = PyUnicode_Format(__pyx_kp_u_s, __pyx_t_6); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyUnicode_AsASCIIString(((PyObject*)__pyx_t_5)); if (unlikely(!__pyx_t_6)) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_PyObject_FromString(__pyx_v_fmt.string); if (unlikely(!__pyx_t_5)) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      if (!(likely(PyBytes_CheckExact(__pyx_t_3))||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "bytes", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(1, 1475, __pyx_L1_error)
+      __pyx_v_result = ((PyObject*)__pyx_t_3);
+      __pyx_t_3 = 0;
+
+      /* "BufferFormatFromTypeInfo":1473
+ *     else:
+ *         fmt = __Pyx_TypeInfoToFormat(type)
+ *         if type.arraysize[0]:             # <<<<<<<<<<<<<<
+ *             extents = [unicode(type.arraysize[i]) for i in range(type.ndim)]
+ *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
+ */
+      goto __pyx_L9;
+    }
+
+    /* "BufferFormatFromTypeInfo":1477
+ *             result = (u"(%s)" % u','.join(extents)).encode('ascii') + fmt.string
+ *         else:
+ *             result = fmt.string             # <<<<<<<<<<<<<<
+ * 
+ *     return result
+ */
+    /*else*/ {
+      __pyx_t_3 = __Pyx_PyObject_FromString(__pyx_v_fmt.string); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 1477, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __pyx_v_result = ((PyObject*)__pyx_t_3);
+      __pyx_t_3 = 0;
+    }
+    __pyx_L9:;
+  }
+  __pyx_L3:;
+
+  /* "BufferFormatFromTypeInfo":1479
+ *             result = fmt.string
+ * 
+ *     return result             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_result);
+  __pyx_r = __pyx_v_result;
+  goto __pyx_L0;
+
+  /* "BufferFormatFromTypeInfo":1449
+ * 
+ * @cname('__pyx_format_from_typeinfo')
+ * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
+ *     cdef __Pyx_StructField *field
+ *     cdef __pyx_typeinfo_string fmt
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("BufferFormatFromTypeInfo.format_from_typeinfo", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_part);
+  __Pyx_XDECREF(__pyx_v_result);
+  __Pyx_XDECREF(__pyx_v_alignment);
+  __Pyx_XDECREF(__pyx_v_parts);
+  __Pyx_XDECREF(__pyx_v_extents);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
 static struct __pyx_vtabstruct_4dipy_7segment_11metricspeed_Metric __pyx_vtable_4dipy_7segment_11metricspeed_Metric;
 
 static PyObject *__pyx_tp_new_4dipy_7segment_11metricspeed_Metric(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
@@ -28257,10 +28694,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Out_of_bounds_on_buffer_access_a, __pyx_k_Out_of_bounds_on_buffer_access_a, sizeof(__pyx_k_Out_of_bounds_on_buffer_access_a), 0, 0, 1, 0},
   {&__pyx_n_s_PickleError, __pyx_k_PickleError, sizeof(__pyx_k_PickleError), 0, 0, 1, 1},
   {&__pyx_n_s_RuntimeError, __pyx_k_RuntimeError, sizeof(__pyx_k_RuntimeError), 0, 0, 1, 1},
+  {&__pyx_kp_b_T, __pyx_k_T, sizeof(__pyx_k_T), 0, 0, 0, 0},
   {&__pyx_n_s_TypeError, __pyx_k_TypeError, sizeof(__pyx_k_TypeError), 0, 0, 1, 1},
   {&__pyx_kp_s_Unable_to_convert_item_to_object, __pyx_k_Unable_to_convert_item_to_object, sizeof(__pyx_k_Unable_to_convert_item_to_object), 0, 0, 1, 0},
   {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_n_s_View_MemoryView, __pyx_k_View_MemoryView, sizeof(__pyx_k_View_MemoryView), 0, 0, 1, 1},
+  {&__pyx_kp_b__37, __pyx_k__37, sizeof(__pyx_k__37), 0, 0, 0, 0},
+  {&__pyx_kp_b__38, __pyx_k__38, sizeof(__pyx_k__38), 0, 0, 0, 0},
+  {&__pyx_kp_b__39, __pyx_k__39, sizeof(__pyx_k__39), 0, 0, 0, 0},
+  {&__pyx_kp_b__40, __pyx_k__40, sizeof(__pyx_k__40), 0, 0, 0, 0},
+  {&__pyx_kp_u__41, __pyx_k__41, sizeof(__pyx_k__41), 0, 1, 0, 0},
   {&__pyx_n_s_allocate_buffer, __pyx_k_allocate_buffer, sizeof(__pyx_k_allocate_buffer), 0, 0, 1, 1},
   {&__pyx_n_s_are_compatible, __pyx_k_are_compatible, sizeof(__pyx_k_are_compatible), 0, 0, 1, 1},
   {&__pyx_n_s_asarray, __pyx_k_asarray, sizeof(__pyx_k_asarray), 0, 0, 1, 1},
@@ -28301,6 +28744,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_itemsize, __pyx_k_itemsize, sizeof(__pyx_k_itemsize), 0, 0, 1, 1},
   {&__pyx_kp_s_itemsize_0_for_cython_array, __pyx_k_itemsize_0_for_cython_array, sizeof(__pyx_k_itemsize_0_for_cython_array), 0, 0, 1, 0},
+  {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
   {&__pyx_n_s_memview, __pyx_k_memview, sizeof(__pyx_k_memview), 0, 0, 1, 1},
@@ -28340,6 +28784,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_reduce, __pyx_k_reduce, sizeof(__pyx_k_reduce), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_cython, __pyx_k_reduce_cython, sizeof(__pyx_k_reduce_cython), 0, 0, 1, 1},
   {&__pyx_n_s_reduce_ex, __pyx_k_reduce_ex, sizeof(__pyx_k_reduce_ex), 0, 0, 1, 1},
+  {&__pyx_kp_u_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 1, 0, 0},
   {&__pyx_n_s_setstate, __pyx_k_setstate, sizeof(__pyx_k_setstate), 0, 0, 1, 1},
   {&__pyx_n_s_setstate_cython, __pyx_k_setstate_cython, sizeof(__pyx_k_setstate_cython), 0, 0, 1, 1},
   {&__pyx_n_s_shape, __pyx_k_shape, sizeof(__pyx_k_shape), 0, 0, 1, 1},
@@ -28366,11 +28811,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(0, 77, __pyx_L1_error)
-  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 177, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 192, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 235, __pyx_L1_error)
-  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(0, 79, __pyx_L1_error)
+  __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 179, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 194, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 237, __pyx_L1_error)
+  __pyx_builtin_super = __Pyx_GetBuiltinName(__pyx_n_s_super); if (!__pyx_builtin_super) __PYX_ERR(0, 340, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(2, 799, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(2, 989, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 146, __pyx_L1_error)
@@ -28387,80 +28832,80 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "dipy/segment/metricspeed.pyx":77
+  /* "dipy/segment/metricspeed.pyx":79
  *             whether or not shapes are compatible
  *         """
  *         raise NotImplementedError("Metric's subclasses must implement method `are_compatible(self, shape1, shape2)`!")             # <<<<<<<<<<<<<<
  * 
  *     cpdef double dist(Metric self, features1, features2) except -1:
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Metric_s_subclasses_must_impleme); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 77, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_Metric_s_subclasses_must_impleme); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 79, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
-  /* "dipy/segment/metricspeed.pyx":94
+  /* "dipy/segment/metricspeed.pyx":96
  *             Distance between two data points.
  *         """
  *         raise NotImplementedError("Metric's subclasses must implement method `dist(self, features1, features2)`!")             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_Metric_s_subclasses_must_impleme_2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 94, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_Metric_s_subclasses_must_impleme_2); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 96, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "dipy/segment/metricspeed.pyx":140
+  /* "dipy/segment/metricspeed.pyx":142
  *             shape1 = (1, shape1)
  *         elif len(shape1) == 1:
  *             shape1 = (1,) + shape1             # <<<<<<<<<<<<<<
  * 
  *         if np.asarray(shape2).ndim == 0:
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 140, __pyx_L1_error)
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__4)) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
 
-  /* "dipy/segment/metricspeed.pyx":145
+  /* "dipy/segment/metricspeed.pyx":147
  *             shape2 = (1, shape2)
  *         elif len(shape2) == 1:
  *             shape2 = (1,) + shape2             # <<<<<<<<<<<<<<
  * 
  *         return self.c_are_compatible(tuple2shape(shape1), tuple2shape(shape2)) == 1
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 145, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 147, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
-  /* "dipy/segment/metricspeed.pyx":177
+  /* "dipy/segment/metricspeed.pyx":179
  *             pass
  *         else:
  *             raise TypeError("Only scalar, 1D or 2D array features are"             # <<<<<<<<<<<<<<
  *                             " supported for parameter 'features1'!")
  * 
  */
-  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Only_scalar_1D_or_2D_array_featu); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 177, __pyx_L1_error)
+  __pyx_tuple__6 = PyTuple_Pack(1, __pyx_kp_s_Only_scalar_1D_or_2D_array_featu); if (unlikely(!__pyx_tuple__6)) __PYX_ERR(0, 179, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__6);
   __Pyx_GIVEREF(__pyx_tuple__6);
 
-  /* "dipy/segment/metricspeed.pyx":188
+  /* "dipy/segment/metricspeed.pyx":190
  *             pass
  *         else:
  *             raise TypeError("Only scalar, 1D or 2D array features are"             # <<<<<<<<<<<<<<
  *                             " supported for parameter 'features2'!")
  * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Only_scalar_1D_or_2D_array_featu_2); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_kp_s_Only_scalar_1D_or_2D_array_featu_2); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "dipy/segment/metricspeed.pyx":192
+  /* "dipy/segment/metricspeed.pyx":194
  * 
  *         if not self.are_compatible(features1.shape, features2.shape):
  *             raise ValueError("Features are not compatible according to this metric!")             # <<<<<<<<<<<<<<
  * 
  *         return self.c_dist(features1, features2)
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Features_are_not_compatible_acco); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 192, __pyx_L1_error)
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_kp_s_Features_are_not_compatible_acco); if (unlikely(!__pyx_tuple__8)) __PYX_ERR(0, 194, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
@@ -28769,30 +29214,30 @@ static int __Pyx_InitCachedConstants(void) {
  *     if __pyx_checksum != 0xba35d12:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_tuple__37 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__37)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__37);
-  __Pyx_GIVEREF(__pyx_tuple__37);
-  __pyx_codeobj__38 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__37, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Metric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__38)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__39 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__39)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__39);
-  __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CythonMetric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__41 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__41)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__41);
-  __Pyx_GIVEREF(__pyx_tuple__41);
-  __pyx_codeobj__42 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__41, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SumPointwiseEucli, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__42)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__43 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__43)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__43);
-  __Pyx_GIVEREF(__pyx_tuple__43);
-  __pyx_codeobj__44 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__43, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AveragePointwiseE, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__44)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__45 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__45)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__45);
-  __Pyx_GIVEREF(__pyx_tuple__45);
-  __pyx_codeobj__46 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__45, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MinimumAverageDir, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__46)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __pyx_tuple__47 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__47)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__47);
-  __Pyx_GIVEREF(__pyx_tuple__47);
-  __pyx_codeobj__48 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__47, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CosineMetric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__48)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__42 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__42)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__42);
+  __Pyx_GIVEREF(__pyx_tuple__42);
+  __pyx_codeobj__43 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__42, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Metric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__43)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__44 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__44)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__44);
+  __Pyx_GIVEREF(__pyx_tuple__44);
+  __pyx_codeobj__45 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__44, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CythonMetric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__45)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__46 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__46)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__46);
+  __Pyx_GIVEREF(__pyx_tuple__46);
+  __pyx_codeobj__47 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__46, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_SumPointwiseEucli, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__47)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__48 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__48)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__48);
+  __Pyx_GIVEREF(__pyx_tuple__48);
+  __pyx_codeobj__49 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__48, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_AveragePointwiseE, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__49)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__50 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__50);
+  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_codeobj__51 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__50, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_MinimumAverageDir, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__51)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__52 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__52);
+  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_codeobj__53 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__52, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_CosineMetric, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__53)) __PYX_ERR(1, 1, __pyx_L1_error)
 
   /* "View.MemoryView":284
  *         return self.name
@@ -28801,9 +29246,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_tuple__49 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__49)) __PYX_ERR(1, 284, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__49);
-  __Pyx_GIVEREF(__pyx_tuple__49);
+  __pyx_tuple__54 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct_or_indirect); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(1, 284, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__54);
+  __Pyx_GIVEREF(__pyx_tuple__54);
 
   /* "View.MemoryView":285
  * 
@@ -28812,9 +29257,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_tuple__50 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__50)) __PYX_ERR(1, 285, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__50);
-  __Pyx_GIVEREF(__pyx_tuple__50);
+  __pyx_tuple__55 = PyTuple_Pack(1, __pyx_kp_s_strided_and_direct); if (unlikely(!__pyx_tuple__55)) __PYX_ERR(1, 285, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__55);
+  __Pyx_GIVEREF(__pyx_tuple__55);
 
   /* "View.MemoryView":286
  * cdef generic = Enum("<strided and direct or indirect>")
@@ -28823,9 +29268,9 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__51 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__51)) __PYX_ERR(1, 286, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__51);
-  __Pyx_GIVEREF(__pyx_tuple__51);
+  __pyx_tuple__56 = PyTuple_Pack(1, __pyx_kp_s_strided_and_indirect); if (unlikely(!__pyx_tuple__56)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__56);
+  __Pyx_GIVEREF(__pyx_tuple__56);
 
   /* "View.MemoryView":289
  * 
@@ -28834,9 +29279,9 @@ static int __Pyx_InitCachedConstants(void) {
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_tuple__52 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__52)) __PYX_ERR(1, 289, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__52);
-  __Pyx_GIVEREF(__pyx_tuple__52);
+  __pyx_tuple__57 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_direct); if (unlikely(!__pyx_tuple__57)) __PYX_ERR(1, 289, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__57);
+  __Pyx_GIVEREF(__pyx_tuple__57);
 
   /* "View.MemoryView":290
  * 
@@ -28845,19 +29290,19 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  */
-  __pyx_tuple__53 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__53)) __PYX_ERR(1, 290, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__53);
-  __Pyx_GIVEREF(__pyx_tuple__53);
+  __pyx_tuple__58 = PyTuple_Pack(1, __pyx_kp_s_contiguous_and_indirect); if (unlikely(!__pyx_tuple__58)) __PYX_ERR(1, 290, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__58);
+  __Pyx_GIVEREF(__pyx_tuple__58);
 
   /* "(tree fragment)":1
  * def __pyx_unpickle_Enum(__pyx_type, long __pyx_checksum, __pyx_state):             # <<<<<<<<<<<<<<
  *     if __pyx_checksum != 0xb068931:
  *         from pickle import PickleError as __pyx_PickleError
  */
-  __pyx_tuple__54 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__54)) __PYX_ERR(1, 1, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_tuple__54);
-  __Pyx_GIVEREF(__pyx_tuple__54);
-  __pyx_codeobj__55 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__54, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__55)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __pyx_tuple__59 = PyTuple_Pack(5, __pyx_n_s_pyx_type, __pyx_n_s_pyx_checksum, __pyx_n_s_pyx_state, __pyx_n_s_pyx_PickleError, __pyx_n_s_pyx_result); if (unlikely(!__pyx_tuple__59)) __PYX_ERR(1, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__59);
+  __Pyx_GIVEREF(__pyx_tuple__59);
+  __pyx_codeobj__60 = (PyObject*)__Pyx_PyCode_New(3, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__59, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_stringsource, __pyx_n_s_pyx_unpickle_Enum, 1, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__60)) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -28988,53 +29433,53 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
   __pyx_vtable_4dipy_7segment_11metricspeed_CythonMetric.__pyx_base.dist = (double (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_dist;
   __pyx_vtable_4dipy_7segment_11metricspeed_CythonMetric.__pyx_base.are_compatible = (PyObject *(*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, PyObject *, PyObject *, int __pyx_skip_dispatch))__pyx_f_4dipy_7segment_11metricspeed_12CythonMetric_are_compatible;
   __pyx_type_4dipy_7segment_11metricspeed_CythonMetric.tp_base = __pyx_ptype_4dipy_7segment_11metricspeed_Metric;
-  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __pyx_type_4dipy_7segment_11metricspeed_CythonMetric.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_CythonMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CythonMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 97, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_CythonMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CythonMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_CythonMetric) < 0) __PYX_ERR(0, 99, __pyx_L1_error)
   __pyx_ptype_4dipy_7segment_11metricspeed_CythonMetric = &__pyx_type_4dipy_7segment_11metricspeed_CythonMetric;
   __pyx_vtabptr_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric = &__pyx_vtable_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.__pyx_base = *__pyx_vtabptr_4dipy_7segment_11metricspeed_CythonMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.__pyx_base.__pyx_base.c_dist = (double (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, __pyx_t_4dipy_7segment_11cythonutils_Data2D, __pyx_t_4dipy_7segment_11cythonutils_Data2D))__pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_dist;
   __pyx_vtable_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.__pyx_base.__pyx_base.c_are_compatible = (int (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, struct __pyx_t_4dipy_7segment_11cythonutils_Shape, struct __pyx_t_4dipy_7segment_11cythonutils_Shape))__pyx_f_4dipy_7segment_11metricspeed_27SumPointwiseEuclideanMetric_c_are_compatible;
   __pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.tp_base = __pyx_ptype_4dipy_7segment_11metricspeed_CythonMetric;
-  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
   __pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "SumPointwiseEuclideanMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SumPointwiseEuclideanMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric) < 0) __PYX_ERR(0, 199, __pyx_L1_error)
   __pyx_ptype_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric = &__pyx_type_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric;
   __pyx_vtabptr_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric = &__pyx_vtable_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.__pyx_base = *__pyx_vtabptr_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.__pyx_base.__pyx_base.__pyx_base.c_dist = (double (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, __pyx_t_4dipy_7segment_11cythonutils_Data2D, __pyx_t_4dipy_7segment_11cythonutils_Data2D))__pyx_f_4dipy_7segment_11metricspeed_31AveragePointwiseEuclideanMetric_c_dist;
   __pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.tp_base = __pyx_ptype_4dipy_7segment_11metricspeed_SumPointwiseEuclideanMetric;
-  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
   __pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "AveragePointwiseEuclideanMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "AveragePointwiseEuclideanMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric) < 0) __PYX_ERR(0, 251, __pyx_L1_error)
   __pyx_ptype_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric = &__pyx_type_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric;
   __pyx_vtabptr_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric = &__pyx_vtable_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.__pyx_base = *__pyx_vtabptr_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.__pyx_base.__pyx_base.__pyx_base.__pyx_base.c_dist = (double (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, __pyx_t_4dipy_7segment_11cythonutils_Data2D, __pyx_t_4dipy_7segment_11cythonutils_Data2D))__pyx_f_4dipy_7segment_11metricspeed_30MinimumAverageDirectFlipMetric_c_dist;
   __pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.tp_base = __pyx_ptype_4dipy_7segment_11metricspeed_AveragePointwiseEuclideanMetric;
-  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "MinimumAverageDirectFlipMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 287, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "MinimumAverageDirectFlipMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric) < 0) __PYX_ERR(0, 289, __pyx_L1_error)
   __pyx_ptype_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric = &__pyx_type_4dipy_7segment_11metricspeed_MinimumAverageDirectFlipMetric;
   __pyx_vtabptr_4dipy_7segment_11metricspeed_CosineMetric = &__pyx_vtable_4dipy_7segment_11metricspeed_CosineMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_CosineMetric.__pyx_base = *__pyx_vtabptr_4dipy_7segment_11metricspeed_CythonMetric;
   __pyx_vtable_4dipy_7segment_11metricspeed_CosineMetric.__pyx_base.__pyx_base.c_dist = (double (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, __pyx_t_4dipy_7segment_11cythonutils_Data2D, __pyx_t_4dipy_7segment_11cythonutils_Data2D))__pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_dist;
   __pyx_vtable_4dipy_7segment_11metricspeed_CosineMetric.__pyx_base.__pyx_base.c_are_compatible = (int (*)(struct __pyx_obj_4dipy_7segment_11metricspeed_Metric *, struct __pyx_t_4dipy_7segment_11cythonutils_Shape, struct __pyx_t_4dipy_7segment_11cythonutils_Shape))__pyx_f_4dipy_7segment_11metricspeed_12CosineMetric_c_are_compatible;
   __pyx_type_4dipy_7segment_11metricspeed_CosineMetric.tp_base = __pyx_ptype_4dipy_7segment_11metricspeed_CythonMetric;
-  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
   __pyx_type_4dipy_7segment_11metricspeed_CosineMetric.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_CosineMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CosineMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
-  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 325, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_4dipy_7segment_11metricspeed_CosineMetric.tp_dict, __pyx_vtabptr_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CosineMetric", (PyObject *)&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
+  if (__Pyx_setup_reduce((PyObject*)&__pyx_type_4dipy_7segment_11metricspeed_CosineMetric) < 0) __PYX_ERR(0, 327, __pyx_L1_error)
   __pyx_ptype_4dipy_7segment_11metricspeed_CosineMetric = &__pyx_type_4dipy_7segment_11metricspeed_CosineMetric;
   __pyx_vtabptr_array = &__pyx_vtable_array;
   __pyx_vtable_array.get_memview = (PyObject *(*)(struct __pyx_array_obj *))__pyx_array_get_memview;
@@ -29252,7 +29697,7 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
  * cdef strided = Enum("<strided and direct>") # default
  * cdef indirect = Enum("<strided and indirect>")
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__49, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 284, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__54, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 284, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XGOTREF(generic);
   __Pyx_DECREF_SET(generic, __pyx_t_3);
@@ -29266,7 +29711,7 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
  * cdef indirect = Enum("<strided and indirect>")
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__50, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 285, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__55, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 285, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XGOTREF(strided);
   __Pyx_DECREF_SET(strided, __pyx_t_3);
@@ -29280,7 +29725,7 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
  * 
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__51, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 286, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__56, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 286, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XGOTREF(indirect);
   __Pyx_DECREF_SET(indirect, __pyx_t_3);
@@ -29294,7 +29739,7 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
  * cdef indirect_contiguous = Enum("<contiguous and indirect>")
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__52, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 289, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__57, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 289, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XGOTREF(contiguous);
   __Pyx_DECREF_SET(contiguous, __pyx_t_3);
@@ -29308,7 +29753,7 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
  * 
  * 
  */
-  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__53, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_Call(((PyObject *)__pyx_MemviewEnum_type), __pyx_tuple__58, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(1, 290, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_XGOTREF(indirect_contiguous);
   __Pyx_DECREF_SET(indirect_contiguous, __pyx_t_3);
@@ -29377,12 +29822,12 @@ PyMODINIT_FUNC PyInit_metricspeed(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_pyx_unpickle_Enum, __pyx_t_3) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "(tree fragment)":9
- *         __pyx_unpickle_Enum__set_state(<Enum> __pyx_result, __pyx_state)
- *     return __pyx_result
- * cdef __pyx_unpickle_Enum__set_state(Enum __pyx_result, tuple __pyx_state):             # <<<<<<<<<<<<<<
- *     __pyx_result.name = __pyx_state[0]
- *     if len(__pyx_state) > 1 and hasattr(__pyx_result, '__dict__'):
+  /* "BufferFormatFromTypeInfo":1449
+ * 
+ * @cname('__pyx_format_from_typeinfo')
+ * cdef bytes format_from_typeinfo(__Pyx_TypeInfo *type):             # <<<<<<<<<<<<<<
+ *     cdef __Pyx_StructField *field
+ *     cdef __pyx_typeinfo_string fmt
  */
 
   /*--- Wrapped vars code ---*/
@@ -31529,6 +31974,13 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 #endif
 }
 
+/* StringJoin */
+        #if !CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyBytes_Join(PyObject* sep, PyObject* values) {
+    return PyObject_CallMethodObjArgs(sep, __pyx_n_s_join, values, NULL);
+}
+#endif
+
 /* SetVTable */
         static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
 #if PY_VERSION_HEX >= 0x02070000
@@ -32752,6 +33204,50 @@ raise_neg_overflow:
     PyErr_SetString(PyExc_OverflowError,
         "can't convert negative value to long");
     return (long) -1;
+}
+
+/* TypeInfoToFormat */
+        static struct __pyx_typeinfo_string __Pyx_TypeInfoToFormat(__Pyx_TypeInfo *type) {
+    struct __pyx_typeinfo_string result = { {0} };
+    char *buf = (char *) result.string;
+    size_t size = type->size;
+    switch (type->typegroup) {
+        case 'H':
+            *buf = 'c';
+            break;
+        case 'I':
+        case 'U':
+            if (size == 1)
+                *buf = (type->is_unsigned) ? 'B' : 'b';
+            else if (size == 2)
+                *buf = (type->is_unsigned) ? 'H' : 'h';
+            else if (size == 4)
+                *buf = (type->is_unsigned) ? 'I' : 'i';
+            else if (size == 8)
+                *buf = (type->is_unsigned) ? 'Q' : 'q';
+            break;
+        case 'P':
+            *buf = 'P';
+            break;
+        case 'C':
+         {
+            __Pyx_TypeInfo complex_type = *type;
+            complex_type.typegroup = 'R';
+            complex_type.size /= 2;
+            *buf++ = 'Z';
+            *buf = __Pyx_TypeInfoToFormat(&complex_type).string[0];
+            break;
+         }
+        case 'R':
+            if (size == 4)
+                *buf = 'f';
+            else if (size == 8)
+                *buf = 'd';
+            else
+                *buf = 'g';
+            break;
+    }
+    return result;
 }
 
 /* MemviewSliceCopyTemplate */

@@ -3,7 +3,7 @@ Section: python
 Priority: extra
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <mih@debian.org>
-Build-Depends: debhelper (>= 7.0.50~), python-all-dev,
+Build-Depends: debhelper (>= 9), python-all-dev,
                python-numpy (>= 1:1.7.1~),
                python-h5py,
                python-scipy,
