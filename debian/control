@@ -10,8 +10,9 @@ Build-Depends: debhelper (>= 9), python-all-dev,
                cython (>= 0.13),
                python-matplotlib,
                python-sphinx (>= 1.0),
+               python-numpydoc,
                python-nose,
-               python-nibabel,
+               python-nibabel (>= 2.1.0),
                libgomp1,
 Standards-Version: 3.9.7
 Homepage: http://dipy.org
@@ -28,7 +29,7 @@ Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends},
 Recommends: python-matplotlib,
 			python-vtk,
 			python-nose,
-			python-nibabel,
+			python-nibabel (>= 2.1.0),
 Suggests: ipython
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}

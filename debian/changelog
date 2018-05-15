@@ -4,6 +4,7 @@ dipy (0.14.0-1) unstable; urgency=medium
   * debian/
     - pushed compat to 9
     - removed absorbed upstream debian/patches/1300.diff
+    - build-depend on python-numpydoc
 
  -- Yaroslav Halchenko <debian@onerussian.com>  Mon, 14 May 2018 14:59:42 -0400
 
