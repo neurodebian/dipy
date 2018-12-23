@@ -19,8 +19,7 @@ Import useful functions from ``dipy.viz.utils``
 """
 
 import dipy.io.vtk as io_vtk
-import dipy.viz.utils as ut_vtk
-from dipy.viz import window
+from dipy.viz import window, utils as ut_vtk
 
 # Conditional import machinery for vtk
 # Allow import, but disable doctests if we don't have vtk
@@ -57,7 +56,7 @@ my_triangles = np.array([[0,  6,  4],
                          [0,  4,  5],
                          [0,  5,  1],
                          [1,  5,  7],
-                         [1,  7,  3]],dtype='i8')
+                         [1,  7,  3]], dtype='i8')
 
 
 """

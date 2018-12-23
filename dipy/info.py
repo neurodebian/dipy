@@ -7,10 +7,10 @@ docs.  In setup.py in particular, we exec this file, so it cannot import dipy
 # full release.  '.dev' as a _version_extra string means this is a development
 # version
 _version_major = 0
-_version_minor = 14
+_version_minor = 15
 _version_micro = 0
+# _version_extra = 'dev'
 _version_extra = ''
-#_version_extra = ''
 
 # Format expected by setup.py and doc/source/conf.py: string of form "X.Y.Z"
 __version__ = "%s.%s.%s%s" % (_version_major,
@@ -72,18 +72,16 @@ DIPY is licensed under the terms of the BSD license.
 Please see the LICENSE file in the dipy distribution.
 
 DIPY uses other libraries also licensed under the BSD or the
-MIT licenses, with the only exception of the SHORE module which
-optionally uses the cvxopt library. Cvxopt is licensed
-under the GPL license.
+MIT licenses.
 """
 
 # versions for dependencies
 # Check these versions against .travis.yml and requirements.txt
-CYTHON_MIN_VERSION='0.25.1'
-NUMPY_MIN_VERSION='1.7.1'
-SCIPY_MIN_VERSION='0.9'
-NIBABEL_MIN_VERSION='2.1.0'
-H5PY_MIN_VERSION='2.4.0'
+CYTHON_MIN_VERSION = '0.25.1'
+NUMPY_MIN_VERSION = '1.7.1'
+SCIPY_MIN_VERSION = '0.9'
+NIBABEL_MIN_VERSION = '2.3.0'
+H5PY_MIN_VERSION = '2.4.0'
 
 # Main setup parameters
 NAME                = 'dipy'

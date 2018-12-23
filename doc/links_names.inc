@@ -24,7 +24,7 @@
 .. _`dipy gitter`: https://gitter.im/nipy/dipy
 .. _neurostars: https://neurostars.org/
 .. _h5py: https://www.h5py.org/
-.. _cvxpy: http://www.cvxpy.org/en/latest/
+.. _cvxpy: http://www.cvxpy.org/
 
 .. Packaging
 .. _neurodebian: http://neuro.debian.net
@@ -99,6 +99,7 @@
 .. _pytables: http://www.pytables.org
 .. _python-vtk: http://www.vtk.org
 .. _pypi: https://pypi.python.org/pypi
+.. _FURY: https://fury.gl
 
 .. Python imaging projects
 .. _PyMVPA: http://www.pymvpa.org

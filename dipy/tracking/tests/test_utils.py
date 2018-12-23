@@ -63,12 +63,12 @@ def test_density_map():
 
     # Test passing affine
     affine = np.diag([2, 2, 2, 1.])
-    affine[:3, 3] = 1.
+    affine[: 3, 3] = 1.
     dm = density_map(streamlines, shape, affine=affine)
     assert_array_equal(dm, expected)
 
     # Shift the image by 2 voxels, ie 4mm
-    affine[:3, 3] -= 4.
+    affine[: 3, 3] -= 4.
     expected_old = expected
     new_shape = [i + 2 for i in shape]
     expected = np.zeros(new_shape)
@@ -269,8 +269,10 @@ def _target(target_f, streamlines, voxel_both_true, voxel_one_true,
         assert_raises(ValueError, list, new)
 
     # Test smaller voxels
-    affine = np.random.random((4, 4)) - .5
-    affine[3] = [0, 0, 0, 1]
+    affine = np.array([[.3, 0, 0, 0],
+                       [0, .2, 0, 0],
+                       [0, 0, .4, 0],
+                       [0, 0, 0, 1]])
     streamlines = list(move_streamlines(streamlines, affine))
     new = list(target_f(streamlines, mask, affine=affine))
     assert_equal(len(new), 1)
@@ -537,6 +539,24 @@ def test_random_seeds_from_mask():
     assert_equal(100, len(seeds))
     assert_true(np.all((seeds > 1.5) & (seeds < 2.5)))
 
+    mask = np.zeros((15, 15, 15))
+    mask[2:14, 2:14, 2:14] = 1
+    seeds_npv_2 = random_seeds_from_mask(mask, seeds_count=2,
+                                         seed_count_per_voxel=True,
+                                         random_seed=0)[:150]
+    seeds_npv_3 = random_seeds_from_mask(mask, seeds_count=3,
+                                         seed_count_per_voxel=True,
+                                         random_seed=0)[:150]
+    assert_true(np.all(seeds_npv_2 == seeds_npv_3))
+
+    seeds_nt_150 = random_seeds_from_mask(mask, seeds_count=150,
+                                          seed_count_per_voxel=False,
+                                          random_seed=0)[:150]
+    seeds_nt_500 = random_seeds_from_mask(mask, seeds_count=500,
+                                          seed_count_per_voxel=False,
+                                          random_seed=0)[:150]
+    assert_true(np.all(seeds_nt_150 == seeds_nt_500))
+
 
 def test_connectivity_matrix_shape():
     # Labels: z-planes have labels 0,1,2
@@ -626,8 +646,6 @@ def test_get_flexi_tvis_affine():
     assert_array_almost_equal(origin[:3],
                               np.multiply(tvis_hdr['dim'], vsz) - vsz / 2)
 
-
-    # grid_affine =
     tvis_hdr['voxel_order'] = 'ASL'
     vsz = tvis_hdr['voxel_size'] = np.array([3, 4, 2.])
     affine = get_flexi_tvis_affine(tvis_hdr, grid_affine)

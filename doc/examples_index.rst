@@ -76,6 +76,11 @@ Mean Apparent Propagator (MAP)-MRI
 
 - :ref:`example_reconst_mapmri`
 
+Studying diffusion time-dependence using qt-dMRI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- :ref:`example_reconst_qtdmri` 
+
 Diffusion Tensor Imaging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -160,6 +165,8 @@ Streamline analysis and connectivity
 
 - :ref:`example_streamline_tools`
 - :ref:`example_streamline_length`
+- :ref:`example_cluster_confidence`
+- :ref: `example_path_length_map`
 
 
 ------------------
@@ -171,11 +178,12 @@ Image-based Registration
 - :ref:`example_affine_registration_3d`
 - :ref:`example_syn_registration_2d`
 - :ref:`example_syn_registration_3d`
+- :ref:`register_binary_fuzzy`
 
 Streamline-based Registration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 - :ref:`example_bundle_registration`
-
+- :ref:`example_tractogram_registration`
 ------------
 Segmentation
 ------------
@@ -197,6 +205,11 @@ Tissue Classification
 ~~~~~~~~~~~~~~~~~~~~~
 
 - :ref:`example_tissue_classification`
+
+Bundle Extraction
+~~~~~~~~~~~~~~~~~~~~~
+
+- :ref:`example_bundle_extraction`
 
 -----------
 Simulations
@@ -229,6 +242,8 @@ Visualization
 - :ref:`example_viz_surfaces`
 - :ref:`example_viz_roi_contour`
 - :ref:`example_viz_ui`
+- :ref:`example_viz_timers`
+
 
 ---------------
 Workflows

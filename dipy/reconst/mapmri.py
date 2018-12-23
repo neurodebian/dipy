@@ -401,8 +401,8 @@ class MapmriModel(ReconstModel, Cache):
                 lopt * cvxpy.quad_form(c, laplacian_matrix)
             )
             M0 = M[self.gtab.b0s_mask, :]
-            constraints = [M0[0] * c == 1,
-                           K * c > -.1]
+            constraints = [(M0[0] * c) == 1,
+                           (K * c) >= -0.1]
             prob = cvxpy.Problem(objective, constraints)
             try:
                 prob.solve(solver=self.cvxpy_solver)
@@ -1682,6 +1682,33 @@ def mapmri_isotropic_laplacian_reg_matrix(radial_order, mu):
     NeuroImage (2016).
     '''
     ind_mat = mapmri_isotropic_index_matrix(radial_order)
+    return mapmri_isotropic_laplacian_reg_matrix_from_index_matrix(
+        ind_mat, mu
+    )
+
+
+def mapmri_isotropic_laplacian_reg_matrix_from_index_matrix(ind_mat, mu):
+    r''' Computes the Laplacian regularization matrix for MAP-MRI's isotropic
+    implementation [1]_ eq. (C7).
+
+    Parameters
+    ----------
+    ind_mat : matrix (N_coef, 3),
+            Basis order matrix
+    mu : float,
+        isotropic scale factor of the isotropic MAP-MRI basis
+
+    Returns
+    -------
+    LR : Matrix, shape (N_coef, N_coef)
+        Laplacian regularization matrix
+
+    References
+    ----------
+    .. [1]_ Fick, Rutger HJ, et al. "MAPL: Tissue microstructure estimation
+    using Laplacian-regularized MAP-MRI and its application to HCP data."
+    NeuroImage (2016).
+    '''
     n_elem = ind_mat.shape[0]
     LR = np.zeros((n_elem, n_elem))
 
@@ -1984,7 +2011,7 @@ def generalized_crossvalidation_array(data, M, LR, weights_array=None):
         gcvold = gcvnew
         i = i + 1
         S = np.dot(np.dot(M, np.linalg.pinv(MMt + lrange[i] * LR)), M.T)
-        trS = np.matrix.trace(S)
+        trS = np.trace(S)
         normyytilde = np.linalg.norm(data - np.dot(S, data), 2)
         gcvnew = normyytilde / (K - trS)
     lopt = lrange[i - 1]
@@ -2033,7 +2060,7 @@ def gcv_cost_function(weight, args):
     """
     data, M, MMt, K, LR = args
     S = np.dot(np.dot(M, np.linalg.pinv(MMt + weight * LR)), M.T)
-    trS = np.matrix.trace(S)
+    trS = np.trace(S)
     normyytilde = np.linalg.norm(data - np.dot(S, data), 2)
     gcv_value = normyytilde / (K - trS)
     return gcv_value
