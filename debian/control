@@ -3,7 +3,9 @@ Section: python
 Priority: extra
 Maintainer: NeuroDebian Team <team@neuro.debian.net>
 Uploaders: Yaroslav Halchenko <debian@onerussian.com>, Michael Hanke <mih@debian.org>
-Build-Depends: debhelper (>= 9), python-all-dev,
+Build-Depends: debhelper (>= 9),
+               libgomp1,
+               python-all-dev,
                python-numpy (>= 1:1.7.1~),
                python-h5py,
                python-scipy,
@@ -13,12 +15,19 @@ Build-Depends: debhelper (>= 9), python-all-dev,
                python-numpydoc,
                python-nose,
                python-nibabel (>= 2.1.0),
-               libgomp1,
-Standards-Version: 3.9.7
+               python3-all-dev,
+               python3-numpy (>= 1:1.7.1~),
+               python3-h5py,
+               python3-scipy,
+               python3-matplotlib,
+               python3-sphinx (>= 1.0),
+               python3-numpydoc,
+               python3-nose,
+               python3-nibabel (>= 2.1.0),
+Standards-Version: 4.1.1
 Homepage: http://dipy.org
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-exppsy/dipy.git
 Vcs-Git: git://anonscm.debian.org/pkg-exppsy/dipy.git
-X-Python-Version: >= 2.7
 
 Package: python-dipy
 Architecture: all
@@ -30,7 +39,7 @@ Recommends: python-matplotlib,
 			python-vtk,
 			python-nose,
 			python-nibabel (>= 2.1.0),
-Suggests: ipython
+Suggests: python-dipy-doc
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
 Description: Python library for the analysis of diffusion MRI datasets
@@ -55,18 +64,71 @@ Description: Python library for the analysis of diffusion MRI datasets
   - Estimation of distances/correspondences between streamlines and
     connectivity matrices
   - Interactive visualization of streamlines in the space of images
+ .
+ This package contains the Python 2 version.
+
+Package: python3-dipy
+Architecture: all
+Depends: ${python3:Depends}, ${shlibs:Depends}, ${misc:Depends},
+		 python3-numpy (>= 1:1.7.1~), python3-scipy,
+		 python3-h5py,
+		 python3-dipy-lib (>= ${source:Version})
+Recommends: python3-matplotlib,
+			python3-vtk,
+			python3-nose,
+			python3-nibabel (>= 2.1.0),
+Suggests: python-dipy-doc
+Provides: ${python3:Provides}
+XB-Python3-Version: ${python3:Versions}
+Description: Python library for the analysis of diffusion MRI datasets
+ DIPY is a software project for computational neuroanatomy. It focuses
+ on diffusion magnetic resonance imaging (dMRI) analysis and
+ tractography but also contains implementations of other computational
+ imaging methods such as denoising and registration that are
+ applicable to the greater medical imaging and image processing
+ communities. Additionally, DIPY is an international project which
+ brings together scientists across labs and countries to share their
+ state-of-the-art code and expertise in the same codebase,
+ accelerating scientific research in medical imaging.
+ .
+ Here are some of the highlights:
+  - Reconstruction algorithms: CSD, DSI, GQI, DTI, DKI, QBI, SHORE
+    and MAPMRI
+  - Fiber tracking algorithms: deterministic and probabilistic
+  - Native linear and nonlinear registration of images
+  - Fast operations on streamlines (selection, resampling, registration)
+  - Tractography segmentation and clustering
+  - Many image operations, e.g., reslicing or denoising with NLMEANS
+  - Estimation of distances/correspondences between streamlines and
+    connectivity matrices
+  - Interactive visualization of streamlines in the space of images
+ .
+ This package contains the Python 3 version.
+
 
 Package: python-dipy-lib
 Architecture: any
 Depends: ${python:Depends}, ${shlibs:Depends}, ${misc:Depends}
 Provides: ${python:Provides}
 XB-Python-Version: ${python:Versions}
-Description: Python library for the analysis of diffusion MRI datasets -- extensions
+Description: Python library for the analysis of diffusion MRI datasets -- Python2 extensions
  DIPY is a library for the analysis of diffusion magnetic resonance
  imaging data.
  .
- This package provides architecture-dependent builds of the extensions.
+ This package provides architecture-dependent builds of the extensions
+ for Python2.
 
+Package: python3-dipy-lib
+Architecture: any
+Depends: ${python3:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Provides: ${python3:Provides}
+XB-Python-Version: ${python3:Versions}
+Description: Python library for the analysis of diffusion MRI datasets -- Python3 extensions
+ DIPY is a library for the analysis of diffusion magnetic resonance
+ imaging data.
+ .
+ This package provides architecture-dependent builds of the extensions
+ for Python3.
 
 Package: python-dipy-doc
 Architecture: all
